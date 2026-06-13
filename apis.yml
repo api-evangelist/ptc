@@ -1,0 +1,192 @@
+aid: ptc
+name: PTC
+description: PTC is an industrial technology company providing software platforms and APIs for Industrial IoT (ThingWorx), Product Lifecycle Management (Windchill, Arena), Augmented Reality (Vuforia), Field Service Management (ServiceMax), and industrial connectivity (Kepware) in manufacturing environments.
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/ptc/refs/heads/main/apis.yml
+created: '2026-06-13'
+modified: '2026-06-13'
+specificationVersion: '0.19'
+tags:
+  - Industrial IoT
+  - PLM
+  - Augmented Reality
+  - Field Service Management
+  - Manufacturing
+  - IIoT
+  - CAD
+  - Digital Transformation
+apis:
+  - name: ThingWorx REST API
+    description: The ThingWorx Industrial IoT platform REST API enables developers to interact with Things, Properties, Services, Events, and Subscriptions via HTTP. Authentication uses an AppKey passed as an HTTP header. Supports building, connecting, and deploying IIoT applications.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://www.ptc.com/en/products/thingworx
+    baseURL: https://{your-thingworx-host}/Thingworx
+    tags:
+      - Industrial IoT
+      - IIoT
+      - REST
+      - Manufacturing
+    properties:
+      - type: Documentation
+        url: https://support.ptc.com/help/thingworx/platform/r9/en/ThingWorx/api_documentation.html
+      - type: GettingStarted
+        url: https://community.ptc.com/t5/IoT-Tips/Use-REST-API-to-Access-ThingWorx-Part-1/ta-p/825305
+      - type: Community
+        url: https://community.ptc.com/thingworx-developers-185
+      - type: Authentication
+        url: https://www.ptc.com/en/support/article/CS279189
+    contact:
+      - FN: PTC Support
+        url: https://www.ptc.com/en/customer-success/support-services/welcome-center
+
+  - name: Windchill REST Services
+    description: Windchill PLM REST Services provide OData-compliant REST API access to product lifecycle management data including product structures, change management, documents, and configuration management. The API Catalog (Swagger UI) is accessible from a running Windchill instance.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://www.ptc.com/en/products/windchill
+    baseURL: https://{windchill-host}/WindchillRESTServices
+    tags:
+      - PLM
+      - Product Lifecycle Management
+      - OData
+      - REST
+      - Manufacturing
+    properties:
+      - type: Documentation
+        url: https://support.ptc.com/help/windchill_rest_services/r2.0/en/windchill_rest_services/WCCG_RESTAPIsWRS.html
+      - type: OpenAPI
+        url: https://support.ptc.com/help/windchill_rest_services/r1.6/en/windchill_rest_services/API_catalog.html
+      - type: KnowledgeHub
+        url: https://www.ptc.com/en/support/article/CS335170
+    contact:
+      - FN: PTC Support
+        url: https://www.ptc.com/en/customer-success/support-services/welcome-center
+
+  - name: Arena PLM REST API
+    description: Arena PLM REST API v1 provides full programmatic access to Arena's cloud-based PLM capabilities including Bill of Materials management, change management, quality, and compliance. Full OpenAPI/Swagger documentation available per region with interactive testing.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://www.ptc.com/en/products/arena
+    baseURL: https://api.arenasolutions.com/v1
+    tags:
+      - PLM
+      - Product Lifecycle Management
+      - BOM
+      - Change Management
+      - SaaS
+    properties:
+      - type: Documentation
+        url: https://ptc-arena.github.io/arena-dev-help/
+      - type: OpenAPI
+        url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+      - type: GitHubRepository
+        url: https://github.com/ptc-arena/arena-restapi-doc
+      - type: PostmanCollection
+        url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+    contact:
+      - FN: PTC Arena Support
+        url: https://ptc-arena.github.io/arena-dev-help/
+
+  - name: Vuforia Engine Web API
+    description: The Vuforia Engine Web API provides HTTPS REST access to cloud-based augmented reality capabilities including Cloud Image Recognition, Cloud Area Targets, and license management for building AR applications across mobile and wearable devices.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://www.ptc.com/en/products/vuforia
+    baseURL: https://cloudreco.vuforia.com
+    tags:
+      - Augmented Reality
+      - AR
+      - Computer Vision
+      - Cloud Recognition
+      - Manufacturing
+    properties:
+      - type: Documentation
+        url: https://developer.vuforia.com/library/
+      - type: DeveloperPortal
+        url: https://developer.vuforia.com/home
+      - type: WebAPI
+        url: https://developer.vuforia.com/library/vuforia-engine/web-api/cloud-area-targets-web-api/
+      - type: Pricing
+        url: https://www.ptc.com/en/products/vuforia/vuforia-engine/pricing
+      - type: SDK
+        url: https://developer.vuforia.com/downloads/sdk
+    contact:
+      - FN: Vuforia Developer Support
+        url: https://developer.vuforia.com/home
+
+  - name: ServiceMax Max REST API
+    description: ServiceMax REST API (Max REST API) enables integration with ServiceMax field service management capabilities including work orders, scheduling, service boards, and field metadata management. Built on the Salesforce platform.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://www.ptc.com/en/products/servicemax
+    baseURL: https://{instance}.salesforce.com/services/apexrest/SVMXC
+    tags:
+      - Field Service Management
+      - FSM
+      - Salesforce
+      - REST
+      - Manufacturing
+    properties:
+      - type: Documentation
+        url: https://support.ptc.com/help/servicemaxcore/en/articles/service_board/appendix-b-max-rest-api.html
+      - type: FieldMetadataAPI
+        url: https://support.ptc.com/help/servicemaxcore/en/articles/service_board/field-metadata-rest-api.html
+    contact:
+      - FN: PTC ServiceMax Support
+        url: https://www.ptc.com/en/customer-success/support-services/welcome-center
+
+  - name: Kepware Configuration REST API
+    description: The Kepware KEPServerEX Configuration API is a local REST API that enables programmatic configuration of the industrial connectivity server including channels, devices, tags, and IoT Gateway agents. Accepts and returns JSON-formatted data.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://www.ptc.com/en/products/kepware
+    baseURL: https://localhost:57412/config/v1
+    tags:
+      - Industrial Connectivity
+      - OPC-UA
+      - SCADA
+      - IIoT
+      - Manufacturing
+      - Configuration
+    properties:
+      - type: Documentation
+        url: https://support.ptc.com/help/kepware/features/en/kepware/features/profilelibrary/ConfigurationAPI.html
+      - type: IoTGatewayRESTDocs
+        url: https://support.ptc.com/help/kepware/features/en/kepware/features/IOTGATEWAY/working_rest_server.html
+      - type: GitHubOrg
+        url: https://github.com/PTCInc
+    contact:
+      - FN: PTC Kepware Support
+        url: https://www.ptc.com/en/customer-success/support-services/welcome-center
+
+common:
+  - type: Website
+    url: https://www.ptc.com
+  - type: Documentation
+    url: https://www.ptc.com/en/support/help/thingworx_doc_resources
+  - type: GitHubOrg
+    url: https://github.com/PTCInc
+  - type: GitHubOrg
+    url: https://github.com/ptc-arena
+  - type: GitHubOrg
+    url: https://github.com/PTC-Education
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/ptc
+  - type: Blog
+    url: https://www.ptc.com/en/blogs/
+  - type: CommunityBlog
+    url: https://community.ptc.com/t5/Blog/bg-p/BWBlog
+  - type: Pricing
+    url: https://www.ptc.com/en/products/vuforia/vuforia-engine/pricing
+  - type: StatusPage
+    url: https://status.ptc.com/
+  - type: StatusPage
+    url: https://status.ptc.io/
+  - type: X
+    url: https://x.com/ptc
+  - type: SocialMedia
+    url: https://www.ptc.com/en/about/social-media
+  - type: Plans
+    url: plans/ptc-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/ptc-rate-limits.yml
+  - type: FinOps
+    url: finops/ptc-finops.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

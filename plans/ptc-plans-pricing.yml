@@ -1,0 +1,115 @@
+name: PTC Plans and Pricing
+description: Pricing and plan information for PTC products and APIs including Vuforia Engine, ThingWorx IIoT, Windchill PLM, and Arena PLM.
+url: https://www.ptc.com/en/products/vuforia/vuforia-engine/pricing
+plans:
+
+  - name: Vuforia Engine Basic
+    description: Free tier for Vuforia Engine AR development. Allows development with Model Targets, Area Targets, and Barcodes but applications cannot be published to an app store.
+    url: https://www.ptc.com/en/products/vuforia/vuforia-engine/pricing
+    price: 0
+    unit: month
+    features:
+      - Basic license generation
+      - Model Targets support
+      - Area Targets support
+      - Barcodes support
+      - Development use only (no app store publishing)
+
+  - name: Vuforia Engine Premium
+    description: Annual subscription for Vuforia Engine enabling app store distribution and advanced Model Target and Area Target features.
+    url: https://www.ptc.com/en/products/vuforia/vuforia-engine/pricing
+    price: contact
+    unit: year
+    features:
+      - All Basic plan features
+      - App store publishing
+      - Advanced Model Targets
+      - Advanced Area Targets
+      - Cloud Image Recognition add-on available
+      - Additional target generations purchasable
+
+  - name: Vuforia Engine Enterprise
+    description: Annual subscription providing the most advanced Vuforia Engine technologies including on-premises capabilities for large-scale deployments.
+    url: https://www.ptc.com/en/products/vuforia/vuforia-engine/pricing
+    price: contact
+    unit: year
+    features:
+      - All Premium plan features
+      - Advanced Model Targets (any-angle recognition)
+      - Step Check AI-assisted validation
+      - On-premises deployment support
+      - Unlimited target generations
+      - Cloud Area Targets add-on available
+
+  - name: Vuforia Engine Academic
+    description: Discounted pricing for schools and universities requiring premium Vuforia Engine features.
+    url: https://www.ptc.com/en/products/vuforia/vuforia-engine/pricing
+    price: contact
+    unit: year
+    features:
+      - Premium plan features at academic discount
+      - Model Targets and Area Targets
+      - App store publishing eligible
+
+  - name: ThingWorx IIoT Platform
+    description: Enterprise subscription for ThingWorx Industrial IoT platform. Pricing is custom-quoted based on connected devices, named users, and deployment type (cloud, on-premises, or hybrid).
+    url: https://www.ptc.com/en/products/thingworx
+    price: contact
+    unit: year
+    features:
+      - Industrial IoT application development and deployment
+      - REST API access (AppKey authentication)
+      - ThingWorx Composer development environment
+      - Edge and connectivity integration (Kepware, KEPServerEX)
+      - Analytics and dashboards
+      - Cloud, on-premises, or hybrid deployment
+
+  - name: Windchill PLM
+    description: Enterprise subscription for Windchill PLM platform with REST Services API access for product lifecycle management.
+    url: https://www.ptc.com/en/products/windchill
+    price: contact
+    unit: year
+    features:
+      - Windchill REST Services (OData-compliant)
+      - API Catalog (Swagger/OpenAPI)
+      - Product structure and configuration management
+      - Change management workflows
+      - Document management
+
+  - name: Arena PLM
+    description: SaaS PLM subscription with full REST API access for product lifecycle management in cloud environments.
+    url: https://www.ptc.com/en/products/arena
+    price: contact
+    unit: month
+    features:
+      - Full REST API v1 access
+      - Swagger/OpenAPI interactive documentation
+      - Multi-region deployment (NA, EU, UK, GovCloud, China)
+      - Bill of Materials management
+      - Change management
+      - Quality and compliance workflows
+
+  - name: ServiceMax Field Service
+    description: Enterprise subscription for ServiceMax field service management with REST API and integration capabilities.
+    url: https://www.ptc.com/en/products/servicemax
+    price: contact
+    unit: year
+    features:
+      - Max REST API access
+      - Field Metadata REST API
+      - Work order and scheduling management
+      - Mobile field service application
+      - Service Board integration
+
+  - name: Kepware KEPServerEX
+    description: Industrial connectivity server with Configuration REST API and IoT Gateway REST client/server capabilities.
+    url: https://www.ptc.com/en/products/kepware
+    price: contact
+    unit: perpetual
+    features:
+      - Configuration API (REST/JSON)
+      - IoT Gateway REST Server agent
+      - IoT Gateway REST Client agent
+      - MQTT streaming
+      - OPC-UA connectivity
+      - 150+ industrial protocol drivers

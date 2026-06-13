@@ -1,0 +1,103 @@
+name: PTC FinOps
+description: Financial operations guidance for managing costs associated with PTC API and platform consumption including ThingWorx IIoT, Windchill PLM, Vuforia Engine, Arena PLM, ServiceMax, and Kepware.
+url: https://www.ptc.com/en/products
+
+considerations:
+
+  - product: Vuforia Engine
+    description: Vuforia Engine is the most publicly priced PTC API product with a free Basic tier and paid Premium/Enterprise tiers.
+    url: https://www.ptc.com/en/products/vuforia/vuforia-engine/pricing
+    cost_drivers:
+      - License tier selection (Basic/Premium/Enterprise/Academic)
+      - Cloud Image Recognition volume (add-on packages by tier)
+      - Number of Model Target and Area Target generation slots
+      - Cloud Area Target storage and concurrent user count
+      - On-premises deployment (Enterprise only)
+    optimization_tips:
+      - Start with free Basic plan for development; only upgrade when publishing to app store
+      - Monitor cloud recognition request volumes before purchasing add-on packages
+      - Academic pricing available for educational institutions
+      - Consolidate target generation slots to avoid over-provisioning
+
+  - product: ThingWorx IIoT Platform
+    description: ThingWorx pricing is custom-quoted and typically involves enterprise-scale contracts. Cost scales with connected devices, named users, and deployment model.
+    url: https://www.ptc.com/en/products/thingworx
+    cost_drivers:
+      - Number of connected devices and Things
+      - Named user licenses
+      - Deployment model (cloud vs. on-premises vs. hybrid)
+      - ThingWorx extensions and add-ons
+      - Analytics and AI module licensing
+      - Support tier selection
+    optimization_tips:
+      - Right-size device count during contract negotiation; device sprawl is a primary cost driver
+      - Evaluate hybrid deployment to keep high-volume local data on-premises
+      - Use Kepware KEPServerEX for edge connectivity to reduce direct cloud device connections
+      - Leverage PTC subscription management for regular license audits
+      - Request proof-of-concept pricing before committing to full enterprise contract
+
+  - product: Windchill PLM
+    description: Windchill is an enterprise PLM platform with custom pricing. Licensing covers users, modules, and optional REST Services access.
+    url: https://www.ptc.com/en/products/windchill
+    cost_drivers:
+      - Named user and concurrent user licenses
+      - PLM module selection (PDM, change management, configuration management)
+      - On-premises vs. PTC cloud (SaaS) hosting
+      - Windchill REST Services enablement
+      - Integration and customization development effort
+    optimization_tips:
+      - Audit active users regularly; named user licenses for inactive users waste spend
+      - Use Windchill REST Services OData queries with $select to minimize data transfer
+      - Consider PTC-hosted (SaaS) to eliminate infrastructure overhead
+      - Use API Catalog Swagger UI for development testing before production API calls
+
+  - product: Arena PLM
+    description: Arena PLM is a SaaS PLM with subscription pricing typically based on number of users and features. REST API access included in subscriptions.
+    url: https://www.ptc.com/en/products/arena
+    cost_drivers:
+      - Number of licensed users
+      - Feature modules (BOM, Change, Quality, Compliance, Projects)
+      - Regional deployment (multi-region requires appropriate plan)
+    optimization_tips:
+      - API access is included in Arena subscriptions — no additional cost for REST API usage
+      - Use Postman collections for efficient API development and testing
+      - Leverage region-specific API endpoints to minimize latency costs
+      - Monitor integration call volumes to identify runaway automation workflows
+
+  - product: ServiceMax Field Service
+    description: ServiceMax is Salesforce-native field service management. Pricing is subscription-based per technician/user with Salesforce platform costs also applicable.
+    url: https://www.ptc.com/en/products/servicemax
+    cost_drivers:
+      - Number of field service technician licenses
+      - Salesforce platform user licenses (required)
+      - ServiceMax mobile application usage
+      - Integration volume (REST API call volumes subject to Salesforce governor limits)
+    optimization_tips:
+      - Account for Salesforce platform costs in total cost of ownership
+      - Review Salesforce API governor limits to avoid integration failures
+      - Use Field Metadata REST API for bulk field operations rather than record-by-record
+      - Negotiate bundled PTC pricing if also using ThingWorx or Windchill
+
+  - product: Kepware KEPServerEX
+    description: Kepware is primarily a perpetual license product with annual maintenance. The Configuration API and IoT Gateway are included capabilities.
+    url: https://www.ptc.com/en/products/kepware
+    cost_drivers:
+      - Base KEPServerEX license
+      - Additional driver plug-ins (150+ industrial protocols)
+      - IoT Gateway add-on (required for REST and MQTT features)
+      - Annual maintenance and support contracts
+      - Number of server instances
+    optimization_tips:
+      - Configuration API and IoT Gateway REST features have no per-call costs
+      - Inventory required industrial protocol drivers carefully — each adds cost
+      - Consolidate OPC-UA connectivity to reduce server instance count
+      - IoT Gateway REST Server enables cost-effective local API access without cloud fees
+
+reporting:
+  description: PTC does not provide a unified API usage dashboard across products. Cost visibility is managed per-product through subscription portals.
+  recommendations:
+    - Use Vuforia Developer Portal license manager to monitor Cloud Recognition usage
+    - Monitor ThingWorx platform metrics via built-in analytics for device count and API call volumes
+    - Track Arena REST API usage through integration logs and error rate monitoring
+    - Implement Kepware IoT Gateway logging to capture REST API call volumes and failures
+    - Request regular usage reports from PTC account management for enterprise subscriptions

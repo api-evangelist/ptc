@@ -1,0 +1,91 @@
+name: PTC API Rate Limits
+description: Rate limit information for PTC APIs including ThingWorx, Windchill REST Services, Vuforia Engine, Arena PLM, and Kepware Configuration API.
+url: https://www.ptc.com/en/support/help/thingworx_doc_resources
+
+limits:
+
+  - api: ThingWorx REST API
+    description: ThingWorx does not publish explicit public rate limits. Limits are typically enforced at the platform configuration level by administrators and vary by deployment. Authentication uses AppKey passed as an HTTP header.
+    url: https://support.ptc.com/help/thingworx/platform/r9/en/ThingWorx/api_documentation.html
+    authentication: AppKey (HTTP header)
+    notes:
+      - AppKey must be passed as HTTP header named "appKey" (not as URL parameter, as of ThingWorx 8+)
+      - SSO authentication also supported via OAuth/SAML configuration
+      - Rate limits are configurable per-deployment by platform administrators
+      - No published global rate limits; contact PTC for enterprise SLA details
+    reference: https://community.ptc.com/t5/IoT-Tips/Use-REST-API-to-Access-ThingWorx-Part-1/ta-p/825305
+
+  - api: Windchill REST Services
+    description: Windchill REST Services (OData-compliant) does not publish explicit public rate limits. Access is controlled by Windchill instance configuration and user permissions.
+    url: https://support.ptc.com/help/windchill_rest_services/r2.0/en/windchill_rest_services/WCCG_RESTAPIsWRS.html
+    authentication: Basic Auth / SSO / OAuth
+    notes:
+      - API Catalog (Swagger UI) accessible from running Windchill instance
+      - Rate limits are instance-specific and managed by Windchill administrators
+      - OData v4 query syntax supported for filtering, sorting, and pagination
+      - Custom and service endpoints available in addition to standard endpoints
+    reference: https://support.ptc.com/help/windchill_rest_services/r1.6/en/windchill_rest_services/API_catalog.html
+
+  - api: Arena PLM REST API
+    description: Arena PLM REST API v1 does not publish explicit global rate limits in public documentation. API access is region-specific.
+    url: https://ptc-arena.github.io/arena-dev-help/reference/api_docs/
+    authentication: API Key / Token (via Swagger UI Authorize)
+    regions:
+      - name: North America
+        api_url: https://api.arenasolutions.com/v1
+        swagger_url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+      - name: GovCloud
+        api_url: https://api.arenagov.com/v1
+        swagger_url: https://api.arenagov.com/v1/swagger-ui/index.html
+      - name: Europe
+        api_url: https://api.europe.arenaplm.com/v1
+        swagger_url: https://api.europe.arenaplm.com/v1/swagger-ui/index.html
+      - name: United Kingdom
+        api_url: https://api.uk.arenaplm.com/v1
+        swagger_url: https://api.uk.arenaplm.com/v1/swagger-ui/index.html
+      - name: China
+        api_url: https://api.arenaplm.cn/v1
+        swagger_url: https://api.arenaplm.cn/v1/swagger-ui/index.html
+    notes:
+      - Rate limits not publicly documented; subject to subscription tier
+      - Postman collections available for testing
+      - Full OpenAPI/Swagger documentation available per region
+
+  - api: Vuforia Engine Cloud Recognition API
+    description: Cloud Image Recognition API limits depend on plan tier. Add-on packages available for higher volumes.
+    url: https://developer.vuforia.com/library/vuforia-engine/web-api/cloud-area-targets-web-api/
+    authentication: HTTPS with Vuforia Developer Portal account credentials
+    tiers:
+      - plan: Basic
+        cloud_recognition_requests: limited (add-on required for higher volume)
+      - plan: Premium
+        cloud_recognition_requests: higher limits; additional packages available
+      - plan: Enterprise
+        cloud_recognition_requests: highest limits; custom add-ons available
+    notes:
+      - Cloud Area Targets Web API: HTTPS REST authenticated via developer portal account
+      - Authorization controls for create/modify/delete and stream targets
+      - Additional Cloud Image Recognition capacity purchasable as add-ons
+    reference: https://developer.vuforia.com/library/vuforia-engine/FAQ/pricing-and-licensing-options/
+
+  - api: Kepware Configuration API
+    description: The Kepware Configuration API is a local REST API (not a cloud service). Rate limits are constrained by the local server hardware and KEPServerEX configuration, not published thresholds.
+    url: https://support.ptc.com/help/kepware/features/en/kepware/features/profilelibrary/ConfigurationAPI.html
+    authentication: Basic Auth (local server)
+    endpoint_format: https://localhost:57412/config/v1/
+    notes:
+      - Local REST API; no cloud rate limits apply
+      - JSON request/response format
+      - Supports create, read, update, delete operations
+      - IoT Gateway REST Server endpoint format: https://localhost:39320/iotgateway/read?ids=Channel1.Device1.Tag1
+    reference: https://support.ptc.com/help/kepware/features/en/kepware/features/IOTGATEWAY/working_rest_server.html
+
+  - api: ServiceMax Max REST API
+    description: ServiceMax REST API rate limits are not publicly documented. Access is governed by ServiceMax subscription and Salesforce platform limits (as ServiceMax is Salesforce-native).
+    url: https://support.ptc.com/help/servicemaxcore/en/articles/service_board/appendix-b-max-rest-api.html
+    authentication: OAuth / Session Token
+    notes:
+      - Salesforce platform API governor limits may apply
+      - Field Metadata REST API for create/update/delete field operations
+      - Rate limits subject to ServiceMax enterprise subscription terms
+    reference: https://support.ptc.com/help/servicemaxcore/en/articles/service_board/field-metadata-rest-api.html
