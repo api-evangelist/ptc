@@ -1,0 +1,109 @@
+{
+  "@context": {
+    "@vocab": "https://schema.org/",
+    "ptc": "https://www.ptc.com/vocab/",
+    "apis": "https://apis.io/vocab/"
+  },
+  "@type": "Organization",
+  "@id": "https://www.ptc.com",
+  "name": "PTC",
+  "description": "PTC is an industrial technology company providing software platforms and APIs for Industrial IoT (ThingWorx), Product Lifecycle Management (Windchill, Arena), Augmented Reality (Vuforia), Field Service Management (ServiceMax), and industrial connectivity (Kepware) in manufacturing environments.",
+  "url": "https://www.ptc.com",
+  "logo": "https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg",
+  "sameAs": [
+    "https://x.com/ptc",
+    "https://www.linkedin.com/company/ptc",
+    "https://github.com/PTCInc",
+    "https://github.com/ptc-arena",
+    "https://github.com/PTC-Education"
+  ],
+  "knowsAbout": [
+    "Industrial IoT",
+    "IIoT",
+    "Product Lifecycle Management",
+    "PLM",
+    "Augmented Reality",
+    "Field Service Management",
+    "Manufacturing",
+    "Digital Transformation",
+    "CAD",
+    "OPC-UA",
+    "SCADA"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "PTC API Portfolio",
+    "itemListElement": [
+      {
+        "@type": "SoftwareApplication",
+        "applicationCategory": "WebAPI",
+        "name": "ThingWorx REST API",
+        "description": "The ThingWorx Industrial IoT platform REST API enables developers to interact with Things, Properties, Services, Events, and Subscriptions via HTTP. Authentication uses an AppKey passed as an HTTP header.",
+        "url": "https://www.ptc.com/en/products/thingworx",
+        "documentation": "https://support.ptc.com/help/thingworx/platform/r9/en/ThingWorx/api_documentation.html",
+        "offers": {
+          "@type": "Offer",
+          "priceCurrency": "USD",
+          "url": "https://www.ptc.com/en/products/thingworx"
+        },
+        "keywords": ["Industrial IoT", "IIoT", "REST", "Manufacturing", "ThingWorx"]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "applicationCategory": "WebAPI",
+        "name": "Windchill REST Services",
+        "description": "OData-compliant REST API access to product lifecycle management data including product structures, change management, documents, and configuration management.",
+        "url": "https://www.ptc.com/en/products/windchill",
+        "documentation": "https://support.ptc.com/help/windchill_rest_services/r2.0/en/windchill_rest_services/WCCG_RESTAPIsWRS.html",
+        "keywords": ["PLM", "OData", "REST", "Manufacturing", "Windchill"]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "applicationCategory": "WebAPI",
+        "name": "Arena PLM REST API",
+        "description": "Full programmatic access to Arena's cloud-based PLM capabilities including Bill of Materials management, change management, quality, and compliance. Conforms to OpenAPI Specification (OAS) 3.0.",
+        "url": "https://www.ptc.com/en/products/arena",
+        "documentation": "https://ptc-arena.github.io/arena-dev-help/",
+        "codeRepository": "https://github.com/ptc-arena/arena-restapi-doc",
+        "keywords": ["PLM", "BOM", "Change Management", "SaaS", "Arena"]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "applicationCategory": "WebAPI",
+        "name": "Vuforia Engine Web API",
+        "description": "HTTPS REST access to cloud-based augmented reality capabilities including Cloud Image Recognition, Cloud Area Targets, and license management for building AR applications.",
+        "url": "https://www.ptc.com/en/products/vuforia",
+        "documentation": "https://developer.vuforia.com/library/",
+        "keywords": ["Augmented Reality", "AR", "Computer Vision", "Cloud Recognition"]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "applicationCategory": "WebAPI",
+        "name": "ServiceMax Max REST API",
+        "description": "REST API for integrating with ServiceMax field service management capabilities including work orders, scheduling, service boards, and field metadata management. Built on the Salesforce platform.",
+        "url": "https://www.ptc.com/en/products/servicemax",
+        "documentation": "https://support.ptc.com/help/servicemaxcore/en/articles/service_board/appendix-b-max-rest-api.html",
+        "keywords": ["Field Service Management", "FSM", "Salesforce", "REST"]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "applicationCategory": "WebAPI",
+        "name": "Kepware Configuration REST API",
+        "description": "Local REST API that enables programmatic configuration of the KEPServerEX industrial connectivity server including channels, devices, tags, and IoT Gateway agents.",
+        "url": "https://www.ptc.com/en/products/kepware",
+        "documentation": "https://support.ptc.com/help/kepware/features/en/kepware/features/profilelibrary/ConfigurationAPI.html",
+        "codeRepository": "https://github.com/PTCInc/Kepware-ConfigAPI-SDK-Python",
+        "keywords": ["Industrial Connectivity", "OPC-UA", "SCADA", "IIoT", "Configuration"]
+      }
+    ]
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer support",
+    "url": "https://www.ptc.com/en/customer-success/support-services/welcome-center"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://raw.githubusercontent.com/api-evangelist/ptc/refs/heads/main/apis.yml"
+  }
+}
