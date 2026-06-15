@@ -1,0 +1,1022 @@
+"""
+PTC ThingWorx IoT Platform GraphQL Schema
+Derived from the ThingWorx REST API covering device connectivity, thing templates
+and shapes, property management, services, events, streams, value streams,
+data tables, InfoTable, and manufacturing analytics.
+"""
+
+scalar DateTime
+scalar JSON
+scalar Long
+scalar Float
+scalar INFOTABLE
+
+# ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum ThingCategory {
+  GENERIC
+  INDUSTRIAL
+  DEVICE
+  VIRTUAL
+  REMOTE
+}
+
+enum BaseType {
+  STRING
+  NUMBER
+  BOOLEAN
+  DATETIME
+  INFOTABLE
+  THINGNAME
+  USERNAME
+  GROUPNAME
+  MASHUPNAME
+  MENUNAME
+  BASETYPENAME
+  THINGSHAPENAME
+  THINGTEMPLATENAME
+  DATASHAPENAME
+  PROPERTYNAME
+  SERVICENAME
+  EVENTNAME
+  INTEGER
+  LONG
+  FLOAT
+  JSON
+  XML
+  TEXT
+  TAGS
+  SCHEDULE
+  VARIANT
+  GUID
+  BLOB
+  IMAGE
+  HYPERLINK
+  IMAGELINK
+  PASSWORD
+  HTML
+  QUERY
+  LOCATION
+  VELOCITY
+}
+
+enum DataChangeType {
+  ALWAYS
+  NEVER
+  ON
+  OFF
+  VALUE
+}
+
+enum AlertType {
+  ANOMALY
+  THRESHOLD
+  EQL
+  ABOVE
+  BELOW
+  BETWEEN
+  EQUAL
+  NOT_EQUAL
+  ABOVE_OR_EQUAL_TO
+  BELOW_OR_EQUAL_TO
+}
+
+enum AlertPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum StreamType {
+  VALUE_STREAM
+  STREAM
+  DATA_TABLE
+}
+
+enum ServiceType {
+  GROOVY
+  JAVASCRIPT
+  THINGWORX
+  FLOWDESIGNER
+  PROCESSDESIGNER
+}
+
+enum ConnectionStatus {
+  CONNECTED
+  DISCONNECTED
+  UNKNOWN
+}
+
+enum PropertyCategory {
+  CONFIGURATION
+  STATUS
+  DIAGNOSTIC
+}
+
+enum SortOrder {
+  ASC
+  DESC
+}
+
+# ─── Core Platform Types ──────────────────────────────────────────────────────
+
+"""Represents a field definition in an InfoTable data shape."""
+type FieldDefinition {
+  name: String!
+  baseType: BaseType!
+  description: String
+  ordinal: Int
+  aspects: JSON
+}
+
+"""Represents a DataShape that defines the structure of an InfoTable."""
+type DataShape {
+  name: String!
+  description: String
+  tags: [Tag]
+  fieldDefinitions: [FieldDefinition!]!
+  projectName: String
+  homeMashup: String
+  avatar: String
+  created: DateTime
+  lastModifiedDate: DateTime
+}
+
+"""Represents a row of data in an InfoTable."""
+type InfoTableRow {
+  fields: JSON!
+}
+
+"""Represents an InfoTable — the core PTC data container."""
+type InfoTable {
+  dataShape: DataShape
+  rows: [InfoTableRow!]!
+  totalCount: Int!
+}
+
+"""A tag used to categorize PTC entities."""
+type Tag {
+  vocabulary: String!
+  vocabularyTerm: String!
+}
+
+"""Represents a location with GPS coordinates."""
+type Location {
+  latitude: Float!
+  longitude: Float!
+  elevation: Float
+  units: String
+}
+
+"""Represents a velocity measurement."""
+type Velocity {
+  speed: Float!
+  heading: Float!
+  acceleration: Float
+}
+
+# ─── Property Types ───────────────────────────────────────────────────────────
+
+"""A property definition on a Thing, ThingTemplate, or ThingShape."""
+type PropertyDefinition {
+  name: String!
+  baseType: BaseType!
+  description: String
+  category: PropertyCategory
+  dataChangeType: DataChangeType
+  dataChangeThreshold: Float
+  logged: Boolean!
+  persistent: Boolean!
+  readOnly: Boolean!
+  defaultValue: JSON
+  unit: String
+  rangeMinimum: Float
+  rangeMaximum: Float
+  aspects: JSON
+  tags: [Tag]
+}
+
+"""A property value on a Thing at a point in time."""
+type PropertyValue {
+  name: String!
+  value: JSON
+  quality: String
+  timestamp: DateTime
+  baseType: BaseType
+}
+
+"""Historical property value with timestamp."""
+type PropertyHistory {
+  value: JSON
+  quality: String
+  timestamp: DateTime!
+}
+
+"""Represents an alert on a property."""
+type Alert {
+  name: String!
+  description: String
+  property: String!
+  alertType: AlertType!
+  priority: AlertPriority!
+  enabled: Boolean!
+  threshold: Float
+  minimumValue: Float
+  maximumValue: Float
+  aspects: JSON
+}
+
+# ─── Service Types ────────────────────────────────────────────────────────────
+
+"""A service definition on a Thing, ThingTemplate, or ThingShape."""
+type ServiceDefinition {
+  name: String!
+  description: String
+  category: String
+  serviceType: ServiceType!
+  handlerName: String
+  code: String
+  parameterDefinitions: [ParameterDefinition!]
+  resultType: ResultType
+  tags: [Tag]
+  aspects: JSON
+}
+
+"""A parameter definition for a service."""
+type ParameterDefinition {
+  name: String!
+  baseType: BaseType!
+  description: String
+  aspects: JSON
+  defaultValue: JSON
+  ordinal: Int
+}
+
+"""The result type of a service."""
+type ResultType {
+  baseType: BaseType!
+  dataShape: String
+  description: String
+}
+
+# ─── Event Types ──────────────────────────────────────────────────────────────
+
+"""An event definition on a Thing, ThingTemplate, or ThingShape."""
+type EventDefinition {
+  name: String!
+  description: String
+  category: String
+  dataShape: String
+  tags: [Tag]
+  aspects: JSON
+}
+
+"""A subscription to an event."""
+type Subscription {
+  name: String!
+  description: String
+  eventName: String!
+  enabled: Boolean!
+  sourceProperty: String
+  sourceType: String
+  source: String
+  tags: [Tag]
+  serviceImplemented: String
+}
+
+# ─── Thing Shape Types ────────────────────────────────────────────────────────
+
+"""A ThingShape is a reusable definition of properties, services, and events."""
+type ThingShape {
+  name: String!
+  description: String
+  tags: [Tag]
+  projectName: String
+  homeMashup: String
+  avatar: String
+  created: DateTime
+  lastModifiedDate: DateTime
+  propertyDefinitions: [PropertyDefinition!]!
+  serviceDefinitions: [ServiceDefinition!]!
+  eventDefinitions: [EventDefinition!]!
+  subscriptions: [Subscription!]!
+}
+
+# ─── Thing Template Types ─────────────────────────────────────────────────────
+
+"""A ThingTemplate is a blueprint from which Things are instantiated."""
+type ThingTemplate {
+  name: String!
+  description: String
+  baseThingTemplate: String
+  tags: [Tag]
+  projectName: String
+  homeMashup: String
+  avatar: String
+  category: ThingCategory
+  created: DateTime
+  lastModifiedDate: DateTime
+  implementedShapes: [String!]
+  propertyDefinitions: [PropertyDefinition!]!
+  serviceDefinitions: [ServiceDefinition!]!
+  eventDefinitions: [EventDefinition!]!
+  subscriptions: [Subscription!]!
+  configuration: ThingConfiguration
+  thingCount: Int
+}
+
+"""Configuration block for a ThingTemplate."""
+type ThingConfiguration {
+  configurationTable: InfoTable
+  persistValues: Boolean
+  publishToMessageStore: Boolean
+}
+
+# ─── Thing Types ──────────────────────────────────────────────────────────────
+
+"""A Thing is an instance of a ThingTemplate — represents a device or asset."""
+type Thing {
+  name: String!
+  description: String
+  thingTemplate: String!
+  tags: [Tag]
+  projectName: String
+  homeMashup: String
+  avatar: String
+  category: ThingCategory
+  created: DateTime
+  lastModifiedDate: DateTime
+  implementedShapes: [String!]
+  connectionStatus: ConnectionStatus
+  isSystemObject: Boolean
+  published: Boolean
+  propertyDefinitions: [PropertyDefinition!]!
+  serviceDefinitions: [ServiceDefinition!]!
+  eventDefinitions: [EventDefinition!]!
+  subscriptions: [Subscription!]!
+  properties: [PropertyValue!]!
+  property(name: String!): PropertyValue
+  alerts: [Alert!]!
+  configuration: ThingConfiguration
+}
+
+# ─── Stream Types ─────────────────────────────────────────────────────────────
+
+"""Represents a logged stream entry."""
+type StreamEntry {
+  id: String
+  source: String
+  sourceType: String
+  timestamp: DateTime!
+  tags: [Tag]
+  values: JSON!
+}
+
+"""A Stream stores time-series event data."""
+type Stream {
+  name: String!
+  description: String
+  tags: [Tag]
+  projectName: String
+  dataShape: String
+  created: DateTime
+  lastModifiedDate: DateTime
+  entries(
+    startDate: DateTime
+    endDate: DateTime
+    maxItems: Int
+    query: JSON
+    sort: SortOrder
+  ): [StreamEntry!]!
+  entryCount: Int
+}
+
+"""A ValueStream stores historical property values."""
+type ValueStream {
+  thingName: String!
+  propertyName: String!
+  entries(
+    startDate: DateTime
+    endDate: DateTime
+    maxItems: Int
+    sort: SortOrder
+  ): [PropertyHistory!]!
+  entryCount(startDate: DateTime, endDate: DateTime): Int
+}
+
+# ─── Data Table Types ─────────────────────────────────────────────────────────
+
+"""Represents a row in a DataTable."""
+type DataTableEntry {
+  key: String!
+  tags: [Tag]
+  values: JSON!
+}
+
+"""A DataTable stores structured key-value data."""
+type DataTable {
+  name: String!
+  description: String
+  tags: [Tag]
+  projectName: String
+  dataShape: String!
+  created: DateTime
+  lastModifiedDate: DateTime
+  entries(
+    maxItems: Int
+    query: JSON
+    sort: SortOrder
+  ): [DataTableEntry!]!
+  entry(key: String!): DataTableEntry
+  entryCount: Int
+}
+
+# ─── User and Security Types ──────────────────────────────────────────────────
+
+"""Represents a PTC ThingWorx user."""
+type User {
+  name: String!
+  description: String
+  tags: [Tag]
+  email: String
+  firstName: String
+  lastName: String
+  language: String
+  timezone: String
+  homeMashup: String
+  mobileHomeMashup: String
+  enabled: Boolean!
+  locked: Boolean
+  externalLoginUrl: String
+  groups: [String!]
+  created: DateTime
+  lastModifiedDate: DateTime
+}
+
+"""Represents a user group."""
+type UserGroup {
+  name: String!
+  description: String
+  tags: [Tag]
+  members: [String!]!
+  groups: [String!]!
+  created: DateTime
+  lastModifiedDate: DateTime
+}
+
+"""Represents an organization unit."""
+type Organization {
+  name: String!
+  description: String
+  tags: [Tag]
+  units: [OrganizationUnit!]!
+  created: DateTime
+  lastModifiedDate: DateTime
+}
+
+"""Represents a unit within an organization."""
+type OrganizationUnit {
+  name: String!
+  description: String
+  members: [String!]
+  subUnits: [OrganizationUnit!]
+}
+
+# ─── Application Key Types ────────────────────────────────────────────────────
+
+"""Represents an application key for API authentication."""
+type ApplicationKey {
+  name: String!
+  description: String
+  keyId: String!
+  expirationDate: DateTime
+  userNameContext: String
+  enabled: Boolean!
+  issuedTo: String
+  created: DateTime
+  lastModifiedDate: DateTime
+}
+
+# ─── Mashup and UI Types ─────────────────────────────────────────────────────
+
+"""Represents a ThingWorx mashup (UI application)."""
+type Mashup {
+  name: String!
+  description: String
+  tags: [Tag]
+  projectName: String
+  isHomeMashup: Boolean
+  isMobileMashup: Boolean
+  width: Int
+  height: Int
+  created: DateTime
+  lastModifiedDate: DateTime
+}
+
+# ─── Network Types ────────────────────────────────────────────────────────────
+
+"""Represents a ThingWorx network for grouping Things."""
+type Network {
+  name: String!
+  description: String
+  tags: [Tag]
+  projectName: String
+  members: [NetworkMember!]!
+  created: DateTime
+  lastModifiedDate: DateTime
+}
+
+"""Represents a member within a network."""
+type NetworkMember {
+  thingName: String!
+  parentName: String
+}
+
+# ─── Project Types ────────────────────────────────────────────────────────────
+
+"""Represents a ThingWorx project grouping entities."""
+type Project {
+  name: String!
+  description: String
+  tags: [Tag]
+  version: String
+  projectType: String
+  packageVersion: String
+  minimumThingWorxVersion: String
+  dependencies: [ProjectDependency!]
+  created: DateTime
+  lastModifiedDate: DateTime
+}
+
+"""Represents a dependency for a project."""
+type ProjectDependency {
+  name: String!
+  version: String!
+  required: Boolean
+}
+
+# ─── Industrial Analytics Types ───────────────────────────────────────────────
+
+"""Represents an analytics job in ThingWorx."""
+type AnalyticsJob {
+  jobId: String!
+  status: String!
+  jobType: String!
+  progress: Float
+  result: JSON
+  errorMessage: String
+  created: DateTime
+  lastModifiedDate: DateTime
+}
+
+"""Represents a predictive analytics model."""
+type AnalyticsModel {
+  modelId: String!
+  name: String!
+  description: String
+  modelType: String!
+  status: String!
+  accuracy: Float
+  features: [String!]
+  target: String
+  created: DateTime
+  lastModifiedDate: DateTime
+}
+
+"""Represents an anomaly detection result."""
+type AnomalyResult {
+  thingName: String!
+  propertyName: String!
+  timestamp: DateTime!
+  value: Float
+  anomalyScore: Float
+  isAnomaly: Boolean!
+  explanation: String
+}
+
+# ─── Kepware / Industrial Connectivity Types ──────────────────────────────────
+
+"""Represents a Kepware channel (communications driver)."""
+type KepwareChannel {
+  name: String!
+  description: String
+  driver: String!
+  enabled: Boolean!
+  devices: [KepwareDevice!]!
+}
+
+"""Represents a Kepware device connected through a channel."""
+type KepwareDevice {
+  name: String!
+  description: String
+  driver: String!
+  model: String
+  enabled: Boolean!
+  tagCount: Int
+  tags: [KepwareTag!]
+}
+
+"""Represents a Kepware tag (data point)."""
+type KepwareTag {
+  name: String!
+  description: String
+  address: String!
+  dataType: BaseType!
+  scanRate: Int
+  readOnly: Boolean
+  scalingType: String
+  rawMinimum: Float
+  rawMaximum: Float
+  scaledMinimum: Float
+  scaledMaximum: Float
+}
+
+# ─── Windchill PLM Types ──────────────────────────────────────────────────────
+
+"""Represents a Windchill product structure / BOM."""
+type ProductStructure {
+  number: String!
+  name: String!
+  version: String
+  state: String
+  type: String
+  description: String
+  creator: String
+  created: DateTime
+  modified: DateTime
+  parts: [Part!]
+}
+
+"""Represents a part in a product structure."""
+type Part {
+  number: String!
+  name: String!
+  version: String
+  revision: String
+  state: String
+  type: String
+  description: String
+  quantity: Float
+  unit: String
+  children: [Part!]
+}
+
+"""Represents a change order in Windchill."""
+type ChangeOrder {
+  number: String!
+  name: String!
+  state: String!
+  type: String
+  description: String
+  creator: String
+  assignedTo: String
+  created: DateTime
+  modified: DateTime
+  affectedObjects: [String!]
+}
+
+# ─── Pagination and Filtering ─────────────────────────────────────────────────
+
+"""Pagination information for list results."""
+type PageInfo {
+  totalCount: Int!
+  pageSize: Int!
+  page: Int!
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+"""Paginated list of Things."""
+type ThingConnection {
+  items: [Thing!]!
+  pageInfo: PageInfo!
+}
+
+"""Paginated list of ThingTemplates."""
+type ThingTemplateConnection {
+  items: [ThingTemplate!]!
+  pageInfo: PageInfo!
+}
+
+"""Paginated list of ThingShapes."""
+type ThingShapeConnection {
+  items: [ThingShape!]!
+  pageInfo: PageInfo!
+}
+
+"""Paginated list of DataShapes."""
+type DataShapeConnection {
+  items: [DataShape!]!
+  pageInfo: PageInfo!
+}
+
+"""Paginated list of Streams."""
+type StreamConnection {
+  items: [Stream!]!
+  pageInfo: PageInfo!
+}
+
+"""Paginated list of DataTables."""
+type DataTableConnection {
+  items: [DataTable!]!
+  pageInfo: PageInfo!
+}
+
+# ─── Input Types ──────────────────────────────────────────────────────────────
+
+"""Input for creating or updating a Thing."""
+input ThingInput {
+  name: String!
+  description: String
+  thingTemplate: String!
+  tags: [TagInput]
+  projectName: String
+}
+
+"""Input for creating or updating a tag."""
+input TagInput {
+  vocabulary: String!
+  vocabularyTerm: String!
+}
+
+"""Input for setting a property value."""
+input PropertyValueInput {
+  name: String!
+  value: JSON!
+}
+
+"""Input for adding a DataTable entry."""
+input DataTableEntryInput {
+  key: String!
+  tags: [TagInput]
+  values: JSON!
+}
+
+"""Input for querying with filters."""
+input QueryFilter {
+  fieldName: String!
+  operator: String!
+  value: JSON!
+}
+
+"""Input for creating an alert."""
+input AlertInput {
+  name: String!
+  description: String
+  property: String!
+  alertType: AlertType!
+  priority: AlertPriority!
+  enabled: Boolean!
+  threshold: Float
+  minimumValue: Float
+  maximumValue: Float
+}
+
+"""Input for stream query parameters."""
+input StreamQueryInput {
+  startDate: DateTime
+  endDate: DateTime
+  maxItems: Int
+  query: JSON
+  sort: SortOrder
+}
+
+# ─── Root Query ───────────────────────────────────────────────────────────────
+
+type Query {
+  # Things
+  thing(name: String!): Thing
+  things(
+    template: String
+    tags: [TagInput]
+    query: JSON
+    page: Int
+    pageSize: Int
+  ): ThingConnection!
+  thingsByTemplate(templateName: String!, page: Int, pageSize: Int): ThingConnection!
+  thingProperties(thingName: String!): [PropertyValue!]!
+  thingProperty(thingName: String!, propertyName: String!): PropertyValue
+  thingAlerts(thingName: String!): [Alert!]!
+  thingServices(thingName: String!): [ServiceDefinition!]!
+  thingEvents(thingName: String!): [EventDefinition!]!
+  thingConnectionStatus(thingName: String!): ConnectionStatus!
+
+  # Thing Templates
+  thingTemplate(name: String!): ThingTemplate
+  thingTemplates(
+    baseTemplate: String
+    tags: [TagInput]
+    page: Int
+    pageSize: Int
+  ): ThingTemplateConnection!
+
+  # Thing Shapes
+  thingShape(name: String!): ThingShape
+  thingShapes(tags: [TagInput], page: Int, pageSize: Int): ThingShapeConnection!
+
+  # Data Shapes
+  dataShape(name: String!): DataShape
+  dataShapes(tags: [TagInput], page: Int, pageSize: Int): DataShapeConnection!
+
+  # Streams
+  stream(name: String!): Stream
+  streams(tags: [TagInput], page: Int, pageSize: Int): StreamConnection!
+  streamEntries(
+    streamName: String!
+    query: StreamQueryInput
+  ): [StreamEntry!]!
+
+  # Value Streams
+  valueStream(
+    thingName: String!
+    propertyName: String!
+    startDate: DateTime
+    endDate: DateTime
+    maxItems: Int
+    sort: SortOrder
+  ): ValueStream
+
+  # Data Tables
+  dataTable(name: String!): DataTable
+  dataTables(tags: [TagInput], page: Int, pageSize: Int): DataTableConnection!
+  dataTableEntry(tableName: String!, key: String!): DataTableEntry
+  dataTableEntries(
+    tableName: String!
+    maxItems: Int
+    query: JSON
+  ): [DataTableEntry!]!
+
+  # Users and Security
+  user(name: String!): User
+  users(page: Int, pageSize: Int): [User!]!
+  userGroup(name: String!): UserGroup
+  userGroups: [UserGroup!]!
+  applicationKey(name: String!): ApplicationKey
+  applicationKeys: [ApplicationKey!]!
+
+  # Organizations
+  organization(name: String!): Organization
+  organizations: [Organization!]!
+
+  # Networks
+  network(name: String!): Network
+  networks: [Network!]!
+
+  # Mashups
+  mashup(name: String!): Mashup
+  mashups(tags: [TagInput], page: Int, pageSize: Int): [Mashup!]!
+
+  # Projects
+  project(name: String!): Project
+  projects: [Project!]!
+
+  # Analytics
+  analyticsJob(jobId: String!): AnalyticsJob
+  analyticsJobs(status: String): [AnalyticsJob!]!
+  analyticsModel(modelId: String!): AnalyticsModel
+  analyticsModels: [AnalyticsModel!]!
+  anomalyResults(
+    thingName: String!
+    propertyName: String!
+    startDate: DateTime
+    endDate: DateTime
+  ): [AnomalyResult!]!
+
+  # Kepware
+  kepwareChannel(name: String!): KepwareChannel
+  kepwareChannels: [KepwareChannel!]!
+  kepwareDevice(channelName: String!, deviceName: String!): KepwareDevice
+  kepwareTag(
+    channelName: String!
+    deviceName: String!
+    tagName: String!
+  ): KepwareTag
+
+  # Windchill
+  productStructure(number: String!, version: String): ProductStructure
+  changeOrder(number: String!): ChangeOrder
+  changeOrders(state: String): [ChangeOrder!]!
+}
+
+# ─── Root Mutation ────────────────────────────────────────────────────────────
+
+type Mutation {
+  # Things
+  createThing(input: ThingInput!): Thing!
+  updateThing(name: String!, input: ThingInput!): Thing!
+  deleteThing(name: String!): Boolean!
+  setThingProperty(
+    thingName: String!
+    property: PropertyValueInput!
+  ): PropertyValue!
+  setThingProperties(
+    thingName: String!
+    properties: [PropertyValueInput!]!
+  ): [PropertyValue!]!
+  enableThing(name: String!): Boolean!
+  disableThing(name: String!): Boolean!
+  restartThing(name: String!): Boolean!
+
+  # Services
+  invokeThingService(
+    thingName: String!
+    serviceName: String!
+    parameters: JSON
+  ): JSON
+
+  # Alerts
+  addAlert(thingName: String!, alert: AlertInput!): Alert!
+  updateAlert(thingName: String!, alertName: String!, alert: AlertInput!): Alert!
+  deleteAlert(thingName: String!, alertName: String!): Boolean!
+  acknowledgeAlert(thingName: String!, alertName: String!): Boolean!
+
+  # Streams
+  addStreamEntry(
+    streamName: String!
+    entry: JSON!
+    tags: [TagInput]
+  ): StreamEntry!
+
+  # Data Tables
+  addDataTableEntry(
+    tableName: String!
+    entry: DataTableEntryInput!
+  ): DataTableEntry!
+  updateDataTableEntry(
+    tableName: String!
+    key: String!
+    entry: DataTableEntryInput!
+  ): DataTableEntry!
+  deleteDataTableEntry(tableName: String!, key: String!): Boolean!
+  deleteAllDataTableEntries(tableName: String!): Boolean!
+
+  # Users
+  createUser(name: String!, email: String, enabled: Boolean): User!
+  updateUser(name: String!, email: String, enabled: Boolean): User!
+  deleteUser(name: String!): Boolean!
+  addUserToGroup(userName: String!, groupName: String!): Boolean!
+  removeUserFromGroup(userName: String!, groupName: String!): Boolean!
+
+  # Application Keys
+  createApplicationKey(
+    name: String!
+    description: String
+    expirationDate: DateTime
+    userNameContext: String
+  ): ApplicationKey!
+  deleteApplicationKey(name: String!): Boolean!
+
+  # Analytics
+  startAnalyticsJob(jobType: String!, configuration: JSON!): AnalyticsJob!
+  cancelAnalyticsJob(jobId: String!): Boolean!
+  trainAnalyticsModel(
+    name: String!
+    modelType: String!
+    trainingData: JSON!
+    features: [String!]!
+    target: String!
+  ): AnalyticsModel!
+  deleteAnalyticsModel(modelId: String!): Boolean!
+
+  # Kepware
+  createKepwareChannel(
+    name: String!
+    driver: String!
+    description: String
+  ): KepwareChannel!
+  deleteKepwareChannel(name: String!): Boolean!
+  createKepwareDevice(
+    channelName: String!
+    name: String!
+    driver: String!
+    model: String
+  ): KepwareDevice!
+  deleteKepwareDevice(channelName: String!, deviceName: String!): Boolean!
+}
+
+# ─── Root Subscription ────────────────────────────────────────────────────────
+
+type Subscription {
+  thingPropertyChanged(
+    thingName: String!
+    propertyName: String
+  ): PropertyValue!
+
+  thingAlertFired(
+    thingName: String!
+    alertName: String
+  ): Alert!
+
+  thingConnectionStatusChanged(
+    thingName: String
+  ): Thing!
+
+  streamEntryAdded(
+    streamName: String!
+  ): StreamEntry!
+
+  analyticsJobCompleted(
+    jobId: String
+  ): AnalyticsJob!
+}
