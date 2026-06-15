@@ -9,7 +9,14 @@
       "date": "2022-10-14",
       "author": "IoTProductMgmt",
       "source": "PTC Community IoT Tips",
-      "tags": ["ThingWorx", "REST API", "IIoT", "Authentication", "HTTPie", "cURL"],
+      "tags": [
+        "ThingWorx",
+        "REST API",
+        "IIoT",
+        "Authentication",
+        "HTTPie",
+        "cURL"
+      ],
       "summary": "Introduces developers to the ThingWorx REST API for IoT applications. Covers REST API syntax, HTTP request methods, authentication via application keys, and practical steps for creating Things within ThingWorx Foundation Server."
     },
     {
@@ -18,7 +25,12 @@
       "date": null,
       "author": null,
       "source": "PTC Corporate Blog",
-      "tags": ["Industrial IoT", "PLM", "Digital Transformation", "Manufacturing"],
+      "tags": [
+        "Industrial IoT",
+        "PLM",
+        "Digital Transformation",
+        "Manufacturing"
+      ],
       "summary": "PTC's official blog covering industrial IoT, product lifecycle management, augmented reality, and digital transformation topics."
     },
     {
@@ -27,23 +39,27 @@
       "date": null,
       "author": null,
       "source": "PTC Community",
-      "tags": ["ThingWorx", "Windchill", "Kepware", "Developer", "IIoT"],
+      "tags": [
+        "ThingWorx",
+        "Windchill",
+        "Kepware",
+        "Developer",
+        "IIoT"
+      ],
       "summary": "Community blog featuring tips, tutorials, and best practices from PTC developers and partners covering ThingWorx, Windchill, Kepware, and other PTC product integrations."
     }
   ],
   "feeds": [
     {
-      "type": "blog",
-      "url": "https://www.ptc.com/en/blogs/",
-      "status": "403-blocked",
-      "last_checked": "2026-06-13"
-    },
-    {
-      "type": "community",
-      "url": "https://community.ptc.com/t5/Blog/bg-p/BWBlog",
-      "status": "accessible",
-      "last_checked": "2026-06-13"
+      "source": "https://www.linkedin.com/company/ptc",
+      "feed_url": "https://www.linkedin.com/company/ptc",
+      "title": "",
+      "saved": 0,
+      "method": "none"
     }
   ],
-  "last_updated": "2026-06-13"
+  "last_updated": "2026-06-13",
+  "repo": "ptc",
+  "post_count": 0,
+  "fetched": "2026-06-14T20:42:17Z"
 }
