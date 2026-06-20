@@ -4,7 +4,7 @@ description: PTC is an industrial technology company providing software platform
   and APIs for Industrial IoT (ThingWorx), Product Lifecycle Management (Windchill,
   Arena), Augmented Reality (Vuforia), Field Service Management (ServiceMax), and
   industrial connectivity (Kepware) in manufacturing environments.
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/ptc/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -24,7 +24,7 @@ apis:
     interact with Things, Properties, Services, Events, and Subscriptions via HTTP.
     Authentication uses an AppKey passed as an HTTP header. Supports building, connecting,
     and deploying IIoT applications.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://www.ptc.com/en/products/thingworx
   baseURL: https://{your-thingworx-host}/Thingworx
   tags:
@@ -51,7 +51,7 @@ apis:
     to product lifecycle management data including product structures, change management,
     documents, and configuration management. The API Catalog (Swagger UI) is accessible
     from a running Windchill instance.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://www.ptc.com/en/products/windchill
   baseURL: https://{windchill-host}/WindchillRESTServices
   tags:
@@ -75,7 +75,7 @@ apis:
     cloud-based PLM capabilities including Bill of Materials management, change management,
     quality, and compliance. Full OpenAPI/Swagger documentation available per region
     with interactive testing.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://www.ptc.com/en/products/arena
   baseURL: https://api.arenasolutions.com/v1
   tags:
@@ -101,7 +101,7 @@ apis:
     augmented reality capabilities including Cloud Image Recognition, Cloud Area Targets,
     and license management for building AR applications across mobile and wearable
     devices.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://www.ptc.com/en/products/vuforia
   baseURL: https://cloudreco.vuforia.com
   tags:
@@ -128,7 +128,7 @@ apis:
   description: ServiceMax REST API (Max REST API) enables integration with ServiceMax
     field service management capabilities including work orders, scheduling, service
     boards, and field metadata management. Built on the Salesforce platform.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://www.ptc.com/en/products/servicemax
   baseURL: https://{instance}.salesforce.com/services/apexrest/SVMXC
   tags:
@@ -150,7 +150,7 @@ apis:
     enables programmatic configuration of the industrial connectivity server including
     channels, devices, tags, and IoT Gateway agents. Accepts and returns JSON-formatted
     data.
-  image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   humanURL: https://www.ptc.com/en/products/kepware
   baseURL: https://localhost:57412/config/v1
   tags:
