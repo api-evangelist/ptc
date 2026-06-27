@@ -119,7 +119,7 @@ apis:
     url: https://developer.vuforia.com/library/vuforia-engine/web-api/cloud-area-targets-web-api/
   - type: Pricing
     url: https://www.ptc.com/en/products/vuforia/vuforia-engine/pricing
-  - type: SDK
+  - type: SDKs
     url: https://developer.vuforia.com/downloads/sdk
   contact:
   - FN: Vuforia Developer Support

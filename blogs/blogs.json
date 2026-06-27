@@ -1,65 +1,17 @@
 {
+  "repo": "ptc",
   "provider": "ptc",
   "name": "PTC",
   "url": "https://www.ptc.com",
-  "blogs": [
-    {
-      "title": "Use REST API to Access ThingWorx Part 1",
-      "url": "https://community.ptc.com/t5/IoT-Tips/Use-REST-API-to-Access-ThingWorx-Part-1/ta-p/825305",
-      "date": "2022-10-14",
-      "author": "IoTProductMgmt",
-      "source": "PTC Community IoT Tips",
-      "tags": [
-        "ThingWorx",
-        "REST API",
-        "IIoT",
-        "Authentication",
-        "HTTPie",
-        "cURL"
-      ],
-      "summary": "Introduces developers to the ThingWorx REST API for IoT applications. Covers REST API syntax, HTTP request methods, authentication via application keys, and practical steps for creating Things within ThingWorx Foundation Server."
-    },
-    {
-      "title": "PTC Developer Blog",
-      "url": "https://www.ptc.com/en/blogs/",
-      "date": null,
-      "author": null,
-      "source": "PTC Corporate Blog",
-      "tags": [
-        "Industrial IoT",
-        "PLM",
-        "Digital Transformation",
-        "Manufacturing"
-      ],
-      "summary": "PTC's official blog covering industrial IoT, product lifecycle management, augmented reality, and digital transformation topics."
-    },
-    {
-      "title": "PTC Community Blog",
-      "url": "https://community.ptc.com/t5/Blog/bg-p/BWBlog",
-      "date": null,
-      "author": null,
-      "source": "PTC Community",
-      "tags": [
-        "ThingWorx",
-        "Windchill",
-        "Kepware",
-        "Developer",
-        "IIoT"
-      ],
-      "summary": "Community blog featuring tips, tutorials, and best practices from PTC developers and partners covering ThingWorx, Windchill, Kepware, and other PTC product integrations."
-    }
-  ],
   "feeds": [
     {
-      "source": "https://www.linkedin.com/company/ptc",
-      "feed_url": "https://www.linkedin.com/company/ptc",
-      "title": "",
-      "saved": 0,
-      "method": "none"
+      "source": "https://www.ptc.com/en/blogs/",
+      "feed_url": "",
+      "saved": 1,
+      "method": "agent-scrape"
     }
   ],
-  "last_updated": "2026-06-13",
-  "repo": "ptc",
-  "post_count": 0,
-  "fetched": "2026-06-14T20:42:17Z"
+  "fetched": "2026-06-27T13:06:45Z",
+  "post_count": 2,
+  "agent_pulled": "2026-06-27"
 }
