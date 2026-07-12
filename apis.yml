@@ -171,6 +171,10 @@ apis:
   - FN: PTC Kepware Support
     url: https://www.ptc.com/en/customer-success/support-services/welcome-center
 common:
+- type: TrustCenter
+  url: security/ptc-trust-center.yml
+- type: DomainSecurity
+  url: security/ptc-domain-security.yml
 - type: Website
   url: https://www.ptc.com
 - type: Documentation
