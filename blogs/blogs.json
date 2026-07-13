@@ -5,13 +5,11 @@
   "url": "https://www.ptc.com",
   "feeds": [
     {
-      "source": "https://www.ptc.com/en/blogs/",
-      "feed_url": "",
-      "saved": 1,
-      "method": "agent-scrape"
+      "source": "https://www.linkedin.com/company/ptc",
+      "error": "HTTPError"
     }
   ],
-  "fetched": "2026-06-27T13:06:45Z",
+  "fetched": "2026-07-11T11:50:51Z",
   "post_count": 2,
   "agent_pulled": "2026-06-27"
 }
