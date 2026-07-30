@@ -4,7 +4,19 @@ description: PTC is an industrial technology company providing software platform
   and APIs for Industrial IoT (ThingWorx), Product Lifecycle Management (Windchill,
   Arena), Augmented Reality (Vuforia), Field Service Management (ServiceMax), and
   industrial connectivity (Kepware) in manufacturing environments.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: unknown
+  trial: false
+  try_now: false
+  public: false
+  label: Freemium
+  confidence: medium
+  source:
+  - plans
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/ptc.png
 url: https://raw.githubusercontent.com/api-evangelist/ptc/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
