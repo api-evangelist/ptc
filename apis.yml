@@ -95,6 +95,12 @@ apis:
   - Product Lifecycle Management
   - BOM
   - Change Management
+  - Software-as-a-Service
+  tags_raw:
+  - PLM
+  - Product Lifecycle Management
+  - BOM
+  - Change Management
   - SaaS
   properties:
   - type: Documentation
@@ -117,6 +123,12 @@ apis:
   humanURL: https://www.ptc.com/en/products/vuforia
   baseURL: https://cloudreco.vuforia.com
   tags:
+  - Augmented Reality
+  - AR
+  - Computer-Vision
+  - Cloud Recognition
+  - Manufacturing
+  tags_raw:
   - Augmented Reality
   - AR
   - Computer Vision
@@ -166,6 +178,13 @@ apis:
   humanURL: https://www.ptc.com/en/products/kepware
   baseURL: https://localhost:57412/config/v1
   tags:
+  - Industrial Connectivity
+  - OPC UA
+  - SCADA
+  - IIoT
+  - Manufacturing
+  - Configuration
+  tags_raw:
   - Industrial Connectivity
   - OPC-UA
   - SCADA
