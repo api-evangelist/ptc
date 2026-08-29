@@ -4,6 +4,18 @@ description: PTC is an industrial technology company providing software platform
   and APIs for Industrial IoT (ThingWorx), Product Lifecycle Management (Windchill,
   Arena), Augmented Reality (Vuforia), Field Service Management (ServiceMax), and
   industrial connectivity (Kepware) in manufacturing environments.
+deliveryModel:
+  model: unknown
+  open_source: unknown
+  commercial: true
+  callable_host: false
+  label: Delivery model not determined — needs a product licence on record
+  confidence: low
+  source:
+  - pricing
+  - repository-unlicensed
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: unknown
