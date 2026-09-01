@@ -191,7 +191,7 @@ apis:
   baseURL: https://localhost:57412/config/v1
   tags:
   - Industrial Connectivity
-  - OPC-UA
+  - OPC UA
   - SCADA
   - IIoT
   - Manufacturing
