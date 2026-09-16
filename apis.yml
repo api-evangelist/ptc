@@ -80,6 +80,11 @@ apis:
   baseURL: https://{windchill-host}/WindchillRESTServices
   tags:
   - PLM
+  - OData
+  - REST
+  - Manufacturing
+  tags_raw:
+  - PLM
   - Product Lifecycle Management
   - OData
   - REST
@@ -104,7 +109,6 @@ apis:
   baseURL: https://api.arenasolutions.com/v1
   tags:
   - PLM
-  - Product Lifecycle Management
   - BOM
   - Change Management
   - Software-as-a-Service
