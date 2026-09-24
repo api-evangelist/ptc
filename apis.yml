@@ -39,9 +39,19 @@ tags:
 - Augmented Reality
 - Field Service Management
 - Manufacturing
+- CAD
+- Digital Transformation
+- Industrial
+tags_raw:
+- Industrial IoT
+- PLM
+- Augmented Reality
+- Field Service Management
+- Manufacturing
 - IIoT
 - CAD
 - Digital Transformation
+- Industrial
 apis:
 - name: ThingWorx REST API
   description: The ThingWorx Industrial IoT platform REST API enables developers to
@@ -52,6 +62,10 @@ apis:
   humanURL: https://www.ptc.com/en/products/thingworx
   baseURL: https://{your-thingworx-host}/Thingworx
   tags:
+  - Industrial IoT
+  - REST
+  - Manufacturing
+  tags_raw:
   - Industrial IoT
   - IIoT
   - REST
@@ -65,8 +79,6 @@ apis:
     url: https://community.ptc.com/thingworx-developers-185
   - type: Authentication
     url: https://www.ptc.com/en/support/article/CS279189
-  - url: graphql/ptc-graphql.md
-    type: GraphQL
   contact:
   - FN: PTC Support
     url: https://www.ptc.com/en/customer-success/support-services/welcome-center
@@ -141,7 +153,7 @@ apis:
   tags:
   - Augmented Reality
   - AR
-  - Computer-Vision
+  - Computer Vision
   - Cloud Recognition
   - Manufacturing
   tags_raw:
@@ -150,6 +162,7 @@ apis:
   - Computer Vision
   - Cloud Recognition
   - Manufacturing
+  - Computer-Vision
   properties:
   - type: Documentation
     url: https://developer.vuforia.com/library/
@@ -197,7 +210,7 @@ apis:
   - Industrial Connectivity
   - OPC UA
   - SCADA
-  - IIoT
+  - Industrial IoT
   - Manufacturing
   - Configuration
   tags_raw:
