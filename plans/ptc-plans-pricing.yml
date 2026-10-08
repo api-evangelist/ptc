@@ -117,3 +117,75 @@ plans:
       - MQTT streaming
       - OPC-UA connectivity
       - 150+ industrial protocol drivers
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - negotiated
+  units:
+  - period
+  plans:
+  - name: Vuforia Engine Basic
+    access: other
+    model: free
+    model_how: derived
+    units:
+    - period
+    periods: []
+  - name: Vuforia Engine Premium
+    access: other
+    model: negotiated
+    model_how: derived
+    units:
+    - period
+    periods: []
+  - name: Vuforia Engine Enterprise
+    access: other
+    model: negotiated
+    model_how: derived
+    units:
+    - period
+    periods: []
+  - name: Vuforia Engine Academic
+    access: other
+    model: negotiated
+    model_how: derived
+    units:
+    - period
+    periods: []
+  - name: ThingWorx IIoT Platform
+    access: other
+    model: negotiated
+    model_how: derived
+    units:
+    - period
+    periods: []
+  - name: Windchill PLM
+    access: other
+    model: negotiated
+    model_how: derived
+    units:
+    - period
+    periods: []
+  - name: Arena PLM
+    access: other
+    model: negotiated
+    model_how: derived
+    units:
+    - period
+    periods: []
+  - name: ServiceMax Field Service
+    access: other
+    model: negotiated
+    model_how: derived
+    units:
+    - period
+    periods: []
+  - name: Kepware KEPServerEX
+    access: other
+    model: negotiated
+    model_how: derived
+    units:
+    - other
+    periods: []
