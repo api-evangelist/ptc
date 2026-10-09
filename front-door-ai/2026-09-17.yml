@@ -9,10 +9,14 @@ front_door_ai:
   final_host: www.ptc.com
   ownership: own
   owner: ptc
-  shares_host_with: null
+  shares_host_with:
+  - ptc-thingworx
   inherited_from: null
+  alias_of: null
   verdict: unmeasured
   score: null
+  band: null
+  band_label: null
   host_score: null
   density: null
   words: null
