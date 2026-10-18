@@ -40,7 +40,7 @@ tags:
 - Industrial IoT
 - PLM
 - Augmented Reality
-- Field Service Management
+- Field Service
 - Manufacturing
 - CAD
 - Digital Transformation
@@ -155,7 +155,6 @@ apis:
   baseURL: https://cloudreco.vuforia.com
   tags:
   - Augmented Reality
-  - AR
   - Computer Vision
   - Cloud Recognition
   - Manufacturing
@@ -188,6 +187,11 @@ apis:
   humanURL: https://www.ptc.com/en/products/servicemax
   baseURL: https://{instance}.salesforce.com/services/apexrest/SVMXC
   tags:
+  - Field Service
+  - Salesforce
+  - REST
+  - Manufacturing
+  tags_raw:
   - Field Service Management
   - FSM
   - Salesforce
