@@ -1,0 +1,157 @@
+slug: ptc
+provider: PTC
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Manufacturing & Industrial
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 13
+edges:
+- tag: Item Bom
+  spec_file: ptc-item-bom-api-openapi.yml
+  capability_id: BC-1070.10
+  capability_id_l1: BC-1070
+  capability_name: Bill of Materials Management
+  confidence: 0.9
+  evidence: GET /items/{itemGuid}/bom  getBom  'Retrieve the BOM (Bill of Materials) collection of the
+    item'; schemas ItemBomVo, BomSubstituteCreateVo
+  reason: Operations create, update and delete BOM lines, substitutes and BOM settings — directly Bill
+    of Materials structure management.
+- tag: Item Bom
+  spec_file: ptc-item-bom-api-openapi.yml
+  capability_id: BC-820.30
+  capability_id_l1: BC-820
+  capability_name: Product Specification Management
+  confidence: 0.85
+  evidence: GET /items/{itemGuid}/bom  getBom  Retrieve the BOM (Bill of Materials) collection of the
+    item; createBomLine, createBomSubstitute
+  reason: Operations manage bill-of-materials lines and substitute parts for an item, which is explicitly
+    BOM definition under Product Specification Management.
+- tag: Training Plan
+  spec_file: ptc-training-plan-api-openapi.yml
+  capability_id: BC-300.40
+  capability_id_l1: BC-300
+  capability_name: Learning & Development Management
+  confidence: 0.85
+  evidence: POST /trainingplans  createTraining  Create a new training plan; GET /trainingplans/{trainingGuid}/users  List
+    all users assigned to a training plan
+  reason: Full lifecycle of training plans with assigned users, due dates and TrainingRecordVo is employee
+    training administration, i.e. Learning & Development Management within HCM.
+- tag: UserGroup Settings
+  spec_file: ptc-usergroup-settings-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: POST /settings/usergroups/{userGroupGuid}/accesspolicies  assignPolicyToUserGroup  Assign
+    an access policy to a user group
+  reason: Group lifecycle plus assignment of access policies and group membership (AccessPolicy, GrantedPolicyVo,
+    GroupMemberVo) is squarely Identity & Access Management.
+- tag: Change
+  spec_file: ptc-change-api-openapi.yml
+  capability_id: BC-820
+  capability_id_l1: BC-820
+  capability_name: Product Lifecycle Management
+  confidence: 0.8
+  evidence: POST /changes/statuschanges  changeChangeLifecycle  Move a change to a new lifecycle phase;
+    schemas ChangeCreateVo, ChangeLifecycleTransitionCreateVo, ChangeHistoryVo
+  reason: Arena is PTC's cloud PLM; these operations create, search, update and lifecycle-transition engineering
+    change records against product data. That is product lifecycle (engineering change) management. No
+    listed L2 names engineering change control specifically, so L1 only. Note this is product change control,
+    not organisational Change Management (BC-910).
+- tag: Item
+  spec_file: ptc-item-api-openapi.yml
+  capability_id: BC-820
+  capability_id_l1: BC-820
+  capability_name: Product Lifecycle Management
+  confidence: 0.8
+  evidence: POST /items createItem  Create a new item, supporting feature application data and number
+    reservation…; schemas ItemFullVo, ItemCostingSummaryVo, ChangeRevisionShortVo
+  reason: Arena PLM item records — create/update/delete items with attributes, revisions, estimated and
+    sourcing costs. This is management of the product/part master across its lifecycle, i.e. Product Lifecycle
+    Management. Held at L1 because the surface spans item definition, costing and history rather than
+    one named sub-capability.
+- tag: Policy Settings
+  spec_file: ptc-policy-settings-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.8
+  evidence: GET /settings/accesspolicies  getWorkspacePolicies  List all access policies; GET /settings/accesspolicies/{policyGuid}/users  getUsersInPolicy  List
+    users linked to an access policy
+  reason: Access policies with user and user-group grants is access control administration, matching Identity
+    & Access Management. Read-only configuration surface, hence 0.8 rather than higher.
+- tag: QualityProcess
+  spec_file: ptc-qualityprocess-api-openapi.yml
+  capability_id: BC-720
+  capability_id_l1: BC-720
+  capability_name: Quality Management
+  confidence: 0.8
+  evidence: POST /qualityprocesses  createQuality  Create a new quality process; GET /qualityprocesses  getQualityProcesses  Search
+    for quality processes using filters like number, name, or owner
+  reason: 'Arena Quality: lifecycle CRUD over quality process records (templates, owners, current step).
+    Clearly Quality Management; the record type is generic (could be CAPA, NCR or inspection) so no L2
+    is asserted.'
+- tag: QualityProcess Detail
+  spec_file: ptc-qualityprocess-detail-api-openapi.yml
+  capability_id: BC-720
+  capability_id_l1: BC-720
+  capability_name: Quality Management
+  confidence: 0.8
+  evidence: PUT /qualityprocesses/{qualityprocessGuid}/steps/{stepGuid}/decisions/{decisionGuid}  makeDecision  Submit
+    a decision for a sign-off step; insertQualityAffectedObject  Add an affected object to a quality step
+  reason: Execution of quality process workflow steps — sign-off approvers, decisions, affected objects
+    and status changes. Quality Management at L1; the generic 'quality process' object does not pin a
+    specific L2 such as non-conformance.
+- tag: Change Item
+  spec_file: ptc-change-item-api-openapi.yml
+  capability_id: BC-820
+  capability_id_l1: BC-820
+  capability_name: Product Lifecycle Management
+  confidence: 0.75
+  evidence: POST /changes/{changeGuid}/items  createChangeItemAssociation  Add a new item to a change;
+    schemas ChangeModifiedViewVo, DispositionAttributeVo, LifecyclePhaseMinimalVo
+  reason: Associates product items (parts) and their dispositions/modified views with an engineering change
+    in Arena PLM — the affected-items list of an ECO. Product lifecycle management at L1; no L2 precisely
+    names engineering change control.
+- tag: User Settings
+  spec_file: ptc-user-settings-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: DELETE /settings/users/employees/{employeeGuid}  removeAccess  Remove an employee from the
+    workspace; PolicyAssignRequestVo, GrantedPolicyVo, LicenseVo
+  reason: Operations administer workspace user accounts (employees, partners, machine users), their licences
+    and granted access policies — identity and access administration. Some licence-management content
+    keeps confidence below 0.8.
+- tag: Requirement
+  spec_file: ptc-requirement-api-openapi.yml
+  capability_id: BC-820.30
+  capability_id_l1: BC-820
+  capability_name: Product Specification Management
+  confidence: 0.72
+  evidence: POST /requirements createRequirement 'Create a new requirement'; GET /requirements/{requirementGuid}/trace
+    'Get requirement traces by direction'
+  reason: Full lifecycle of product requirements with trace links, templates and verification against
+    quality processes — requirements/specification management for manufactured products, which maps to
+    Product Specification Management. Some risk it is read as the software-product specification capability,
+    hence not top confidence.
+- tag: Supplier
+  spec_file: ptc-supplier-api-openapi.yml
+  capability_id: BC-510
+  capability_id_l1: BC-510
+  capability_name: Supplier Management
+  confidence: 0.72
+  evidence: GET /suppliers/{supplierGuid} getSupplier 'Get details of a specific supplier'; PUT /suppliers/{supplierGuid}/contacts/{contactGuid}
+    updateSupplierContact
+  reason: CRUD over supplier records, contacts, addresses and phone numbers — maintenance of the supplier
+    base. Supports Supplier Management at L1; the operations are master-data style and do not single out
+    onboarding, performance or relationship sub-capabilities, so no L2 is asserted.
