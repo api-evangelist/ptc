@@ -1,0 +1,1144 @@
+openapi: 3.2.0
+info:
+  title: Ptc Training Plan API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Training Plan across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Training Plan
+  description: 'Core training plan operations: search, create, update, delete, status, and associated files, quality processes, users, records, and items.'
+paths:
+  /trainingplans/{trainingGuid}:
+    get:
+      tags:
+      - Training Plan
+      summary: Get details of a specific training plan
+      description: Returns a Training Plan object with a given GUID.
+      operationId: getTraining
+      parameters:
+      - name: trainingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingShortVo'
+    put:
+      tags:
+      - Training Plan
+      summary: Update an existing training plan
+      description: In order to edit a Training Plan, the user must be a Training Plan Manager within the workspace. If the user is a Training Plan Manager within the workspace but not the Training Plan Manager of this specific Training Plan, they can only use this endpoint to modify the Training Manager.
+      operationId: updateTraining
+      parameters:
+      - name: trainingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingUpdateVo'
+            example:
+              name: SOP 101 Training
+              description: Most employees must understand SOP 101.
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingShortVo'
+    delete:
+      tags:
+      - Training Plan
+      summary: Delete a specific training plan
+      description: Deletes a Training Plan with a given GUID. In order to delete a Training Plan, the user must be the assigned Training Manager of the Training Plan. For Access Policies workspaces, users need a Delete Training rule in order in order to delete a Training Plan.
+      operationId: deleteTraining
+      parameters:
+      - name: trainingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Deleted training plan
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /trainingplans/{trainingGuid}/users/{userGuid}:
+    get:
+      tags:
+      - Training Plan
+      summary: Get details of a specific user in a training plan
+      description: If the GET Training Plan Users endpoint is appended with a valid guid, it returns the information of a specific user in a Training Plan.
+      operationId: getTrainingUser
+      parameters:
+      - name: trainingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: userGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingUserVo'
+    put:
+      tags:
+      - Training Plan
+      summary: Update the due date for a user in a training plan
+      description: In order to modify a user in a Training Plan, the user must be a Training Plan Manager within the workspace. Currently, the only modification to a user in a Training Plan supported is the ability to change due date of a user's training assignments.
+      operationId: updateTrainingUser
+      parameters:
+      - name: trainingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: userGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingUserUpdateEntity'
+            example:
+              dueDate: '2022-01-30'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingUserVo'
+    delete:
+      tags:
+      - Training Plan
+      summary: Remove a user from a training plan
+      description: Removes a user from a Training Plan. In order to remove a user from a Training Plan, the user must be the assigned Training Manager of the Training Plan.
+      operationId: deleteTrainingUser
+      parameters:
+      - name: trainingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: userGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Remove a user from training plan
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /trainingplans:
+    get:
+      tags:
+      - Training Plan
+      summary: Search for training plans using filters like number, name, or manager
+      description: Returns a collection of Training Plan objects matching the given search criteria.
+      operationId: getTrainings
+      parameters:
+      - name: number
+        in: query
+        description: training number
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: training name
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: status
+        schema:
+          type: string
+      - name: manager.guid
+        in: query
+        description: manager guid
+        schema:
+          type: string
+      - name: manager.fullName
+        in: query
+        description: manager fullName
+        schema:
+          type: string
+      - name: user.guid
+        in: query
+        description: user guid
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: query result offset (default 0)
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: query result limit (default 20, max 400)
+        schema:
+          type: integer
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingShortVoResultRep'
+    post:
+      tags:
+      - Training Plan
+      summary: Create a new training plan
+      description: This endpoint creates a Training Plan. In order to create a Training Plan, the user must be a Training Plan Manager. For Access Policies workspaces, user must also contain a policy that includes an Edit Training Summary rule.
+      operationId: createTraining
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingCreateVo'
+            example:
+              numberSequencePrefix:
+                value: TRP-
+              name: New Employee Training
+              description: All employees must understand SOP 101.
+              manager:
+                guid: ASCV96ACN4L4N6P8BG6H
+              daysToComplete: 12
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingShortVo'
+    servers:
+    - url: /v1
+  /trainingplans/{trainingGuid}/users:
+    get:
+      tags:
+      - Training Plan
+      summary: List all users assigned to a training plan
+      description: Returns all the users (trainees) included within a Training Plan.
+      operationId: getTrainingUsers
+      parameters:
+      - name: trainingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingUserVoResultRep'
+    post:
+      tags:
+      - Training Plan
+      summary: Add a user to a training plan
+      description: This endpoint adds a user to a Training Plan. In order to add a user to a Training Plan, the user account executing the endpoint must be the Training Plan Manager.
+      operationId: createTrainingUsers
+      parameters:
+      - name: trainingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingUserCreateVo'
+            example:
+              user:
+                guid: J13RSBSBUDWFGCWZ
+              dueDate: '2022-01-31'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingUserVo'
+    servers:
+    - url: /v1
+  /trainingplans/{trainingGuid}/quality:
+    get:
+      tags:
+      - Training Plan
+      summary: List all quality steps linked to a training plan
+      description: Returns all the Quality Processes and the specific step associated within a specific Training Plan. Using the browser-based application as a point of comparison, this endpoint returns the Quality Process (and the specified step) located within the References view of a specific Training Plan.
+      operationId: getTrainingQualityProcesses
+      parameters:
+      - name: trainingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReferencedQualityVoResultRep'
+    post:
+      tags:
+      - Training Plan
+      summary: Link a quality step to a training plan
+      description: This endpoint adds a Quality Process (with a specified step) as a reference to a Training Plan. Using the browser-based application as a point of comparison, this endpoint adds a specific Quality Process to the Reference view of a specific Training Plan.
+      operationId: createTrainingQuality
+      parameters:
+      - name: trainingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingQualityCreateVo'
+            example:
+              quality:
+                guid: YGI67Q95O7Q92JCD
+                step:
+                  guid: 7PRFGZIEXGZIBSKK
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReferencedQualityVo'
+    servers:
+    - url: /v1
+  /trainingplans/{trainingGuid}/items:
+    get:
+      tags:
+      - Training Plan
+      summary: List all items associated with a training plan
+      description: Returns all the items associated within a specific Training Plan. In terms of the browser-based application, this endpoint returns the items located within the Items view of a specific Training Plan.
+      operationId: getTrainingItems
+      parameters:
+      - name: trainingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingItemVoResultRep'
+    post:
+      tags:
+      - Training Plan
+      summary: Add an item to a training plan
+      description: This endpoint adds an Item to a Training Plan. In order to add a user to a Training Plan, the user account executing the endpoint must be the Training Plan Manager. Using the browser-based application as a point of comparison, this endpoint adds a specific item to the Items view of a specific Training Plan.
+      operationId: createTrainingItem
+      parameters:
+      - name: trainingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingItemCreateVo'
+            example:
+              item:
+                guid: 9RTHI1KSBP7D0HBZ
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingItemVo'
+    servers:
+    - url: /v1
+  /trainingplans/statuschanges:
+    post:
+      tags:
+      - Training Plan
+      summary: Change the status of a training plan
+      description: 'The Training Plan Manager can change the status of their Training Plan through this endpoint. Supported statuses: CLOSED and OPEN.'
+      operationId: changeTrainingStatus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingStatusChangeVo'
+            examples:
+              Close:
+                description: Close
+                value:
+                  trainingplan:
+                    guid: 4MOCDWDYH0J2LX84
+                  status: CLOSED
+                  comment: Close.
+              Re-open:
+                description: Re-open
+                value:
+                  trainingplan:
+                    guid: 4MOCDWDYH0J2LX84
+                  status: OPEN
+                  comment: ReOpen.
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingShortVo'
+    servers:
+    - url: /v1
+  /trainingplans/{trainingGuid}/records:
+    get:
+      tags:
+      - Training Plan
+      summary: List all training records associated with a training plan
+      description: Returns all the training records for a specific Training Plan. Using the browser-based application as a point of comparison, this endpoint returns the training records data within the Records view of a specific Training Plan.
+      operationId: getTrainingRecords
+      parameters:
+      - name: trainingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingRecordVoResultRep'
+    servers:
+    - url: /v1
+  /trainingplans/{trainingGuid}/records/{trainingRecordGuid}:
+    get:
+      tags:
+      - Training Plan
+      summary: Get details of a specific training record
+      description: Returns a specific training record associated within a specific Training Plan. Using the browser-based application as a point of comparison, this endpoint returns a specific record located within the Records view of a specific Training Plan.
+      operationId: getTrainingRecord
+      parameters:
+      - name: trainingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: trainingRecordGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingRecordVo'
+    servers:
+    - url: /v1
+  /trainingplans/{trainingGuid}/quality/{referenceGuid}:
+    get:
+      tags:
+      - Training Plan
+      summary: Get details of a specific quality step linked to a training plan
+      description: Returns a specific Quality Process associated within a specific Training Plan. Using the browser-based application as a point of comparison, this endpoint returns a specific Quality Process located within the Reference view of a specific Training Plan.
+      operationId: getTrainingQualityProcess
+      parameters:
+      - name: trainingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: referenceGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReferencedQualityVo'
+    servers:
+    - url: /v1
+  /trainingplans/{trainingGuid}/items/{trainingItemAssociationGuid}:
+    get:
+      tags:
+      - Training Plan
+      summary: Get details of a specific item in a training plan
+      description: Returns a specific item associated within a specific Training Plan. In terms of the browser-based application, this endpoint returns a specific item located within the Files view of a specific Training Plan.
+      operationId: getTrainingItem
+      parameters:
+      - name: trainingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: trainingItemAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrainingItemVo'
+    delete:
+      tags:
+      - Training Plan
+      summary: Remove an item from a training plan
+      description: Removes an item from a Training Plan. In order to remove a user from a Training Plan, the user must be the assigned Training Manager of the Training Plan.
+      operationId: deleteTrainingItem
+      parameters:
+      - name: trainingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: trainingItemAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Remove an item from training plan
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /trainingplans/{trainingGuid}/quality/{trainingQualityAssociationGuid}:
+    delete:
+      tags:
+      - Training Plan
+      summary: Unlink a quality step from a training plan
+      description: Removes an Quality Process from a Training Plan. In order to remove a user from a Training Plan, the user must be the assigned Training Manager of the Training Plan.
+      operationId: deleteTrainingQuality
+      parameters:
+      - name: trainingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: trainingQualityAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Remove a quality from training plan
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+components:
+  schemas:
+    TrainingUpdateVo:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        manager:
+          $ref: '#/components/schemas/UserCompactVo'
+        daysToComplete:
+          type: integer
+          format: int32
+    TrainingShortVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrainingShortVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    StepBasicVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    QualityBasicVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+        step:
+          $ref: '#/components/schemas/StepBasicVo'
+    TrainingUserCreateVo:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/SingleGuidVo'
+        dueDate:
+          type: string
+    TrainingStatusChangeVo:
+      type: object
+      properties:
+        trainingplan:
+          $ref: '#/components/schemas/SingleGuidVo'
+        status:
+          type: string
+          enum:
+          - OPEN
+          - CLOSED
+        comment:
+          type: string
+    TrainingItemVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrainingItemVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    SingleValueVo:
+      type: object
+      properties:
+        value:
+          type: string
+    ReferencedQualityCreateVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        step:
+          $ref: '#/components/schemas/SingleGuidVo'
+    TrainingRecordVo:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/ItemShortVo'
+        user:
+          $ref: '#/components/schemas/UserCompactVo'
+        guid:
+          type: string
+        signedDateTime:
+          type: string
+        dueDate:
+          type: string
+        requiresUserAction:
+          type: boolean
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    TrainingQualityCreateVo:
+      type: object
+      properties:
+        quality:
+          $ref: '#/components/schemas/ReferencedQualityCreateVo'
+    ReferencedQualityVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        quality:
+          $ref: '#/components/schemas/QualityBasicVo'
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    TrainingUserUpdateEntity:
+      type: object
+      properties:
+        dueDate:
+          type: string
+    TrainingItemCreateVo:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/SingleGuidVo'
+    TrainingItemVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        item:
+          $ref: '#/components/schemas/ItemShortVo'
+    TrainingUserVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrainingUserVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    UrlVo:
+      type: object
+      properties:
+        api:
+          type: string
+        app:
+          type: string
+    ReferencedQualityVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReferencedQualityVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    TrainingShortVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        daysToComplete:
+          type: integer
+          format: int32
+        creationDateTime:
+          type: string
+        status:
+          type: string
+          enum:
+          - OPEN
+          - CLOSED
+        manager:
+          $ref: '#/components/schemas/UserCompactVo'
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+    TrainingRecordVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrainingRecordVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    TrainingUserVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserCompactVo'
+        dueDate:
+          type: string
+    TrainingCreateVo:
+      type: object
+      properties:
+        numberSequencePrefix:
+          $ref: '#/components/schemas/SingleValueVo'
+        name:
+          type: string
+        description:
+          type: string
+        manager:
+          $ref: '#/components/schemas/SingleGuidVo'
+        daysToComplete:
+          type: integer
+          format: int32
+    ItemShortVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        revisionNumber:
+          type: string
+        revisionStatus:
+          type: string
+        url:
+          $ref: '#/components/schemas/UrlVo'
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

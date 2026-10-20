@@ -1,0 +1,868 @@
+openapi: 3.2.0
+info:
+  title: Ptc Item Bom API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Item Bom across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Item Bom
+  description: Manage Bill of Materials (BOM) for items, including lines, settings, and substitutes.
+paths:
+  /items/{itemGuid}/bom/{bomLineGuid}:
+    get:
+      tags:
+      - Item Bom
+      summary: Retrieve detailed information of the specified BOM line
+      description: Returns a BOM Line object with a given GUID, the immediate child of an assembly with a given GUID (with no filters.)
+      operationId: getBomLine
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: bomLineGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: includeEmptyAdditionalAttributes
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: includeBomSubstitutes
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemBomVo'
+    put:
+      tags:
+      - Item Bom
+      summary: Update information of the specified BOM line
+      description: Updates an existing BOM Line with a given GUID for an item with a given GUID.
+      operationId: updateBomLine
+      parameters:
+      - name: setnull
+        in: query
+        schema:
+          type: boolean
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: bomLineGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemBomUpdateVo'
+            example:
+              additionalAttributes:
+              - guid: CUEXB8CEP6N5O7Q9SA80
+                value: Shipped
+              refDes: C3-C5,C8
+              quantity: 4
+              notes: BOM Notes Updated
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemBomVo'
+    delete:
+      tags:
+      - Item Bom
+      summary: Delete the specified BOM line
+      description: Deletes a BOM Line with a given GUID from an Item with a given GUID.
+      operationId: deleteBomLineBom
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: bomLineGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Delete Item Bom Result
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /items/{itemGuid}/bom/{bomLineGuid}/substitutes/{substituteGuid}:
+    get:
+      tags:
+      - Item Bom
+      summary: Retrieve detailed information of the specified substitute
+      description: Returns a BOM Substitute object with a given GUID, the immediate child of an assembly with a given GUID.
+      operationId: getBomSubstitute
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: bomLineGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: substituteGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BomSubstituteVo'
+    put:
+      tags:
+      - Item Bom
+      summary: Update information of the specified substitute
+      description: 'Edits an existing BOM Substitute for an item with a given GUID.
+
+
+        Only the working revision of the parent Item can be modified with BOM Substitutes.
+
+        Items must be released to be specified as a substitute.
+
+        BOM Substitutes can be superseded revisions of the child Item.
+
+        Existing BOM Substitutes cannot be added again to the same BOM Line.
+
+
+        rank is a positive integer between one and the total number of substitutes.
+
+        If the user specifies a rank that already exists, the new BOM Substitute will be assigned that rank and the ranks of all other substitutes with a higher rank value (including the BOM Substitute that previously had the specified rank value) will be incremented by one.
+
+        If rank is not specified, it is set to the last rank.'
+      operationId: updateBomSubstitute
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: bomLineGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: substituteGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BomSubstituteUpdateVo'
+            example:
+              notes: A substitute
+              quantity: 2
+              rank: 2
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BomSubstituteVo'
+    delete:
+      tags:
+      - Item Bom
+      summary: Delete the specified substitute
+      description: Deletes a BOM Substitute with a BOM Line.
+      operationId: deleteBomLineBomSubstitute
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: bomLineGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: substituteGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Delete Item Bom Substitute Result
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /items/{itemGuid}/bom/settings:
+    get:
+      tags:
+      - Item Bom
+      summary: Retrieve BOM settings of the item
+      description: 'Returns BOM Settings for the BOM of an Item with a given GUID.
+
+
+        The two settings available for BOMs are:
+
+        •automaticallyGenerateLineNumbers (true/false)
+
+        •checkReferenceDesignators (true/false)'
+      operationId: getBomSettings
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BomSettingVo'
+    put:
+      tags:
+      - Item Bom
+      summary: Update BOM settings of the item
+      description: 'Updates BOM Settings for the BOM of an Item with a given GUID.
+
+
+        You can edit one or both of the following settings with the same request:
+
+        •automaticallyGenerateLineNumbers
+
+        •checkReferenceDesignators'
+      operationId: updateBomSettings
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BomSettingVo'
+            example:
+              automaticallyGenerateLineNumbers: true
+              checkReferenceDesignators: true
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BomSettingVo'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/bom:
+    get:
+      tags:
+      - Item Bom
+      summary: Retrieve the BOM (Bill of Materials) collection of the item
+      description: Returns an array of BOM Line objects, the immediate children of an assembly with a given GUID (with no filters.)
+      operationId: getBom
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: includeAdditionalAttributes
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemBomVoResultRep'
+    post:
+      tags:
+      - Item Bom
+      summary: Add new BOM line for the item
+      description: Creates a new BOM Line for an item with a given GUID. A BOMLine consists of an item and the reference designator, quantity, and notes that appear on its line in a BOM.
+      operationId: createBomLine
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemBomCreateVo'
+            examples:
+              Without Additional Attribute:
+                description: Without Additional Attribute
+                value:
+                  refDes: R13-R15
+                  quantity: 3
+                  notes: BOM Notes
+                  item:
+                    guid: M4O7LIMOZGZ7Q4C38XT3
+              With Additional Attribute:
+                description: With Additional Attribute
+                value:
+                  additionalAttributes:
+                  - guid: CUEXB8CEP6N5O7Q9SA80
+                    value: Shipped
+                  refDes: R43-R45
+                  quantity: 3
+                  notes: BOM Notes
+                  item:
+                    guid: BTDWA7BDO5OWFT1SXM7A
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemBomVo'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/bom/{bomLineGuid}/substitutes:
+    get:
+      tags:
+      - Item Bom
+      summary: Retrieve the substitute collection of the specified BOM line
+      description: Returns a BOM Substitute object with a given GUID, the immediate child of an assembly with a given GUID.
+      operationId: getBomSubstitutes
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: bomLineGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BomSubstituteVoResultRep'
+    post:
+      tags:
+      - Item Bom
+      summary: Add substitutes for the BOM line
+      description: 'Creates a new BOM Substitute for an item with a given GUID.
+
+
+        Only the working revision of the parent Item can be modified with BOM Substitutes.
+
+        Items must be released to be specified as a substitute.
+
+        BOM Substitutes can be superseded revisions of the child Item.
+
+        Existing BOM Substitutes cannot be added again to the same BOM Line.
+
+
+        rank is a positive integer between one and the total number of substitutes.
+
+        If the user specifies a rank that already exists, the new BOM Substitute will be assigned that rank and the ranks of all other substitutes with a higher rank value (including the BOM Substitute that previously had the specified rank value) will be incremented by one.
+
+        If rank is not specified in the POST, it is set to the last rank.'
+      operationId: createBomSubstitute
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: bomLineGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BomSubstituteCreateVo'
+            example:
+              item:
+                guid: SAUDROSU5M5DWB81JCNJ
+              notes: A substitute
+              quantity: 1
+              rank: 2
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BomSubstituteVo'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    ItemShortWithoutUrlVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        revisionNumber:
+          type: string
+        revisionStatus:
+          type: string
+    UrlVo:
+      type: object
+      properties:
+        api:
+          type: string
+        app:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    ItemBomVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        item:
+          $ref: '#/components/schemas/ItemShortVo'
+        lineNumber:
+          type: number
+          format: double
+        notes:
+          type: string
+        quantity:
+          type: number
+          format: double
+        refDes:
+          type: string
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCompactVo'
+    ItemBomCreateVo:
+      type: object
+      properties:
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCreateVo'
+        refDes:
+          type: string
+        quantity:
+          type: number
+          format: double
+        notes:
+          type: string
+        item:
+          $ref: '#/components/schemas/SingleGuidVo'
+    ItemBomUpdateVo:
+      type: object
+      properties:
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCreateVo'
+        refDes:
+          type: string
+        quantity:
+          type: number
+          format: double
+        notes:
+          type: string
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    ItemBomWithSubstituteVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        item:
+          $ref: '#/components/schemas/ItemShortVo'
+        lineNumber:
+          type: number
+          format: double
+        notes:
+          type: string
+        quantity:
+          type: number
+          format: double
+        refDes:
+          type: string
+        substitutes:
+          type: array
+          items:
+            $ref: '#/components/schemas/BomSubstituteVo'
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCompactVo'
+    BomSubstituteVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/BomSubstituteVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    AdditionalAttributeCompactVo:
+      type: object
+      properties:
+        apiName:
+          type: string
+        fieldType:
+          type: string
+          enum:
+          - SINGLE_LINE_TEXT
+          - MULTI_LINE_TEXT
+          - DROP_DOWN
+          - FIXED_DROP_DOWN
+          - DATE
+          - NUMBER
+          - BOOLEAN
+          - INTEGER
+          - OBJECT
+          - POSITIVE_DOUBLE
+          - POSITIVE_INTEGER
+          - RICH_TEXT
+          - GUID
+          - DATETIME
+          - COST
+          - LIST
+          - ENUM
+        guid:
+          type: string
+        multiSelect:
+          type: boolean
+        name:
+          type: string
+        value: {}
+    AdditionalAttributeCreateVo:
+      type: object
+      properties:
+        name:
+          type: string
+        guid:
+          type: string
+        value: {}
+    BomSubstituteUpdateVo:
+      type: object
+      properties:
+        notes:
+          type: string
+        quantity:
+          type: number
+          format: double
+        rank:
+          type: integer
+          format: int32
+    BomSubstituteVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        item:
+          $ref: '#/components/schemas/ItemShortWithoutUrlVo'
+        notes:
+          type: string
+        quantity:
+          type: number
+          format: double
+        rank:
+          type: integer
+          format: int32
+    BomSubstituteCreateVo:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/SingleGuidVo'
+        notes:
+          type: string
+        quantity:
+          type: number
+          format: double
+        rank:
+          type: integer
+          format: int32
+    ItemBomVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemBomWithSubstituteVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    BomSettingVo:
+      type: object
+      properties:
+        automaticallyGenerateLineNumbers:
+          type: boolean
+        checkReferenceDesignators:
+          type: boolean
+    ItemShortVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        revisionNumber:
+          type: string
+        revisionStatus:
+          type: string
+        url:
+          $ref: '#/components/schemas/UrlVo'
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

@@ -1,0 +1,478 @@
+openapi: 3.2.0
+info:
+  title: Ptc Quality Process API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged QualityProcess across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: QualityProcess
+  description: 'Core quality process operations: search, create, update, delete, summary, status, steps, and affected objects.'
+paths:
+  /qualityprocesses/{qualityprocessGuid}:
+    get:
+      tags:
+      - QualityProcess
+      summary: Get details of a specific quality process
+      description: Returns a Quality Process object with a specific GUID.
+      operationId: getQuality
+      parameters:
+      - name: qualityprocessGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityProcessVoResultRep'
+    put:
+      tags:
+      - QualityProcess
+      summary: Update an existing quality process
+      description: Updates the metadata of a Quality Process object with a given GUID.
+      operationId: updateQuality
+      parameters:
+      - name: qualityprocessGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QualityProcessUpdateVo'
+            example:
+              description: New Quality Process with updated name
+              name: New Process Introduction
+              owner:
+                guid: ASCV96ACN4L4N6P8BG6H
+              targetCompletionDateTime: '2022-12-05T20:40:29Z'
+              type: Manufacturing
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityProcessVo'
+    delete:
+      tags:
+      - QualityProcess
+      summary: Delete a specific quality process
+      description: 'Deletes a Quality Process with a given GUID.
+
+
+        NOTES:
+
+        Any full user can delete a Quality Process via the API. This differs from the Arena application, in which users must be the owner of the process or an Account Administrator to delete a Quality Process.'
+      operationId: deleteQuality
+      parameters:
+      - name: qualityprocessGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /qualityprocesses:
+    get:
+      tags:
+      - QualityProcess
+      summary: Search for quality processes using filters like number, name, or owner
+      description: Returns a collection of Quality Process objects matching the given search criteria.
+      operationId: getQualityProcesses
+      parameters:
+      - name: number
+        in: query
+        description: quality number
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: quality name
+        schema:
+          type: string
+      - name: description
+        in: query
+        description: quality description
+        schema:
+          type: string
+      - name: template.guid
+        in: query
+        description: template guid
+        schema:
+          type: string
+      - name: type
+        in: query
+        description: quality type
+        schema:
+          type: string
+      - name: owner.fullName
+        in: query
+        description: owner fullName
+        schema:
+          type: string
+      - name: owner.guid
+        in: query
+        description: owner guid
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: status
+        schema:
+          type: string
+      - name: creator.fullName
+        in: query
+        description: creator fullName
+        schema:
+          type: string
+      - name: creator.guid
+        in: query
+        description: creator guid
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: query result offset (default 0)
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: query result limit (default 20, max 400)
+        schema:
+          type: integer
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityProcessVoResultRep'
+    post:
+      tags:
+      - QualityProcess
+      summary: Create a new quality process
+      description: 'Creates a new Quality Process.
+
+
+        NOTES:
+
+        1. If no default owner is specified for the template, you must include the GUID of an eligible owner. Otherwise, the Create Quality Process endpoint will return an error. Find eligible owners using the Get Quality Process Owners endpoint.
+
+        2. To create a new number for the Quality Process, the API requires that you pass the GUID for the number format prefix only. The rest of the number is autogenerated.'
+      operationId: createQuality
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QualityProcessCreateVo'
+            example:
+              description: New Quality Process
+              name: New Process Introduction
+              targetCompletionDateTime: '2020-12-05T20:40:29Z'
+              owner:
+                guid: J1L4IFJLWDUDWFYHPRYT
+              template:
+                guid: K2M5JGKMXEXTCVEXVCSP
+                numberFormat:
+                  prefix:
+                    guid: XFZIWTXZAR9TCVEXFR8C
+              type: Design
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityProcessVo'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    QualityNumberFormatCreateVo:
+      type: object
+      properties:
+        prefix:
+          $ref: '#/components/schemas/SingleGuidVo'
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    QualityProcessCreateTemplateVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        numberFormat:
+          $ref: '#/components/schemas/QualityNumberFormatCreateVo'
+    QualityProcessUpdateVo:
+      type: object
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+        targetCompletionDateTime:
+          type: string
+        owner:
+          $ref: '#/components/schemas/SingleGuidVo'
+        type:
+          type: string
+        qualityProcessNotes:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    CurrentStepVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    QualityProcessVoFullResultRep:
+      type: object
+      properties:
+        canceledDateTime:
+          type: string
+        completedDateTime:
+          type: string
+        creationDateTime:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        currentStep:
+          $ref: '#/components/schemas/CurrentStepVo'
+        description:
+          type: string
+        guid:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        owner:
+          $ref: '#/components/schemas/UserCompactVo'
+        qualityProcessNotes:
+          type: string
+        status:
+          type: string
+        statusComments:
+          type: string
+        sequenceMode:
+          type: string
+        targetCompletionDateTime:
+          type: string
+        template:
+          $ref: '#/components/schemas/TemplateCompactVo'
+        type:
+          type: string
+        targetDateComments:
+          type: string
+    QualityProcessVo:
+      type: object
+      properties:
+        canceledDateTime:
+          type: string
+        completedDateTime:
+          type: string
+        creationDateTime:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        currentStep:
+          $ref: '#/components/schemas/CurrentStepVo'
+        description:
+          type: string
+        guid:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        owner:
+          $ref: '#/components/schemas/UserCompactVo'
+        qualityProcessNotes:
+          type: string
+        status:
+          type: string
+        statusComments:
+          type: string
+        statusMode:
+          type: string
+        targetCompletionDateTime:
+          type: string
+        template:
+          $ref: '#/components/schemas/TemplateCompactVo'
+        type:
+          type: string
+        targetDateComments:
+          type: string
+    QualityProcessVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/QualityProcessVoFullResultRep'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    TemplateCompactVo:
+      type: object
+      properties:
+        active:
+          type: boolean
+        guid:
+          type: string
+    QualityProcessCreateVo:
+      type: object
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+        targetCompletionDateTime:
+          type: string
+        owner:
+          $ref: '#/components/schemas/SingleGuidVo'
+        template:
+          $ref: '#/components/schemas/QualityProcessCreateTemplateVo'
+        type:
+          type: string
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

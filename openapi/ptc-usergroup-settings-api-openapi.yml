@@ -1,0 +1,889 @@
+openapi: 3.2.0
+info:
+  title: Ptc UserGroup Settings API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged UserGroup Settings across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: UserGroup Settings
+  description: Manage settings for user groups (Groups, Users, Employees, Partners).
+paths:
+  /settings/usergroups/{userGroupGuid}:
+    get:
+      tags:
+      - UserGroup Settings
+      summary: Get details of a specific user group
+      operationId: getUserGroup
+      parameters:
+      - name: userGroupGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserGroupFullVo'
+    put:
+      tags:
+      - UserGroup Settings
+      summary: Update an existing user group
+      operationId: updateUserGroup
+      parameters:
+      - name: setnull
+        in: query
+        schema:
+          type: boolean
+      - name: userGroupGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserGroupUpdateRequestVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserGroupFullVo'
+    delete:
+      tags:
+      - UserGroup Settings
+      summary: Delete a user group
+      operationId: deleteUserGroup
+      parameters:
+      - name: userGroupGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Delete User Group Result
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /settings/usergroups:
+    get:
+      tags:
+      - UserGroup Settings
+      summary: List all user groups
+      operationId: getUserGroups
+      parameters:
+      - name: name
+        in: query
+        description: user group name
+        schema:
+          type: string
+      - name: enabled
+        in: query
+        description: user group enabled
+        schema:
+          type: boolean
+      - name: offset
+        in: query
+        description: query result offset (default 0)
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: query result limit (default 20, max 400)
+        schema:
+          type: integer
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserGroupFullResultRep'
+    post:
+      tags:
+      - UserGroup Settings
+      summary: Create a new user group
+      operationId: createUserGroup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserGroupCreateRequestVo'
+            example:
+              name: Admin Group
+              description: Group for administrative users
+              enabled: true
+              assignability:
+              - QUALITY
+              - CHANGES
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserGroupFullVo'
+    servers:
+    - url: /v1
+  /settings/usergroups/{userGroupGuid}/accesspolicies:
+    get:
+      tags:
+      - UserGroup Settings
+      summary: List access policies assigned to a user group
+      operationId: getPoliciesInUserGroup
+      parameters:
+      - name: userGroupGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GrantedPolicyVoResultRep'
+    post:
+      tags:
+      - UserGroup Settings
+      summary: Assign an access policy to a user group
+      operationId: assignPolicyToUserGroup
+      parameters:
+      - name: userGroupGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PolicyAssignRequestVo'
+            example:
+              accessPolicy:
+                guid: YG0JOEDVY7QM5O7QFM84
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GrantedPolicyVo'
+    servers:
+    - url: /v1
+  /settings/usergroups/{userGroupGuid}/users:
+    get:
+      tags:
+      - UserGroup Settings
+      summary: List users in a user group
+      description: 'Returns users of a specific User Group.
+
+
+        Include a user GUID to return information on the corresponding user if they are part of the specified user group.
+
+        This endpoint can only be used in Access Policies enabled workspaces.'
+      operationId: getUserGroupUsers
+      parameters:
+      - name: email
+        in: query
+        schema:
+          type: string
+      - name: firstName
+        in: query
+        schema:
+          type: string
+      - name: lastName
+        in: query
+        schema:
+          type: string
+      - name: fullName
+        in: query
+        schema:
+          type: string
+      - name: enabled
+        in: query
+        schema:
+          type: boolean
+      - name: type
+        in: query
+        schema:
+          type: string
+      - name: userGroupGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupMemberVoResultRep'
+    servers:
+    - url: /v1
+  /settings/usergroups/{userGroupGuid}/users/{userGuid}:
+    get:
+      tags:
+      - UserGroup Settings
+      summary: Get details of a specific user in a group
+      description: 'Returns a specific user of a specific User Group.
+
+        This endpoint can only be used in Access Policies enabled workspaces.'
+      operationId: getUserGroupUser
+      parameters:
+      - name: userGroupGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: userGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupMemberVo'
+    servers:
+    - url: /v1
+  /settings/usergroups/{userGroupGuid}/partners:
+    get:
+      tags:
+      - UserGroup Settings
+      summary: List partners in a user group
+      description: 'Returns a list of partner users in a specific User Group.
+
+        This endpoint can only be used in Access Policies enabled workspaces.'
+      operationId: getUserGroupPartners
+      parameters:
+      - name: userGroupGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupMemberVoResultRep'
+    servers:
+    - url: /v1
+  /settings/usergroups/{userGroupGuid}/partners/{userGuid}:
+    get:
+      tags:
+      - UserGroup Settings
+      summary: Get details of a specific partner in a group
+      description: 'Returns a partner user of a specific User Group.
+
+        This endpoint can only be used in Access Policies enabled workspaces.'
+      operationId: getUserGroupPartner
+      parameters:
+      - name: userGroupGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: userGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupMemberVo'
+    servers:
+    - url: /v1
+  /settings/usergroups/{userGroupGuid}/machines:
+    get:
+      tags:
+      - UserGroup Settings
+      summary: List machine users in a user group
+      description: 'Returns a list of machine users in a specific User Group.
+
+        This endpoint can only be used in Access Policies enabled workspaces.'
+      operationId: getMachineUsers
+      parameters:
+      - name: userGroupGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupMemberVoResultRep'
+    servers:
+    - url: /v1
+  /settings/usergroups/{userGroupGuid}/machines/{userGuid}:
+    get:
+      tags:
+      - UserGroup Settings
+      summary: Get details of a specific machine user in a group
+      description: 'Returns a machine user of a specific User Group.
+
+        This endpoint can only be used in Access Policies enabled workspaces.'
+      operationId: getUserGroupMachineUser
+      parameters:
+      - name: userGroupGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: userGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupMemberVo'
+    servers:
+    - url: /v1
+  /settings/usergroups/{userGroupGuid}/employees:
+    get:
+      tags:
+      - UserGroup Settings
+      summary: List employees in a user group
+      description: 'Returns a list of employees in a specific User Group.
+
+        This endpoint can only be used in Access Policies enabled workspaces.'
+      operationId: getUserGroupEmployees
+      parameters:
+      - name: userGroupGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupMemberVoResultRep'
+    servers:
+    - url: /v1
+  /settings/usergroups/{userGroupGuid}/employees/{userGuid}:
+    get:
+      tags:
+      - UserGroup Settings
+      summary: Get details of a specific employee in a group
+      description: 'Returns an employee user of a specific User Group.
+
+        This endpoint can only be used in Access Policies enabled workspaces.'
+      operationId: getUserGroupEmployee
+      parameters:
+      - name: userGroupGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: userGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupMemberVo'
+    servers:
+    - url: /v1
+  /settings/usergroups/{userGroupGuid}/accesspolicies/{grantGuid}:
+    get:
+      tags:
+      - UserGroup Settings
+      summary: Get details of a specific access policy in a group
+      operationId: getPolicyInUserGroup
+      parameters:
+      - name: userGroupGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: grantGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GrantedPolicyVo'
+    delete:
+      tags:
+      - UserGroup Settings
+      summary: Remove an access policy from a user group
+      operationId: deAssignPolicyFromUserGroup
+      parameters:
+      - name: userGroupGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: grantGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Disassociate User Group Access Policy Result
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+components:
+  schemas:
+    UserGroupFullResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserGroupFullVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    PolicyAssignRequestVo:
+      type: object
+      properties:
+        accessPolicy:
+          $ref: '#/components/schemas/AccessPolicy'
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    UserGroupCreateRequestVo:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        assignability:
+          type: array
+          items:
+            type: string
+            enum:
+            - QUALITY
+            - ACCESS_POLICIES
+            - TRAINING
+            - CHANGES
+    GrantedPolicyVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GrantedPolicyVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    PolicyResponseVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+    UserGroupFullVo:
+      type: object
+      properties:
+        assignability:
+          type: array
+          items:
+            type: string
+        creationDateTime:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        description:
+          type: string
+        enabled:
+          type: boolean
+        guid:
+          type: string
+        lastModifiedDateTime:
+          type: string
+        modifiedBy:
+          $ref: '#/components/schemas/UserCompactVo'
+        name:
+          type: string
+    UserFullVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        fullName:
+          type: string
+        email:
+          type: string
+        type:
+          type: string
+        enabled:
+          type: boolean
+    GrantedPolicyVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        accessPolicy:
+          $ref: '#/components/schemas/PolicyResponseVo'
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    UserGroupUpdateRequestVo:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        assignability:
+          type: array
+          items:
+            type: string
+            enum:
+            - QUALITY
+            - ACCESS_POLICIES
+            - TRAINING
+            - CHANGES
+    GroupMemberVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserFullVo'
+    GroupMemberVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GroupMemberVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    AccessPolicy:
+      type: object
+      properties:
+        guid:
+          type: string
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

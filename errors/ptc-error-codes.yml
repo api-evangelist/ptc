@@ -1,0 +1,51 @@
+name: PTC Arena REST API errors
+generated: '2026-10-20'
+method: searched
+source: https://ptc-arena.github.io/arena-dev-help/error-codes/errors/
+api: Arena PLM REST API
+format: json
+envelope: '{"status": <http status>, "errors": [{"code": <arena error code>, "message":
+  <text>}]} (observed on an unauthenticated 401 from api.arenasolutions.com)'
+docs:
+- https://ptc-arena.github.io/arena-dev-help/error-codes/error_code_0_to_2999/
+- https://ptc-arena.github.io/arena-dev-help/error-codes/error_code_3000_to_3299/
+- https://ptc-arena.github.io/arena-dev-help/error-codes/error_code_3300_to_3999/
+- https://ptc-arena.github.io/arena-dev-help/error-codes/error_code_4000_to_4999/
+- https://ptc-arena.github.io/arena-dev-help/error-codes/error_code_5000_to_5999/
+- https://ptc-arena.github.io/arena-dev-help/error-codes/error_code_6000_to_Beyond/
+problems:
+- status: 400
+  title: Bad request
+  description: Bad request - syntax error in the request
+  remediation: Include endpoint, request JSON, response code/body, workspace ID and
+    user email when opening a ticket.
+- status: 401
+  title: Unauthorized
+  description: Unauthorized - valid access token required but not specified
+  remediation: Include endpoint, request JSON, response code/body, workspace ID and
+    user email when opening a ticket.
+- status: 403
+  title: Forbidden
+  description: Forbidden - user doesn’t have proper privileges
+  remediation: Include endpoint, request JSON, response code/body, workspace ID and
+    user email when opening a ticket.
+- status: 404
+  title: Resource not found
+  description: Resource not found - endpoint not supported
+  remediation: Include endpoint, request JSON, response code/body, workspace ID and
+    user email when opening a ticket.
+- status: 409
+  title: Item number already exists
+  description: Item number already exists - duplicate item numbers not allowed
+  remediation: Include endpoint, request JSON, response code/body, workspace ID and
+    user email when opening a ticket.
+- status: 415
+  title: Unsupported media type
+  description: Unsupported media type - no or wrong content-type specified
+  remediation: Include endpoint, request JSON, response code/body, workspace ID and
+    user email when opening a ticket.
+- status: 429
+  title: Too many requests
+  description: Too many requests - maximum API request limit reached for 24-hour period
+  remediation: Include endpoint, request JSON, response code/body, workspace ID and
+    user email when opening a ticket.

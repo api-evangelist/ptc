@@ -1,0 +1,606 @@
+openapi: 3.2.0
+info:
+  title: Ptc Request File API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Request File across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Request File
+  description: Manage file associations and file markups for requests.
+paths:
+  /requests/{requestGuid}/markupfiles:
+    get:
+      tags:
+      - Request File
+      summary: List all markup files attached to a request
+      description: Returns a collection of Markup Files associated with a specific Request.
+      operationId: getRequestMarkupFileAssociations
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestMarkupVoResultRep'
+    post:
+      tags:
+      - Request File
+      summary: Create a markup file for a specific request
+      description: Creates a Request File Markup File object.
+      operationId: createRequestMarkupFileAssociation
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestMarkupCreateVo'
+            example:
+              markup:
+                guid: BTDWFNNCGBUATCV4S9NX
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestMarkupVo'
+    servers:
+    - url: /v1
+  /requests/{requestGuid}/files:
+    get:
+      tags:
+      - Request File
+      summary: List all files attached to a request
+      description: Returns a list of files for a Request with a given GUID.
+      operationId: getRequestFileAssociations
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationVoResultRep'
+    post:
+      tags:
+      - Request File
+      summary: Attach a new file to a request
+      description: Associates an existing File Association object with the Files view of a Request with a given GUID.
+      operationId: createRequestFileAssociation
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileAssociationCreateVo'
+            example:
+              file:
+                guid: WEYH088X1WFVEXGPDU97
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationVo'
+    servers:
+    - url: /v1
+  /requests/{requestGuid}/markupfiles/{requestFileAssociationGuid}:
+    get:
+      tags:
+      - Request File
+      summary: Get details of a specific markup file
+      description: Returns a Request File Markup object with a given GUID. This is the latest edition of the File.
+      operationId: getRequestMarkupFileAssociation
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: requestFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestMarkupVo'
+    delete:
+      tags:
+      - Request File
+      summary: Delete a request markup file
+      description: Deletes a Request File Markup with a given GUID. When a File has more than one Markup, only the latest, unlocked edition can be deleted--to delete an entire file, repeat the DELETE request for all editions.
+      operationId: removeRequestMarkupFileAssociation
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: requestFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /requests/{requestGuid}/files/{requestFileAssociationGuid}:
+    get:
+      tags:
+      - Request File
+      summary: Get details of a specific file attached to a request
+      description: Returns a specific Request-File association with a given GUID from the Files view of a specific Request with a given GUID.
+      operationId: getRequestFileAssociation
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: requestFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationVo'
+    delete:
+      tags:
+      - Request File
+      summary: Remove a file from a request
+      description: Removes a File association from the Files view of a Request with a given GUID.
+      operationId: removeRequestFileAssociation
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: requestFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+components:
+  schemas:
+    RequestMarkupCreateVo:
+      type: object
+      properties:
+        markup:
+          $ref: '#/components/schemas/SingleGuidVo'
+    FileAssociationCreateVo:
+      type: object
+      properties:
+        file:
+          $ref: '#/components/schemas/SingleGuidVo'
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    RequestMarkupVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequestMarkupVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    GoogleDocsVo:
+      type: object
+      properties:
+        authorEmail:
+          type: string
+        creationDate:
+          type: string
+        driveId:
+          type: string
+        fileId:
+          type: string
+        fileName:
+          type: string
+        lastEditors:
+          type: array
+          items:
+            type: string
+        modifiedDate:
+          type: string
+        originalAuthor:
+          type: string
+        size:
+          type: integer
+          format: int64
+        version:
+          type: string
+        webUrl:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    FileMarkupDetailVo:
+      type: object
+      properties:
+        category:
+          $ref: '#/components/schemas/CategoryCompactVo'
+        author:
+          $ref: '#/components/schemas/UserCompactVo'
+        creationDateTime:
+          type: string
+        format:
+          type: string
+        guid:
+          type: string
+        lastModifiedDateTime:
+          type: string
+        location:
+          type: string
+        mimeType:
+          type: string
+        name:
+          type: string
+        size:
+          type: integer
+          format: int64
+        haveContent:
+          type: boolean
+        storageMethodName:
+          type: string
+        title:
+          type: string
+        locked:
+          type: boolean
+    FileDetailMarkupOfVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+        edition:
+          type: string
+        author:
+          $ref: '#/components/schemas/FileAuthorVo'
+    FileAssociationVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileAssociationVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    FileAuthorVo:
+      type: object
+      properties:
+        fullName:
+          type: string
+    FileDetailVo:
+      type: object
+      description: File metadata information
+      properties:
+        author:
+          $ref: '#/components/schemas/FileAuthorVo'
+        category:
+          $ref: '#/components/schemas/FileCategoryVo'
+        checkedOut:
+          type: boolean
+        checkoutDateTime:
+          type: string
+        corrected:
+          type: boolean
+        creationDateTime:
+          type: string
+        description:
+          type: string
+        edition:
+          type: string
+        format:
+          type: string
+        guid:
+          type: string
+        hasMarkup:
+          type: boolean
+        haveContent:
+          type: boolean
+        lastModifiedDateTime:
+          type: string
+        latest:
+          type: boolean
+        location:
+          type: string
+        locked:
+          type: boolean
+        microsoft365:
+          $ref: '#/components/schemas/Microsoft365Vo'
+        googleDocs:
+          $ref: '#/components/schemas/GoogleDocsVo'
+        mimeType:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        size:
+          type: integer
+          format: int64
+        storageMethodName:
+          type: string
+        title:
+          type: string
+        private:
+          type: boolean
+    Microsoft365Vo:
+      type: object
+      properties:
+        authorEmail:
+          type: string
+        creationDate:
+          type: string
+        driveId:
+          type: string
+        fileId:
+          type: string
+        fileName:
+          type: string
+        lastEditors:
+          type: array
+          items:
+            type: string
+        modifiedDate:
+          type: string
+        originalAuthor:
+          type: string
+        siteId:
+          type: string
+        size:
+          type: integer
+          format: int64
+        version:
+          type: string
+        webUrl:
+          type: string
+    CategoryCompactVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        path:
+          type: string
+    RequestMarkupVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        markup:
+          $ref: '#/components/schemas/FileMarkupDetailVo'
+        markupOf:
+          $ref: '#/components/schemas/FileDetailMarkupOfVo'
+        reserved:
+          type: boolean
+    FileAssociationVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        file:
+          $ref: '#/components/schemas/FileDetailVo'
+    FileCategoryVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

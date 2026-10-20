@@ -1,0 +1,9 @@
+name: PTC agent skills
+generated: '2026-10-20'
+method: generated
+source: openapi/ptc-arena-openapi.yml
+skills:
+- name: arena-item-bom
+  file: skills/ptc-arena-item-bom.md
+- name: arena-change-order
+  file: skills/ptc-arena-change-order.md

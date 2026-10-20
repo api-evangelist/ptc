@@ -1,0 +1,770 @@
+openapi: 3.2.0
+info:
+  title: Ptc Extract API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Extract across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Extract
+  description: Manage extract definitions and runs, including files and content.
+paths:
+  /extracts/{extractGuid}/runs:
+    get:
+      tags:
+      - Extract
+      summary: List all runs for a specific extract
+      description: 'Returns Extract Run objects for an extract with a given GUID. Appending a run GUID returns the run with that GUID.
+
+
+        When a Data Extract file is generated, only users listed in the Owners field can access the Extract ZIP file. API users must also be listed as owners to access the file, even if they initiated the extract.'
+      operationId: getRuns
+      parameters:
+      - name: extractGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepRunVo'
+    post:
+      tags:
+      - Extract
+      summary: Start a new extract run
+      description: 'Allows a user or a machine to run a DataExtract through Arena’s API. Creates an Extract Run object for a run with a given GUID for an extract with a given GUID.
+
+
+        When a Data Extract file is generated, only users listed in the Owners field can access the Extract ZIP file. API users must also be listed as owners to access the file, even if they initiated the extract.'
+      operationId: createRun
+      parameters:
+      - name: extractGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RunVo'
+    servers:
+    - url: /v1
+  /extracts:
+    get:
+      tags:
+      - Extract
+      summary: Search for extract definitions using filters like name or creator
+      description: 'Returns a collection of Extract objects (but not the extract run content) matching the given search criteria.
+
+
+        When a Data Extract file is generated, only users listed in the Owners field can access the Extract ZIP file. API users must also be listed as owners to access the file, even if they initiated the extract.'
+      operationId: list
+      parameters:
+      - name: name
+        in: query
+        description: extract name
+        schema:
+          type: string
+      - name: enabled
+        in: query
+        description: extract enabled flag
+        schema:
+          type: boolean
+      - name: creator.fullName
+        in: query
+        description: Integration user setup the extract
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: query result offset (default 0)
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: query result limit (default 20, max 400)
+        schema:
+          type: integer
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExtractVoResultRep'
+    servers:
+    - url: /v1
+  /extracts/{extractGuid}:
+    get:
+      tags:
+      - Extract
+      summary: Get details of a specific extract definition
+      description: 'Returns a single Extract object (but not the extract run content) for an extract with a given GUID.
+
+
+        When a Data Extract file is generated, only users listed in the Owners field can access the Extract ZIP file. API users must also be listed as owners to access the file, even if they initiated the extract.'
+      operationId: getExtract
+      parameters:
+      - name: extractGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ExtractVo'
+    servers:
+    - url: /v1
+  /extracts/{extractGuid}/runs/{runGuid}:
+    get:
+      tags:
+      - Extract
+      summary: Get details of a specific extract run
+      description: 'Returns an Extract Run object for a run with a given GUID for an extract with a given GUID.
+
+
+        When a Data Extract file is generated, only users listed in the Owners field can access the Extract ZIP file. API users must also be listed as owners to access the file, even if they initiated the extract.'
+      operationId: getRunExtract
+      parameters:
+      - name: extractGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: runGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RunVo'
+    servers:
+    - url: /v1
+  /extracts/{extractGuid}/runs/{runGuid}/files:
+    get:
+      tags:
+      - Extract
+      summary: List all files generated by a specific extract run
+      description: 'Returns Extract Run File Association objects for a run with a given GUID of an extract with a given GUID. Appending a file association GUID returns the file association with that GUID.
+
+
+        When a Data Extract file is generated, only users listed in the Owners field can access the Extract ZIP file. API users must also be listed as owners to access the file, even if they initiated the extract.'
+      operationId: getRunFileAssociations
+      parameters:
+      - name: extractGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: runGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunFileAssociationVoResultRep'
+    servers:
+    - url: /v1
+  /extracts/{extractGuid}/runs/{runGuid}/files/{runFileAssociationGuid}:
+    get:
+      tags:
+      - Extract
+      summary: Get details of a specific file from an extract run
+      description: 'Returns an Extract Run File Association object with a given GUID for a run with a given GUID of an extract with a given GUID.
+
+
+        When a Data Extract file is generated, only users listed in the Owners field can access the Extract ZIP file. API users must also be listed as owners to access the file, even if they initiated the extract.'
+      operationId: getRunFileAssociation
+      parameters:
+      - name: extractGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: runGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: runFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunFileAssociationVo'
+    servers:
+    - url: /v1
+  /extracts/{extractGuid}/runs/{runGuid}/files/{runFileAssociationGuid}/content:
+    get:
+      tags:
+      - Extract
+      summary: Download the content of a file from an extract run
+      description: 'Returns file content from a run file association with a given GUID.
+
+
+        When a Data Extract file is generated, only users listed in the Owners field can access the Extract ZIP file. API users must also be listed as owners to access the file, even if they initiated the extract.'
+      operationId: downloadRunFileContent
+      parameters:
+      - name: extractGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: runGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: runFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+    servers:
+    - url: /v1
+  /extracts/{extractGuid}/runs/latestCompleted:
+    get:
+      tags:
+      - Extract
+      summary: Get the most recent completed extract run
+      description: 'Returns a single Extract object (but not the extract run content) for the most recently completed Extract. You can choose to include run file association information in the response. For example:
+
+
+        GET <url>/extracts/<GUID>/runs/latestCompleted?view=withFiles'
+      operationId: getLatestCompletedRun
+      parameters:
+      - name: extractGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: view
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RunVo'
+    servers:
+    - url: /v1
+  /extracts/{extractGuid}/ownerusers:
+    get:
+      tags:
+      - Extract
+      summary: List all users who own or manage a specific extract
+      operationId: getExtractOwnerUsers
+      parameters:
+      - name: extractGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepExtractOwnerUserVo'
+    servers:
+    - url: /v1
+  /extracts/{extractGuid}/ownerusers/{ownerUserGuid}:
+    get:
+      tags:
+      - Extract
+      summary: Get details of a specific extract owner user
+      operationId: getExtractOwnerUser
+      parameters:
+      - name: extractGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: ownerUserGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ExtractOwnerUserVo'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    RunFileVo:
+      type: object
+      properties:
+        downloadDateTime:
+          type: string
+        guid:
+          type: string
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    GoogleDocsVo:
+      type: object
+      properties:
+        authorEmail:
+          type: string
+        creationDate:
+          type: string
+        driveId:
+          type: string
+        fileId:
+          type: string
+        fileName:
+          type: string
+        lastEditors:
+          type: array
+          items:
+            type: string
+        modifiedDate:
+          type: string
+        originalAuthor:
+          type: string
+        size:
+          type: integer
+          format: int64
+        version:
+          type: string
+        webUrl:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    QueryResultRepRunVo:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RunVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ExtractVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        enabled:
+          type: boolean
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        creationDateTime:
+          type: string
+        notifications:
+          type: string
+    RunVo:
+      type: object
+      properties:
+        completionDate:
+          type: string
+        completionDateTime:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        guid:
+          type: string
+        runDateTime:
+          type: string
+        scheduledDateTime:
+          type: string
+        status:
+          type: string
+        type:
+          type: string
+        viewsExtracted:
+          type: integer
+          format: int64
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/RunFileVo'
+    ExtractOwnerUserVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserCompactVo'
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    FileAuthorVo:
+      type: object
+      properties:
+        fullName:
+          type: string
+    QueryResultRepExtractOwnerUserVo:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtractOwnerUserVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    RunFileAssociationVo:
+      type: object
+      properties:
+        file:
+          $ref: '#/components/schemas/FileDetailVo'
+        downloadDateTime:
+          type: string
+        guid:
+          type: string
+    ExtractVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExtractVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    RunFileAssociationVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RunFileAssociationVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    Microsoft365Vo:
+      type: object
+      properties:
+        authorEmail:
+          type: string
+        creationDate:
+          type: string
+        driveId:
+          type: string
+        fileId:
+          type: string
+        fileName:
+          type: string
+        lastEditors:
+          type: array
+          items:
+            type: string
+        modifiedDate:
+          type: string
+        originalAuthor:
+          type: string
+        siteId:
+          type: string
+        size:
+          type: integer
+          format: int64
+        version:
+          type: string
+        webUrl:
+          type: string
+    FileDetailVo:
+      type: object
+      description: File metadata information
+      properties:
+        author:
+          $ref: '#/components/schemas/FileAuthorVo'
+        category:
+          $ref: '#/components/schemas/FileCategoryVo'
+        checkedOut:
+          type: boolean
+        checkoutDateTime:
+          type: string
+        corrected:
+          type: boolean
+        creationDateTime:
+          type: string
+        description:
+          type: string
+        edition:
+          type: string
+        format:
+          type: string
+        guid:
+          type: string
+        hasMarkup:
+          type: boolean
+        haveContent:
+          type: boolean
+        lastModifiedDateTime:
+          type: string
+        latest:
+          type: boolean
+        location:
+          type: string
+        locked:
+          type: boolean
+        microsoft365:
+          $ref: '#/components/schemas/Microsoft365Vo'
+        googleDocs:
+          $ref: '#/components/schemas/GoogleDocsVo'
+        mimeType:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        size:
+          type: integer
+          format: int64
+        storageMethodName:
+          type: string
+        title:
+          type: string
+        private:
+          type: boolean
+    FileCategoryVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

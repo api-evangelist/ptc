@@ -1,0 +1,1280 @@
+{
+  "@context": {
+    "@vocab": "https://ptc.com/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "ptc": "https://ptc.com/schema#",
+    "ErrorObject": "ptc:ErrorObject",
+    "code": {
+      "@id": "ptc:code",
+      "@type": "xsd:integer"
+    },
+    "message": {
+      "@id": "ptc:message",
+      "@type": "xsd:string"
+    },
+    "ErrorResponse": "ptc:ErrorResponse",
+    "status": {
+      "@id": "ptc:status",
+      "@type": "xsd:integer"
+    },
+    "errors": {
+      "@id": "ptc:errors",
+      "@container": "@list"
+    },
+    "TrainingUpdateVo": "ptc:TrainingUpdateVo",
+    "name": {
+      "@id": "ptc:name",
+      "@type": "xsd:string"
+    },
+    "description": {
+      "@id": "ptc:description",
+      "@type": "xsd:string"
+    },
+    "manager": {
+      "@id": "ptc:manager",
+      "@type": "@id"
+    },
+    "daysToComplete": {
+      "@id": "ptc:daysToComplete",
+      "@type": "xsd:integer"
+    },
+    "UserCompactVo": "ptc:UserCompactVo",
+    "email": {
+      "@id": "ptc:email",
+      "@type": "xsd:string"
+    },
+    "fullName": {
+      "@id": "ptc:fullName",
+      "@type": "xsd:string"
+    },
+    "guid": {
+      "@id": "ptc:guid",
+      "@type": "xsd:string"
+    },
+    "TrainingShortVo": "ptc:TrainingShortVo",
+    "number": {
+      "@id": "ptc:number",
+      "@type": "xsd:string"
+    },
+    "creationDateTime": {
+      "@id": "ptc:creationDateTime",
+      "@type": "xsd:string"
+    },
+    "creator": {
+      "@id": "ptc:creator",
+      "@type": "@id"
+    },
+    "AdditionalAttribute": "ptc:AdditionalAttribute",
+    "creatorId": {
+      "@id": "ptc:creatorId",
+      "@type": "xsd:integer"
+    },
+    "mappingId": {
+      "@id": "ptc:mappingId",
+      "@type": "xsd:integer"
+    },
+    "modifierId": {
+      "@id": "ptc:modifierId",
+      "@type": "xsd:integer"
+    },
+    "workspaceId": {
+      "@id": "ptc:workspaceId",
+      "@type": "xsd:integer"
+    },
+    "parentObjectId": {
+      "@id": "ptc:parentObjectId",
+      "@type": "xsd:integer"
+    },
+    "value": {
+      "@id": "ptc:value"
+    },
+    "apiName": {
+      "@id": "ptc:apiName",
+      "@type": "xsd:string"
+    },
+    "fieldType": {
+      "@id": "ptc:fieldType",
+      "@type": "xsd:string"
+    },
+    "plmEntityType": {
+      "@id": "ptc:plmEntityType",
+      "@type": "xsd:string"
+    },
+    "attributeGroupId": {
+      "@id": "ptc:attributeGroupId",
+      "@type": "xsd:integer"
+    },
+    "userInput": {
+      "@id": "ptc:userInput",
+      "@type": "xsd:boolean"
+    },
+    "valueSetToNull": {
+      "@id": "ptc:valueSetToNull",
+      "@type": "xsd:boolean"
+    },
+    "multiSelect": {
+      "@id": "ptc:multiSelect",
+      "@type": "xsd:boolean"
+    },
+    "readableValue": {
+      "@id": "ptc:readableValue",
+      "@type": "xsd:string"
+    },
+    "getGuid": {
+      "@id": "ptc:getGuid",
+      "@type": "xsd:string"
+    },
+    "User": "ptc:User",
+    "id": {
+      "@id": "ptc:id",
+      "@type": "xsd:integer"
+    },
+    "type": {
+      "@id": "ptc:type",
+      "@type": "xsd:string"
+    },
+    "enabled_p": {
+      "@id": "ptc:enabled_p",
+      "@type": "xsd:string"
+    },
+    "defaultValue": {
+      "@id": "ptc:defaultValue"
+    },
+    "enabled": {
+      "@id": "ptc:enabled",
+      "@type": "xsd:string"
+    },
+    "TrainingUserVo": "ptc:TrainingUserVo",
+    "user": {
+      "@id": "ptc:user",
+      "@type": "@id"
+    },
+    "dueDate": {
+      "@id": "ptc:dueDate",
+      "@type": "xsd:string"
+    },
+    "TrainingUserUpdateEntity": "ptc:TrainingUserUpdateEntity",
+    "AdditionalAttributeCreateVo": "ptc:AdditionalAttributeCreateVo",
+    "SingleGuidVo": "ptc:SingleGuidVo",
+    "TicketUpdateVo": "ptc:TicketUpdateVo",
+    "additionalAttributes": {
+      "@id": "ptc:additionalAttributes",
+      "@container": "@list"
+    },
+    "title": {
+      "@id": "ptc:title",
+      "@type": "xsd:string"
+    },
+    "fixVersion": {
+      "@id": "ptc:fixVersion",
+      "@type": "xsd:string"
+    },
+    "foundOn": {
+      "@id": "ptc:foundOn",
+      "@type": "xsd:string"
+    },
+    "assignee": {
+      "@id": "ptc:assignee",
+      "@type": "@id"
+    },
+    "priority": {
+      "@id": "ptc:priority",
+      "@type": "xsd:string"
+    },
+    "AdditionalAttributeCompactVo": "ptc:AdditionalAttributeCompactVo",
+    "TicketStatusVo": "ptc:TicketStatusVo",
+    "TicketTemplateVo": "ptc:TicketTemplateVo",
+    "TicketVo": "ptc:TicketVo",
+    "modifyDateTime": {
+      "@id": "ptc:modifyDateTime",
+      "@type": "xsd:string"
+    },
+    "template": {
+      "@id": "ptc:template",
+      "@type": "@id"
+    },
+    "TemplateHeader": "ptc:TemplateHeader",
+    "active": {
+      "@id": "ptc:active",
+      "@type": "xsd:boolean"
+    },
+    "defaultTemplate": {
+      "@id": "ptc:defaultTemplate",
+      "@type": "xsd:boolean"
+    },
+    "folderName": {
+      "@id": "ptc:folderName",
+      "@type": "xsd:string"
+    },
+    "folderId": {
+      "@id": "ptc:folderId",
+      "@type": "xsd:integer"
+    },
+    "folderSortSeq": {
+      "@id": "ptc:folderSortSeq",
+      "@type": "xsd:integer"
+    },
+    "templateSortSeq": {
+      "@id": "ptc:templateSortSeq",
+      "@type": "xsd:integer"
+    },
+    "VerifyDynamicUpdateSupport": "ptc:VerifyDynamicUpdateSupport",
+    "dirtyFields": {
+      "@id": "ptc:dirtyFields",
+      "@container": "@list"
+    },
+    "customAttributes": {
+      "@id": "ptc:customAttributes",
+      "@container": "@list"
+    },
+    "coreAttributesAsMap": {
+      "@id": "ptc:coreAttributesAsMap"
+    },
+    "customAttributesAsMap": {
+      "@id": "ptc:customAttributesAsMap"
+    },
+    "coreAttributesForDae": {
+      "@id": "ptc:coreAttributesForDae",
+      "@container": "@list"
+    },
+    "customAttributeForDae": {
+      "@id": "ptc:customAttributeForDae",
+      "@container": "@list"
+    },
+    "AddressVo": "ptc:AddressVo",
+    "label": {
+      "@id": "ptc:label",
+      "@type": "xsd:string"
+    },
+    "address1": {
+      "@id": "ptc:address1",
+      "@type": "xsd:string"
+    },
+    "address2": {
+      "@id": "ptc:address2",
+      "@type": "xsd:string"
+    },
+    "city": {
+      "@id": "ptc:city",
+      "@type": "xsd:string"
+    },
+    "state": {
+      "@id": "ptc:state",
+      "@type": "xsd:string"
+    },
+    "province": {
+      "@id": "ptc:province",
+      "@type": "xsd:string"
+    },
+    "postalCode": {
+      "@id": "ptc:postalCode",
+      "@type": "xsd:string"
+    },
+    "country": {
+      "@id": "ptc:country",
+      "@type": "xsd:string"
+    },
+    "PhoneNumberVo": "ptc:PhoneNumberVo",
+    "extension": {
+      "@id": "ptc:extension",
+      "@type": "xsd:string"
+    },
+    "comment": {
+      "@id": "ptc:comment",
+      "@type": "xsd:string"
+    },
+    "SupplierAddressCompactVo": "ptc:SupplierAddressCompactVo",
+    "primary": {
+      "@id": "ptc:primary",
+      "@type": "xsd:boolean"
+    },
+    "address": {
+      "@id": "ptc:address",
+      "@type": "@id"
+    },
+    "SupplierApprovalStatusMinimalVo": "ptc:SupplierApprovalStatusMinimalVo",
+    "SupplierUpdateRequestVo": "ptc:SupplierUpdateRequestVo",
+    "accountNumber": {
+      "@id": "ptc:accountNumber",
+      "@type": "xsd:string"
+    },
+    "addresses": {
+      "@id": "ptc:addresses",
+      "@container": "@list"
+    },
+    "approvalStatusSetting": {
+      "@id": "ptc:approvalStatusSetting",
+      "@type": "@id"
+    },
+    "phoneNumbers": {
+      "@id": "ptc:phoneNumbers",
+      "@container": "@list"
+    },
+    "website": {
+      "@id": "ptc:website",
+      "@type": "xsd:string"
+    },
+    "supplierId": {
+      "@id": "ptc:supplierId",
+      "@type": "xsd:string"
+    },
+    "SupplierApprovalStatusCompactVo": "ptc:SupplierApprovalStatusCompactVo",
+    "SupplierFullVo": "ptc:SupplierFullVo",
+    "approvalStatus": {
+      "@id": "ptc:approvalStatus",
+      "@type": "xsd:string"
+    },
+    "SupplierPhoneNumberCreateVo": "ptc:SupplierPhoneNumberCreateVo",
+    "SupplierPhoneNumberVo": "ptc:SupplierPhoneNumberVo",
+    "SupplierContactShortVo": "ptc:SupplierContactShortVo",
+    "firstNames": {
+      "@id": "ptc:firstNames",
+      "@type": "xsd:string"
+    },
+    "lastName": {
+      "@id": "ptc:lastName",
+      "@type": "xsd:string"
+    },
+    "SupplierContactVo": "ptc:SupplierContactVo",
+    "role": {
+      "@id": "ptc:role",
+      "@type": "xsd:string"
+    },
+    "trainingEnabled": {
+      "@id": "ptc:trainingEnabled",
+      "@type": "xsd:boolean"
+    },
+    "SupplierContactPhoneNumberDetailVo": "ptc:SupplierContactPhoneNumberDetailVo",
+    "UpdateSupplierContactPhoneNumberShortVo": "ptc:UpdateSupplierContactPhoneNumberShortVo",
+    "phoneNumber": {
+      "@id": "ptc:phoneNumber",
+      "@type": "@id"
+    },
+    "SupplierContactPhoneNumberVo": "ptc:SupplierContactPhoneNumberVo",
+    "phoneType": {
+      "@id": "ptc:phoneType",
+      "@type": "xsd:string"
+    },
+    "AddressCreateVo": "ptc:AddressCreateVo",
+    "SupplierAddressCreateVo": "ptc:SupplierAddressCreateVo",
+    "SupplierItemUpdateVo": "ptc:SupplierItemUpdateVo",
+    "uom": {
+      "@id": "ptc:uom",
+      "@type": "xsd:string"
+    },
+    "offTheShelf": {
+      "@id": "ptc:offTheShelf",
+      "@type": "xsd:boolean"
+    },
+    "procurementType": {
+      "@id": "ptc:procurementType",
+      "@type": "xsd:string"
+    },
+    "SupplierCompactVo": "ptc:SupplierCompactVo",
+    "SupplierItemFullVo": "ptc:SupplierItemFullVo",
+    "supplier": {
+      "@id": "ptc:supplier",
+      "@type": "@id"
+    },
+    "QuoteLineVo": "ptc:QuoteLineVo",
+    "cost": {
+      "@id": "ptc:cost",
+      "@type": "xsd:decimal"
+    },
+    "currency": {
+      "@id": "ptc:currency",
+      "@type": "xsd:string"
+    },
+    "leadTimeSpan": {
+      "@id": "ptc:leadTimeSpan",
+      "@type": "xsd:decimal"
+    },
+    "leadTimeUnit": {
+      "@id": "ptc:leadTimeUnit",
+      "@type": "xsd:string"
+    },
+    "maxQuantity": {
+      "@id": "ptc:maxQuantity",
+      "@type": "xsd:decimal"
+    },
+    "minQuantity": {
+      "@id": "ptc:minQuantity",
+      "@type": "xsd:decimal"
+    },
+    "notes": {
+      "@id": "ptc:notes",
+      "@type": "xsd:string"
+    },
+    "QuoteLineUpdateVo": "ptc:QuoteLineUpdateVo",
+    "PurchaseVo": "ptc:PurchaseVo",
+    "buyer": {
+      "@id": "ptc:buyer",
+      "@type": "xsd:string"
+    },
+    "orderedDate": {
+      "@id": "ptc:orderedDate",
+      "@type": "xsd:string"
+    },
+    "promisedDate": {
+      "@id": "ptc:promisedDate",
+      "@type": "xsd:string"
+    },
+    "purchaseOrderNumber": {
+      "@id": "ptc:purchaseOrderNumber",
+      "@type": "xsd:string"
+    },
+    "quantity": {
+      "@id": "ptc:quantity",
+      "@type": "xsd:decimal"
+    },
+    "receivedDate": {
+      "@id": "ptc:receivedDate",
+      "@type": "xsd:string"
+    },
+    "verbal": {
+      "@id": "ptc:verbal",
+      "@type": "xsd:boolean"
+    },
+    "PurchaseUpdateVo": "ptc:PurchaseUpdateVo",
+    "SupplierItemFileUpdateVo": "ptc:SupplierItemFileUpdateVo",
+    "FileAuthorVo": "ptc:FileAuthorVo",
+    "FileCategoryVo": "ptc:FileCategoryVo",
+    "FileDetailVo": "ptc:FileDetailVo",
+    "author": {
+      "@id": "ptc:author",
+      "@type": "@id"
+    },
+    "category": {
+      "@id": "ptc:category",
+      "@type": "@id"
+    },
+    "checkedOut": {
+      "@id": "ptc:checkedOut",
+      "@type": "xsd:boolean"
+    },
+    "checkoutDateTime": {
+      "@id": "ptc:checkoutDateTime",
+      "@type": "xsd:string"
+    },
+    "corrected": {
+      "@id": "ptc:corrected",
+      "@type": "xsd:boolean"
+    },
+    "edition": {
+      "@id": "ptc:edition",
+      "@type": "xsd:string"
+    },
+    "format": {
+      "@id": "ptc:format",
+      "@type": "xsd:string"
+    },
+    "hasMarkup": {
+      "@id": "ptc:hasMarkup",
+      "@type": "xsd:boolean"
+    },
+    "haveContent": {
+      "@id": "ptc:haveContent",
+      "@type": "xsd:boolean"
+    },
+    "lastModifiedDateTime": {
+      "@id": "ptc:lastModifiedDateTime",
+      "@type": "xsd:string"
+    },
+    "latest": {
+      "@id": "ptc:latest",
+      "@type": "xsd:boolean"
+    },
+    "location": {
+      "@id": "ptc:location",
+      "@type": "xsd:string"
+    },
+    "locked": {
+      "@id": "ptc:locked",
+      "@type": "xsd:boolean"
+    },
+    "microsoft365": {
+      "@id": "ptc:microsoft365",
+      "@type": "@id"
+    },
+    "googleDocs": {
+      "@id": "ptc:googleDocs",
+      "@type": "@id"
+    },
+    "mimeType": {
+      "@id": "ptc:mimeType",
+      "@type": "xsd:string"
+    },
+    "size": {
+      "@id": "ptc:size",
+      "@type": "xsd:integer"
+    },
+    "storageMethodName": {
+      "@id": "ptc:storageMethodName",
+      "@type": "xsd:string"
+    },
+    "private": {
+      "@id": "ptc:private",
+      "@type": "xsd:boolean"
+    },
+    "GoogleDocsVo": "ptc:GoogleDocsVo",
+    "authorEmail": {
+      "@id": "ptc:authorEmail",
+      "@type": "xsd:string"
+    },
+    "creationDate": {
+      "@id": "ptc:creationDate",
+      "@type": "xsd:string"
+    },
+    "driveId": {
+      "@id": "ptc:driveId",
+      "@type": "xsd:string"
+    },
+    "fileId": {
+      "@id": "ptc:fileId",
+      "@type": "xsd:string"
+    },
+    "fileName": {
+      "@id": "ptc:fileName",
+      "@type": "xsd:string"
+    },
+    "lastEditors": {
+      "@id": "ptc:lastEditors",
+      "@container": "@list"
+    },
+    "modifiedDate": {
+      "@id": "ptc:modifiedDate",
+      "@type": "xsd:string"
+    },
+    "originalAuthor": {
+      "@id": "ptc:originalAuthor",
+      "@type": "xsd:string"
+    },
+    "version": {
+      "@id": "ptc:version",
+      "@type": "xsd:string"
+    },
+    "webUrl": {
+      "@id": "ptc:webUrl",
+      "@type": "xsd:string"
+    },
+    "Microsoft365Vo": "ptc:Microsoft365Vo",
+    "siteId": {
+      "@id": "ptc:siteId",
+      "@type": "xsd:string"
+    },
+    "SupplierItemFileVo": "ptc:SupplierItemFileVo",
+    "file": {
+      "@id": "ptc:file",
+      "@type": "@id"
+    },
+    "ItemComplianceUpdateVo": "ptc:ItemComplianceUpdateVo",
+    "evidenceType": {
+      "@id": "ptc:evidenceType",
+      "@type": "xsd:string"
+    },
+    "mark": {
+      "@id": "ptc:mark",
+      "@type": "xsd:string"
+    },
+    "rationale": {
+      "@id": "ptc:rationale",
+      "@type": "xsd:string"
+    },
+    "RequirementMinimalVo": "ptc:RequirementMinimalVo",
+    "SupplierItemComplianceVo": "ptc:SupplierItemComplianceVo",
+    "lastModifiedBy": {
+      "@id": "ptc:lastModifiedBy",
+      "@type": "@id"
+    },
+    "requirement": {
+      "@id": "ptc:requirement",
+      "@type": "@id"
+    },
+    "LicenseVo": "ptc:LicenseVo",
+    "training": {
+      "@id": "ptc:training",
+      "@type": "xsd:boolean"
+    },
+    "analytics": {
+      "@id": "ptc:analytics",
+      "@type": "xsd:string"
+    },
+    "WorkspaceEmployeeUpdateVo": "ptc:WorkspaceEmployeeUpdateVo",
+    "license": {
+      "@id": "ptc:license",
+      "@type": "@id"
+    },
+    "AccountUserCompactVo": "ptc:AccountUserCompactVo",
+    "firstName": {
+      "@id": "ptc:firstName",
+      "@type": "xsd:string"
+    },
+    "account": {
+      "@id": "ptc:account",
+      "@type": "@id"
+    },
+    "AccountVo": "ptc:AccountVo",
+    "PartnerInfoVo": "ptc:PartnerInfoVo",
+    "accountUser": {
+      "@id": "ptc:accountUser",
+      "@type": "@id"
+    },
+    "AccountUserForMachineUserVo": "ptc:AccountUserForMachineUserVo",
+    "MachineUserAccessVo": "ptc:MachineUserAccessVo",
+    "WorkspaceEmployeeAccessVo": "ptc:WorkspaceEmployeeAccessVo",
+    "UserGroupFullVo": "ptc:UserGroupFullVo",
+    "assignability": {
+      "@id": "ptc:assignability",
+      "@container": "@list"
+    },
+    "modifiedBy": {
+      "@id": "ptc:modifiedBy",
+      "@type": "@id"
+    },
+    "UserGroupUpdateRequestVo": "ptc:UserGroupUpdateRequestVo",
+    "ItemNumberFormatFieldDetailUpdateVo": "ptc:ItemNumberFormatFieldDetailUpdateVo",
+    "maxLength": {
+      "@id": "ptc:maxLength",
+      "@type": "xsd:integer"
+    },
+    "maxSeqLength": {
+      "@id": "ptc:maxSeqLength",
+      "@type": "xsd:integer"
+    },
+    "order": {
+      "@id": "ptc:order",
+      "@type": "xsd:integer"
+    },
+    "possibleValues": {
+      "@id": "ptc:possibleValues",
+      "@container": "@list"
+    },
+    "zeroPadding": {
+      "@id": "ptc:zeroPadding",
+      "@type": "xsd:boolean"
+    },
+    "NumberFormatPossibleValueCreateVo": "ptc:NumberFormatPossibleValueCreateVo",
+    "NextValueVo": "ptc:NextValueVo",
+    "nextNumber": {
+      "@id": "ptc:nextNumber",
+      "@type": "xsd:integer"
+    },
+    "NumberFormatFieldFullVo": "ptc:NumberFormatFieldFullVo",
+    "preDefinedCodeList": {
+      "@id": "ptc:preDefinedCodeList",
+      "@type": "@id"
+    },
+    "NumberFormatPossibleValueVo": "ptc:NumberFormatPossibleValueVo",
+    "PreDefinedCodeListVo": "ptc:PreDefinedCodeListVo",
+    "nextValues": {
+      "@id": "ptc:nextValues",
+      "@container": "@list"
+    },
+    "ItemNumberFormatUpdateVo": "ptc:ItemNumberFormatUpdateVo",
+    "exampleNumber": {
+      "@id": "ptc:exampleNumber",
+      "@type": "xsd:string"
+    },
+    "NumberFormatBasicInfoVo": "ptc:NumberFormatBasicInfoVo",
+    "AccountMachineUserUpdateVo": "ptc:AccountMachineUserUpdateVo",
+    "owner": {
+      "@id": "ptc:owner",
+      "@type": "@id"
+    },
+    "applicationLanguage": {
+      "@id": "ptc:applicationLanguage",
+      "@type": "xsd:string"
+    },
+    "loginConflictResolution": {
+      "@id": "ptc:loginConflictResolution",
+      "@type": "xsd:string"
+    },
+    "isAdministrator": {
+      "@id": "ptc:isAdministrator",
+      "@type": "xsd:boolean"
+    },
+    "AccountUserMinimalRequestVo": "ptc:AccountUserMinimalRequestVo",
+    "AccountMachineUserVo": "ptc:AccountMachineUserVo",
+    "createdOn": {
+      "@id": "ptc:createdOn",
+      "@type": "xsd:string"
+    },
+    "loggedIn": {
+      "@id": "ptc:loggedIn",
+      "@type": "xsd:boolean"
+    },
+    "numberOfLogins": {
+      "@id": "ptc:numberOfLogins",
+      "@type": "xsd:integer"
+    },
+    "numberOfWorkspaces": {
+      "@id": "ptc:numberOfWorkspaces",
+      "@type": "xsd:integer"
+    },
+    "AccountEmployeeUpdateVo": "ptc:AccountEmployeeUpdateVo",
+    "department": {
+      "@id": "ptc:department",
+      "@type": "xsd:string"
+    },
+    "phone": {
+      "@id": "ptc:phone",
+      "@type": "xsd:string"
+    },
+    "mobile": {
+      "@id": "ptc:mobile",
+      "@type": "xsd:string"
+    },
+    "fax": {
+      "@id": "ptc:fax",
+      "@type": "xsd:string"
+    },
+    "temporaryPassword": {
+      "@id": "ptc:temporaryPassword",
+      "@type": "xsd:string"
+    },
+    "notifyUser": {
+      "@id": "ptc:notifyUser",
+      "@type": "xsd:boolean"
+    },
+    "AccountEmployeeVo": "ptc:AccountEmployeeVo",
+    "securityQuestionConfigured": {
+      "@id": "ptc:securityQuestionConfigured",
+      "@type": "xsd:string"
+    },
+    "twoFactorAuthenticationConfigured": {
+      "@id": "ptc:twoFactorAuthenticationConfigured",
+      "@type": "xsd:string"
+    },
+    "RequirementStatusVo": "ptc:RequirementStatusVo",
+    "RequirementTemplateMinimalVo": "ptc:RequirementTemplateMinimalVo",
+    "RequirementVo": "ptc:RequirementVo",
+    "modifier": {
+      "@id": "ptc:modifier",
+      "@type": "@id"
+    },
+    "modificationDateTime": {
+      "@id": "ptc:modificationDateTime",
+      "@type": "xsd:string"
+    },
+    "RequirementUpdateVo": "ptc:RequirementUpdateVo",
+    "ItemShortVo": "ptc:ItemShortVo",
+    "revisionNumber": {
+      "@id": "ptc:revisionNumber",
+      "@type": "xsd:string"
+    },
+    "revisionStatus": {
+      "@id": "ptc:revisionStatus",
+      "@type": "xsd:string"
+    },
+    "url": {
+      "@id": "ptc:url",
+      "@type": "@id"
+    },
+    "RequirementTraceVo": "ptc:RequirementTraceVo",
+    "level": {
+      "@id": "ptc:level",
+      "@type": "xsd:integer"
+    },
+    "relationshipType": {
+      "@id": "ptc:relationshipType",
+      "@type": "@id"
+    },
+    "suspected": {
+      "@id": "ptc:suspected",
+      "@type": "xsd:boolean"
+    },
+    "objectType": {
+      "@id": "ptc:objectType",
+      "@type": "xsd:string"
+    },
+    "item": {
+      "@id": "ptc:item",
+      "@type": "@id"
+    },
+    "StreamLabel": "ptc:StreamLabel",
+    "upstreamLabel": {
+      "@id": "ptc:upstreamLabel",
+      "@type": "xsd:string"
+    },
+    "downstreamLabel": {
+      "@id": "ptc:downstreamLabel",
+      "@type": "xsd:string"
+    },
+    "UrlVo": "ptc:UrlVo",
+    "api": {
+      "@id": "ptc:api",
+      "@type": "xsd:string"
+    },
+    "app": {
+      "@id": "ptc:app",
+      "@type": "xsd:string"
+    },
+    "TraceUpdateVo": "ptc:TraceUpdateVo",
+    "RequestUpdateVo": "ptc:RequestUpdateVo",
+    "numberSequencePrefix": {
+      "@id": "ptc:numberSequencePrefix",
+      "@type": "@id"
+    },
+    "problem": {
+      "@id": "ptc:problem",
+      "@type": "xsd:string"
+    },
+    "requestedAction": {
+      "@id": "ptc:requestedAction",
+      "@type": "xsd:string"
+    },
+    "requestCode": {
+      "@id": "ptc:requestCode",
+      "@type": "xsd:string"
+    },
+    "supplierVisibility": {
+      "@id": "ptc:supplierVisibility",
+      "@type": "xsd:boolean"
+    },
+    "SingleValueVo": "ptc:SingleValueVo",
+    "CategoryCompactVo": "ptc:CategoryCompactVo",
+    "path": {
+      "@id": "ptc:path",
+      "@type": "xsd:string"
+    },
+    "EvaluatorGroupCompactVo": "ptc:EvaluatorGroupCompactVo",
+    "RequestShortVo": "ptc:RequestShortVo",
+    "submitter": {
+      "@id": "ptc:submitter",
+      "@type": "@id"
+    },
+    "evaluatorGroup": {
+      "@id": "ptc:evaluatorGroup",
+      "@type": "@id"
+    },
+    "deferralCode": {
+      "@id": "ptc:deferralCode",
+      "@type": "xsd:string"
+    },
+    "deferDeadlineDateTime": {
+      "@id": "ptc:deferDeadlineDateTime",
+      "@type": "xsd:string"
+    },
+    "resolutionCode": {
+      "@id": "ptc:resolutionCode",
+      "@type": "xsd:string"
+    },
+    "lifecycleDateTime": {
+      "@id": "ptc:lifecycleDateTime",
+      "@type": "xsd:string"
+    },
+    "dispositionType": {
+      "@id": "ptc:dispositionType",
+      "@type": "xsd:string"
+    },
+    "submissionDateTime": {
+      "@id": "ptc:submissionDateTime",
+      "@type": "xsd:string"
+    },
+    "lifecycleStatus": {
+      "@id": "ptc:lifecycleStatus",
+      "@type": "xsd:string"
+    },
+    "RequestItemUpdateVo": "ptc:RequestItemUpdateVo",
+    "RequestItemVo": "ptc:RequestItemVo",
+    "RequestIssueUpdateVo": "ptc:RequestIssueUpdateVo",
+    "issue": {
+      "@id": "ptc:issue",
+      "@type": "xsd:string"
+    },
+    "RequestIssueVo": "ptc:RequestIssueVo",
+    "issueUser": {
+      "@id": "ptc:issueUser",
+      "@type": "@id"
+    },
+    "issueDateTime": {
+      "@id": "ptc:issueDateTime",
+      "@type": "xsd:string"
+    },
+    "correctionUser": {
+      "@id": "ptc:correctionUser",
+      "@type": "@id"
+    },
+    "correctionDateTime": {
+      "@id": "ptc:correctionDateTime",
+      "@type": "xsd:string"
+    },
+    "numberResponses": {
+      "@id": "ptc:numberResponses",
+      "@type": "xsd:integer"
+    },
+    "RequestIssueResponseUpdateVo": "ptc:RequestIssueResponseUpdateVo",
+    "response": {
+      "@id": "ptc:response",
+      "@type": "xsd:string"
+    },
+    "RequestIssueResponseVo": "ptc:RequestIssueResponseVo",
+    "responseUser": {
+      "@id": "ptc:responseUser",
+      "@type": "@id"
+    },
+    "responseDateTime": {
+      "@id": "ptc:responseDateTime",
+      "@type": "xsd:string"
+    },
+    "QualityProcessUpdateVo": "ptc:QualityProcessUpdateVo",
+    "targetCompletionDateTime": {
+      "@id": "ptc:targetCompletionDateTime",
+      "@type": "xsd:string"
+    },
+    "qualityProcessNotes": {
+      "@id": "ptc:qualityProcessNotes",
+      "@type": "xsd:string"
+    },
+    "CurrentStepVo": "ptc:CurrentStepVo",
+    "QualityProcessVo": "ptc:QualityProcessVo",
+    "canceledDateTime": {
+      "@id": "ptc:canceledDateTime",
+      "@type": "xsd:string"
+    },
+    "completedDateTime": {
+      "@id": "ptc:completedDateTime",
+      "@type": "xsd:string"
+    },
+    "currentStep": {
+      "@id": "ptc:currentStep",
+      "@type": "@id"
+    },
+    "statusComments": {
+      "@id": "ptc:statusComments",
+      "@type": "xsd:string"
+    },
+    "statusMode": {
+      "@id": "ptc:statusMode",
+      "@type": "xsd:string"
+    },
+    "targetDateComments": {
+      "@id": "ptc:targetDateComments",
+      "@type": "xsd:string"
+    },
+    "TemplateCompactVo": "ptc:TemplateCompactVo",
+    "QualityProcessStep": "ptc:QualityProcessStep",
+    "allowOwnerToAddApprovers": {
+      "@id": "ptc:allowOwnerToAddApprovers",
+      "@type": "xsd:boolean"
+    },
+    "additionalAttribute": {
+      "@id": "ptc:additionalAttribute",
+      "@type": "@id"
+    },
+    "approver": {
+      "@id": "ptc:approver",
+      "@type": "@id"
+    },
+    "users": {
+      "@id": "ptc:users",
+      "@container": "@list"
+    },
+    "userGroup": {
+      "@id": "ptc:userGroup",
+      "@type": "@id"
+    },
+    "userGroups": {
+      "@id": "ptc:userGroups",
+      "@container": "@list"
+    },
+    "approvers": {
+      "@id": "ptc:approvers",
+      "@type": "@id"
+    },
+    "defaultAssignee": {
+      "@id": "ptc:defaultAssignee",
+      "@type": "@id"
+    },
+    "defaultAssignees": {
+      "@id": "ptc:defaultAssignees",
+      "@type": "@id"
+    },
+    "updateAffectedAfterClosure": {
+      "@id": "ptc:updateAffectedAfterClosure",
+      "@type": "xsd:boolean"
+    },
+    "requiredBeforeCompleteP": {
+      "@id": "ptc:requiredBeforeCompleteP",
+      "@type": "xsd:boolean"
+    },
+    "sequenceMode": {
+      "@id": "ptc:sequenceMode",
+      "@type": "xsd:string"
+    },
+    "dueDateTime": {
+      "@id": "ptc:dueDateTime",
+      "@type": "xsd:string"
+    },
+    "completeDateTime": {
+      "@id": "ptc:completeDateTime",
+      "@type": "xsd:string"
+    },
+    "completeUser": {
+      "@id": "ptc:completeUser",
+      "@type": "@id"
+    },
+    "stepStatus": {
+      "@id": "ptc:stepStatus",
+      "@type": "xsd:string"
+    },
+    "approvals": {
+      "@id": "ptc:approvals",
+      "@container": "@list"
+    },
+    "canceledUser": {
+      "@id": "ptc:canceledUser",
+      "@type": "@id"
+    },
+    "escalated": {
+      "@id": "ptc:escalated",
+      "@type": "xsd:boolean"
+    },
+    "stepAssignComment": {
+      "@id": "ptc:stepAssignComment",
+      "@type": "xsd:string"
+    },
+    "firstOpened": {
+      "@id": "ptc:firstOpened",
+      "@type": "xsd:string"
+    },
+    "reopenUser": {
+      "@id": "ptc:reopenUser",
+      "@type": "@id"
+    },
+    "reopenedDate": {
+      "@id": "ptc:reopenedDate",
+      "@type": "xsd:string"
+    },
+    "statusComment": {
+      "@id": "ptc:statusComment",
+      "@type": "xsd:string"
+    },
+    "attributes": {
+      "@id": "ptc:attributes",
+      "@container": "@list"
+    },
+    "decision": {
+      "@id": "ptc:decision",
+      "@type": "xsd:string"
+    },
+    "QualityProcessStepAssignee": "ptc:QualityProcessStepAssignee",
+    "assigneeType": {
+      "@id": "ptc:assigneeType",
+      "@type": "xsd:string"
+    },
+    "UserGroup": "ptc:UserGroup",
+    "updatedDateTime": {
+      "@id": "ptc:updatedDateTime",
+      "@type": "xsd:string"
+    },
+    "creatorName": {
+      "@id": "ptc:creatorName",
+      "@type": "xsd:string"
+    },
+    "updaterName": {
+      "@id": "ptc:updaterName",
+      "@type": "xsd:string"
+    },
+    "assignabilityText": {
+      "@id": "ptc:assignabilityText",
+      "@type": "xsd:string"
+    },
+    "memberCount": {
+      "@id": "ptc:memberCount",
+      "@type": "xsd:integer"
+    },
+    "assignabilities": {
+      "@id": "ptc:assignabilities",
+      "@container": "@list"
+    },
+    "UserGroupMemberProfile": "ptc:UserGroupMemberProfile",
+    "company": {
+      "@id": "ptc:company",
+      "@type": "xsd:string"
+    },
+    "workspaceName": {
+      "@id": "ptc:workspaceName",
+      "@type": "xsd:string"
+    },
+    "modificationDate": {
+      "@id": "ptc:modificationDate",
+      "@type": "xsd:dateTime"
+    },
+    "escalationUser": {
+      "@id": "ptc:escalationUser",
+      "@type": "@id"
+    },
+    "proxyApprover": {
+      "@id": "ptc:proxyApprover",
+      "@type": "@id"
+    },
+    "qualityEscalationUser": {
+      "@id": "ptc:qualityEscalationUser",
+      "@type": "@id"
+    },
+    "visibility": {
+      "@id": "ptc:visibility",
+      "@type": "xsd:boolean"
+    },
+    "machineUserP": {
+      "@id": "ptc:machineUserP",
+      "@type": "xsd:boolean"
+    },
+    "ownerId": {
+      "@id": "ptc:ownerId",
+      "@type": "xsd:integer"
+    },
+    "ownerEmail": {
+      "@id": "ptc:ownerEmail",
+      "@type": "xsd:string"
+    },
+    "ownerFirstName": {
+      "@id": "ptc:ownerFirstName",
+      "@type": "xsd:string"
+    },
+    "ownerLastName": {
+      "@id": "ptc:ownerLastName",
+      "@type": "xsd:string"
+    },
+    "gid": {
+      "@id": "ptc:gid",
+      "@type": "xsd:integer"
+    },
+    "UsersAndUserGroups": "ptc:UsersAndUserGroups",
+    "QualityStepAssigneeUpdateVo": "ptc:QualityStepAssigneeUpdateVo",
+    "QualityStepUpdateVo": "ptc:QualityStepUpdateVo",
+    "assignees": {
+      "@id": "ptc:assignees",
+      "@type": "@id"
+    },
+    "QualityDeprecateAssigneeVo": "ptc:QualityDeprecateAssigneeVo",
+    "deprecated": {
+      "@id": "ptc:deprecated",
+      "@type": "xsd:boolean"
+    },
+    "note": {
+      "@id": "ptc:note",
+      "@type": "xsd:string"
+    },
+    "QualityProcessStepVo": "ptc:QualityProcessStepVo",
+    "required": {
+      "@id": "ptc:required",
+      "@type": "xsd:string"
+    },
+    "QualityStepAssigneeVo": "ptc:QualityStepAssigneeVo",
+    "UserGroupWithUserVo": "ptc:UserGroupWithUserVo",
+    "UserGroupMinimalResponseVo": "ptc:UserGroupMinimalResponseVo",
+    "WorkflowDecisionResponseVo": "ptc:WorkflowDecisionResponseVo",
+    "proxyFor": {
+      "@id": "ptc:proxyFor",
+      "@type": "@id"
+    },
+    "group": {
+      "@id": "ptc:group",
+      "@type": "@id"
+    },
+    "comments": {
+      "@id": "ptc:comments",
+      "@type": "xsd:string"
+    },
+    "decisionDateTime": {
+      "@id": "ptc:decisionDateTime",
+      "@type": "xsd:dateTime"
+    },
+    "decisionType": {
+      "@id": "ptc:decisionType",
+      "@type": "xsd:string"
+    },
+    "SignOffStepDecisionVo": "ptc:SignOffStepDecisionVo",
+    "AffectedUpdateVo": "ptc:AffectedUpdateVo",
+    "AffectedObjectVo": "ptc:AffectedObjectVo",
+    "specificRevision": {
+      "@id": "ptc:specificRevision",
+      "@type": "xsd:boolean"
+    },
+    "QualityAffectedVo": "ptc:QualityAffectedVo",
+    "addedAfterCompletion": {
+      "@id": "ptc:addedAfterCompletion",
+      "@type": "xsd:boolean"
+    },
+    "addedBy": {
+      "@id": "ptc:addedBy",
+      "@type": "@id"
+    },
+    "addedDateTime": {
+      "@id": "ptc:addedDateTime",
+      "@type": "xsd:string"
+    },
+    "affected": {
+      "@id": "ptc:affected",
+      "@type": "@id"
+    },
+    "ChangeLifecycleStatus": "ptc:ChangeLifecycleStatus",
+    "ItemBasedEventDetailVo": "ptc:ItemBasedEventDetailVo",
+    "change": {
+      "@id": "ptc:change",
+      "@type": "@id"
+    },
+    "revisioningEvent": {
+      "@id": "ptc:revisioningEvent",
+      "@type": "@id"
+    },
+    "itemsReconciled": {
+      "@id": "ptc:itemsReconciled",
+      "@type": "xsd:boolean"
+    },
+    "eventType": {
+      "@id": "ptc:eventType",
+      "@type": "xsd:string"
+    },
+    "ShortCategory": "ptc:ShortCategory",
+    "categoryName": {
+      "@id": "ptc:categoryName",
+      "@type": "xsd:string"
+    },
+    "categoryPath": {
+      "@id": "ptc:categoryPath",
+      "@type": "xsd:string"
+    },
+    "ShortChangeVo": "ptc:ShortChangeVo",
+    "approvedOnDateTime": {
+      "@id": "ptc:approvedOnDateTime",
+      "@type": "xsd:string"
+    },
+    "effectiveDateTime": {
+      "@id": "ptc:effectiveDateTime",
+      "@type": "xsd:string"
+    },
+    "effectivityPlannedDateTime": {
+      "@id": "ptc:effectivityPlannedDateTime",
+      "@type": "xsd:string"
+    },
+    "effectivityType": {
+      "@id": "ptc:effectivityType",
+      "@type": "xsd:string"
+    },
+    "expirationDateTime": {
+      "@id": "ptc:expirationDateTime",
+      "@type": "xsd:string"
+    },
+    "affectedItemCount": {
+      "@id": "ptc:affectedItemCount",
+      "@type": "xsd:integer"
+    },
+    "ShortRevisionVo": "ptc:ShortRevisionVo",
+    "performedOnDateTime": {
+      "@id": "ptc:performedOnDateTime",
+      "@type": "xsd:string"
+    }
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "PTC API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects PTC's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-20) from openapi/ptc-arena-openapi.yml.",
+  "dcterms:created": "2026-10-20",
+  "dcterms:source": [
+    "openapi/ptc-arena-openapi.yml"
+  ]
+}

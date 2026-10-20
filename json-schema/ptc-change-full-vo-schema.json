@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ptc/main/json-schema/ptc-change-full-vo-schema.json",
+  "title": "ChangeFullVo",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/ptc-arena-openapi.yml#/components/schemas/ChangeFullVo",
+  "type": "object",
+  "properties": {
+    "additionalAttributes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/AdditionalAttributeCompactVo"
+      }
+    },
+    "category": {
+      "$ref": "#/$defs/CategoryCompactVo"
+    },
+    "creationDateTime": {
+      "type": "string"
+    },
+    "creator": {
+      "$ref": "#/$defs/UserCompactVo"
+    },
+    "description": {
+      "type": "string"
+    },
+    "effectiveDateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "effectivityType": {
+      "type": "string",
+      "enum": [
+        "PERMANENT_ON_APPROVAL",
+        "PERMANENT_ON_DATE",
+        "TEMPORARY",
+        "PERMANENT",
+        "IMMEDIATE"
+      ]
+    },
+    "enforceApprovalDeadline": {
+      "type": "boolean"
+    },
+    "guid": {
+      "type": "string"
+    },
+    "lifecycleDateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "lifecycleStatus": {
+      "$ref": "#/$defs/ChangeLifecycleStatus"
+    },
+    "number": {
+      "type": "string"
+    },
+    "routingAdmins": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/UserCompactVo"
+      }
+    },
+    "routings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ChangeRoutingMinimalVo"
+      }
+    },
+    "approvalDeadlineDateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "canceledDateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "effectivityPlannedDateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expirationDateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "implementationStatus": {
+      "type": "string",
+      "enum": [
+        "NOT_STARTED",
+        "IN_PROGRESS",
+        "NEEDS_ATTENTION",
+        "DONE",
+        "BLANK",
+        "CANCELED"
+      ]
+    },
+    "implementationStatusDateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "implementationStatusEditor": {
+      "$ref": "#/$defs/UserCompactVo"
+    },
+    "submitter": {
+      "$ref": "#/$defs/UserCompactVo"
+    },
+    "withdrawnDateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "submissionDateTime": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "deviated": {
+      "type": "boolean"
+    },
+    "title": {
+      "type": "string"
+    },
+    "url": {
+      "$ref": "#/$defs/UrlVo"
+    }
+  },
+  "$defs": {
+    "AdditionalAttributeCompactVo": {
+      "type": "object",
+      "properties": {
+        "apiName": {
+          "type": "string"
+        },
+        "fieldType": {
+          "type": "string",
+          "enum": [
+            "SINGLE_LINE_TEXT",
+            "MULTI_LINE_TEXT",
+            "DROP_DOWN",
+            "FIXED_DROP_DOWN",
+            "DATE",
+            "NUMBER",
+            "BOOLEAN",
+            "INTEGER",
+            "OBJECT",
+            "POSITIVE_DOUBLE",
+            "POSITIVE_INTEGER",
+            "RICH_TEXT",
+            "GUID",
+            "DATETIME",
+            "COST",
+            "LIST",
+            "ENUM"
+          ]
+        },
+        "guid": {
+          "type": "string"
+        },
+        "multiSelect": {
+          "type": "boolean"
+        },
+        "name": {
+          "type": "string"
+        },
+        "value": {}
+      }
+    },
+    "CategoryCompactVo": {
+      "type": "object",
+      "properties": {
+        "guid": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        }
+      }
+    },
+    "ChangeLifecycleStatus": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "OPEN",
+            "SUBMITTED_FOR_APPROVAL",
+            "SUBMITTED",
+            "APPROVED",
+            "EFFECTIVE",
+            "EXPIRED",
+            "REJECTED",
+            "OPEN_AND_UNLOCKED",
+            "OPEN_AND_LOCKED",
+            "SUBMITTED_FOR_ROUTING",
+            "CANCELED",
+            "COMPLETED"
+          ]
+        }
+      }
+    },
+    "ChangeRoutingMinimalVo": {
+      "type": "object",
+      "properties": {
+        "guid": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "UrlVo": {
+      "type": "object",
+      "properties": {
+        "api": {
+          "type": "string"
+        },
+        "app": {
+          "type": "string"
+        }
+      }
+    },
+    "UserCompactVo": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "fullName": {
+          "type": "string"
+        },
+        "guid": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

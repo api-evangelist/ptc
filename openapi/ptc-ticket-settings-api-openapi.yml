@@ -1,0 +1,369 @@
+openapi: 3.2.0
+info:
+  title: Ptc Ticket Settings API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Ticket Settings across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Ticket Settings
+  description: Manage settings for tickets (Templates, Attributes, Number Sequences).
+paths:
+  /settings/{objectType}/numbersequences:
+    get:
+      tags:
+      - Ticket Settings
+      summary: List all number sequences for a given type
+      description: List all number sequences for a given type. Supports Requests, Changes, Tickets, and Training Plan objects.
+      operationId: getNumberSequences
+      parameters:
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - qualityprocesses
+          - requests
+          - changes
+          - tickets
+          - trainingplans
+          - requirements
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NumberSequenceResultRep'
+    servers:
+    - url: /v1
+  /settings/{objectType}/numbersequences/{guid}:
+    get:
+      tags:
+      - Ticket Settings
+      summary: Get details of a specific number sequence
+      description: Get details of a specific number sequencefor Requests, Changes, Tickets, and Training Plans.
+      operationId: getNumberSequence
+      parameters:
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - qualityprocesses
+          - requests
+          - changes
+          - tickets
+          - trainingplans
+          - requirements
+      - name: guid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NumberSequenceCompactVo'
+    servers:
+    - url: /v1
+  /settings/{objectType}/numbersequenceprefixes:
+    get:
+      tags:
+      - Ticket Settings
+      summary: List all prefixes for number sequences for a given type
+      description: List all prefixes for number sequences for a given type. Supports Requests, Changes, Tickets, and Training Plan objects.
+      operationId: getNumberSequencePrefixes
+      parameters:
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - qualityprocesses
+          - requests
+          - changes
+          - tickets
+          - trainingplans
+          - requirements
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NumberSequencePrefixCompactResultRep'
+    servers:
+    - url: /v1
+  /settings/tickets/templates:
+    get:
+      tags:
+      - Ticket Settings
+      summary: List all ticket templates
+      operationId: getTicketsTemplates
+      parameters:
+      - name: name
+        in: query
+        schema:
+          type: string
+      - name: active
+        in: query
+        schema:
+          type: boolean
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyTemplateVoResultRep'
+    servers:
+    - url: /v1
+  /settings/tickets/templates/{verifyTemplateGuid}:
+    get:
+      tags:
+      - Ticket Settings
+      summary: Get details of a specific ticket template
+      operationId: getTicketsTemplate
+      parameters:
+      - name: verifyTemplateGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyTemplateVo'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    VerifyTemplateVo:
+      type: object
+      properties:
+        active:
+          type: boolean
+        allowUserDefinedNumber:
+          type: boolean
+        creationDateTime:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        defaultAssignee:
+          $ref: '#/components/schemas/UserCompactVo'
+        defaultNumberSequence:
+          $ref: '#/components/schemas/NumberFormatWithDefaultVo'
+        defaultTemplate:
+          type: boolean
+        description:
+          type: string
+        guid:
+          type: string
+        name:
+          type: string
+        numberSequences:
+          type: array
+          items:
+            $ref: '#/components/schemas/NumberFormatWithDefaultVo'
+    NumberSequenceCompactVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        lastUsed:
+          type: string
+        name:
+          type: string
+        nextValue:
+          type: string
+        prefixes:
+          type: array
+          items:
+            $ref: '#/components/schemas/NumberFormatPrefixVo'
+        creationDateTime:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    NumberFormatWithDefaultVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        prefixes:
+          type: array
+          items:
+            $ref: '#/components/schemas/NumberFormatPrefixVo'
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    NumberSequenceResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/NumberSequenceCompactVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    NumberFormatPrefixVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        value:
+          type: string
+    NumberSequencePrefixCompactResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/NumberFormatPrefixVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    VerifyTemplateVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/VerifyTemplateVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

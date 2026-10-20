@@ -1,0 +1,2133 @@
+openapi: 3.2.0
+info:
+  title: Ptc Item API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Item across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Item
+  description: 'Core item operations: search, create, update, delete, get specs, revisions, lifecycle, sourcing, thumbnail, references, training, quality, files, tickets, BOMs, compliance, where used.'
+paths:
+  /items/{itemGuid}:
+    get:
+      tags:
+      - Item
+      summary: Retrieve detailed information of an item by its GUID, supporting different view…
+      description: Returns an Item object with a given GUID. Note that while the standard practice is to retrieve an item GUID using the GET Items endpoint and then use an item GUID here (returning the effective revision), you can also use a GUID for a specific revision of an item here.
+      operationId: getItem
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: includeEmptyAdditionalAttributes
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: responseview
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemFullVo'
+    put:
+      tags:
+      - Item
+      summary: Update the attributes of a specified item, supporting shared attributes and…
+      description: 'Updates the metadata of an item with a given GUID.
+
+
+        Editable attributes: Additional attribute values, category, description, name, offTheShelf, owner, shared, standardCost, targetCost, targetPrice, uom.'
+      operationId: updateItem
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemUpdateVo'
+            examples:
+              Spec:
+                description: Spec
+                value:
+                  additionalAttributes:
+                  - guid: CUEXB8CEP6N5O7PHZB8T
+                    value: 10pF
+                  - guid: Q8SBPMQS3K1J2L03ZJZL
+                    value: 15%
+                  category:
+                    guid: FXH0EBFHS9S2L4K2MQPI
+                  description: Edited Part
+                  name: Edited Part
+                  offTheShelf: true
+                  owner:
+                    fullName: Roy S
+                  shared: false
+                  standardCost: 13.3
+                  targetCost: 14.4
+                  targetPrice: 15.5
+                  uom: each
+              Item Number:
+                description: Item Number
+                value:
+                  numberFormat:
+                    guid: P7RAOLPR2J2BUDVXBNIM
+                    fields:
+                    - guid: K2M5JGKMXEVI1K2AXGLN
+                      value: 10-0002-01
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemFullVo'
+    delete:
+      tags:
+      - Item
+      summary: Delete the specified item
+      description: Deletes an item with a given GUID.
+      operationId: deleteItem
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Deleted Item
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /items/{itemGuid}/sourcing/{sourcingGuid}/quotes/{quoteGuid}/setactive:
+    put:
+      tags:
+      - Item
+      summary: Set or clear the active state of a specific item sourcing quote cost
+      description: Sets or clears the prototype and production active-cost state for a specific quote cost line under an item sourcing relationship.
+      operationId: setItemQuoteCostActiveState
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: sourcingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: quoteGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemActiveCostSetActiveVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemQuoteCostVo'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/sourcing/{sourcingGuid}/purchases/{purchaseGuid}/setactive:
+    put:
+      tags:
+      - Item
+      summary: Set or clear the active state of a specific item sourcing purchase cost
+      description: Sets or clears the prototype and production active-cost state for a specific purchase cost line under an item sourcing relationship.
+      operationId: setItemPurchaseCostActiveState
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: sourcingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: purchaseGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemActiveCostSetActiveVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemPurchaseCostVo'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/estimatedcosts/{lineGuid}:
+    get:
+      tags:
+      - Item
+      summary: Get details of a specific item estimated cost
+      description: Returns a specific estimated cost object with a given GUID for an item with a given GUID.
+      operationId: getItemEstimatedCostsByLineGuid
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: lineGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemEstimatedCostVo'
+    put:
+      tags:
+      - Item
+      summary: Update a specific item estimated cost
+      description: Updates a specific estimated cost object with a given GUID for an item with a given GUID.
+      operationId: updateItemEstimatedCost
+      parameters:
+      - name: setnull
+        in: query
+        schema:
+          type: boolean
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: lineGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemEstimatedCostUpdateVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemEstimatedCostVo'
+    delete:
+      tags:
+      - Item
+      summary: Delete a specific item estimated cost
+      description: Deletes a specific estimated cost object with a given GUID for an item with a given GUID.
+      operationId: deleteItemEstimatedCost
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: lineGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Delete item estimated cost result
+    servers:
+    - url: /v1
+  /items/{itemGuid}/estimatedcosts/{lineGuid}/setactive:
+    put:
+      tags:
+      - Item
+      summary: Set or clear the active state of a specific item estimated cost
+      description: Sets or clears the prototype and production active-cost state for a specific estimated cost line under an item.
+      operationId: setItemEstimatedCostActiveState
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: lineGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemActiveCostSetActiveVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemEstimatedCostVo'
+    servers:
+    - url: /v1
+  /items:
+    get:
+      tags:
+      - Item
+      summary: Search and return a list of items matching the criteria, supporting various…
+      description: Returns a collection of Compact Item objects matching the given search criteria.
+      operationId: getItems
+      parameters:
+      - name: number
+        in: query
+        schema:
+          type: string
+      - name: category.guid
+        in: query
+        schema:
+          type: string
+      - name: category.name
+        in: query
+        schema:
+          type: string
+      - name: modifiedBom
+        in: query
+        schema:
+          type: boolean
+      - name: modifiedFiles
+        in: query
+        schema:
+          type: boolean
+      - name: modifiedSourcing
+        in: query
+        schema:
+          type: boolean
+      - name: modifiedSpecs
+        in: query
+        schema:
+          type: boolean
+      - name: includeChildCategories
+        in: query
+        schema:
+          type: boolean
+      - name: revisionNumber
+        in: query
+        schema:
+          type: string
+      - name: description
+        in: query
+        schema:
+          type: string
+      - name: lifecyclePhase.guid
+        in: query
+        schema:
+          type: string
+      - name: lifecyclePhase.stage
+        in: query
+        schema:
+          type: string
+      - name: owner.fullName
+        in: query
+        schema:
+          type: string
+      - name: creator.email
+        in: query
+        schema:
+          type: string
+      - name: creator.guid
+        in: query
+        schema:
+          type: string
+      - name: creator.fullName
+        in: query
+        schema:
+          type: string
+      - name: inAssembly
+        in: query
+        schema:
+          type: boolean
+      - name: assemblyType
+        in: query
+        schema:
+          type: string
+          enum:
+          - TOP_LEVEL_ASSEMBLY
+          - SUB_ASSEMBLY
+          - NOT_AN_ASSEMBLY
+      - name: effectiveDateTime
+        in: query
+        schema:
+          type: string
+      - name: responseview
+        in: query
+        schema:
+          type: string
+      - name: name
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+      - name: offset
+        in: query
+        schema:
+          type: integer
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemFullVoResultRep'
+    post:
+      tags:
+      - Item
+      summary: Create a new item, supporting feature application data and number reservation…
+      description: 'Creates a new Item object.
+
+
+        You can specify no number format, the basic number format, or a valid number format for the workspace (with or without an auto-generating sequence). In these cases, you must specify valid values for each field type in the number format. Each case is shown below.
+
+
+        NOTES:
+
+        1. The values you specify for attributes must match the attribute types specified in the workspace. For example, when specifying a value for a predefined list, the value must be one of the allowed values.
+
+        2. Category and other IDs must exist in the workspace.
+
+        3. A category GUID is required.'
+      operationId: createItem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemCreateVo'
+            examples:
+              No Number:
+                description: No Number
+                value:
+                  category:
+                    guid: FXH0EBFHS9S2L4K2MQPI
+                  description: New Part
+                  name: New Part
+                  offTheShelf: true
+                  owner:
+                    fullName: Roy S
+                  productionCost: 1.1
+                  prototypeCost: 2.2
+                  revisionNumber: A
+                  shared: false
+                  standardCost: 3.3
+                  targetCost: 4.4
+                  targetPrice: 5.5
+                  uom: Each
+              Basic Number Format:
+                description: Basic Number Format
+                value:
+                  category:
+                    guid: FXH0EBFHS9S2L4K2MQPI
+                  description: Training for X
+                  name: Training for X
+                  numberFormat:
+                    guid: P7RAOLPR2J2BUDVXBNIM
+                    fields:
+                    - guid: K2M5JGKMXEVI1K2AXGLN
+                      value: 999-0011
+                  offTheShelf: true
+                  owner:
+                    fullName: Roy S
+                  revisionNumber: A
+                  shared: false
+                  uom: Each
+              Auto Generation Number:
+                description: Auto Generation Number
+                value:
+                  category:
+                    guid: FXH0EBFHS9S2L4K2MQPI
+                  description: New Part
+                  name: New Part
+                  numberFormat:
+                    guid: R9TCQNRT4L4DWFXZDPKF
+                    fields:
+                    - guid: SAUDROSU5M3Q9SAI5OTR
+                      value: '120'
+                  offTheShelf: true
+                  owner:
+                    fullName: Roy S
+                  productionCost: 1.1
+                  prototypeCost: 2.2
+                  revisionNumber: A
+                  shared: false
+                  standardCost: 3.3
+                  targetCost: 4.4
+                  targetPrice: 5.5
+                  uom: Each
+              With Additional Attributes:
+                description: With Additional Attributes
+                value:
+                  additionalAttributes:
+                  - guid: CUEXB8CEP6N5O7PHZB8T
+                    value: 10pF
+                  - guid: Q8SBPMQS3K1J2L03ZJZL
+                    value: default
+                  category:
+                    guid: FXH0EBFHS9S2L4K2MQPI
+                  description: New Part
+                  name: New Part
+                  numberFormat:
+                    guid: R9TCQNRT4L4DWFXZDPKF
+                    fields:
+                    - guid: SAUDROSU5M3Q9SAI5OTR
+                      value: '120'
+                  offTheShelf: true
+                  owner:
+                    fullName: Roy S
+                  productionCost: 1.1
+                  prototypeCost: 2.2
+                  revisionNumber: A
+                  shared: false
+                  standardCost: 3.3
+                  targetCost: 4.4
+                  targetPrice: 5.5
+                  uom: each
+              Number Reservation:
+                description: Number Reservation
+                value:
+                  description: Training for X
+                  name: Training for X
+                  numberReservation:
+                    guid: 2K4N6ECE1000J2L4N6PA
+                    itemNumbers:
+                    - '-0010000012'
+                  offTheShelf: true
+                  revisionNumber: A
+                  shared: false
+                  uom: Each
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemFullVo'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/image:
+    post:
+      tags:
+      - Item
+      summary: Upload image and set it as the thumbnail of the item
+      description: This endpoint uploads an image to the Item's Specs view.
+      operationId: createItemImage
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  format: binary
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleGuidVo'
+    delete:
+      tags:
+      - Item
+      summary: Delete the thumbnail of the item
+      description: Deletes the Item Image Thumbnail Image of an Item with a specific GUID. The Item Thumbnail Image is located in the Specs view of an Item.
+      operationId: deleteItemImage
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Delete Item Image Result
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /items/{itemGuid}/image/json:
+    post:
+      tags:
+      - Item
+      summary: Associate existing image file as the item's thumbnail
+      description: 'Associates an already uploaded image file (provide its file `guid`) as the Item''s Specs thumbnail.
+
+
+        Use this JSON endpoint when the file content has already been uploaded via a file or image multipart endpoint.
+
+        To upload new image content directly, use the multipart endpoint: /items/{itemGuid}/image (multipart/form-data).'
+      operationId: createItemImageWithJson
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SingleGuidVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleGuidVo'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/estimatedcosts:
+    get:
+      tags:
+      - Item
+      summary: List all estimated costs associated with an item
+      description: Returns a collection of estimated cost objects for an item with a given GUID.
+      operationId: getItemEstimatedCosts
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemEstimatedCostVoResultRep'
+    post:
+      tags:
+      - Item
+      summary: Create a new estimated cost for an item
+      description: Creates a new estimated cost object for an item with a given GUID.
+      operationId: createItemEstimatedCost
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemEstimatedCostCreateVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemEstimatedCostVo'
+    servers:
+    - url: /v1
+  /items/lifecyclephasechanges:
+    post:
+      tags:
+      - Item
+      summary: Update lifecycle phase of the item
+      description: 'Releases a new revision of an item with a given GUID to a target lifecycle phase specified within the request.
+
+
+        Returns revision GUIDs for effective, superseded, and working revisions of the item.
+
+
+        The following phase transitions are allowed:
+
+        1. Release to Design (move an unreleased Item to a Design stage lifecycle phase.)
+
+        2. Make Effective in Design (make working modifications effective in a new revision while remaining in the same Design phase.)
+
+        3. Release to Production (move a Design stage Item to a Production stage lifecycle phase.)
+
+        4. Make Effective in Production (make working modifications effective in a new revision while remaining in the same Production phase.)
+
+
+        Release to Design, Make Effective in Design, and Make Effective in Production require the working revision of the item. Release to Production requires the item GUID to be the effective revision.
+
+        The target lifecycle phase can be any defined for the workspace, including custom phases.
+
+
+        This API request can generate errors, warnings, and notices. The request will fail if there is at least one error or warning. If proceedOnNotice is True, the request will continue if it generates notices.'
+      operationId: changeLifecycle
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LifecycleChangeVo'
+            example:
+              item:
+                guid: 5N7QVLMMV2L2L0OCSHRC
+              proceedOnNotice: true
+              toLifecyclePhase:
+                guid: O6Q9NKOQ1I03M5O7QUNR
+              notes: Ready for release
+              revisionNumber: null
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemLifecycleChangeResponseVo'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/whereused:
+    get:
+      tags:
+      - Item
+      summary: Retrieve upper assembly information where the item is used
+      description: 'Returns an array of Item objects in which the given Item appears as a BOM line, along with the line number and other attributes.
+
+
+        Note: When lineNumber is null for an assembly line, either (a) line number generation is set to manual but the user has not yet entered line numbers, or (b) line number generation is set to automatic.'
+      operationId: getAssemblyLines
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemWhereUsedVoResultRep'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/sourcing/{sourcingGuid}/quotes:
+    get:
+      tags:
+      - Item
+      summary: List all quote costs associated with an item sourcing relationship
+      description: Returns a collection of quote cost objects for an item sourcing relationship with a given GUID.
+      operationId: getItemQuoteCostsBySourcingGuid
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: sourcingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemQuoteCostVoResultRep'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/sourcing/{sourcingGuid}/quotes/{quoteGuid}:
+    get:
+      tags:
+      - Item
+      summary: Get details of a specific item sourcing quote cost
+      description: Returns a specific quote cost object with a given GUID for an item sourcing relationship with a given GUID.
+      operationId: getItemQuoteCostsByQuoteGuid
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: sourcingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: quoteGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemQuoteCostVo'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/sourcing/{sourcingGuid}/purchases:
+    get:
+      tags:
+      - Item
+      summary: List all purchase costs associated with an item sourcing relationship
+      description: Returns a collection of purchase cost objects for an item sourcing relationship with a given GUID.
+      operationId: getItemPurchaseBySourcingGuid
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: sourcingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemPurchaseCostVoResultRep'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/sourcing/{sourcingGuid}/purchases/{purchaseGuid}:
+    get:
+      tags:
+      - Item
+      summary: Get details of a specific item sourcing purchase cost
+      description: Returns a specific purchase cost object with a given GUID for an item sourcing relationship with a given GUID.
+      operationId: getItemPurchaseByPurchaseGuid
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: sourcingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: purchaseGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemPurchaseCostVo'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/revisions:
+    get:
+      tags:
+      - Item
+      summary: Retrieve all version information of the specified item
+      description: Returns all Item Revision objects for an item with a given GUID. The revision type is specified by the value of the "status" attribute. 0 is working revision, 1 is effective revision, 2 is past revisions.
+      operationId: getRevisions
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemRevisionVoResultRep'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/image/content:
+    get:
+      tags:
+      - Item
+      summary: Retrieve thumbnail image content of the item
+      description: Returns the Item Thumbnail Image content with a given Item GUID. The Item Thumbnail Image (also known as the Specs Image) is located within the Specs view of an Item.
+      operationId: getItemImage
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: byte
+    servers:
+    - url: /v1
+  /items/{itemGuid}/history:
+    get:
+      tags:
+      - Item
+      summary: Retrieve historical change records of the item
+      description: Returns an array of item history records. This endpoint is functionally equivalent to viewing the Items > History > General subview.
+      operationId: getItemHistory
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemHistoryVoResultRep'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/futurechanges:
+    get:
+      tags:
+      - Item
+      summary: Retrieve future change information of the item
+      description: Returns the future changes of an Item object. These are Changes that may affect the Item in the future.
+      operationId: getItemFutureChanges
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemFutureChangeVoResultRep'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/futurechanges/{changeItemAssociationGuid}:
+    get:
+      tags:
+      - Item
+      summary: Retrieve detailed information of the specified future change
+      operationId: getItemFutureChange
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: changeItemAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemFutureChangeVo'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/costing:
+    get:
+      tags:
+      - Item
+      summary: Get costing summary for a specific item
+      description: Returns the costing summary object for an item with a given GUID.
+      operationId: getItemCostingSummary
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemCostingSummaryVo'
+    servers:
+    - url: /v1
+  /itemrevisions/hasimage:
+    get:
+      tags:
+      - Item
+      summary: Get the item guid which has the thumbnail
+      operationId: getThumbnailsForItemRevisions
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleGuidResultRep'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    CreateNumberFormatVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CreateFieldVo'
+    ItemEstimatedCostCreateVo:
+      type: object
+      properties:
+        minQuantity:
+          type: number
+        maxQuantity:
+          type: number
+        leadTimeSpan:
+          type: number
+        leadTimeUnit:
+          type: string
+        cost:
+          type: number
+        notes:
+          type: string
+    ChangeRevisionShortVo:
+      type: object
+      properties:
+        effectiveDateTime:
+          type: string
+        deviated:
+          type: boolean
+        creationDateTime:
+          type: string
+        number:
+          type: string
+        guid:
+          type: string
+    ItemEstimatedCostVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemEstimatedCostVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    CreateFieldVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        value:
+          type: string
+    AdditionalAttributeCompactVo:
+      type: object
+      properties:
+        apiName:
+          type: string
+        fieldType:
+          type: string
+          enum:
+          - SINGLE_LINE_TEXT
+          - MULTI_LINE_TEXT
+          - DROP_DOWN
+          - FIXED_DROP_DOWN
+          - DATE
+          - NUMBER
+          - BOOLEAN
+          - INTEGER
+          - OBJECT
+          - POSITIVE_DOUBLE
+          - POSITIVE_INTEGER
+          - RICH_TEXT
+          - GUID
+          - DATETIME
+          - COST
+          - LIST
+          - ENUM
+        guid:
+          type: string
+        multiSelect:
+          type: boolean
+        name:
+          type: string
+        value: {}
+    OnShape:
+      type: object
+      properties:
+        mainUrl:
+          type: string
+        diffUrl:
+          type: string
+        cadPackageID:
+          type: string
+        onshape:
+          type: boolean
+        cadFileUrl:
+          type: string
+        drawingFileUrl:
+          type: string
+        drawingFileUrls:
+          type: array
+          items:
+            type: string
+        viewable3DFileUrl:
+          type: string
+        flatPatternFileUrl:
+          type: string
+    ItemWhereUsedVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemWhereUsedVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ItemActiveCostSetActiveVo:
+      type: object
+      properties:
+        isActivePrototypeCost:
+          type: boolean
+        isActiveProductionCost:
+          type: boolean
+    ItemGuidAndUrlVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        url:
+          $ref: '#/components/schemas/UrlVo'
+    ItemShortVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        revisionNumber:
+          type: string
+        revisionStatus:
+          type: string
+        url:
+          $ref: '#/components/schemas/UrlVo'
+    ItemPurchaseCostVo:
+      type: object
+      properties:
+        buyer:
+          type: string
+        cost:
+          type: number
+        currency:
+          type: string
+        guid:
+          type: string
+        isActiveProductionCost:
+          type: boolean
+        isActivePrototypeCost:
+          type: boolean
+        notes:
+          type: string
+        orderedDate:
+          type: string
+        promisedDate:
+          type: string
+        purchaseOrderNumber:
+          type: string
+        quantity:
+          type: number
+        receivedDate:
+          type: string
+        verbal:
+          type: boolean
+    ItemCostingSummaryVo:
+      type: object
+      properties:
+        unitOfMeasure:
+          type: string
+        costMethod:
+          type: string
+          enum:
+          - QUOTED
+          - ROLLED_UP
+          - ROLLED_UP_QUOTED
+        targetPrice:
+          $ref: '#/components/schemas/PriceVo'
+        targetCost:
+          $ref: '#/components/schemas/PriceVo'
+        standardCost:
+          $ref: '#/components/schemas/PriceVo'
+        prototypeCost:
+          $ref: '#/components/schemas/CostInfoVo'
+        productionCost:
+          $ref: '#/components/schemas/CostInfoVo'
+        targetMargin:
+          type: number
+        productionMargin:
+          type: number
+    ItemHistoryVo:
+      type: object
+      properties:
+        action:
+          type: string
+        date:
+          type: string
+        guid:
+          type: string
+        newValue:
+          type: string
+        originalValue:
+          type: string
+        property:
+          type: string
+        revision:
+          type: string
+        rowNum:
+          type: integer
+          format: int32
+        user:
+          type: string
+    ItemFullVo:
+      type: object
+      properties:
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCompactVo'
+        assemblyType:
+          type: string
+          enum:
+          - TOP_LEVEL_ASSEMBLY
+          - SUB_ASSEMBLY
+          - NOT_AN_ASSEMBLY
+        category:
+          $ref: '#/components/schemas/CategoryMinimalVo'
+        creationDateTime:
+          type: string
+        materialEffectivityDateTime:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        description:
+          type: string
+        deviated:
+          type: boolean
+        effectiveDateTime:
+          type: string
+        guid:
+          type: string
+        inAssembly:
+          type: boolean
+        isAssembly:
+          type: boolean
+        lifecyclePhase:
+          $ref: '#/components/schemas/LifecyclePhaseMinimalVo'
+        modifiedBom:
+          type: boolean
+        modifiedFiles:
+          type: boolean
+        modifiedSourcing:
+          type: boolean
+        modifiedSpecs:
+          type: boolean
+        name:
+          type: string
+        number:
+          type: string
+        offTheShelf:
+          type: boolean
+        owner:
+          $ref: '#/components/schemas/UserMinimalVo'
+        procurementType:
+          type: string
+          enum:
+          - OTS
+          - MTS
+        productionCost:
+          type: number
+          format: double
+        prototypeCost:
+          type: number
+          format: double
+        revisionNumber:
+          type: string
+        revisionStatus:
+          type: string
+          enum:
+          - WORKING
+          - EFFECTIVE
+          - SUPERSEDED
+          - PENDING
+        shared:
+          type: boolean
+        standardCost:
+          type: number
+          format: double
+        status:
+          type: integer
+          format: int32
+        supersededDateTime:
+          type: string
+        targetCost:
+          type: number
+          format: double
+        targetPrice:
+          type: number
+          format: double
+        uom:
+          type: string
+        url:
+          $ref: '#/components/schemas/UrlVo'
+        onShape:
+          $ref: '#/components/schemas/OnShape'
+        isLocked:
+          type: boolean
+    ItemQuoteCostVo:
+      type: object
+      properties:
+        cost:
+          type: number
+        currency:
+          type: string
+        guid:
+          type: string
+        isActiveProductionCost:
+          type: boolean
+        isActivePrototypeCost:
+          type: boolean
+        isEstimate:
+          type: boolean
+        leadTimeSpan:
+          type: number
+        leadTimeUnit:
+          type: string
+        maxQuantity:
+          type: number
+        minQuantity:
+          type: number
+        notes:
+          type: string
+    ItemUpdateVo:
+      type: object
+      properties:
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCreateVo'
+        category:
+          $ref: '#/components/schemas/SingleGuidVo'
+        numberFormat:
+          $ref: '#/components/schemas/CreateNumberFormatVo'
+        shared:
+          type: boolean
+        revisionNumber:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        targetPrice:
+          type: number
+          format: double
+        targetCost:
+          type: number
+          format: double
+        standardCost:
+          type: number
+          format: double
+        offTheShelf:
+          type: boolean
+        owner:
+          $ref: '#/components/schemas/OwnerCreateVo'
+        uom:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    UserMinimalVo:
+      type: object
+      properties:
+        fullName:
+          type: string
+    ChangeShortVo:
+      type: object
+      properties:
+        creationDateTime:
+          type: string
+        effectivityType:
+          type: string
+        guid:
+          type: string
+        number:
+          type: string
+        title:
+          type: string
+    CategoryMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    ItemCreateVo:
+      type: object
+      properties:
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCreateVo'
+        category:
+          $ref: '#/components/schemas/SingleGuidVo'
+        numberFormat:
+          $ref: '#/components/schemas/CreateNumberFormatVo'
+        shared:
+          type: boolean
+        revisionNumber:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        productionCost:
+          type: number
+          format: double
+        prototypeCost:
+          type: number
+          format: double
+        targetPrice:
+          type: number
+          format: double
+        targetCost:
+          type: number
+          format: double
+        standardCost:
+          type: number
+          format: double
+        offTheShelf:
+          type: boolean
+        owner:
+          $ref: '#/components/schemas/OwnerCreateVo'
+        uom:
+          type: string
+    AdditionalAttributeCreateVo:
+      type: object
+      properties:
+        name:
+          type: string
+        guid:
+          type: string
+        value: {}
+    LifecyclePhaseMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    ItemEstimatedCostUpdateVo:
+      type: object
+      properties:
+        minQuantity:
+          type: number
+        maxQuantity:
+          type: number
+        leadTimeSpan:
+          type: number
+        leadTimeUnit:
+          type: string
+        cost:
+          type: number
+        notes:
+          type: string
+    ItemFutureChangeVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemFutureChangeVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ItemWhereUsedVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        item:
+          $ref: '#/components/schemas/ItemShortVo'
+        lineNumber:
+          type: number
+          format: double
+        notes:
+          type: string
+        proceedOnNotice:
+          type: boolean
+        quantity:
+          type: number
+          format: double
+        refDes:
+          type: string
+    CostInfoVo:
+      type: object
+      properties:
+        amount:
+          type: number
+        currency:
+          type: string
+        rolledUpAmount:
+          type: number
+        quotedAmount:
+          type: number
+    ItemQuoteCostVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemQuoteCostVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    ItemFullVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemFullVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ItemEstimatedCostVo:
+      type: object
+      properties:
+        cost:
+          type: number
+        currency:
+          type: string
+        guid:
+          type: string
+        isActiveProductionCost:
+          type: boolean
+        isActivePrototypeCost:
+          type: boolean
+        isEstimate:
+          type: boolean
+        leadTimeSpan:
+          type: number
+        leadTimeUnit:
+          type: string
+        maxQuantity:
+          type: number
+        minQuantity:
+          type: number
+        notes:
+          type: string
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    ItemPurchaseCostVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemPurchaseCostVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ItemFutureChangeVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        change:
+          $ref: '#/components/schemas/ChangeShortVo'
+    UrlVo:
+      type: object
+      properties:
+        api:
+          type: string
+        app:
+          type: string
+    PriceVo:
+      type: object
+      properties:
+        amount:
+          type: number
+        currency:
+          type: string
+    OwnerCreateVo:
+      type: object
+      properties:
+        fullName:
+          type: string
+    SingleGuidResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SingleGuidVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ItemRevisionVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemRevisionVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ItemLifecycleChangeResponseVo:
+      type: object
+      properties:
+        effectiveRevItem:
+          $ref: '#/components/schemas/ItemGuidAndUrlVo'
+        supersededRevItem:
+          $ref: '#/components/schemas/ItemGuidAndUrlVo'
+        workingRevItem:
+          $ref: '#/components/schemas/ItemGuidAndUrlVo'
+    ItemRevisionVo:
+      type: object
+      properties:
+        change:
+          $ref: '#/components/schemas/ChangeRevisionShortVo'
+        guid:
+          type: string
+        lifecyclePhase:
+          $ref: '#/components/schemas/LifecyclePhaseMinimalVo'
+        notes:
+          type: string
+        number:
+          type: string
+        revisionStatus:
+          type: string
+        status:
+          type: integer
+          format: int32
+        supersededDateTime:
+          type: string
+        url:
+          $ref: '#/components/schemas/UrlVo'
+    LifecycleChangeVo:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/SingleGuidVo'
+        proceedOnNotice:
+          type: boolean
+        toLifecyclePhase:
+          $ref: '#/components/schemas/SingleGuidVo'
+        notes:
+          type: string
+        revisionNumber:
+          type: string
+    ItemHistoryVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemHistoryVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

@@ -1,0 +1,1375 @@
+openapi: 3.2.0
+info:
+  title: Ptc Item Reference API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Item Reference across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Item Reference
+  description: Item-to-item references, future changes, and compliance.
+paths:
+  /items/{itemGuid}/sourcing/{sourcingRelationshipGuid}:
+    get:
+      tags:
+      - Item Reference
+      summary: Retrieve detailed information of the specified sourcing relationship
+      description: Returns a Source Relationship object with a given GUID for an item with a given GUID.
+      operationId: getSourcingRelationship
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: sourcingRelationshipGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemSourcingVo'
+    put:
+      tags:
+      - Item Reference
+      summary: Update information of the specified sourcing relationship
+      description: Updates a Source Relationship object with a given GUID for an item with a given GUID. Note that updating a source relationship modifies the existing Source Relationship GUID on the working revision.
+      operationId: updateSourcingRelationship
+      parameters:
+      - name: setnull
+        in: query
+        schema:
+          type: boolean
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: sourcingRelationshipGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemSourcingUpdateVo'
+            example:
+              notes: Updated Notes.
+              vendorItem:
+                guid: N5P8MJNP0H05O772MYF2
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemSourcingVo'
+    delete:
+      tags:
+      - Item Reference
+      summary: Delete the specified sourcing relationship
+      description: Deletes a source relationship with a given GUID for an item with a given GUID.
+      operationId: deleteSourcingRelationship
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: sourcingRelationshipGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Delete Item Sourcing Result
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /items/{itemGuid}/items/{itemReferenceGuid}:
+    get:
+      tags:
+      - Item Reference
+      summary: Retrieve detailed information of the specified reference item
+      operationId: getItemReference
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: itemReferenceGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item2ItemVo'
+    put:
+      tags:
+      - Item Reference
+      summary: Update information of the specified reference item
+      description: Updates the metadata of an Item-To-Item reference with a given GUID
+      operationId: updateItemReference
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: itemReferenceGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item2ItemUpdateVo'
+            example:
+              note: new note
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item2ItemVo'
+    delete:
+      tags:
+      - Item Reference
+      summary: Delete the specified reference item
+      description: Deletes an source Item reference with a given GUID for an item with a given GUID.
+      operationId: deleteItemReference
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: itemReferenceGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Delete Item Reference Result
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /items/{itemGuid}/compliance/{itemComplianceRequirementGuid}:
+    get:
+      tags:
+      - Item Reference
+      summary: Retrieve details of compliance requirements for the specified item
+      description: Returns a Compliance Requirement object with a given GUID for an item with a given GUID.
+      operationId: getItemComplianceRequirement
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: itemComplianceRequirementGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemComplianceVo'
+    put:
+      tags:
+      - Item Reference
+      summary: Update compliance requirements for the item
+      description: Updates a Compliance Requirement object with a given GUID for an item with a given GUID.
+      operationId: updateItemComplianceRequirement
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: itemComplianceRequirementGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemComplianceUpdateVo'
+            example:
+              evidenceType: AML_AND_FILES
+              mark: The updated compliance mark
+              rationale: Still looks good
+              status: COMPLIANT
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemComplianceVo'
+    delete:
+      tags:
+      - Item Reference
+      summary: Delete compliance requirements for the item
+      description: 'Deletes a Compliance Requirement object with a given GUID for an item with a given GUID.
+
+
+        Propagated Compliance Requirements (where the propagated attribute is true) cannot be removed.
+
+        The Compliance Requirement is removed from the specified revision only and is not removed from any other revisions.'
+      operationId: deleteItemComplianceRequirement
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: itemComplianceRequirementGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Delete Item Compliance Result
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /items/{itemGuid}/sourcing:
+    get:
+      tags:
+      - Item Reference
+      summary: Retrieve all sourcing relationship information of the item
+      description: Returns an array of Source Relationship objects for an item with a given GUID.
+      operationId: getSourcingRelationships
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemSourcingVoResultRep'
+    post:
+      tags:
+      - Item Reference
+      summary: Create new sourcing relationship for the item
+      description: 'Creates a new Source Relationship for an item with a given GUID.
+
+
+        You can create two types of source relationship:
+
+        • Direct relationship: You get a manufacturer Item directly from the manufacturer. The manufacturer and vendor items are the same. You can also specify a Make-Item relationship (where your own company makes the part) by setting MakeItem to True.
+
+        • Indirect relationship: You buy a manufacturer item from a vendor. The manufacturer and vendor items are different. You can also create an ''any'' relationship by omitting the manufacturer or vendor item.
+
+
+        Notes:
+
+        1. The suppliers and supplier items named in the source relationship must already exist in the workspace. Find their GUIDs with Get Supplier and Get Supplier Item requests.
+
+        2. Attribute values must match the types specified in the workspace. For predefined lists, use allowed values.
+
+        3. Number values must appear in quotation marks.'
+      operationId: createSourcingRelationship
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemSourcingCreateVo'
+            examples:
+              Indirect:
+                description: Indirect
+                value:
+                  amlRank: 1
+                  approved: true
+                  makeItem: false
+                  mfrItem:
+                    guid: FXH0EBFHS9SXGZYTV1FJ
+                  notes: Indirect source.
+                  vendorItem:
+                    guid: 6O8R5268J0JO7QPY6RK1
+                  vendorItemConversionFactor: 1
+              Direct:
+                description: Direct
+                value:
+                  amlRank: 2
+                  approved: true
+                  makeItem: false
+                  mfrItem:
+                    guid: 5N7Q4157IZIN6PPJ0BPA
+                  notes: Direct Source.  Supplied in Reels.
+                  vendorItem:
+                    guid: P7RAOLPR2J27Q9835BFG
+                  vendorItemConversionFactor: 1000
+              Make Item:
+                description: Make Item
+                value:
+                  amlRank: 3
+                  approved: true
+                  makeItem: true
+                  notes: Make Item
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemSourcingVo'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/items:
+    get:
+      tags:
+      - Item Reference
+      summary: Retrieve reference item collection of the item
+      operationId: getItemReferences
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item2ItemVoResultRep'
+    post:
+      tags:
+      - Item Reference
+      summary: Create reference item for the item
+      description: 'Creates a new Item-to-Item reference for an item with a given GUID.
+
+
+        Notes:
+
+        1. Item references are bidirectional. Creating an Item reference between Items means both Items will appear in each other''s Items view.
+
+        2. References are not revision controlled or revision specific, and can only be created between released Items.'
+      operationId: createItemReference
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item2ItemCreateVo'
+            example:
+              item:
+                guid: 3L5OTJFOWRAI1GB8L7L9
+              note: a note
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item2ItemVo'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/compliance:
+    get:
+      tags:
+      - Item Reference
+      summary: Retrieve all compliance requirements for the specified item
+      description: Returns all Compliance Requirement objects for an item with a given GUID.
+      operationId: getComplianceRequirements
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemComplianceVoResultRep'
+    post:
+      tags:
+      - Item Reference
+      summary: Create new compliance requirements for the item
+      description: 'Creates a Compliance Requirement object with a given GUID for an item with a given GUID.
+
+
+        Only one of each Compliance Requirement can be added to an Item.
+
+        Any Item revision can have compliance added.
+
+        If the Compliance Requirement is added to the effective revision, it is also added to the working revisions of the Item.'
+      operationId: createItemComplianceRequirement
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemComplianceCreateVo'
+            example:
+              evidenceType: AML_AND_FILES
+              mark: The compliance mark
+              rationale: Looks good
+              requirement:
+                guid: ASCV96ACN4LM5O71TLSH
+              status: COMPLIANT
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemComplianceVo'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/trainingrecords:
+    get:
+      tags:
+      - Item Reference
+      summary: Retrieve training record collection of the item
+      description: Returns a specific Item's training records across all the Training Plans it is associated with. Using the browser-based application as a point of comparison, this endpoint returns the training records of a specific Item within the Records view of all Training Plans associated with that Item.
+      operationId: getItemRecords
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemTrainingRecordVoResultRep'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/trainingrecords/{trainingRecordGuid}:
+    get:
+      tags:
+      - Item Reference
+      summary: Retrieve detailed information of the specified training record
+      description: Returns a specific Item's training record associated with a specific Training Plans. Using the browser-based application as a point of comparison, this endpoint returns a specific training record of a specific Item within the Records view of a specific Training Plan.
+      operationId: getItemRecord
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: trainingRecordGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemTrainingRecordVo'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/trainingplans:
+    get:
+      tags:
+      - Item Reference
+      summary: Retrieve training plan collection of the item
+      description: Returns all the Training Plans that use a specific Item. Using the browser-based application as a point of comparison, this endpoint returns the Training Plans within the Training view, Training Plans subview of a specific Item.
+      operationId: getItemTrainings
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryResultRep'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/trainingplans/{associationGuid}:
+    get:
+      tags:
+      - Item Reference
+      summary: Retrieve detailed information of the specified training plan
+      description: Returns a specific Training Plan associated within a specific Item. Using the browser-based application as a point of comparison, this endpoint returns a specific Training Plan located within the Training view, Training Plans subview of a specific Item.
+      operationId: getItemTraining
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: associationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemToTrainingVoResultRep'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/tickets:
+    get:
+      tags:
+      - Item Reference
+      summary: Retrieve validation ticket collection of the item
+      operationId: getItemVerifies
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemTicketVoResultRep'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/tickets/{verifyVerifiesAssociationGuid}:
+    get:
+      tags:
+      - Item Reference
+      summary: Retrieve detailed information of the specified validation ticket
+      operationId: getItemVerify
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: verifyVerifiesAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemToTicketVo'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/quality:
+    get:
+      tags:
+      - Item Reference
+      summary: Retrieve reference quality process collection of the item
+      description: Returns a collection of Quality Process objects for an item with a given GUID (all Quality Processes in which the Item is an affected object).
+      operationId: getItemQualityProcesses
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemQualityVoResultRep'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/quality/{itemQualityAssociationGuid}:
+    get:
+      tags:
+      - Item Reference
+      summary: Retrieve detailed information of the specified reference quality process
+      operationId: getItemQualityProcess
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: itemQualityAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemQualityVo'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    Item2ItemCreateVo:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/SingleGuidVo'
+        note:
+          type: string
+    QualityStepReferenceVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    ItemSourcingVo:
+      type: object
+      properties:
+        activeProduction:
+          type: boolean
+        activePrototype:
+          type: boolean
+        amlRank:
+          type: integer
+          format: int32
+        amlSplit:
+          type: integer
+          format: int32
+        approved:
+          type: boolean
+        guid:
+          type: string
+        item:
+          $ref: '#/components/schemas/ItemShortVo'
+        makeItem:
+          type: boolean
+        mrfItem:
+          $ref: '#/components/schemas/SourcingItemVo'
+        notes:
+          type: string
+        vendorItem:
+          $ref: '#/components/schemas/SourcingItemVo'
+        vendorItemConversionFactor:
+          type: integer
+          format: int32
+    ItemComplianceCreateVo:
+      type: object
+      properties:
+        evidenceType:
+          type: string
+        mark:
+          type: string
+        rationale:
+          type: string
+        requirement:
+          $ref: '#/components/schemas/SingleGuidVo'
+        status:
+          type: string
+    QueryResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items: {}
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    TicketMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+    ItemSourcingCreateVo:
+      type: object
+      properties:
+        amlRank:
+          type: integer
+          format: int32
+        approved:
+          type: boolean
+        makeItem:
+          type: boolean
+        mfrItem:
+          $ref: '#/components/schemas/SingleGuidVo'
+        notes:
+          type: string
+        vendorItem:
+          $ref: '#/components/schemas/SingleGuidVo'
+        vendorItemConversionFactor:
+          type: number
+          format: double
+    ItemToTrainingVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemToTrainingVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ItemGuidAndUrlVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        url:
+          $ref: '#/components/schemas/UrlVo'
+    ItemQualityVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemQualityVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    ItemComplianceUpdateVo:
+      type: object
+      properties:
+        evidenceType:
+          type: string
+        mark:
+          type: string
+        rationale:
+          type: string
+        status:
+          type: string
+    RequirementMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    ItemComplianceVo:
+      type: object
+      properties:
+        evidenceType:
+          type: string
+        guid:
+          type: string
+        lastModifiedBy:
+          $ref: '#/components/schemas/UserCompactVo'
+        lastModifiedDateTime:
+          type: string
+        mark:
+          type: string
+        propagated:
+          type: boolean
+        rationale:
+          type: string
+        requirement:
+          $ref: '#/components/schemas/RequirementMinimalVo'
+        status:
+          type: string
+        type:
+          type: string
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    ItemToTrainingVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        trainingplan:
+          $ref: '#/components/schemas/TrainingMinimalVo'
+    ItemTicketVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemToTicketVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    Item2ItemUpdateVo:
+      type: object
+      properties:
+        note:
+          type: string
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    TrainingMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+    ItemQualityVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        notes:
+          type: string
+        qualityProcess:
+          $ref: '#/components/schemas/QualityProcessReferenceVo'
+    Item2ItemVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Item2ItemVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ItemSourcingVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemSourcingVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ItemComplianceVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemComplianceVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    SourcingItemVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+        supplier:
+          $ref: '#/components/schemas/SupplierCompactVo'
+    QualityProcessReferenceVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        step:
+          $ref: '#/components/schemas/QualityStepReferenceVo'
+        type:
+          type: string
+    UrlVo:
+      type: object
+      properties:
+        api:
+          type: string
+        app:
+          type: string
+    SupplierCompactVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    Item2ItemVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        item:
+          $ref: '#/components/schemas/ItemGuidAndUrlVo'
+        notes:
+          type: string
+    ItemToTicketVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        ticket:
+          $ref: '#/components/schemas/TicketMinimalVo'
+    ItemTrainingRecordVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemTrainingRecordVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ItemSourcingUpdateVo:
+      type: object
+      properties:
+        mfrItem:
+          $ref: '#/components/schemas/SingleGuidVo'
+        vendorItem:
+          $ref: '#/components/schemas/SingleGuidVo'
+        vendorItemConversionFactor:
+          type: number
+          format: double
+        approved:
+          type: boolean
+        amlRank:
+          type: integer
+          format: int32
+        amlSplit:
+          type: number
+          format: double
+        notes:
+          type: string
+    ItemShortVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        revisionNumber:
+          type: string
+        revisionStatus:
+          type: string
+        url:
+          $ref: '#/components/schemas/UrlVo'
+    ItemTrainingRecordVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        traningplan:
+          $ref: '#/components/schemas/TrainingMinimalVo'
+        signedDateTime:
+          type: string
+        dueDate:
+          type: string
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

@@ -1,0 +1,837 @@
+openapi: 3.2.0
+info:
+  title: Ptc Ticket Reference API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Ticket Reference across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Ticket Reference
+  description: Manage references between Tickets and Changes, Tickets, Quality Processes, or Items.
+paths:
+  /tickets/{verifyGuid}/tickets:
+    get:
+      tags:
+      - Ticket Reference
+      summary: List all tickets referenced by this ticket
+      description: Returns a collection of tickets added as references to a ticket object.
+      operationId: getVerifyVerifies
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemTicketVoResultRep'
+    post:
+      tags:
+      - Ticket Reference
+      summary: Link another ticket to this ticket
+      description: Adds a ticket as a reference to a ticket.
+      operationId: createVerifyVerify
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketToTicketCreateVo'
+            example:
+              ticket:
+                guid: 9RBUDLLAE9Q5O7Q9SX49
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemToTicketVo'
+    servers:
+    - url: /v1
+  /tickets/{verifyGuid}/quality:
+    get:
+      tags:
+      - Ticket Reference
+      summary: List all quality processes linked to a ticket
+      description: Returns a collection of quality processes added as references to a ticket object.
+      operationId: getVerifyQualities
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReferencedQualityVoResultRep'
+    post:
+      tags:
+      - Ticket Reference
+      summary: Link a quality process to a ticket
+      description: Adds a quality process as a reference to a ticket.
+      operationId: createVerifyQuality
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrainingQualityUpdateVo'
+            example:
+              quality:
+                guid: DVFYHPPEIDWSBUDWE7TD
+                step:
+                  guid: N5P8RZZOSN62L4N6OH3N
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityAssociationVo'
+    servers:
+    - url: /v1
+  /tickets/{verifyGuid}/items:
+    get:
+      tags:
+      - Ticket Reference
+      summary: List all items linked to a ticket
+      description: Returns a collection of items added as references to a ticket object.
+      operationId: getVerifyItems
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketItemVoResultRep'
+    post:
+      tags:
+      - Ticket Reference
+      summary: Link an item to a ticket
+      description: Adds an item as a reference to a ticket.
+      operationId: createVerifyItem
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketItemCreateVo'
+            example:
+              item:
+                guid: 4M6P8GG594NVESXYS4JF
+              latestRevisionAssociation: true
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketItemVo'
+    servers:
+    - url: /v1
+  /tickets/{verifyGuid}/changes:
+    get:
+      tags:
+      - Ticket Reference
+      summary: List all changes linked to a ticket
+      description: Returns a collection of changes added as references to a Ticket object.
+      operationId: getVerifyChanges
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestChangeVoResultRep'
+    post:
+      tags:
+      - Ticket Reference
+      summary: Link a change to a ticket
+      description: Adds a Change as a reference to a ticket.
+      operationId: createVerifyChange
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketChangeCreateVo'
+            example:
+              change:
+                guid: CUEXGOODHCVYHZI360DQ
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestChangeVo'
+    servers:
+    - url: /v1
+  /tickets/{verifyGuid}/tickets/{verifyVerifiesAssociationGuid}:
+    get:
+      tags:
+      - Ticket Reference
+      summary: Get details of a specific ticket referenced by this ticket
+      operationId: getVerifyVerify
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: verifyVerifiesAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemToTicketVo'
+    delete:
+      tags:
+      - Ticket Reference
+      summary: Unlink a referenced ticket
+      description: Removes a ticket with a specific GUID from a ticket with a specific GUID. The ticket is removed as a reference from the ticket.
+      operationId: deleteVerifyVerify
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: verifyVerifiesAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /tickets/{verifyGuid}/quality/{verifyQualityAssociationGuid}:
+    get:
+      tags:
+      - Ticket Reference
+      summary: Get details of a specific quality process linked to a ticket
+      operationId: getVerifyQuality
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: verifyQualityAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReferencedQualityVo'
+    delete:
+      tags:
+      - Ticket Reference
+      summary: Unlink a quality process from a ticket
+      description: Removes a quality with a specific GUID from a ticket with a specific GUID. The quality process is removed as a reference from the ticket.
+      operationId: deleteVerifyQuality
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: verifyQualityAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /tickets/{verifyGuid}/items/{verifyItemAssociationGuid}:
+    get:
+      tags:
+      - Ticket Reference
+      summary: Get details of a specific item linked to a ticket
+      operationId: getVerifyItem
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: verifyItemAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketItemVo'
+    delete:
+      tags:
+      - Ticket Reference
+      summary: Unlink an item from a ticket
+      description: Removes an item with a specific GUID from a ticket with a specific GUID. The item is removed as a reference from the ticket.
+      operationId: deleteVerifyItem
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: verifyItemAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /tickets/{verifyGuid}/changes/{verifyChangeAssociationGuid}:
+    get:
+      tags:
+      - Ticket Reference
+      summary: Get details of a specific change linked to a ticket
+      operationId: getVerifyChange
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: verifyChangeAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestChangeVo'
+    delete:
+      tags:
+      - Ticket Reference
+      summary: Unlink a change from a ticket
+      description: Removes a change with a specific GUID from a ticket with a specific GUID. The change is removed as a reference from the ticket.
+      operationId: deleteVerifyChange
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: verifyChangeAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+components:
+  schemas:
+    TicketItemCreateVo:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/SingleGuidVo'
+        latestRevisionAssociation:
+          type: boolean
+    ChangeMinimalVoWithoutUrl:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+    QualityStepReferenceVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    TicketMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+    StepBasicVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    TicketChangeCreateVo:
+      type: object
+      properties:
+        change:
+          $ref: '#/components/schemas/SingleGuidVo'
+    QualityBasicVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+        step:
+          $ref: '#/components/schemas/StepBasicVo'
+    TicketToTicketCreateVo:
+      type: object
+      properties:
+        ticket:
+          $ref: '#/components/schemas/SingleGuidVo'
+    ItemBasicVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        revision:
+          type: string
+        revisionStatus:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    TrainingQualityUpdateVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        step:
+          $ref: '#/components/schemas/SingleGuidVo'
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    TicketItemVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TicketItemVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ReferencedQualityVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        quality:
+          $ref: '#/components/schemas/QualityBasicVo'
+    ItemTicketVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemToTicketVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    TicketItemVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        item:
+          $ref: '#/components/schemas/ItemBasicVo'
+    QualityProcessReferenceVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        step:
+          $ref: '#/components/schemas/QualityStepReferenceVo'
+        type:
+          type: string
+    ReferencedQualityVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReferencedQualityVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    RequestChangeVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        change:
+          $ref: '#/components/schemas/ChangeMinimalVoWithoutUrl'
+    ItemToTicketVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        ticket:
+          $ref: '#/components/schemas/TicketMinimalVo'
+    RequestChangeVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequestChangeVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    QualityAssociationVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        notes:
+          type: string
+        qualityProcess:
+          $ref: '#/components/schemas/QualityProcessReferenceVo'
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

@@ -1,0 +1,423 @@
+generated: '2026-10-20'
+method: derived
+generator: derive-vocabulary.py
+source: openapi/ptc-arena-openapi.yml
+vocabulary:
+  name: PTC Domain Vocabulary
+  description: 'Terms declared by PTC''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions. Derived,
+    not authored.'
+  version: '2026-10-20'
+  terms:
+  - term: Access
+    definition: Login and logout API activities.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Attribute Settings
+    definition: Manage settings for attributes across various objects (Item, BOM, File, Request, Change, Quality, Ticket, Supplier, Export).
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Category Settings
+    definition: Manage settings for categories across various objects (Item, File, Request, Change).
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Item Settings
+    definition: Manage settings for items (Lifecycle Phases, Attributes, Categories, Number Formats).
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Supplier Settings
+    definition: Manage settings for suppliers and supplier items (Attributes, Compliance Requirements).
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: SupplierItem Settings
+    definition: Manage settings for supplier items (Attributes, Compliance Requirements).
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: File Settings
+    definition: Manage settings for files (Categories, Attributes).
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Change Settings
+    definition: Manage settings for changes (Categories, Attributes, Routings, Administrators, Number Prefixes).
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Request Settings
+    definition: Manage settings for requests (Number Prefixes/Sequences, Administrators, Categories, Evaluator Groups, Attributes).
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: QualityProcess Settings
+    definition: Manage settings for quality processes (Owners, Number Formats, Templates, Attributes, Step Attributes).
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Ticket Settings
+    definition: Manage settings for tickets (Templates, Attributes, Number Sequences).
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: TrainingPlan Settings
+    definition: Manage settings for training plans (Number Sequences, Managers).
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: User Settings
+    definition: Manage users (via GET Users).
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Policy Settings
+    definition: Manage users access.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: UserGroup Settings
+    definition: Manage settings for user groups (Groups, Users, Employees, Partners).
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: OutboundEvent Settings
+    definition: Manage settings/definitions for outbound events (Integrations, Triggers).
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: OutboundIntegration Settings
+    definition: Manage settings/definitions for outbound integrations.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Item
+    definition: 'Core item operations: search, create, update, delete, get specs, revisions, lifecycle, sourcing, thumbnail, references, training,
+      quality, files, tickets, BOMs, compliance, where used.'
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Item File
+    definition: Manage file associations and content for items.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Item Reference
+    definition: Item-to-item references, future changes, and compliance.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Item Bom
+    definition: Manage Bill of Materials (BOM) for items, including lines, settings, and substitutes.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Supplier
+    definition: 'Core supplier operations: search, create, update, delete, get profile, addresses, phone numbers, quality processes, and files.'
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Supplier File
+    definition: Manage file associations for suppliers.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Supplier Reference
+    definition: Access supplier and supplier quality information.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Supplier Item
+    definition: 'Manage supplier items: search, create, update, delete, specs, source relationships, files, thumbnail, compliance, quality processes.'
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Supplier Item File
+    definition: Manage file associations and content for supplier items.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Supplier Item Reference
+    definition: Manage supplier item references (e.g., via Item Sourcing source relationships, compliance).
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: File
+    definition: 'Core file operations: search, create, update, delete, get summary, content, check in/out, markups, training, corrections, editions,
+      and associations.'
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: File Association
+    definition: Manage file associations with other objects (Items, Suppliers, Supplier Items, Changes, Requests, Quality Processes, Change Implementations).
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Change
+    definition: 'Core change operations: search, create, update, delete, summary, workflow status, quality processes, requests, files, markups,
+      implementation tasks/files/notes, affected items.'
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Change Item
+    definition: 'Manage affected items associated with a change: add, edit, delete, get.'
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Change Files
+    definition: Manage file associations for changes (including implementation files and task files).
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Change Implementation Task
+    definition: 'Manage implementation tasks for a change: create, update, delete, get (including notes and files).'
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Change Reference
+    definition: Manage references between Changes and Requests, Tickets, or Quality Processes.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Request
+    definition: 'Core request operations: search, create, update, delete, summary, workflow status, items, tickets, changes, files, markups.'
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Request File
+    definition: Manage file associations and file markups for requests.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Request Reference
+    definition: Manage references between Requests and Items, Changes, or Quality Processes.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: QualityProcess
+    definition: 'Core quality process operations: search, create, update, delete, summary, status, steps, and affected objects.'
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: QualityProcess Detail
+    definition: 'Manage details of quality process steps: get, update, complete, reopen, decisions.'
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Ticket
+    definition: 'Core ticket operations: search, create, update, delete, summary, workflow status, and references (Changes, Tickets, Quality Processes,
+      Items, Files).'
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Ticket File
+    definition: Manage file associations for tickets.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Ticket Reference
+    definition: Manage references between Tickets and Changes, Tickets, Quality Processes, or Items.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Training Plan
+    definition: 'Core training plan operations: search, create, update, delete, status, and associated files, quality processes, users, records,
+      and items.'
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Training Plan File
+    definition: Manage file associations for training plans.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Export
+    definition: Manage export definitions and runs, including file content and metadata.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Extract
+    definition: Manage extract definitions and runs, including files and content.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Import
+    definition: Manage import definitions and runs, including submitting content, getting results/errors, and committing.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Outbound Event
+    definition: Access and manage outbound events and event items, including reconciliation.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Outbound Integration
+    definition: Access and manage outbound integration definitions and administrators.
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Recent Activities
+    definition: Retrieve recent activity logs (User Access, Exports, File Access, Report Runs).
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Requirement
+    definition: 'Manage requirements: search, create, update, delete, and get details.'
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: Requirement Settings
+    definition: Manage settings for requirements (Templates, Attributes).
+    tags:
+    - Resource Group
+    source: openapi/ptc-arena-openapi.yml
+  - term: ErrorObject
+    definition: 'Object declared by the contract with fields: code, message.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/ErrorObject
+  - term: ErrorResponse
+    definition: 'Object declared by the contract with fields: status, errors.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/ErrorResponse
+  - term: TrainingUpdateVo
+    definition: 'Object declared by the contract with fields: name, description, manager, daysToComplete.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/TrainingUpdateVo
+  - term: UserCompactVo
+    definition: 'Object declared by the contract with fields: email, fullName, guid.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/UserCompactVo
+  - term: TrainingShortVo
+    definition: 'Object declared by the contract with fields: guid, number, name, description, daysToComplete, creationDateTime, status, manager,
+      creator.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/TrainingShortVo
+  - term: AdditionalAttribute
+    definition: 'Object declared by the contract with fields: guid, creationDateTime, creatorId, mappingId, modifierId, workspaceId, parentObjectId,
+      value, name, apiName, fieldType, plmEntityType. (6 more)'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/AdditionalAttribute
+  - term: User
+    definition: 'Object declared by the contract with fields: id, guid, creationDateTime, creatorId, mappingId, modifierId, workspaceId, fullName,
+      email, type, enabled_p, name. (4 more)'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/User
+  - term: TrainingUserVo
+    definition: 'Object declared by the contract with fields: guid, user, dueDate.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/TrainingUserVo
+  - term: TrainingUserUpdateEntity
+    definition: 'Object declared by the contract with fields: dueDate.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/TrainingUserUpdateEntity
+  - term: AdditionalAttributeCreateVo
+    definition: 'Object declared by the contract with fields: name, guid, value.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/AdditionalAttributeCreateVo
+  - term: SingleGuidVo
+    definition: 'Object declared by the contract with fields: guid.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/SingleGuidVo
+  - term: TicketUpdateVo
+    definition: 'Object declared by the contract with fields: additionalAttributes, title, description, fixVersion, foundOn, assignee, priority.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/TicketUpdateVo
+  - term: AdditionalAttributeCompactVo
+    definition: 'Object declared by the contract with fields: apiName, fieldType, guid, multiSelect, name, value.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/AdditionalAttributeCompactVo
+  - term: TicketStatusVo
+    definition: 'Object declared by the contract with fields: guid, value.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/TicketStatusVo
+  - term: TicketTemplateVo
+    definition: 'Object declared by the contract with fields: guid, name.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/TicketTemplateVo
+  - term: TicketVo
+    definition: 'Object declared by the contract with fields: additionalAttributes, assignee, creationDateTime, description, creator, fixVersion,
+      foundOn, guid, modifyDateTime, title, number, priority. (2 more)'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/TicketVo
+  - term: TemplateHeader
+    definition: 'Object declared by the contract with fields: id, guid, creationDateTime, creatorId, mappingId, modifierId, workspaceId, name,
+      active, defaultTemplate, folderName, folderId. (4 more)'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/TemplateHeader
+  - term: VerifyDynamicUpdateSupport
+    definition: 'Object declared by the contract with fields: dirtyFields, customAttributes, coreAttributesAsMap, customAttributesAsMap, coreAttributesForDae,
+      customAttributeForDae.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/VerifyDynamicUpdateSupport
+  - term: AddressVo
+    definition: 'Object declared by the contract with fields: label, address1, address2, city, state, province, postalCode, country, guid.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/AddressVo
+  - term: PhoneNumberVo
+    definition: 'Object declared by the contract with fields: label, number, extension, comment, guid.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/PhoneNumberVo
+  - term: SupplierAddressCompactVo
+    definition: 'Object declared by the contract with fields: primary, address.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/SupplierAddressCompactVo
+  - term: SupplierApprovalStatusMinimalVo
+    definition: 'Object declared by the contract with fields: guid.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/SupplierApprovalStatusMinimalVo
+  - term: SupplierUpdateRequestVo
+    definition: 'Object declared by the contract with fields: accountNumber, additionalAttributes, addresses, approvalStatusSetting, description,
+      name, phoneNumbers, website, supplierId.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/SupplierUpdateRequestVo
+  - term: SupplierApprovalStatusCompactVo
+    definition: 'Object declared by the contract with fields: name, type, guid.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/SupplierApprovalStatusCompactVo
+  - term: SupplierFullVo
+    definition: 'Object declared by the contract with fields: accountNumber, additionalAttributes, addresses, approvalStatus, approvalStatusSetting,
+      creationDateTime, creator, description, guid, name, phoneNumbers, supplierId. (1 more)'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/SupplierFullVo
+  - term: SupplierPhoneNumberCreateVo
+    definition: 'Object declared by the contract with fields: label, number, extension, comment.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/SupplierPhoneNumberCreateVo
+  - term: SupplierPhoneNumberVo
+    definition: 'Object declared by the contract with fields: label, number, extension, comment, guid.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/SupplierPhoneNumberVo
+  - term: SupplierContactShortVo
+    definition: 'Object declared by the contract with fields: email, firstNames, lastName, primary, title.'
+    tags:
+    - Object
+    source: openapi/ptc-arena-openapi.yml#/components/schemas/SupplierContactShortVo

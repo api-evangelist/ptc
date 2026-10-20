@@ -42,3 +42,1416 @@
       latest_authorization: '2023-01-04'
   status: not-a-workflow
   arazzo: null
+- slug: ptc-adobe-acrobat-sign
+  label: Adobe Acrobat Sign
+  partner_name: Adobe Acrobat Sign
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/adobe-acrobat-sign/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-adobe-analytics
+  label: Adobe Analytics
+  partner_name: Adobe Analytics
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/adobe-analytics/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-adobe-commerce-magento
+  label: Adobe Commerce Magento
+  partner_name: Adobe Commerce Magento
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/adobe-commerce-magento/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-adobe-i-o-events
+  label: Adobe I/O Events
+  partner_name: Adobe I/O Events
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/adobe-io-events/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-adp-workforce-now
+  label: ADP Workforce Now
+  partner_name: ADP Workforce Now
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/adp-workforce-now/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-airtable
+  label: Airtable
+  partner_name: Airtable
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/airtable/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-algolia
+  label: Algolia
+  partner_name: Algolia
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/algolia/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-amazon-seller-central
+  label: Amazon Seller Central
+  partner_name: Amazon Seller Central
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/amazon-seller-central/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-arcgis
+  label: ArcGIS
+  partner_name: ArcGIS
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/arcgis/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-asana
+  label: Asana
+  partner_name: Asana
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/asana/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-aspose
+  label: Aspose
+  partner_name: Aspose
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/aspose/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-jira
+  label: Jira
+  partner_name: Jira
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/atlassian-jira/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-amazon-dynamodb
+  label: Amazon DynamoDB
+  partner_name: Amazon DynamoDB
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/aws-dynamodb/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-aws-glue
+  label: AWS Glue
+  partner_name: AWS Glue
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/aws-glue/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-aws-lambda
+  label: AWS Lambda
+  partner_name: AWS Lambda
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/aws-lambda/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-redshift
+  label: Redshift
+  partner_name: Redshift
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/aws-redshift/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-amazon-s3
+  label: Amazon S3
+  partner_name: Amazon S3
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/aws-s3/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-amazon-ses
+  label: Amazon SES
+  partner_name: Amazon SES
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/aws-ses/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-amazon-sns
+  label: Amazon SNS
+  partner_name: Amazon SNS
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/aws-sns/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-amazon-sqs
+  label: Amazon SQS
+  partner_name: Amazon SQS
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/aws-sqs/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-azure-blob-storage
+  label: Azure Blob Storage
+  partner_name: Azure Blob Storage
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/azure-blob/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-azure-cosmos-db
+  label: Azure Cosmos DB
+  partner_name: Azure Cosmos DB
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/azure-cosmos-db/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-azure-event-grid
+  label: Azure Event Grid
+  partner_name: Azure Event Grid
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/azure-event-grid/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-azure-files
+  label: Azure Files
+  partner_name: Azure Files
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/azure-files/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-azure-service-bus
+  label: Azure Service Bus
+  partner_name: Azure Service Bus
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/azureservicebus/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-bamboohr
+  label: BambooHR
+  partner_name: BambooHR
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/bamboohr/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-bigcommerce
+  label: BigCommerce
+  partner_name: BigCommerce
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/bigcommerce/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-bill
+  label: Bill
+  partner_name: Bill
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/bill/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-box
+  label: Box
+  partner_name: Box
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/box/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-branch
+  label: Branch
+  partner_name: Branch
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/branch/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-bynder
+  label: Bynder
+  partner_name: Bynder
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/bynder/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-calendly
+  label: Calendly
+  partner_name: Calendly
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/calendly/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-clickup
+  label: ClickUp
+  partner_name: ClickUp
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/click-up/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-confluence
+  label: Confluence
+  partner_name: Confluence
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/confluence/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-contentful
+  label: Contentful
+  partner_name: Contentful
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/contentful/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-customer-io
+  label: Customer.io
+  partner_name: Customer.io
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/customer-io/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-databricks
+  label: Databricks
+  partner_name: Databricks
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/databricks/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-datadog
+  label: Datadog
+  partner_name: Datadog
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/datadog/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-docusign
+  label: DocuSign
+  partner_name: DocuSign
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/docusign/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-domo
+  label: Domo
+  partner_name: Domo
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/domo/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-dropbox
+  label: Dropbox
+  partner_name: Dropbox
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/dropbox/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-duro-plm
+  label: Duro PLM
+  partner_name: Duro PLM
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/duro-plm/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-expensify
+  label: Expensify
+  partner_name: Expensify
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/expensify/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-meta-ads
+  label: Meta Ads
+  partner_name: Meta Ads
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/facebook-marketing/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-firebase
+  label: Firebase
+  partner_name: Firebase
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/firebase/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-first-resonance-ion
+  label: First Resonance ION
+  partner_name: First Resonance ION
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/first-resonance/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-fluent-commerce
+  label: Fluent Commerce
+  partner_name: Fluent Commerce
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/fluent-commerce/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-freshservice
+  label: Freshservice
+  partner_name: Freshservice
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/freshservice/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-frontify
+  label: Frontify
+  partner_name: Frontify
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/frontify/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-github
+  label: GitHub
+  partner_name: GitHub
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/github/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-gong
+  label: Gong
+  partner_name: Gong
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/gong/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-google-ads
+  label: Google Ads
+  partner_name: Google Ads
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/google-ads/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-google-analytics-ga4
+  label: Google Analytics - GA4
+  partner_name: Google Analytics - GA4
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/google-analytics-ga4/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-google-analytics-ua
+  label: Google Analytics - UA
+  partner_name: Google Analytics - UA
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/google-analytics/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-google-calendar
+  label: Google Calendar
+  partner_name: Google Calendar
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/google-calendar/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-google-cloud-bigquery
+  label: Google Cloud BigQuery
+  partner_name: Google Cloud BigQuery
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/google-cloud-bigquery/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-google-cloud-pub-sub
+  label: Google Cloud Pub/Sub
+  partner_name: Google Cloud Pub/Sub
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/google-cloud-pub-sub/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-google-cloud-storage
+  label: Google Cloud Storage
+  partner_name: Google Cloud Storage
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/google-cloud-storage/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-google-shopping
+  label: Google Shopping
+  partner_name: Google Shopping
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/google-content-shopping/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-google-docs
+  label: Google Docs
+  partner_name: Google Docs
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/google-docs/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-google-drive
+  label: Google Drive
+  partner_name: Google Drive
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/google-drive/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-gmail
+  label: Gmail
+  partner_name: Gmail
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/google-gmail/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-google-sheets
+  label: Google Sheets
+  partner_name: Google Sheets
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/google-sheets/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-gorgias
+  label: Gorgias
+  partner_name: Gorgias
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/gorgias/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-goto-webinar
+  label: GoTo Webinar
+  partner_name: GoTo Webinar
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/gotowebinar/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-greenhouse
+  label: Greenhouse
+  partner_name: Greenhouse
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/greenhouse/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-guru
+  label: Guru
+  partner_name: Guru
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/guru/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-gusto
+  label: Gusto
+  partner_name: Gusto
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/gusto/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-hibob
+  label: HiBob
+  partner_name: HiBob
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/hibob/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-hubspot
+  label: HubSpot
+  partner_name: HubSpot
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/hubspot/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-intercom
+  label: Intercom
+  partner_name: Intercom
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/intercom/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-karbon
+  label: Karbon
+  partner_name: Karbon
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/karbon/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-klaviyo
+  label: Klaviyo
+  partner_name: Klaviyo
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/klaviyo/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-active-directory
+  label: Active Directory
+  partner_name: Active Directory
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/ldap/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-mailchimp
+  label: Mailchimp
+  partner_name: Mailchimp
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/mailchimp/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-adobe-marketo-engage
+  label: Adobe Marketo Engage
+  partner_name: Adobe Marketo Engage
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/marketo/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-mixpanel
+  label: Mixpanel
+  partner_name: Mixpanel
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/mixpanel/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-monday
+  label: Monday
+  partner_name: Monday
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/monday/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-mongodb
+  label: MongoDB
+  partner_name: MongoDB
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/mongo/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-microsoft-bing-ads
+  label: Microsoft Bing Ads
+  partner_name: Microsoft Bing Ads
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/ms-bing-ads/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-microsoft-bot-framework
+  label: Microsoft Bot Framework
+  partner_name: Microsoft Bot Framework
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/ms-bot-framework/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-microsoft-dynamics-365-business-central
+  label: Microsoft Dynamics 365 Business Central
+  partner_name: Microsoft Dynamics 365 Business Central
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/ms-business-central/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-microsoft-dynamics-365
+  label: Microsoft Dynamics 365
+  partner_name: Microsoft Dynamics 365
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/ms-dynamics/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-microsoft-entra-id
+  label: Microsoft Entra ID
+  partner_name: Microsoft Entra ID
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/ms-entra-id/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-microsoft-excel
+  label: Microsoft Excel
+  partner_name: Microsoft Excel
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/ms-excel/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-microsoft-graph-api
+  label: Microsoft Graph API
+  partner_name: Microsoft Graph API
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/ms-graph-api/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-microsoft-intune
+  label: Microsoft Intune
+  partner_name: Microsoft Intune
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/ms-intune/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-microsoft-onedrive
+  label: Microsoft OneDrive
+  partner_name: Microsoft OneDrive
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/ms-onedrive/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-microsoft-outlook
+  label: Microsoft Outlook
+  partner_name: Microsoft Outlook
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/ms-outlook/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-microsoft-power-bi
+  label: Microsoft Power BI
+  partner_name: Microsoft Power BI
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/ms-power-bi/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-microsoft-project
+  label: Microsoft Project
+  partner_name: Microsoft Project
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/ms-project/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-microsoft-sharepoint
+  label: Microsoft SharePoint
+  partner_name: Microsoft SharePoint
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/ms-sharepoint/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-microsoft-sql-server
+  label: Microsoft SQL Server
+  partner_name: Microsoft SQL Server
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/ms-sql-server/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-microsoft-teams
+  label: Microsoft Teams
+  partner_name: Microsoft Teams
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/ms-teams/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-oracle-netsuite
+  label: Oracle NetSuite
+  partner_name: Oracle NetSuite
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/netsuite/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-new-relic
+  label: New Relic
+  partner_name: New Relic
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/new-relic/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-notion
+  label: Notion
+  partner_name: Notion
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/notion/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-odoo
+  label: Odoo
+  partner_name: Odoo
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/odoo/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-okta
+  label: Okta
+  partner_name: Okta
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/okta-management-api/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-oracle-database
+  label: Oracle Database
+  partner_name: Oracle Database
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/oracledb/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-pagerduty
+  label: PagerDuty
+  partner_name: PagerDuty
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/pagerduty/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-paylocity
+  label: Paylocity
+  partner_name: Paylocity
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/paylocity/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-pdq
+  label: PDQ
+  partner_name: PDQ
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/pdq/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-pretty-good-privacy
+  label: Pretty Good Privacy
+  partner_name: Pretty Good Privacy
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/pgp/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-pipedrive
+  label: Pipedrive
+  partner_name: Pipedrive
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/pipedrive/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-postgresql
+  label: PostgreSQL
+  partner_name: PostgreSQL
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/postgres/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-postmark
+  label: Postmark
+  partner_name: Postmark
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/postmark/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-prismatic
+  label: Prismatic
+  partner_name: Prismatic
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/prismatic/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-qlik
+  label: Qlik
+  partner_name: Qlik
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/qlik/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-quickbooks-time
+  label: QuickBooks Time
+  partner_name: QuickBooks Time
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/quickbooks-time/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-quickbooks
+  label: QuickBooks
+  partner_name: QuickBooks
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/quickbooks/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-ramp
+  label: Ramp
+  partner_name: Ramp
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/ramp/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-rippling
+  label: Rippling
+  partner_name: Rippling
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/rippling/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-sage-200
+  label: Sage 200
+  partner_name: Sage 200
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/sage-200/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-sage-hr
+  label: Sage HR
+  partner_name: Sage HR
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/sage-hr/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-sage-intacct
+  label: Sage Intacct
+  partner_name: Sage Intacct
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/sage-intacct/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-sage-accounting
+  label: Sage Accounting
+  partner_name: Sage Accounting
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/sage/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-salesforce-marketing-cloud
+  label: Salesforce Marketing Cloud
+  partner_name: Salesforce Marketing Cloud
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/salesforce-marketing-cloud/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-salesforce
+  label: Salesforce
+  partner_name: Salesforce
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/salesforce/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-sap-business-one
+  label: SAP Business One
+  partner_name: SAP Business One
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/sap-business-one/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-sap-ecc
+  label: SAP ECC
+  partner_name: SAP ECC
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/sap-ecc/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-sap-successfactors
+  label: SAP SuccessFactors
+  partner_name: SAP SuccessFactors
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/sap-successfactors/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-sap-s-4hana-cloud
+  label: SAP S/4HANA Cloud
+  partner_name: SAP S/4HANA Cloud
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/saps4hana/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-schedule-trigger
+  label: Schedule Trigger
+  partner_name: Schedule Trigger
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/schedule-triggers/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-segment
+  label: Segment
+  partner_name: Segment
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/segment/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-sendgrid
+  label: SendGrid
+  partner_name: SendGrid
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/sendgrid/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-servicedesk-plus
+  label: ServiceDesk Plus
+  partner_name: ServiceDesk Plus
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/servicedesk-plus/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-servicenow
+  label: ServiceNow
+  partner_name: ServiceNow
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/servicenow/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-servicetitan
+  label: ServiceTitan
+  partner_name: ServiceTitan
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/servicetitan/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-shipbob
+  label: ShipBob
+  partner_name: ShipBob
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/shipbob/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-shipstation
+  label: ShipStation
+  partner_name: ShipStation
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/shipstation/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-shopify
+  label: Shopify
+  partner_name: Shopify
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/shopify/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-slack
+  label: Slack
+  partner_name: Slack
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/slack/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-smartsheet
+  label: Smartsheet
+  partner_name: Smartsheet
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/smartsheet/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-snowflake
+  label: Snowflake
+  partner_name: Snowflake
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/snowflake/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-square
+  label: Square
+  partner_name: Square
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/square/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-system-surveyor
+  label: System Surveyor
+  partner_name: System Surveyor
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/ssv/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-stripe
+  label: Stripe
+  partner_name: Stripe
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/stripe/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-surveymonkey
+  label: SurveyMonkey
+  partner_name: SurveyMonkey
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/surveymonkey/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-tableau
+  label: Tableau
+  partner_name: Tableau
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/tableau/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-teamviewer
+  label: TeamViewer
+  partner_name: TeamViewer
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/teamviewer/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-tenable-vulnerability-management
+  label: Tenable Vulnerability Management
+  partner_name: Tenable Vulnerability Management
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/tenable-vulnerability-management/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-toast
+  label: Toast
+  partner_name: Toast
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/toast/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-twilio
+  label: Twilio
+  partner_name: Twilio
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/twilio/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-typeform
+  label: Typeform
+  partner_name: Typeform
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/typeform/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-ukg-pro
+  label: UKG Pro
+  partner_name: UKG Pro
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/ukg-pro/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-universal-webhook
+  label: Universal Webhook
+  partner_name: Universal Webhook
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/webhook-triggers/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-whatsapp
+  label: WhatsApp
+  partner_name: WhatsApp
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/whatsapp/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-woocommerce
+  label: WooCommerce
+  partner_name: WooCommerce
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/woo-commerce/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-workday-beta
+  label: Workday (Beta)
+  partner_name: Workday (Beta)
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/workday/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-xero
+  label: Xero
+  partner_name: Xero
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/xero/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-yoti-sign
+  label: Yoti Sign
+  partner_name: Yoti Sign
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/yoti-sign/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-zendesk-sell
+  label: Zendesk Sell
+  partner_name: Zendesk Sell
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/zendesk-sell/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-zendesk
+  label: Zendesk
+  partner_name: Zendesk
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/zendesk/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-zip
+  label: Zip
+  partner_name: Zip
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/zip/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-zoho
+  label: Zoho
+  partner_name: Zoho
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/zoho/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null
+- slug: ptc-zoom
+  label: Zoom
+  partner_name: Zoom
+  type: claimed
+  channel: provider-built
+  evidence: https://ptc-arena.github.io/arena-dev-help/arena-connect/connectors/zoom/
+  source: edge
+  status: pending-partner-spec
+  arazzo: null

@@ -1,0 +1,33 @@
+generated: '2026-10-20'
+method: derived
+source: openapi/ptc-arena-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  - oauth2
+  api_key_in:
+  - header
+  oauth2_flows:
+  - clientCredentials
+schemes:
+- name: oauth2Auth
+  type: oauth2
+  flows:
+  - flow: clientCredentials
+    tokenUrl: https://openauth.web.prod.bom.com:4431
+    scopes: 0
+  sources:
+  - openapi/ptc-arena-openapi.yml
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  parameter: arena_session_id
+  sources:
+  - openapi/ptc-arena-openapi.yml
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  sources:
+  - openapi/ptc-arena-openapi.yml

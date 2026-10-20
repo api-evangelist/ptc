@@ -1,9 +1,11 @@
 aid: ptc
+
 name: PTC
-description: PTC is an industrial technology company providing software platforms
-  and APIs for Industrial IoT (ThingWorx), Product Lifecycle Management (Windchill,
-  Arena), Augmented Reality (Vuforia), Field Service Management (ServiceMax), and
-  industrial connectivity (Kepware) in manufacturing environments.
+
+description: PTC is an industrial technology company providing software platforms and APIs for Industrial IoT (ThingWorx), Product Lifecycle Management
+  (Windchill, Arena), Augmented Reality (Vuforia), Field Service Management (ServiceMax), and industrial connectivity (Kepware) in manufacturing
+  environments.
+
 deliveryModel:
   model: saas
   license_evidence:
@@ -19,6 +21,7 @@ deliveryModel:
   - repository-not-product
   generated: '2026-09-25'
   method: derived
+
 accessModel:
   pricing: freemium
   onboarding: unknown
@@ -31,11 +34,17 @@ accessModel:
   - plans
   generated: '2026-07-22'
   method: derived
+
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/ptc.png
+
 url: https://raw.githubusercontent.com/api-evangelist/ptc/refs/heads/main/apis.yml
+
 created: '2026-06-13'
-modified: '2026-06-13'
+
+modified: '2026-10-20'
+
 specificationVersion: '0.23'
+
 tags:
 - Industrial IoT
 - PLM
@@ -45,6 +54,7 @@ tags:
 - CAD
 - Digital Transformation
 - Industrial
+
 tags_raw:
 - Industrial IoT
 - PLM
@@ -55,189 +65,68 @@ tags_raw:
 - CAD
 - Digital Transformation
 - Industrial
-apis:
-- name: ThingWorx REST API
-  description: The ThingWorx Industrial IoT platform REST API enables developers to
-    interact with Things, Properties, Services, Events, and Subscriptions via HTTP.
-    Authentication uses an AppKey passed as an HTTP header. Supports building, connecting,
-    and deploying IIoT applications.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.ptc.com/en/products/thingworx
-  baseURL: https://{your-thingworx-host}/Thingworx
-  tags:
-  - Industrial IoT
-  - REST
-  - Manufacturing
-  tags_raw:
-  - Industrial IoT
-  - IIoT
-  - REST
-  - Manufacturing
-  properties:
-  - type: Documentation
-    url: https://support.ptc.com/help/thingworx/platform/r9/en/ThingWorx/api_documentation.html
-  - type: GettingStarted
-    url: https://community.ptc.com/t5/IoT-Tips/Use-REST-API-to-Access-ThingWorx-Part-1/ta-p/825305
-  - type: Community
-    url: https://community.ptc.com/thingworx-developers-185
-  - type: Authentication
-    url: https://www.ptc.com/en/support/article/CS279189
-  contact:
-  - FN: PTC Support
-    url: https://www.ptc.com/en/customer-success/support-services/welcome-center
-- name: Windchill REST Services
-  description: Windchill PLM REST Services provide OData-compliant REST API access
-    to product lifecycle management data including product structures, change management,
-    documents, and configuration management. The API Catalog (Swagger UI) is accessible
-    from a running Windchill instance.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.ptc.com/en/products/windchill
-  baseURL: https://{windchill-host}/WindchillRESTServices
-  tags:
-  - PLM
-  - OData
-  - REST
-  - Manufacturing
-  tags_raw:
-  - PLM
-  - Product Lifecycle Management
-  - OData
-  - REST
-  - Manufacturing
-  properties:
-  - type: Documentation
-    url: https://support.ptc.com/help/windchill_rest_services/r2.0/en/windchill_rest_services/WCCG_RESTAPIsWRS.html
-  - type: OpenAPI
-    url: https://support.ptc.com/help/windchill_rest_services/r1.6/en/windchill_rest_services/API_catalog.html
-  - type: KnowledgeHub
-    url: https://www.ptc.com/en/support/article/CS335170
-  contact:
-  - FN: PTC Support
-    url: https://www.ptc.com/en/customer-success/support-services/welcome-center
-- name: Arena PLM REST API
-  description: Arena PLM REST API v1 provides full programmatic access to Arena's
-    cloud-based PLM capabilities including Bill of Materials management, change management,
-    quality, and compliance. Full OpenAPI/Swagger documentation available per region
-    with interactive testing.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.ptc.com/en/products/arena
-  baseURL: https://api.arenasolutions.com/v1
-  tags:
-  - PLM
-  - BOM
-  - Change Management
-  - Software-as-a-Service
-  tags_raw:
-  - PLM
-  - Product Lifecycle Management
-  - BOM
-  - Change Management
-  - SaaS
-  properties:
-  - type: Documentation
-    url: https://ptc-arena.github.io/arena-dev-help/
-  - type: OpenAPI
-    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
-  - type: GitHubRepository
-    url: https://github.com/ptc-arena/arena-restapi-doc
-  - type: PostmanCollection
-    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
-  contact:
-  - FN: PTC Arena Support
-    url: https://ptc-arena.github.io/arena-dev-help/
-- name: Vuforia Engine Web API
-  description: The Vuforia Engine Web API provides HTTPS REST access to cloud-based
-    augmented reality capabilities including Cloud Image Recognition, Cloud Area Targets,
-    and license management for building AR applications across mobile and wearable
-    devices.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.ptc.com/en/products/vuforia
-  baseURL: https://cloudreco.vuforia.com
-  tags:
-  - Augmented Reality
-  - Computer Vision
-  - Cloud Recognition
-  - Manufacturing
-  tags_raw:
-  - Augmented Reality
-  - AR
-  - Computer Vision
-  - Cloud Recognition
-  - Manufacturing
-  - Computer-Vision
-  properties:
-  - type: Documentation
-    url: https://developer.vuforia.com/library/
-  - type: DeveloperPortal
-    url: https://developer.vuforia.com/home
-  - type: WebAPI
-    url: https://developer.vuforia.com/library/vuforia-engine/web-api/cloud-area-targets-web-api/
-  - type: Pricing
-    url: https://www.ptc.com/en/products/vuforia/vuforia-engine/pricing
-  - type: SDKs
-    url: https://developer.vuforia.com/downloads/sdk
-  contact:
-  - FN: Vuforia Developer Support
-    url: https://developer.vuforia.com/home
-- name: ServiceMax Max REST API
-  description: ServiceMax REST API (Max REST API) enables integration with ServiceMax
-    field service management capabilities including work orders, scheduling, service
-    boards, and field metadata management. Built on the Salesforce platform.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.ptc.com/en/products/servicemax
-  baseURL: https://{instance}.salesforce.com/services/apexrest/SVMXC
-  tags:
-  - Field Service
-  - Salesforce
-  - REST
-  - Manufacturing
-  tags_raw:
-  - Field Service Management
-  - FSM
-  - Salesforce
-  - REST
-  - Manufacturing
-  properties:
-  - type: Documentation
-    url: https://support.ptc.com/help/servicemaxcore/en/articles/service_board/appendix-b-max-rest-api.html
-  - type: FieldMetadataAPI
-    url: https://support.ptc.com/help/servicemaxcore/en/articles/service_board/field-metadata-rest-api.html
-  contact:
-  - FN: PTC ServiceMax Support
-    url: https://www.ptc.com/en/customer-success/support-services/welcome-center
-- name: Kepware Configuration REST API
-  description: The Kepware KEPServerEX Configuration API is a local REST API that
-    enables programmatic configuration of the industrial connectivity server including
-    channels, devices, tags, and IoT Gateway agents. Accepts and returns JSON-formatted
-    data.
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://www.ptc.com/en/products/kepware
-  baseURL: https://localhost:57412/config/v1
-  tags:
-  - Industrial Connectivity
-  - OPC UA
-  - SCADA
-  - Industrial IoT
-  - Manufacturing
-  - Configuration
-  tags_raw:
-  - Industrial Connectivity
-  - OPC-UA
-  - SCADA
-  - IIoT
-  - Manufacturing
-  - Configuration
-  properties:
-  - type: Documentation
-    url: https://support.ptc.com/help/kepware/features/en/kepware/features/profilelibrary/ConfigurationAPI.html
-  - type: IoTGatewayRESTDocs
-    url: https://support.ptc.com/help/kepware/features/en/kepware/features/IOTGATEWAY/working_rest_server.html
-  - type: GitHubOrg
-    url: https://github.com/PTCInc
-  contact:
-  - FN: PTC Kepware Support
-    url: https://www.ptc.com/en/customer-success/support-services/welcome-center
+
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
+
 common:
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Overlay
+  url: overlays/ptc-arena-overlay.yaml
+- type: AgenticAccess
+  url: agentic-access/ptc-agentic-access.yml
+- type: Spectral
+  url: rules/ptc-rules.yml
+- type: JSONLD
+  url: json-ld/ptc-context.jsonld
+- type: Vocabulary
+  url: vocabulary/ptc-vocabulary.yml
+- type: DataModel
+  url: data-model/ptc-data-model.yml
+- type: ChangeLog
+  url: changelog/ptc-changelog.yml
+- type: Conventions
+  url: conventions/ptc-conventions.yml
+- type: Compliance
+  url: https://www.ptc.com/en/about/trust-center/
+- type: Lifecycle
+  url: lifecycle/ptc-lifecycle.yml
+- type: ErrorCatalog
+  url: errors/ptc-error-codes.yml
+- type: ErrorCatalog
+  url: errors/ptc-problem-types.yml
+- type: Conformance
+  url: conformance/ptc-conformance.yml
+- type: SecurityTxt
+  url: well-known/ptc-status-security.txt
+- type: WellKnown
+  url: well-known/ptc-well-known.yml
+- type: Hosts
+  url: hosts/ptc-hosts.yml
+- type: IntegrationEdges
+  url: integrations/ptc-integration-edges.yml
+- type: Vendors
+  url: vendors/ptc-vendors.yml
+- type: TermsOfService
+  url: https://community.ptc.com/site/terms
+- type: Support
+  url: https://help.ptc.com/
+- type: Security
+  url: https://www.ptc.com/en/documents/security/coordinated-vulnerability-disclosure
+- type: PrivacyPolicy
+  url: https://www.ptc.com/en/documents/policies/privacy
+- type: Newsroom
+  url: https://www.ptc.com/en/news
+- type: Login
+  url: https://www.ptc.com/en/products/servicemax/login
+- type: ChangeLog
+  url: https://www.ptc.com/en/products/creo/whats-new
+- type: GettingStarted
+  url: https://www.ptc.com/en/blogs/ar/onboarding-with-augmented-reality
+- type: Authentication
+  url: authentication/ptc-authentication.yml
 - type: TrustCenter
   url: security/ptc-trust-center.yml
 - type: DomainSecurity
@@ -274,6 +163,1630 @@ common:
   url: rate-limits/ptc-rate-limits.yml
 - type: FinOps
   url: finops/ptc-finops.yml
-maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
+
+apis:
+- name: ThingWorx REST API
+  description: >-
+    The ThingWorx Industrial IoT platform REST API enables developers to interact with Things, Properties,
+    Services, Events, and Subscriptions via HTTP. Authentication uses an AppKey passed as an HTTP header.
+    Supports building, connecting, and deploying IIoT applications.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Industrial IoT
+  - REST
+  - Manufacturing
+  tags_raw:
+  - Industrial IoT
+  - IIoT
+  - REST
+  - Manufacturing
+  properties:
+  - type: Documentation
+    url: https://support.ptc.com/help/thingworx/platform/r9/en/ThingWorx/api_documentation.html
+  - type: GettingStarted
+    url: >-
+      https://community.ptc.com/t5/IoT-Tips/Use-REST-API-to-Access-ThingWorx-Part-1/ta-p/825305
+  - type: Community
+    url: https://community.ptc.com/thingworx-developers-185
+  - type: Authentication
+    url: https://www.ptc.com/en/support/article/CS279189
+  contact:
+  - FN: PTC Support
+    url: https://www.ptc.com/en/customer-success/support-services/welcome-center
+  aid: ptc:thingworx-rest-api
+- name: Windchill REST Services
+  description: >-
+    Windchill PLM REST Services provide OData-compliant REST API access to product lifecycle management
+    data including product structures, change management, documents, and configuration management. The
+    API Catalog (Swagger UI) is accessible from a running Windchill instance.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.ptc.com/en/products/windchill
+  baseURL: https://{windchill-host}/WindchillRESTServices
+  tags:
+  - PLM
+  - OData
+  - REST
+  - Manufacturing
+  tags_raw:
+  - PLM
+  - Product Lifecycle Management
+  - OData
+  - REST
+  - Manufacturing
+  properties:
+  - type: Documentation
+    url: >-
+      https://support.ptc.com/help/windchill_rest_services/r2.0/en/windchill_rest_services/WCCG_RESTAPIsWRS.html
+  - type: APIReference
+    url: >-
+      https://support.ptc.com/help/windchill_rest_services/r1.6/en/windchill_rest_services/API_catalog.html
+  - type: KnowledgeHub
+    url: https://www.ptc.com/en/support/article/CS335170
+  contact:
+  - FN: PTC Support
+    url: https://www.ptc.com/en/customer-success/support-services/welcome-center
+  aid: ptc:windchill-rest-services
+- name: Vuforia Engine Web API
+  description: >-
+    The Vuforia Engine Web API provides HTTPS REST access to cloud-based augmented reality capabilities
+    including Cloud Image Recognition, Cloud Area Targets, and license management for building AR applications
+    across mobile and wearable devices.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.ptc.com/en/products/vuforia
+  baseURL: https://cloudreco.vuforia.com
+  tags:
+  - Augmented Reality
+  - Computer Vision
+  - Cloud Recognition
+  - Manufacturing
+  tags_raw:
+  - Augmented Reality
+  - AR
+  - Computer Vision
+  - Cloud Recognition
+  - Manufacturing
+  - Computer-Vision
+  properties:
+  - type: Documentation
+    url: https://developer.vuforia.com/library/
+  - type: DeveloperPortal
+    url: https://developer.vuforia.com/home
+  - type: WebAPI
+    url: https://developer.vuforia.com/library/vuforia-engine/web-api/cloud-area-targets-web-api/
+  - type: Pricing
+    url: https://www.ptc.com/en/products/vuforia/vuforia-engine/pricing
+  - type: SDKs
+    url: https://developer.vuforia.com/downloads/sdk
+  contact:
+  - FN: Vuforia Developer Support
+    url: https://developer.vuforia.com/home
+  aid: ptc:vuforia-engine-web-api
+- name: ServiceMax Max REST API
+  description: >-
+    ServiceMax REST API (Max REST API) enables integration with ServiceMax field service management capabilities
+    including work orders, scheduling, service boards, and field metadata management. Built on the Salesforce
+    platform.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.ptc.com/en/products/servicemax
+  baseURL: https://{instance}.salesforce.com/services/apexrest/SVMXC
+  tags:
+  - Field Service
+  - Salesforce
+  - REST
+  - Manufacturing
+  tags_raw:
+  - Field Service Management
+  - FSM
+  - Salesforce
+  - REST
+  - Manufacturing
+  properties:
+  - type: Documentation
+    url: >-
+      https://support.ptc.com/help/servicemaxcore/en/articles/service_board/appendix-b-max-rest-api.html
+  - type: FieldMetadataAPI
+    url: >-
+      https://support.ptc.com/help/servicemaxcore/en/articles/service_board/field-metadata-rest-api.html
+  contact:
+  - FN: PTC ServiceMax Support
+    url: https://www.ptc.com/en/customer-success/support-services/welcome-center
+  aid: ptc:servicemax-max-rest-api
+- name: Kepware Configuration REST API
+  description: >-
+    The Kepware KEPServerEX Configuration API is a local REST API that enables programmatic configuration
+    of the industrial connectivity server including channels, devices, tags, and IoT Gateway agents. Accepts
+    and returns JSON-formatted data.
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://www.ptc.com/en/products/kepware
+  baseURL: https://{kepware-server-host}:57412/config/v1
+  tags:
+  - Industrial Connectivity
+  - OPC UA
+  - SCADA
+  - Industrial IoT
+  - Manufacturing
+  - Configuration
+  tags_raw:
+  - Industrial Connectivity
+  - OPC-UA
+  - SCADA
+  - IIoT
+  - Manufacturing
+  - Configuration
+  properties:
+  - type: Documentation
+    url: >-
+      https://support.ptc.com/help/kepware/features/en/kepware/features/profilelibrary/ConfigurationAPI.html
+  - type: IoTGatewayRESTDocs
+    url: >-
+      https://support.ptc.com/help/kepware/features/en/kepware/features/IOTGATEWAY/working_rest_server.html
+  - type: GitHubOrg
+    url: https://github.com/PTCInc
+  contact:
+  - FN: PTC Kepware Support
+    url: https://www.ptc.com/en/customer-success/support-services/welcome-center
+  aid: ptc:kepware-configuration-rest-api
+- aid: ptc:ptc-access-api
+  name: PTC Access API
+  description: Login and logout API activities.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Access
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-access-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-attribute-settings-api
+  name: PTC Attribute Settings API
+  description: >-
+    Manage settings for attributes across various objects (Item, BOM, File, Request, Change, Quality,
+    Ticket, Supplier, Export).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Attribute Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-attribute-settings-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-category-settings-api
+  name: PTC Category Settings API
+  description: Manage settings for categories across various objects (Item, File, Request, Change).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Category Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-category-settings-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-change-api
+  name: PTC Change API
+  description: >-
+    Core change operations: search, create, update, delete, summary, workflow status, quality processes,
+    requests, files, markups, implementation tasks/files/notes, affected items.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Change
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-change-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-change-files-api
+  name: PTC Change Files API
+  description: Manage file associations for changes (including implementation files and task files).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Change Files
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-change-files-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-change-implementation-task-api
+  name: PTC Change Implementation Task API
+  description: >-
+    Manage implementation tasks for a change: create, update, delete, get (including notes and files).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Change Implementation Task
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-change-implementation-task-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-change-item-api
+  name: PTC Change Item API
+  description: 'Manage affected items associated with a change: add, edit, delete, get.'
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Change Item
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-change-item-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-change-reference-api
+  name: PTC Change Reference API
+  description: Manage references between Changes and Requests, Tickets, or Quality Processes.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Change Reference
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-change-reference-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-change-settings-api
+  name: PTC Change Settings API
+  description: >-
+    Manage settings for changes (Categories, Attributes, Routings, Administrators, Number Prefixes).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Change Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-change-settings-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-export-api
+  name: PTC Export API
+  description: Manage export definitions and runs, including file content and metadata.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Export
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-export-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-extract-api
+  name: PTC Extract API
+  description: Manage extract definitions and runs, including files and content.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Extract
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-extract-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-file-api
+  name: PTC File API
+  description: >-
+    Core file operations: search, create, update, delete, get summary, content, check in/out, markups,
+    training, corrections, editions, and associations.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - File
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-file-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-file-association-api
+  name: PTC File Association API
+  description: >-
+    Manage file associations with other objects (Items, Suppliers, Supplier Items, Changes, Requests,
+    Quality Processes, Change Implementations).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - File Association
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-file-association-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-import-api
+  name: PTC Import API
+  description: >-
+    Manage import definitions and runs, including submitting content, getting results/errors, and committing.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Import
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-import-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-item-api
+  name: PTC Item API
+  description: >-
+    Core item operations: search, create, update, delete, get specs, revisions, lifecycle, sourcing, thumbnail,
+    references, training, quality, files, tickets, BOMs, compliance, where used.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Item
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-item-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-item-bom-api
+  name: PTC Item Bom API
+  description: Manage Bill of Materials (BOM) for items, including lines, settings, and substitutes.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Item Bom
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-item-bom-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-item-file-api
+  name: PTC Item File API
+  description: Manage file associations and content for items.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Item File
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-item-file-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-item-reference-api
+  name: PTC Item Reference API
+  description: Item-to-item references, future changes, and compliance.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Item Reference
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-item-reference-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-item-settings-api
+  name: PTC Item Settings API
+  description: Manage settings for items (Lifecycle Phases, Attributes, Categories, Number Formats).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Item Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-item-settings-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-outbound-event-api
+  name: PTC Outbound Event API
+  description: Access and manage outbound events and event items, including reconciliation.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Outbound Event
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-outbound-event-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-outbound-integration-api
+  name: PTC Outbound Integration API
+  description: Access and manage outbound integration definitions and administrators.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Outbound Integration
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-outbound-integration-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-outboundevent-settings-api
+  name: PTC OutboundEvent Settings API
+  description: Manage settings/definitions for outbound events (Integrations, Triggers).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - OutboundEvent Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-outboundevent-settings-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-policy-settings-api
+  name: PTC Policy Settings API
+  description: Manage users access.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Policy Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-policy-settings-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-qualityprocess-api
+  name: PTC Quality Process API
+  description: >-
+    Core quality process operations: search, create, update, delete, summary, status, steps, and affected
+    objects.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - QualityProcess
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-qualityprocess-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-qualityprocess-detail-api
+  name: PTC QualityProcess Detail API
+  description: 'Manage details of quality process steps: get, update, complete, reopen, decisions.'
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - QualityProcess Detail
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-qualityprocess-detail-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-qualityprocess-settings-api
+  name: PTC QualityProcess Settings API
+  description: >-
+    Manage settings for quality processes (Owners, Number Formats, Templates, Attributes, Step Attributes).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - QualityProcess Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-qualityprocess-settings-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-recent-activities-api
+  name: PTC Recent Activities API
+  description: Retrieve recent activity logs (User Access, Exports, File Access, Report Runs).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Recent Activities
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-recent-activities-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-request-api
+  name: PTC Request API
+  description: >-
+    Core request operations: search, create, update, delete, summary, workflow status, items, tickets,
+    changes, files, markups.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Request
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-request-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-request-file-api
+  name: PTC Request File API
+  description: Manage file associations and file markups for requests.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Request File
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-request-file-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-request-reference-api
+  name: PTC Request Reference API
+  description: Manage references between Requests and Items, Changes, or Quality Processes.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Request Reference
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-request-reference-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-request-settings-api
+  name: PTC Request Settings API
+  description: >-
+    Manage settings for requests (Number Prefixes/Sequences, Administrators, Categories, Evaluator Groups,
+    Attributes).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Request Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-request-settings-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-requirement-api
+  name: PTC Requirement API
+  description: 'Manage requirements: search, create, update, delete, and get details.'
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Requirement
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-requirement-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-requirement-settings-api
+  name: PTC Requirement Settings API
+  description: Manage settings for requirements (Templates, Attributes).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Requirement Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-requirement-settings-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-supplier-api
+  name: PTC Supplier API
+  description: >-
+    Core supplier operations: search, create, update, delete, get profile, addresses, phone numbers, quality
+    processes, and files.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Supplier
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-supplier-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-supplier-file-api
+  name: PTC Supplier File API
+  description: Manage file associations for suppliers.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Supplier File
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-supplier-file-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-supplier-item-api
+  name: PTC Supplier Item API
+  description: >-
+    Manage supplier items: search, create, update, delete, specs, source relationships, files, thumbnail,
+    compliance, quality processes.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Supplier Item
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-supplier-item-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-supplier-item-file-api
+  name: PTC Supplier Item File API
+  description: Manage file associations and content for supplier items.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Supplier Item File
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-supplier-item-file-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-supplier-item-reference-api
+  name: PTC Supplier Item Reference API
+  description: >-
+    Manage supplier item references (e.g., via Item Sourcing source relationships, compliance).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Supplier Item Reference
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-supplier-item-reference-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-supplier-reference-api
+  name: PTC Supplier Reference API
+  description: Access supplier and supplier quality information.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Supplier Reference
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-supplier-reference-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-supplier-settings-api
+  name: PTC Supplier Settings API
+  description: Manage settings for suppliers and supplier items (Attributes, Compliance Requirements).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Supplier Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-supplier-settings-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-supplieritem-settings-api
+  name: PTC SupplierItem Settings API
+  description: Manage settings for supplier items (Attributes, Compliance Requirements).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - SupplierItem Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-supplieritem-settings-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-ticket-api
+  name: PTC Ticket API
+  description: >-
+    Core ticket operations: search, create, update, delete, summary, workflow status, and references (Changes,
+    Tickets, Quality Processes, Items, Files).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Ticket
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-ticket-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-ticket-file-api
+  name: PTC Ticket File API
+  description: Manage file associations for tickets.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Ticket File
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-ticket-file-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-ticket-reference-api
+  name: PTC Ticket Reference API
+  description: Manage references between Tickets and Changes, Tickets, Quality Processes, or Items.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Ticket Reference
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-ticket-reference-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-ticket-settings-api
+  name: PTC Ticket Settings API
+  description: Manage settings for tickets (Templates, Attributes, Number Sequences).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Ticket Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-ticket-settings-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-training-plan-api
+  name: PTC Training Plan API
+  description: >-
+    Core training plan operations: search, create, update, delete, status, and associated files, quality
+    processes, users, records, and items.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Training Plan
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-training-plan-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-training-plan-file-api
+  name: PTC Training Plan File API
+  description: Manage file associations for training plans.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Training Plan File
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-training-plan-file-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-trainingplan-settings-api
+  name: PTC TrainingPlan Settings API
+  description: Manage settings for training plans (Number Sequences, Managers).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - TrainingPlan Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-trainingplan-settings-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-user-settings-api
+  name: PTC User Settings API
+  description: Manage users (via GET Users).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - User Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-user-settings-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-usergroup-settings-api
+  name: PTC UserGroup Settings API
+  description: Manage settings for user groups (Groups, Users, Employees, Partners).
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - UserGroup Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-usergroup-settings-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+- aid: ptc:ptc-workspace-settings-api
+  name: PTC Workspace Settings API
+  description: The Workspace Settings API from PTC — 1 operation(s) for workspace settings.
+  humanURL: https://www.ptc.com/en/products/thingworx
+  baseURL: https://{your-thingworx-host}/Thingworx
+  tags:
+  - Workspace Settings
+  properties:
+  - type: OpenAPI
+    url: openapi/ptc-workspace-settings-api-openapi.yml
+  - type: Documentation
+    url: https://ptc-arena.github.io/arena-dev-help/
+  - type: APIReference
+    url: https://api.arenasolutions.com/v1/swagger-ui/index.html
+  - type: PostmanCollection
+    url: https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-rep-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-reference-verify-entity-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-item-based-event-detail-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-category-attribute-definition-vo-schema.json
+  - type: JSONSchema
+    url: json-schema/ptc-change-full-vo-schema.json
+x-enrichment:
+  date: '2026-10-20'
+  status: enriched
+  artifacts_added: 12
+  pass: local-v5

@@ -1,0 +1,367 @@
+openapi: 3.2.0
+info:
+  title: Ptc Supplier File API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Supplier File across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Supplier File
+  description: Manage file associations for suppliers.
+paths:
+  /suppliers/{supplierGuid}/files:
+    get:
+      tags:
+      - Supplier File
+      summary: List all files attached to a supplier
+      description: Returns a collection of File objects belonging to a Supplier with a given GUID.
+      operationId: getSupplierFileAssociations
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationVoResultRep'
+    post:
+      tags:
+      - Supplier File
+      summary: Attach a new file to a supplier
+      description: Associates an existing File Association object with an Supplier with a given GUID.
+      operationId: createFileAssociation
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileAssociationCreateVo'
+            example:
+              file:
+                guid: CUWKL4N3M5O0NNS0
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationVo'
+    servers:
+    - url: /v1
+  /suppliers/{supplierGuid}/files/{supplierFileAssociationGuid}:
+    get:
+      tags:
+      - Supplier File
+      summary: Get details of a specific file attached to a supplier
+      operationId: getSupplierFileAssociation
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: supplierFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationVo'
+    delete:
+      tags:
+      - Supplier File
+      summary: Remove a file from a supplier
+      description: Removes a File association from a Supplier with a given GUID.
+      operationId: deleteFileAssociation
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: supplierFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+components:
+  schemas:
+    FileAssociationCreateVo:
+      type: object
+      properties:
+        file:
+          $ref: '#/components/schemas/SingleGuidVo'
+    FileAssociationVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        file:
+          $ref: '#/components/schemas/FileDetailVo'
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    GoogleDocsVo:
+      type: object
+      properties:
+        authorEmail:
+          type: string
+        creationDate:
+          type: string
+        driveId:
+          type: string
+        fileId:
+          type: string
+        fileName:
+          type: string
+        lastEditors:
+          type: array
+          items:
+            type: string
+        modifiedDate:
+          type: string
+        originalAuthor:
+          type: string
+        size:
+          type: integer
+          format: int64
+        version:
+          type: string
+        webUrl:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    FileAssociationVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileAssociationVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    FileAuthorVo:
+      type: object
+      properties:
+        fullName:
+          type: string
+    Microsoft365Vo:
+      type: object
+      properties:
+        authorEmail:
+          type: string
+        creationDate:
+          type: string
+        driveId:
+          type: string
+        fileId:
+          type: string
+        fileName:
+          type: string
+        lastEditors:
+          type: array
+          items:
+            type: string
+        modifiedDate:
+          type: string
+        originalAuthor:
+          type: string
+        siteId:
+          type: string
+        size:
+          type: integer
+          format: int64
+        version:
+          type: string
+        webUrl:
+          type: string
+    FileDetailVo:
+      type: object
+      description: File metadata information
+      properties:
+        author:
+          $ref: '#/components/schemas/FileAuthorVo'
+        category:
+          $ref: '#/components/schemas/FileCategoryVo'
+        checkedOut:
+          type: boolean
+        checkoutDateTime:
+          type: string
+        corrected:
+          type: boolean
+        creationDateTime:
+          type: string
+        description:
+          type: string
+        edition:
+          type: string
+        format:
+          type: string
+        guid:
+          type: string
+        hasMarkup:
+          type: boolean
+        haveContent:
+          type: boolean
+        lastModifiedDateTime:
+          type: string
+        latest:
+          type: boolean
+        location:
+          type: string
+        locked:
+          type: boolean
+        microsoft365:
+          $ref: '#/components/schemas/Microsoft365Vo'
+        googleDocs:
+          $ref: '#/components/schemas/GoogleDocsVo'
+        mimeType:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        size:
+          type: integer
+          format: int64
+        storageMethodName:
+          type: string
+        title:
+          type: string
+        private:
+          type: boolean
+    FileCategoryVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

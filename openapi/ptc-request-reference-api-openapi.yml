@@ -1,0 +1,529 @@
+openapi: 3.2.0
+info:
+  title: Ptc Request Reference API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Request Reference across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Request Reference
+  description: Manage references between Requests and Items, Changes, or Quality Processes.
+paths:
+  /requests/{requestGuid}/items/{requestItemAssociationGuid}:
+    get:
+      tags:
+      - Request Reference
+      summary: Get details of a specific item in a request
+      description: Returns a Request Item with a given GUID included in a request with a given GUID.
+      operationId: getRequestItemAssociation
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: requestItemAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestItemVo'
+    put:
+      tags:
+      - Request Reference
+      summary: Update notes for a specific item in a request
+      description: Updates the notes for an item on a request with a given request-item association GUID, included in a request with a given GUID.
+      operationId: updateRequestItemAssociation
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: requestItemAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestItemUpdateVo'
+            example:
+              notes: This catches fire frequently.
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestItemVo'
+    delete:
+      tags:
+      - Request Reference
+      summary: Remove an item from a request
+      description: Removes an item with a given GUID from a request with a given GUID.
+      operationId: deleteRequestItemAssociation
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: requestItemAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /requests/{requestGuid}/items:
+    get:
+      tags:
+      - Request Reference
+      summary: List all items associated with a request
+      description: Returns all Request Items included in a request with a given GUID.
+      operationId: getRequestItemAssociations
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestItemVoResultRep'
+    post:
+      tags:
+      - Request Reference
+      summary: Add a new item to a request
+      description: Adds an item to a request with a specific GUID.
+      operationId: createRequestItemAssociation
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestItemCreateVo'
+            example:
+              item:
+                guid: 4M6P8GG594NVESXYS4JF
+              notes: This catches fire.
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestItemVo'
+    servers:
+    - url: /v1
+  /requests/{requestGuid}/quality:
+    get:
+      tags:
+      - Request Reference
+      summary: List all quality processes linked to a request
+      description: Returns a collection of Quality Process objects for a Request with a given GUID (all Quality Processes in which the Request is an affected object).
+      operationId: getRequestQualityProcesses
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeQualityAssociationVoResultRep'
+    servers:
+    - url: /v1
+  /requests/{requestGuid}/quality/{requestQualityAssociationGuid}:
+    get:
+      tags:
+      - Request Reference
+      summary: Get details of a specific quality process linked to a request
+      operationId: getRequestQualityProcess
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: requestQualityAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityAssociationVo'
+    servers:
+    - url: /v1
+  /requests/{requestGuid}/changes:
+    get:
+      tags:
+      - Request Reference
+      summary: List all changes associated with a request
+      description: Returns all the changes associated with a specific request. Users must have a Read Request Summary and Edit Request Changes rule. Additionally users must have a Read Change Summary rule for the referenced changes.
+      operationId: getRequestChanges
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestChangeVoResultRep'
+    servers:
+    - url: /v1
+  /requests/{requestGuid}/changes/{requestChangeGuid}:
+    get:
+      tags:
+      - Request Reference
+      summary: Get details of a specific change linked to a request
+      description: Returns a specific change associated with a specific request. Users must have a Read Request Summary and Edit Request Changes rule. Additionally users must have a Read Change Summary rule for the referenced changes.
+      operationId: getRequestChange
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: requestChangeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestChangeVo'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    ChangeMinimalVoWithoutUrl:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+    QualityProcessReferenceVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        step:
+          $ref: '#/components/schemas/QualityStepReferenceVo'
+        type:
+          type: string
+    QualityStepReferenceVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    UrlVo:
+      type: object
+      properties:
+        api:
+          type: string
+        app:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    RequestChangeVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        change:
+          $ref: '#/components/schemas/ChangeMinimalVoWithoutUrl'
+    RequestItemCreateVo:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/SingleGuidVo'
+        notes:
+          type: string
+    RequestChangeVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequestChangeVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ChangeQualityAssociationVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/QualityAssociationVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    RequestItemUpdateVo:
+      type: object
+      properties:
+        notes:
+          type: string
+    RequestItemVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        item:
+          $ref: '#/components/schemas/ItemShortVo'
+    RequestItemVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequestItemVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ItemShortVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        revisionNumber:
+          type: string
+        revisionStatus:
+          type: string
+        url:
+          $ref: '#/components/schemas/UrlVo'
+    QualityAssociationVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        notes:
+          type: string
+        qualityProcess:
+          $ref: '#/components/schemas/QualityProcessReferenceVo'
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

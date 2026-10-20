@@ -1,0 +1,1102 @@
+openapi: 3.2.0
+info:
+  title: Ptc Request API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Request across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Request
+  description: 'Core request operations: search, create, update, delete, summary, workflow status, items, tickets, changes, files, markups.'
+paths:
+  /requests/{requestGuid}:
+    get:
+      tags:
+      - Request
+      summary: Get details of a specific request
+      description: Returns a Request object with a given GUID.
+      operationId: getRequest
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: includeEmptyAdditionalAttributes
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestShortVo'
+    put:
+      tags:
+      - Request
+      summary: Update an existing request
+      description: Updates attribute information for a Request with a given GUID.
+      operationId: updateRequest
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestUpdateVo'
+            example:
+              additionalAttributes:
+              - guid: DVFYHPPEIDUCVEXFQXRA
+                value: Medium
+              category:
+                guid: 3L5O7FF483MWFYHYI2A7
+              numberSequencePrefix:
+                value: ECR-
+              problem: PCB catches fire at high altitude.
+              requestCode: Performance
+              requestedAction: Evaluate high altitude performance.
+              title: Fire issues.
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestShortVo'
+    delete:
+      tags:
+      - Request
+      summary: Delete a specific request
+      description: Deletes a Request with a given GUID. Requests can only be deleted in the Open and Unsubmitted, Deferred, and Closed lifecycle statuses.
+      operationId: deleteRequest
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /requests/{requestGuid}/evaluationissues/{issueGuid}:
+    get:
+      tags:
+      - Request
+      summary: Get details of a specific evaluation issue
+      description: Returns a specific Request Evaluation Issue object from a specific request.
+      operationId: getEvaluationIssue
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: issueGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RequestIssueVo'
+    put:
+      tags:
+      - Request
+      summary: Update the content or visibility of an evaluation issue
+      description: 'Returns a collection of Request Evaluation Issue objects for a specific request. For a full Request Evaluation Issue object, use the GET Request endpoint GET/requests//evaluationissues/.
+
+
+        This endpoint allows a user to edit an issue within the Evaluation view of a Request.
+
+        This endpoint is also functionally equivalent to ‘correcting’ an evaluation issue. The only difference between an edit or a correction of an evaluation issue is that a correction occurs when a user modifies an evaluation issue after another user has responded to the original evaluation issue.'
+      operationId: editEvaluationIssue
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: issueGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestIssueUpdateVo'
+            example:
+              issue: Updated Issue Description
+              supplierVisibility: false
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RequestIssueVo'
+    servers:
+    - url: /v1
+  /requests/{requestGuid}/evaluationissues/{issueGuid}/responses/{responseGuid}:
+    get:
+      tags:
+      - Request
+      summary: Get details of a specific response to an evaluation issue
+      description: Returns a specific responses from a specific evaluation issue within a request.
+      operationId: getEvaluationIssueResponse
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: issueGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: responseGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RequestIssueResponseVo'
+    put:
+      tags:
+      - Request
+      summary: Update the content of a specific response
+      description: This endpoint allows a user to modify a response to an issue within the Evaluation view of a Request.
+      operationId: updateEvaluationIssueResponse
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: issueGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: responseGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestIssueResponseUpdateVo'
+            example:
+              response: Updated response to the issue.
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RequestIssueResponseVo'
+    servers:
+    - url: /v1
+  /requests:
+    get:
+      tags:
+      - Request
+      summary: Search for requests using filters like number, title, or status
+      description: Returns a collection of Requests objects matching the given search criteria. Note that the Requests returned here are a compact version. For a full Request object, use the GET Request endpoint GET/requests/guid.
+      operationId: getRequests
+      parameters:
+      - name: number
+        in: query
+        description: request number
+        schema:
+          type: string
+      - name: title
+        in: query
+        description: request title
+        schema:
+          type: string
+      - name: resolutionCode
+        in: query
+        description: resolution code
+        schema:
+          type: string
+      - name: requestCode
+        in: query
+        description: request code
+        schema:
+          type: string
+      - name: lifecycleStatus.type
+        in: query
+        description: lifecycle status
+        schema:
+          type: string
+      - name: includeChildCategories
+        in: query
+        schema:
+          type: boolean
+      - name: deferralCode
+        in: query
+        description: deferral code
+        schema:
+          type: string
+      - name: creator.guid
+        in: query
+        description: creator guid
+        schema:
+          type: string
+      - name: category.guid
+        in: query
+        description: category guid
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: query result offset (default 0)
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: query result limit (default 20, max 400)
+        schema:
+          type: integer
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestShortVoResultRep'
+    post:
+      tags:
+      - Request
+      summary: Create a new request
+      description: In all cases, numberSequencePrefix is required. If a default numberSequencePrefix is associated with the specified request category, not specifying a numberSequencePrefix will result in automatically selecting the default.
+      operationId: createRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestCreateVo'
+            example:
+              additionalAttributes:
+              - guid: DVFYHPPEIDUCVEXFQXRA
+                value: High
+              category:
+                guid: 3L5O7FF483MWFYHYI2A7
+              creatorParticipation: true
+              evaluatorGroup:
+                guid: M4O7QYYNRM3K3M5O7O87
+              numberSequencePrefix:
+                value: ECR-
+              problem: PCB catches fire at high altitude.
+              requestCode: Performance
+              requestedAction: Evaluate high altitude performance.
+              title: Fire issues.
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestShortVo'
+    servers:
+    - url: /v1
+  /requests/{requestGuid}/evaluationissues:
+    get:
+      tags:
+      - Request
+      summary: List all evaluation issues for a request
+      description: Returns a collection of Request Evaluation Issue objects for a specific request. For a full Request Evaluation Issue object, use the GET Request endpoint GET/requests//evaluationissues/
+      operationId: getEvaluationIssues
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepRequestIssueVo'
+    post:
+      tags:
+      - Request
+      summary: Create a new evaluation issue for a request
+      description: This endpoint allows a user to create or 'raise' an issue within the Evaluation view of a Request.
+      operationId: createEvaluationIssues
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestIssueCreateVo'
+            example:
+              issue: New Issue
+              supplierVisibility: true
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RequestIssueVo'
+    servers:
+    - url: /v1
+  /requests/{requestGuid}/evaluationissues/{issueGuid}/responses:
+    get:
+      tags:
+      - Request
+      summary: List all responses to a specific evaluation issue
+      operationId: getEvaluationIssueResponses
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: issueGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepRequestIssueResponseVo'
+    post:
+      tags:
+      - Request
+      summary: Add a response to an evaluation issue
+      description: This endpoint allows a user to create a response to an issue within the Evaluation view of a Request.
+      operationId: createEvaluationIssueResponses
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: issueGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestIssueResponseCreateVo'
+            example:
+              response: This is a response to the issue.
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RequestIssueResponseVo'
+    servers:
+    - url: /v1
+  /requests/{requestGuid}/evaluationissues/statuschange:
+    post:
+      tags:
+      - Request
+      summary: Change the status of an evaluation issue
+      operationId: closeOrReopenEvaluationIssues
+      parameters:
+      - name: requestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestIssueChangeStatusVo'
+            example:
+              guid: ISSUEGUID12345
+              status: CLOSED
+              response: Issue has been resolved.
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/RequestIssueVo'
+    servers:
+    - url: /v1
+  /requests/statuschanges:
+    post:
+      tags:
+      - Request
+      summary: Change the lifecycle status of a request
+      operationId: changeRequestLifecycle
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestTransitionCreateVo'
+            examples:
+              Submit:
+                description: Submit
+                value:
+                  request:
+                    guid: P7RAOLPR2J21K3YHQKMG
+                  comment: Submit.
+                  status: SUBMITTED
+              Withdraw:
+                description: Withdraw
+                value:
+                  request:
+                    guid: P7RAOLPR2J21K3YHQKMG
+                  comment: Withraw.
+                  status: UNSUBMITTED
+              Defer:
+                description: Defer
+                value:
+                  request:
+                    guid: P7RAOLPR2J21K3YHQKMG
+                  deferralCode: Next Version
+                  deferDeadlineDateTime: '2023-03-17T07:00:00Z'
+                  comment: Defer.
+                  status: DEFERRED
+              Re-Submit:
+                description: Re-Submit
+                value:
+                  request:
+                    guid: P7RAOLPR2J21K3YHQKMG
+                  comment: ReSubmit.
+                  status: SUBMITTED
+              Promote:
+                description: Promote
+                value:
+                  request:
+                    guid: P7RAOLPR2J21K3YHQKMG
+                  resolutionCode: Approved
+                  comment: Promote.
+                  status: PROMOTTED
+              Close:
+                description: Close
+                value:
+                  request:
+                    guid: P7RAOLPR2J21K3YHQKMG
+                  resolutionCode: Approved
+                  comment: Close.
+                  status: CLOSED
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestStatusChangeVo'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    RequestMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+    AdditionalAttributeCompactVo:
+      type: object
+      properties:
+        apiName:
+          type: string
+        fieldType:
+          type: string
+          enum:
+          - SINGLE_LINE_TEXT
+          - MULTI_LINE_TEXT
+          - DROP_DOWN
+          - FIXED_DROP_DOWN
+          - DATE
+          - NUMBER
+          - BOOLEAN
+          - INTEGER
+          - OBJECT
+          - POSITIVE_DOUBLE
+          - POSITIVE_INTEGER
+          - RICH_TEXT
+          - GUID
+          - DATETIME
+          - COST
+          - LIST
+          - ENUM
+        guid:
+          type: string
+        multiSelect:
+          type: boolean
+        name:
+          type: string
+        value: {}
+    RequestTransitionCreateVo:
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/SingleGuidVo'
+        comment:
+          type: string
+        fromStatus:
+          type: string
+          enum:
+          - UNSUBMITTED
+          - SUBMITTED
+          - PROMOTED
+          - CLOSED
+          - DEFERRED
+        status:
+          type: string
+          enum:
+          - UNSUBMITTED
+          - SUBMITTED
+          - PROMOTED
+          - CLOSED
+          - DEFERRED
+        resolutionNotes:
+          type: string
+        deferralCode:
+          type: string
+        resolutionCode:
+          type: string
+        deferDeadlineDateTime:
+          type: string
+          format: date-time
+    CategoryCompactVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        path:
+          type: string
+    QueryResultRepRequestIssueVo:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequestIssueVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    SingleValueVo:
+      type: object
+      properties:
+        value:
+          type: string
+    RequestShortVo:
+      type: object
+      properties:
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCompactVo'
+        category:
+          $ref: '#/components/schemas/CategoryCompactVo'
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        submitter:
+          $ref: '#/components/schemas/UserCompactVo'
+        evaluatorGroup:
+          $ref: '#/components/schemas/EvaluatorGroupCompactVo'
+        number:
+          type: string
+        title:
+          type: string
+        deferralCode:
+          type: string
+        deferDeadlineDateTime:
+          type: string
+        problem:
+          type: string
+        requestCode:
+          type: string
+        requestedAction:
+          type: string
+        resolutionCode:
+          type: string
+        lifecycleDateTime:
+          type: string
+        dispositionType:
+          type: string
+        submissionDateTime:
+          type: string
+        lifecycleStatus:
+          type: string
+          enum:
+          - UNSUBMITTED
+          - SUBMITTED
+          - PROMOTED
+          - CLOSED
+          - DEFERRED
+        guid:
+          type: string
+    RequestIssueResponseVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        response:
+          type: string
+        responseUser:
+          $ref: '#/components/schemas/UserCompactVo'
+        correctionUser:
+          $ref: '#/components/schemas/UserCompactVo'
+        correctionDateTime:
+          type: string
+        responseDateTime:
+          type: string
+    RequestIssueUpdateVo:
+      type: object
+      properties:
+        issue:
+          type: string
+        supplierVisibility:
+          type: boolean
+    AdditionalAttributeCreateVo:
+      type: object
+      properties:
+        name:
+          type: string
+        guid:
+          type: string
+        value: {}
+    RequestUpdateVo:
+      type: object
+      properties:
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCreateVo'
+        category:
+          $ref: '#/components/schemas/SingleGuidVo'
+        numberSequencePrefix:
+          $ref: '#/components/schemas/SingleValueVo'
+        title:
+          type: string
+        problem:
+          type: string
+        requestedAction:
+          type: string
+        requestCode:
+          type: string
+        supplierVisibility:
+          type: boolean
+    RequestIssueResponseCreateVo:
+      type: object
+      properties:
+        response:
+          type: string
+    RequestShortVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequestShortVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    RequestIssueVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        issue:
+          type: string
+        supplierVisibility:
+          type: boolean
+        issueUser:
+          $ref: '#/components/schemas/UserCompactVo'
+        issueDateTime:
+          type: string
+        status:
+          type: string
+        correctionUser:
+          $ref: '#/components/schemas/UserCompactVo'
+        correctionDateTime:
+          type: string
+        number:
+          type: integer
+          format: int32
+        numberResponses:
+          type: integer
+          format: int32
+    RequestIssueResponseUpdateVo:
+      type: object
+      properties:
+        response:
+          type: string
+    RequestIssueChangeStatusVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        status:
+          type: string
+          enum:
+          - OPEN
+          - CLOSED
+        response:
+          type: string
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    EvaluatorGroupCompactVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    RequestStatusChangeVo:
+      type: object
+      properties:
+        comment:
+          type: string
+        request:
+          $ref: '#/components/schemas/RequestMinimalVo'
+        status:
+          type: string
+    RequestIssueCreateVo:
+      type: object
+      properties:
+        issue:
+          type: string
+        supplierVisibility:
+          type: boolean
+    RequestCreateVo:
+      type: object
+      properties:
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCreateVo'
+        category:
+          $ref: '#/components/schemas/SingleGuidVo'
+        numberSequencePrefix:
+          $ref: '#/components/schemas/SingleValueVo'
+        title:
+          type: string
+        problem:
+          type: string
+        requestedAction:
+          type: string
+        evaluatorGroup:
+          $ref: '#/components/schemas/SingleGuidVo'
+        requestCode:
+          type: string
+        creatorParticipation:
+          type: boolean
+        supplierVisibility:
+          type: boolean
+    QueryResultRepRequestIssueResponseVo:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequestIssueResponseVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

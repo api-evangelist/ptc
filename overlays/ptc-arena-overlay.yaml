@@ -1,0 +1,15 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Arena REST API
+  version: 1.0.0
+extends: ../openapi/_original/ptc-arena-openapi.yml
+actions:
+- target: $.servers
+  description: Absolute server for the relative /v1 entry the provider spec declares
+  update:
+  - url: https://api.arenasolutions.com/v1
+- target: $.info
+  description: Link the Arena developer help center and rate-limit signal
+  update:
+    x-documentation: https://ptc-arena.github.io/arena-dev-help/
+    x-rate-limit: 429 when the 24-hour request limit is reached

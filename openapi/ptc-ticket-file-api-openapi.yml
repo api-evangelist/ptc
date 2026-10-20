@@ -1,0 +1,376 @@
+openapi: 3.2.0
+info:
+  title: Ptc Ticket File API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Ticket File across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Ticket File
+  description: Manage file associations for tickets.
+paths:
+  /tickets/{verifyGuid}/files:
+    get:
+      tags:
+      - Ticket File
+      summary: List all files attached to a ticket
+      description: Returns a collection of files associated with a Ticket object. These are files located within the Files view of a Ticket.
+      operationId: getVerifyFiles
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketFileVoResultRep'
+    post:
+      tags:
+      - Ticket File
+      summary: Attach a file to a ticket
+      description: Associates an existing file to the Files view of a ticket.
+      operationId: createVerifyFile
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileAssociationCreateVo'
+            example:
+              file:
+                guid: WEYH088X1WFVEXGPDU97
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationVo'
+    servers:
+    - url: /v1
+  /tickets/{verifyGuid}/files/{verifyFileAssociationGuid}:
+    get:
+      tags:
+      - Ticket File
+      summary: Get details of a specific file attached to a ticket
+      operationId: getVerifyFile
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: verifyFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketFileVo'
+    delete:
+      tags:
+      - Ticket File
+      summary: Remove a file from a ticket
+      description: Removes a File with a specific GUID from associating with a Ticket with a specific GUID.
+      operationId: deleteVerifyFile
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: verifyFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+components:
+  schemas:
+    TicketFileVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        file:
+          $ref: '#/components/schemas/FileDetailVo'
+        latestEditionAssociation:
+          type: boolean
+    FileAssociationCreateVo:
+      type: object
+      properties:
+        file:
+          $ref: '#/components/schemas/SingleGuidVo'
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    GoogleDocsVo:
+      type: object
+      properties:
+        authorEmail:
+          type: string
+        creationDate:
+          type: string
+        driveId:
+          type: string
+        fileId:
+          type: string
+        fileName:
+          type: string
+        lastEditors:
+          type: array
+          items:
+            type: string
+        modifiedDate:
+          type: string
+        originalAuthor:
+          type: string
+        size:
+          type: integer
+          format: int64
+        version:
+          type: string
+        webUrl:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    FileAuthorVo:
+      type: object
+      properties:
+        fullName:
+          type: string
+    TicketFileVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TicketFileVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    FileDetailVo:
+      type: object
+      description: File metadata information
+      properties:
+        author:
+          $ref: '#/components/schemas/FileAuthorVo'
+        category:
+          $ref: '#/components/schemas/FileCategoryVo'
+        checkedOut:
+          type: boolean
+        checkoutDateTime:
+          type: string
+        corrected:
+          type: boolean
+        creationDateTime:
+          type: string
+        description:
+          type: string
+        edition:
+          type: string
+        format:
+          type: string
+        guid:
+          type: string
+        hasMarkup:
+          type: boolean
+        haveContent:
+          type: boolean
+        lastModifiedDateTime:
+          type: string
+        latest:
+          type: boolean
+        location:
+          type: string
+        locked:
+          type: boolean
+        microsoft365:
+          $ref: '#/components/schemas/Microsoft365Vo'
+        googleDocs:
+          $ref: '#/components/schemas/GoogleDocsVo'
+        mimeType:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        size:
+          type: integer
+          format: int64
+        storageMethodName:
+          type: string
+        title:
+          type: string
+        private:
+          type: boolean
+    Microsoft365Vo:
+      type: object
+      properties:
+        authorEmail:
+          type: string
+        creationDate:
+          type: string
+        driveId:
+          type: string
+        fileId:
+          type: string
+        fileName:
+          type: string
+        lastEditors:
+          type: array
+          items:
+            type: string
+        modifiedDate:
+          type: string
+        originalAuthor:
+          type: string
+        siteId:
+          type: string
+        size:
+          type: integer
+          format: int64
+        version:
+          type: string
+        webUrl:
+          type: string
+    FileAssociationVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        file:
+          $ref: '#/components/schemas/FileDetailVo'
+    FileCategoryVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

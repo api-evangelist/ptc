@@ -1,0 +1,186 @@
+openapi: 3.2.0
+info:
+  title: Ptc OutboundEvent Settings API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged OutboundEvent Settings across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: OutboundEvent Settings
+  description: Manage settings/definitions for outbound events (Integrations, Triggers).
+paths:
+  /settings/integrations/triggers:
+    get:
+      tags:
+      - OutboundEvent Settings
+      summary: List all integration triggers
+      description: Returns allthe triggers of a workspace.
+      operationId: getWorkspaceIntegrationTriggers
+      parameters:
+      - name: name
+        in: query
+        schema:
+          type: string
+      - name: resource
+        in: query
+        schema:
+          type: string
+          enum:
+          - ITEMS
+          - CHANGES
+          - QUALITY
+      - name: action
+        in: query
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TriggerFullResultRep'
+    servers:
+    - url: /v1
+  /settings/integrations/triggers/{triggerGuid}:
+    get:
+      tags:
+      - OutboundEvent Settings
+      summary: Get details of a specific integration trigger
+      description: Returns a Trigger with a given GUID.
+      operationId: getWorkspaceIntegrationTrigger
+      parameters:
+      - name: triggerGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TriggerVo'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    TriggerFullResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TriggerVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    TriggerVo:
+      type: object
+      properties:
+        action:
+          type: string
+        creationDatetime:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        description:
+          type: string
+        guid:
+          type: string
+        lastModifiedDateTime:
+          type: string
+        modifyUser:
+          $ref: '#/components/schemas/UserCompactVo'
+        name:
+          type: string
+        resource:
+          type: string
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

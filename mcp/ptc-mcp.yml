@@ -1,0 +1,214 @@
+generated: '2026-10-20'
+method: derived
+generator: derive-mcp-candidate.py
+source:
+- openapi/ptc-arena-openapi.yml
+status: candidate
+deployment:
+  mode: none
+  auth: unknown
+  verified: probed
+note: No MCP server was found. The pre-flight posted tools/list to /mcp on api.arenasolutions.com, api.ptc.com, api.ptc.io, api.vuforia.com; verdict
+  absent. Candidate tools below are derived from the 557 operation(s) in the provider's own OpenAPI (40 listed); they describe what a server WOULD
+  expose, not one that exists.
+tools:
+- name: get_training
+  operationId: getTraining
+  method: GET
+  path: /trainingplans/{trainingGuid}
+  description: Get details of a specific training plan
+- name: update_training
+  operationId: updateTraining
+  method: PUT
+  path: /trainingplans/{trainingGuid}
+  description: Update an existing training plan
+- name: delete_training
+  operationId: deleteTraining
+  method: DELETE
+  path: /trainingplans/{trainingGuid}
+  description: Delete a specific training plan
+- name: get_training_user
+  operationId: getTrainingUser
+  method: GET
+  path: /trainingplans/{trainingGuid}/users/{userGuid}
+  description: Get details of a specific user in a training plan
+- name: update_training_user
+  operationId: updateTrainingUser
+  method: PUT
+  path: /trainingplans/{trainingGuid}/users/{userGuid}
+  description: Update the due date for a user in a training plan
+- name: delete_training_user
+  operationId: deleteTrainingUser
+  method: DELETE
+  path: /trainingplans/{trainingGuid}/users/{userGuid}
+  description: Remove a user from a training plan
+- name: get_verify
+  operationId: getVerify
+  method: GET
+  path: /tickets/{verifyGuid}
+  description: Get details of a specific ticket
+- name: update_verify
+  operationId: updateVerify
+  method: PUT
+  path: /tickets/{verifyGuid}
+  description: Update an existing ticket
+- name: delete_verify
+  operationId: deleteVerify
+  method: DELETE
+  path: /tickets/{verifyGuid}
+  description: Delete a specific ticket
+- name: get_supplier
+  operationId: getSupplier
+  method: GET
+  path: /suppliers/{supplierGuid}
+  description: Get details of a specific supplier
+- name: update_supplier
+  operationId: updateSupplier
+  method: PUT
+  path: /suppliers/{supplierGuid}
+  description: Update information for a specific supplier
+- name: delete_supplier
+  operationId: deleteSupplier
+  method: DELETE
+  path: /suppliers/{supplierGuid}
+  description: Delete a specific supplier
+- name: get_phone_number
+  operationId: getPhoneNumber
+  method: GET
+  path: /suppliers/{supplierGuid}/phonenumbers/{phoneNumberGuid}
+  description: Get details of a specific supplier phone number
+- name: update_phone_number
+  operationId: updatePhoneNumber
+  method: PUT
+  path: /suppliers/{supplierGuid}/phonenumbers/{phoneNumberGuid}
+  description: Update a specific supplier phone number
+- name: delete_phone_number
+  operationId: deletePhoneNumber
+  method: DELETE
+  path: /suppliers/{supplierGuid}/phonenumbers/{phoneNumberGuid}
+  description: Delete a specific supplier phone number
+- name: get_contact
+  operationId: getContact
+  method: GET
+  path: /suppliers/{supplierGuid}/contacts/{contactGuid}
+  description: Get details of a specific supplier contact
+- name: update_supplier_contact
+  operationId: updateSupplierContact
+  method: PUT
+  path: /suppliers/{supplierGuid}/contacts/{contactGuid}
+  description: Update supplier contact
+- name: delete_supplier_contact
+  operationId: deleteSupplierContact
+  method: DELETE
+  path: /suppliers/{supplierGuid}/contacts/{contactGuid}
+  description: Delete supplier contact
+- name: get_contact_phone_number
+  operationId: getContactPhoneNumber
+  method: GET
+  path: /suppliers/{supplierGuid}/contacts/{contactGuid}/phonenumbers/{phoneNumberGuid}
+  description: Get details of a specific supplier contact phone number
+- name: update_supplier_contact_phone_number
+  operationId: updateSupplierContactPhoneNumber
+  method: PUT
+  path: /suppliers/{supplierGuid}/contacts/{contactGuid}/phonenumbers/{phoneNumberGuid}
+  description: Update supplier contact phone number
+- name: delete_supplier_contact_phone_number
+  operationId: deleteSupplierContactPhoneNumber
+  method: DELETE
+  path: /suppliers/{supplierGuid}/contacts/{contactGuid}/phonenumbers/{phoneNumberGuid}
+  description: Delete supplier contact phone number
+- name: get_addresse
+  operationId: getAddresse
+  method: GET
+  path: /suppliers/{supplierGuid}/addresses/{addressGuid}
+  description: Get details of a specific supplier address
+- name: update_addresse
+  operationId: updateAddresse
+  method: PUT
+  path: /suppliers/{supplierGuid}/addresses/{addressGuid}
+  description: Update a specific supplier address
+- name: delete_addresse
+  operationId: deleteAddresse
+  method: DELETE
+  path: /suppliers/{supplierGuid}/addresses/{addressGuid}
+  description: Delete a specific supplier address
+- name: get_supplier_item
+  operationId: getSupplierItem
+  method: GET
+  path: /supplieritems/{supplierItemGuid}
+  description: Get details of a specific supplier item
+- name: update_supplier_item
+  operationId: updateSupplierItem
+  method: PUT
+  path: /supplieritems/{supplierItemGuid}
+  description: Update a specific supplier item
+- name: delete_supplier_item
+  operationId: deleteSupplierItem
+  method: DELETE
+  path: /supplieritems/{supplierItemGuid}
+  description: Delete a specific supplier item
+- name: get_supplier_item_quotes
+  operationId: getSupplierItemQuotes
+  method: GET
+  path: /supplieritems/{supplierItemGuid}/quotes/{quoteLineGuid}
+  description: Get details of a specific supplier item quote
+- name: update_supplier_item_quotes
+  operationId: updateSupplierItemQuotes
+  method: PUT
+  path: /supplieritems/{supplierItemGuid}/quotes/{quoteLineGuid}
+  description: Update a specific supplier item quote
+- name: delete_supplier_item_quotes
+  operationId: deleteSupplierItemQuotes
+  method: DELETE
+  path: /supplieritems/{supplierItemGuid}/quotes/{quoteLineGuid}
+  description: Delete a specific supplier item quote
+- name: get_supplier_item_purchase
+  operationId: getSupplierItemPurchase
+  method: GET
+  path: /supplieritems/{supplierItemGuid}/purchases/{purchaseGuid}
+  description: Get details of a specific supplier item purchase
+- name: update_purchase
+  operationId: updatePurchase
+  method: PUT
+  path: /supplieritems/{supplierItemGuid}/purchases/{purchaseGuid}
+  description: Update a specific supplier item purchase
+- name: delete_supplier_item_purchase
+  operationId: deleteSupplierItemPurchase
+  method: DELETE
+  path: /supplieritems/{supplierItemGuid}/purchases/{purchaseGuid}
+  description: Delete a specific supplier item purchase
+- name: update_supplier_item_file_association
+  operationId: updateSupplierItemFileAssociation
+  method: PUT
+  path: /supplieritems/{supplierItemGuid}/files/{supplierItemFileAssociationGuid}
+  description: Update metadata for a supplier item file
+- name: get_supplier_item_compliance_requirement
+  operationId: getSupplierItemComplianceRequirement
+  method: GET
+  path: /supplieritems/{supplierItemGuid}/compliance/{supplierItemComplianceRequirementGuid}
+  description: Get details of a specific compliance requirement
+- name: update_supplier_item_compliance_requirement
+  operationId: updateSupplierItemComplianceRequirement
+  method: PUT
+  path: /supplieritems/{supplierItemGuid}/compliance/{supplierItemComplianceRequirementGuid}
+  description: Update a specific compliance requirement
+- name: delete_supplier_item_compliance_requirement
+  operationId: deleteSupplierItemComplianceRequirement
+  method: DELETE
+  path: /supplieritems/{supplierItemGuid}/compliance/{supplierItemComplianceRequirementGuid}
+  description: Remove a compliance requirement from a supplier item
+- name: get_partner
+  operationId: getPartner
+  method: GET
+  path: /settings/users/partners/{partnerGuid}
+  description: Get details of a specific partner user
+- name: update_partner_license
+  operationId: updatePartnerLicense
+  method: PUT
+  path: /settings/users/partners/{partnerGuid}
+  description: Update license settings for a partner user
+- name: remove_partner_license
+  operationId: removePartnerLicense
+  method: DELETE
+  path: /settings/users/partners/{partnerGuid}
+  description: Remove a partner user from the workspace

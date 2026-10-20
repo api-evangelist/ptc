@@ -1,0 +1,1364 @@
+openapi: 3.2.0
+info:
+  title: Ptc File API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged File across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: File
+  description: 'Core file operations: search, create, update, delete, get summary, content, check in/out, markups, training, corrections, editions, and associations.'
+paths:
+  /files/{fileGuid}:
+    get:
+      tags:
+      - File
+      summary: Retrieve detailed information of a file by its GUID
+      description: Returns a File object with a given GUID. This is the latest edition of the File.
+      operationId: getFile
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDetailVo'
+    put:
+      tags:
+      - File
+      summary: Update file metadata by its GUID
+      description: 'Updates a File object.
+
+
+        Also supports updating storageMethodName from FILE, FTP, WEB, or PLACE_HOLDER to FTP, WEB, or PLACE_HOLDER. This update can only be performed on unlocked Files.
+
+
+        Updating storageMethodName to FTP, WEB, or PLACE_HOLDER also requires including the attribute location.
+
+
+        This endpoint does not support updating the storageMethodName from FTP, WEB, or PLACE_HOLDER to FILE. This requires a POST call. See POST File Update.'
+      operationId: updateFiles
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileDetailVo'
+            example:
+              author:
+                fullName: Roy Stafford
+              category:
+                guid: TBVEX55UYTCM5O7O8NMA
+              description: Assembly Instructions
+              edition: '1'
+              format: txt
+              private: false
+              title: Assembly Instructions for 324-0263
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDetailVo'
+    post:
+      tags:
+      - File
+      summary: Upload and update file content and metadata by its GUID
+      description: 'Updates an existing File with storageMethodName FTP, WEB, or PLACE_HOLDER to FILE.
+
+
+        To update an existing File with a storageMethodName of FILE to FTP, WEB, or PLACE_HOLDER please refer to the PUT File Summary Update endpoint.
+
+
+        Construct a request with content-type multipart/form-data (in the header of the request) and file content.
+
+
+        Currently, only Files less than 2GB can be uploaded through this endpoint.'
+      operationId: updateContentAndMeta
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FileCreate'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDetailVo'
+    delete:
+      tags:
+      - File
+      summary: Delete the specified file
+      description: Deletes the latest edition of a file with a given GUID. When a File has more than one edition, only the latest, unlocked edition can be deleted—to delete an entire file, repeat the DELETE request for all editions.
+      operationId: deleteFiles
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Deleted File
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /files:
+    get:
+      tags:
+      - File
+      summary: Search for files using filters like number or title
+      description: Returns a collection of Compact Files matching the given search criteria. The editions returned are the latest editions for each matching file.
+      operationId: getFiles
+      parameters:
+      - name: any
+        in: query
+        description: search anything
+        schema:
+          type: string
+      - name: number
+        in: query
+        description: file number
+        schema:
+          type: string
+      - name: title
+        in: query
+        description: file title
+        schema:
+          type: string
+      - name: format
+        in: query
+        description: file format
+        schema:
+          type: string
+      - name: description
+        in: query
+        description: file description
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: file name
+        schema:
+          type: string
+      - name: includeChildCategories
+        in: query
+        schema:
+          type: boolean
+      - name: category.guid
+        in: query
+        description: category guid
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: query result offset (default 0)
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: query result limit (default 20, max 400)
+        schema:
+          type: integer
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: Search Result Files
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileFullVoResultRep'
+    post:
+      tags:
+      - File
+      summary: Creates a new File object
+      description: 'Creates a new File object.
+
+
+        If you wish to create a File record and upload file content to the Arena servers, construct a request that is content type multipart/form-data (specified in the header) and has a storageMethodName of FILE (stored on Arena servers).
+
+
+        If you wish to create a File record with no uploaded content, construct a JSON request with a storageMethodName of FTP (stored on user FTP server), WEB (web link), or PLACE_HOLDER (will upload content later).
+
+
+        When the storageMethod is FTP or WEB, the location attribute should be the web or ftp address where the file resides. For Files with storageMethodName FILE, the location attribute is not used.
+
+
+        Currently, only Files less than 2GB can be uploaded through this endpoint.'
+      operationId: createFileWithContent
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FileCreate'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDetailVo'
+    servers:
+    - url: /v1
+  /files/{fileGuid}/editions:
+    get:
+      tags:
+      - File
+      summary: Retrieve all edition information of the file
+      description: Returns a collection of File objects for a File with a given GUID.
+      operationId: getFileEditions
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDetailVoResultRep'
+    post:
+      tags:
+      - File
+      summary: Upload file to create next edition by file GUID
+      description: 'Creates a new edition for a File with a given GUID.
+
+
+        If you wish to create an edition with no uploaded content, construct a JSON request with a storageMethodName of FTP (stored on user FTP server) or WEB (web link). When the storageMethodName is FTP or WEB, the location attribute should be the web or ftp address where the file resides.
+
+
+        If you wish to create an edition and upload file content to the Arena servers, construct a request that is content type multipart/form-data (specified in the header) and has a storageMethodName of FILE (stored on Arena servers).
+
+
+        For File editions with storageMethodName FILE, the location attribute is not used.
+
+
+        When a file is checked out this call will return a 400 (Bad Request) error.
+
+
+        When posting multipart with file content, Arena does not return any JSON response so you must rely on the status of 400. The calling program should check for File checkout ("locked" : true) and respond accordingly.
+
+
+        Currently, only Files less than 2GB can be uploaded through this endpoint.'
+      operationId: createEditionWithContent
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FileCreateNested'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDetailVo'
+    servers:
+    - url: /v1
+  /files/{fileGuid}/editions/json:
+    post:
+      tags:
+      - File
+      summary: Create a new File edition (metadata only, no content upload)
+      description: 'Creates a new edition for a File by GUID **without** uploading file content.
+
+
+        This endpoint only accepts a JSON payload and does **not** support `multipart/form-data` or binary upload.
+
+
+        Allowed `storageMethodName` values for JSON requests: FTP, WEB, GOOGLE_DOCS, MICROSOFT_365 or PLACE_HOLDER. If omitted, the edition inherits the previous edition''s storage method unless that method is FILE (in which case the existing content is duplicated internally).
+
+
+        For FTP, WEB the location attribute must be provided. For PLACE_HOLDER, content may be uploaded later via the multipart endpoint.
+
+
+        To create an edition with uploaded content (storageMethodName FILE), use the multipart endpoint `POST /files/{fileGuid}/editions`.
+
+
+        When the file is checked out, a 400 (Bad Request) is returned.'
+      operationId: createEditionWithJson
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileEditionCreateVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDetailVo'
+    servers:
+    - url: /v1
+  /files/{fileGuid}/corrections:
+    get:
+      tags:
+      - File
+      summary: Retrieve all file correction information of the file
+      description: Returns a collection of corrected File objects for a File with a given GUID.
+      operationId: getFileCorrections
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileCorrectionVoResultRep'
+    post:
+      tags:
+      - File
+      summary: Create file correction for specific file edition (including file content)
+      description: Modify or correct the content of an existing file edition that is otherwise locked or immutable.
+      operationId: createFileCorrectionWithContent
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FileCorrectionCreate'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileCorrectionVo'
+    servers:
+    - url: /v1
+  /files/{fileGuid}/corrections/json:
+    post:
+      tags:
+      - File
+      summary: Create file correction for specific file edition (metadata only, no content…
+      description: 'Creates a file correction for an existing file edition **without** uploading new binary content.
+
+
+        This endpoint only accepts a JSON payload and does **not** support `multipart/form-data`.
+
+
+        Allowed `storageMethodName` values: FTP, WEB, GOOGLE_DOCS, MICROSOFT_365FILE and FILE_DROP are not supported for this JSON endpoint.
+
+
+        For FTP or WEB, the location attribute must be provided. To submit corrected binary content, use the multipart endpoint: POST /files/{fileGuid}/corrections.'
+      operationId: createFileCorrectionWithJson
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileCorrectionWithoutContent'
+            example:
+              storageMethodNameInput: WEB
+              location: https://example.com/revised-spec.pdf
+              comments: Fixed typo in section 3
+              removeOriginalContent: false
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileCorrectionVo'
+    servers:
+    - url: /v1
+  /files/{fileGuid}/content:
+    get:
+      tags:
+      - File
+      summary: Download file content by its GUID
+      description: Returns file content belonging to a file with a given GUID.
+      operationId: downloadFileContent
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+    post:
+      tags:
+      - File
+      summary: Upload and update file content by its GUID
+      description: 'Updates the content of a File edition, replacing the previous content.
+
+
+        Construct a request with content-type multipart/form-data (in the header of the request) and file content.
+
+
+        Currently, only Files less than 2GB can be uploaded through this endpoint.'
+      operationId: updateContent
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FileCreateContent'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+    servers:
+    - url: /v1
+  /files/json:
+    post:
+      tags:
+      - File
+      summary: Creates a new File object (metadata only, no content upload)
+      description: 'Creates a new File record **without** uploading file content.
+
+
+        This endpoint only accepts a JSON payload and does **not** support `multipart/form-data` or binary file upload.
+
+
+        Allowed `storageMethodName` values: FTP (stored on user FTP server), WEB (web link), GOOGLE_DOCS, MICROSOFT_365 or PLACE_HOLDER (content may be uploaded later via another endpoint).
+
+
+        For FTP or WEB, the location attribute must contain the remote address.
+
+
+        To create a File with uploaded content, use the multipart endpoint `POST /files`.'
+      operationId: createFileWithJson
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileCreateVo'
+            example:
+              author:
+                fullName: John Doe
+              category:
+                guid: N5P8MJNP0H0ATCSAUYZJ
+              description: Arena Solutions Web Site
+              edition: '1'
+              format: url
+              location: www.arenasolutions.com
+              private: false
+              storageMethodName: WEB
+              title: Arena Solutions
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDetailVo'
+    servers:
+    - url: /v1
+  /files/checkoutstatuschanges:
+    post:
+      tags:
+      - File
+      summary: Check in file for specific file edition (including file content)
+      description: 'Only the user who checked out the File or an Account administrator can cancel the checkout.
+
+
+        The existing edition of the File cannot be checked in if the edition is locked (for example, it is associated with an effective item).
+
+
+        A new edition of the File can be checked in even if the existing edition is locked. Only Files of storageMethod FILE can be checked in.
+
+
+        User must have a Full license to perform the File checkin. User must also have access to edit the File and full access to the File category.'
+      operationId: checkinFile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FileCheckoutContent'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json: {}
+    servers:
+    - url: /v1
+  /files/checkoutstatus:
+    post:
+      tags:
+      - File
+      summary: Checkout or cancel checkout of a File edition (no content upload, no checkin…
+      description: 'Performs a checkout or cancels a prior checkout on the latest edition of a File.
+
+
+        This endpoint does not upload file content and does not perform checkin operations.
+
+
+        Only the user who checked out the File or an Account administrator can cancel the checkout.
+
+
+        The edition cannot be checked out if it is locked (for example, associated with an effective item).
+
+
+        User must have a Full license, edit access to the File, and full access to the File category.'
+      operationId: checkoutAndCancelCheckoutV2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileCheckoutOrCancelCheckoutVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json: {}
+    servers:
+    - url: /v1
+  /files/{fileGuid}/watermarkcontent:
+    get:
+      tags:
+      - File
+      summary: Download file content with watermark by its GUID
+      description: Returns the watermarked file with watermark data associated with the default item revision (the most recent revision).
+      operationId: downloadWatermarkFileContent
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+    servers:
+    - url: /v1
+  /files/{fileGuid}/corrections/{correctionGuid}:
+    get:
+      tags:
+      - File
+      summary: Retrieve specific file correction information of the file
+      description: Returns a correction of File object for a File with a given GUID.
+      operationId: getFileCorrection
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: correctionGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileCorrectionVo'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    FileCheckoutContent:
+      type: object
+      description: Metadata and file content for file check out
+      properties:
+        checkedOut:
+          type: boolean
+        comment:
+          type: string
+        newEdition:
+          type: boolean
+        file.content:
+          type: string
+          format: binary
+          description: The uploaded file binary
+        file.author.fullName:
+          type: string
+          description: Author full name
+          example: John Doe
+        file.category.guid:
+          type: string
+          description: Category GUID
+          example: TBVEX55UYTCM5O7O8NMA
+        file.edition:
+          type: string
+          description: Edition of the file
+          example: '1'
+        file.format:
+          type: string
+          description: Format of the file
+          example: pdf
+        file.guid:
+          type: string
+          description: File GUID
+          example: TBVEX55UYTCSBUDM86OO
+        file.storageMethodName:
+          type: string
+          description: Storage method
+          example: FILE
+        file.title:
+          type: string
+          description: Title of the file
+          example: Project Documentation
+        file.description:
+          type: string
+          description: Description of the file
+          example: Detailed project documentation for Q2 2024.
+        private:
+          type: boolean
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    FileEditionVo:
+      type: object
+      properties:
+        author:
+          $ref: '#/components/schemas/FileAuthorVo'
+        category:
+          $ref: '#/components/schemas/SingleGuidVo'
+        description:
+          type: string
+        edition:
+          type: string
+        format:
+          type: string
+        storageMethodName:
+          type: string
+          enum:
+          - FTP
+          - WEB
+          - PLACE_HOLDER
+          - MICROSOFT_365
+          - GOOGLE_DOCS
+        title:
+          type: string
+        location:
+          type: string
+        private:
+          type: boolean
+    FileCreateNested:
+      type: object
+      description: Metadata and file information for uploading a file
+      properties:
+        file.content:
+          type: string
+          format: binary
+          description: The uploaded file binary
+        file.author.fullName:
+          type: string
+          description: Author full name
+          example: John Doe
+        file.category.guid:
+          type: string
+          description: Category GUID
+          example: TBVEX55UYTCM5O7O8NMA
+        file.edition:
+          type: string
+          description: Edition of the file
+          example: '1'
+        file.format:
+          type: string
+          description: Format of the file
+          example: PDF
+        file.storageMethodName:
+          type: string
+          description: Storage method
+          example: FILE
+        file.title:
+          type: string
+          description: Title of the file
+          example: Project Documentation
+        file.description:
+          type: string
+          description: Description of the file
+          example: Detailed project documentation in PDF format
+        private:
+          type: boolean
+    FileDetailVo:
+      type: object
+      description: File metadata information
+      properties:
+        author:
+          $ref: '#/components/schemas/FileAuthorVo'
+        category:
+          $ref: '#/components/schemas/FileCategoryVo'
+        checkedOut:
+          type: boolean
+        checkoutDateTime:
+          type: string
+        corrected:
+          type: boolean
+        creationDateTime:
+          type: string
+        description:
+          type: string
+        edition:
+          type: string
+        format:
+          type: string
+        guid:
+          type: string
+        hasMarkup:
+          type: boolean
+        haveContent:
+          type: boolean
+        lastModifiedDateTime:
+          type: string
+        latest:
+          type: boolean
+        location:
+          type: string
+        locked:
+          type: boolean
+        microsoft365:
+          $ref: '#/components/schemas/Microsoft365Vo'
+        googleDocs:
+          $ref: '#/components/schemas/GoogleDocsVo'
+        mimeType:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        size:
+          type: integer
+          format: int64
+        storageMethodName:
+          type: string
+        title:
+          type: string
+        private:
+          type: boolean
+    FileCheckoutOrCancelCheckoutVo:
+      type: object
+      properties:
+        checkedOut:
+          type: boolean
+        comment:
+          type: string
+        file:
+          $ref: '#/components/schemas/SingleGuidVo'
+    FileCreateContent:
+      type: object
+      description: File content for uploading a file
+      properties:
+        content:
+          type: string
+          format: binary
+          description: The uploaded file binary
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    FileDetailVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileDetailVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    FileCorrectionVo:
+      type: object
+      properties:
+        comments:
+          type: string
+        correctedDateTime:
+          type: string
+        guid:
+          type: string
+        notes:
+          type: string
+        correctedUser:
+          $ref: '#/components/schemas/FileCorrectorVo'
+        file:
+          $ref: '#/components/schemas/FileDetailVo'
+    FileAuthorVo:
+      type: object
+      properties:
+        fullName:
+          type: string
+    FileCreate:
+      type: object
+      description: Metadata and file information for uploading a file
+      properties:
+        content:
+          type: string
+          format: binary
+          description: The uploaded file binary
+        authorFullName:
+          type: string
+          description: Author full name
+          example: John Doe
+        categoryGuid:
+          type: string
+          description: Category GUID
+          example: BTDWFNNCGBU4N6P6Q7T2
+        edition:
+          type: string
+          description: Edition of the file
+          example: '1'
+        format:
+          type: string
+          description: Format of the file
+          example: PDF
+        storageMethodName:
+          type: string
+          description: Storage method
+          example: FILE
+        title:
+          type: string
+          description: Title of the file
+          example: Product Spec
+        description:
+          type: string
+          description: Description of the file
+          example: Specification for product A
+        private:
+          type: boolean
+    FileCorrectionWithoutContent:
+      type: object
+      properties:
+        comments:
+          type: string
+        storageMethodName:
+          type: string
+          enum:
+          - WEB
+          - FTP
+        removeOriginalContent:
+          type: boolean
+        location:
+          type: string
+    Microsoft365Vo:
+      type: object
+      properties:
+        authorEmail:
+          type: string
+        creationDate:
+          type: string
+        driveId:
+          type: string
+        fileId:
+          type: string
+        fileName:
+          type: string
+        lastEditors:
+          type: array
+          items:
+            type: string
+        modifiedDate:
+          type: string
+        originalAuthor:
+          type: string
+        siteId:
+          type: string
+        size:
+          type: integer
+          format: int64
+        version:
+          type: string
+        webUrl:
+          type: string
+    FileCreateVo:
+      type: object
+      properties:
+        author:
+          $ref: '#/components/schemas/FileAuthorVo'
+        category:
+          $ref: '#/components/schemas/SingleGuidVo'
+        description:
+          type: string
+        edition:
+          type: string
+        format:
+          type: string
+        storageMethodName:
+          type: string
+          enum:
+          - FTP
+          - WEB
+          - PLACE_HOLDER
+        title:
+          type: string
+        location:
+          type: string
+        private:
+          type: boolean
+    FileCategoryVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    FileEditionCreateVo:
+      type: object
+      properties:
+        file:
+          $ref: '#/components/schemas/FileEditionVo'
+    GoogleDocsVo:
+      type: object
+      properties:
+        authorEmail:
+          type: string
+        creationDate:
+          type: string
+        driveId:
+          type: string
+        fileId:
+          type: string
+        fileName:
+          type: string
+        lastEditors:
+          type: array
+          items:
+            type: string
+        modifiedDate:
+          type: string
+        originalAuthor:
+          type: string
+        size:
+          type: integer
+          format: int64
+        version:
+          type: string
+        webUrl:
+          type: string
+    FileFullVo:
+      type: object
+      properties:
+        category:
+          $ref: '#/components/schemas/FileCategoryVo'
+        checkedOut:
+          type: boolean
+        corrected:
+          type: boolean
+        creationDateTime:
+          type: string
+        edition:
+          type: string
+        format:
+          type: string
+        guid:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        storageMethodName:
+          type: string
+        title:
+          type: string
+    FileCorrectionCreate:
+      type: object
+      description: File option when creating new file correction
+      properties:
+        content:
+          type: string
+          format: binary
+          description: The uploaded file binary
+        comments:
+          type: string
+          description: Comment for file correction
+          example: Corrected the document as per the latest specifications.
+        storageMethodName:
+          type: string
+          description: Target Storage Method
+          example: FILE
+        removeOriginalContent:
+          type: boolean
+          description: Whether to remove the original content
+          example: false
+        haveContent:
+          type: boolean
+          description: Flag to download the cloud file content
+          example: true
+    FileCorrectorVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    FileFullVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileFullVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    FileCorrectionVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileCorrectionVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

@@ -1,0 +1,944 @@
+openapi: 3.2.0
+info:
+  title: Ptc Change Implementation Task API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Change Implementation Task across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Change Implementation Task
+  description: 'Manage implementation tasks for a change: create, update, delete, get (including notes and files).'
+paths:
+  /changes/{changeGuid}/implementationtasks/{implementationTasksGuid}:
+    put:
+      tags:
+      - Change Implementation Task
+      summary: Update an existing implementation task
+      description: Edits an implementation task for a specific change. Note that Implementation Task Management and Object Level Override must be enabled for the category. If it is not enabled, the endpoints shall return an error indicating it is not enabled. Not supported for Canceled, Completed or Uncategorized changes. User must be a change administrator, creator of the change, or the current task assginee to perform this endpoint.
+      operationId: updateChangeImplementationTask
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: implementationTasksGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeImplementationTaskUpdateVo'
+            example:
+              name: Check New User
+              assignee:
+                user:
+                  guid: 8QAT748AL2J2L4N6804O
+              dueDate: '2025-03-08T08:00:00Z'
+              status: IN_PROGRESS
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeImplementationTaskVo'
+    delete:
+      tags:
+      - Change Implementation Task
+      summary: Delete an implementation task from a change
+      description: Deletes a Change Implementation Task from a Change. Implementation Task Management and Object Level Override should be enabled. Change status cannot be canceled or completed. Endpoint can only be performed by the change administrator or the change creator.
+      operationId: deleteChangeImplementationTask
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: implementationTasksGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Delete Change Implementation Task Result
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/implementationtasks/{implementationTasksGuid}/notes/{noteGuid}:
+    put:
+      tags:
+      - Change Implementation Task
+      summary: Update a note on an implementation task
+      description: Edits an implementation task note for an implementation task. Implementation Task Management must be enabled to execute this endpoint. Not supported for Canceled or Completed Changes.
+      operationId: updateChangeImplementationTaskNote
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: implementationTasksGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: noteGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImplementationNoteCreateVo'
+            example:
+              note: This was done late to cost more.
+              private: true
+              label: Cost Impact
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeImplementationNoteVo'
+    delete:
+      tags:
+      - Change Implementation Task
+      summary: Delete a note from an implementation task
+      description: Deletes a specific note from a specific implementation task within a Change. Implementation Task Management needs to be enabled for this change category. Not supported for Canceled or Completed changes.
+      operationId: deleteChangeImplementationTaskNote
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: implementationTasksGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: noteGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Delete Change Implementation Task Note Result
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/implementationtasks:
+    get:
+      tags:
+      - Change Implementation Task
+      summary: List all implementation tasks for a change
+      description: Returns the implementation tasks for a specific change category. Note that Implementation Task Management must be enabled for the category. If it is not enabled, the endpoints shall return an error indicating it is not enabled.
+      operationId: getChangeImplementationTasks
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeImplementationTaskVoResultRep'
+    post:
+      tags:
+      - Change Implementation Task
+      summary: Create a new implementation task for a change
+      description: Creates an implementation tasks for a specific change. Note that Implementation Task Management and Object Level Override must be enabled for the category. If it is not enabled, the endpoints shall return an error indicating it is not enabled. Not supported for Canceled, Completed or Uncategorized changes.
+      operationId: createChangeImplementationTask
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeImplementationTaskCreateVo'
+            examples:
+              User:
+                description: User
+                value:
+                  name: Check User
+                  assignee:
+                    user:
+                      guid: 5N7Q4157IZGZI1K33VOE
+                  dueDate: '2025-03-07T08:00:00Z'
+              User Group:
+                description: User Group
+                value:
+                  name: Check User Group
+                  assignee:
+                    userGroup:
+                      guid: VDXGURVX8OUH0J2L4HEJ
+                  dueDate: '2025-03-07T08:00:00Z'
+              Supplier:
+                description: Supplier
+                value:
+                  name: Check Supplier
+                  assignee:
+                    supplier:
+                      guid: GYI1FCGITATZI16WZRN2
+                  dueDate: '2025-03-07T08:00:00Z'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeImplementationTaskVo'
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/implementationtasks/{implementationTaskGuid}/notes:
+    get:
+      tags:
+      - Change Implementation Task
+      summary: List all notes for a specific implementation task
+      description: Returns the notes in a specific implementation task within a specific change. Only supported in categories that have Implementation Task Management enabled.
+      operationId: getChangeImplementationTaskNotes
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: implementationTaskGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeImplementationNoteVoResultRep'
+    post:
+      tags:
+      - Change Implementation Task
+      summary: Add a new note to an implementation task
+      description: Adds a note to a change implementation task. Implementation Task Management must be enabled to execute this endpoint. Not supported for Canceled or Completed Changes.
+      operationId: createChangeImplementationTaskNote
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: implementationTaskGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImplementationNoteCreateVo'
+            example:
+              note: This was done early to improve cost.
+              private: false
+              label: Cost Impact
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeImplementationNoteVo'
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/implementationtasks/{implementationTaskGuid}/files:
+    get:
+      tags:
+      - Change Implementation Task
+      summary: List all files attached to an implementation task
+      description: Retrieves the files associated with a change implementation task. Implementation Task Management must be enabled within the specific change category.
+      operationId: getImplementationTaskFiles
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: implementationTaskGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationVoResultRep'
+    post:
+      tags:
+      - Change Implementation Task
+      summary: Attach a new file to an implementation task
+      description: Adds a specific, already existing in the workspace, File to a specific implementation task. Implementation Task Management must be enabled to execute this endpoint. Not supported for Canceled or Completed Changes.
+      operationId: createChangeImplementationTaskFile
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: implementationTaskGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileAssociationCreateVo'
+            example:
+              file:
+                guid: 8QAT748AL2L1K3SBF661
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationVo'
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/implementationtasks/{implementationTaskGuid}:
+    get:
+      tags:
+      - Change Implementation Task
+      summary: Get details of a specific implementation task
+      description: Returns an implementation task for a specific change category. Note that Implementation Task Management must be enabled for the category. If it is not enabled, the endpoints shall return an error indicating it is not enabled.
+      operationId: getChangeImplementationTask
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: implementationTaskGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeImplementationTaskVo'
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/implementationtasks/{implementationTaskGuid}/notes/{implementationTaskNoteGuid}:
+    get:
+      tags:
+      - Change Implementation Task
+      summary: Get details of a specific note on an implementation task
+      description: Returns a specific note in a specific implementation task of a specific change. Only supported in categories that have Implementation Task Management enabled.
+      operationId: getChangeImplementationTaskNote
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: implementationTaskGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: implementationTaskNoteGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeImplementationNoteVo'
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/implementationtasks/{implementationTaskGuid}/files/{fileGuid}:
+    get:
+      tags:
+      - Change Implementation Task
+      summary: Get details of a specific file attached to an implementation task
+      description: Retrieves a specific file associated with a change implementation task. Implementation Task Management must be enabled within the specific change category.
+      operationId: getImplementationTaskFile
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: implementationTaskGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationVo'
+    delete:
+      tags:
+      - Change Implementation Task
+      summary: Remove a file from an implementation task
+      description: Removes a File association from a specific implementation task.
+      operationId: removeChangeImplTaskFileAssociation
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: implementationTaskGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Delete Change Implementation Task File Result
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+components:
+  schemas:
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    ChangeImplementationNoteVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        label:
+          type: string
+        note:
+          type: string
+        private:
+          type: boolean
+    ImplementationNoteCreateVo:
+      type: object
+      properties:
+        note:
+          type: string
+        label:
+          type: string
+        private:
+          type: boolean
+    FileDetailVo:
+      type: object
+      description: File metadata information
+      properties:
+        author:
+          $ref: '#/components/schemas/FileAuthorVo'
+        category:
+          $ref: '#/components/schemas/FileCategoryVo'
+        checkedOut:
+          type: boolean
+        checkoutDateTime:
+          type: string
+        corrected:
+          type: boolean
+        creationDateTime:
+          type: string
+        description:
+          type: string
+        edition:
+          type: string
+        format:
+          type: string
+        guid:
+          type: string
+        hasMarkup:
+          type: boolean
+        haveContent:
+          type: boolean
+        lastModifiedDateTime:
+          type: string
+        latest:
+          type: boolean
+        location:
+          type: string
+        locked:
+          type: boolean
+        microsoft365:
+          $ref: '#/components/schemas/Microsoft365Vo'
+        googleDocs:
+          $ref: '#/components/schemas/GoogleDocsVo'
+        mimeType:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        size:
+          type: integer
+          format: int64
+        storageMethodName:
+          type: string
+        title:
+          type: string
+        private:
+          type: boolean
+    FileAssociationVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        file:
+          $ref: '#/components/schemas/FileDetailVo'
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    ChangeImplementationTaskVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangeImplementationTaskVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    FileAuthorVo:
+      type: object
+      properties:
+        fullName:
+          type: string
+    Microsoft365Vo:
+      type: object
+      properties:
+        authorEmail:
+          type: string
+        creationDate:
+          type: string
+        driveId:
+          type: string
+        fileId:
+          type: string
+        fileName:
+          type: string
+        lastEditors:
+          type: array
+          items:
+            type: string
+        modifiedDate:
+          type: string
+        originalAuthor:
+          type: string
+        siteId:
+          type: string
+        size:
+          type: integer
+          format: int64
+        version:
+          type: string
+        webUrl:
+          type: string
+    FileCategoryVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    GoogleDocsVo:
+      type: object
+      properties:
+        authorEmail:
+          type: string
+        creationDate:
+          type: string
+        driveId:
+          type: string
+        fileId:
+          type: string
+        fileName:
+          type: string
+        lastEditors:
+          type: array
+          items:
+            type: string
+        modifiedDate:
+          type: string
+        originalAuthor:
+          type: string
+        size:
+          type: integer
+          format: int64
+        version:
+          type: string
+        webUrl:
+          type: string
+    ChangeImplementationNoteVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangeImplementationNoteVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ChangeImplementationTaskUpdateVo:
+      type: object
+      properties:
+        name:
+          type: string
+        dueDate:
+          type: string
+        assignee:
+          $ref: '#/components/schemas/ImplementationAssigneeCreateVo'
+        status:
+          type: string
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    ImplementationAssigneeVo:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/UserCompactVo'
+        userGroup:
+          $ref: '#/components/schemas/UserGroupMinimalResponseVo'
+    FileAssociationCreateVo:
+      type: object
+      properties:
+        file:
+          $ref: '#/components/schemas/SingleGuidVo'
+    ImplementationAssigneeCreateVo:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/SingleGuidVo'
+        userGroup:
+          $ref: '#/components/schemas/SingleGuidVo'
+    FileAssociationVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileAssociationVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ChangeImplementationTaskCreateVo:
+      type: object
+      properties:
+        name:
+          type: string
+        dueDate:
+          type: string
+        assignee:
+          $ref: '#/components/schemas/ImplementationAssigneeCreateVo'
+    UserGroupMinimalResponseVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    ChangeImplementationTaskVo:
+      type: object
+      properties:
+        assignee:
+          $ref: '#/components/schemas/ImplementationAssigneeVo'
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        dueDate:
+          type: string
+        guid:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

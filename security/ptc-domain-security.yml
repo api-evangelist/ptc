@@ -1,11 +1,11 @@
-generated: '2026-07-11'
+generated: '2026-10-20'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
 - host: www.ptc.com
   https: true
   tls_version: TLSv1.3
-  cert_expires: Aug 28 23:59:59 2026 GMT
+  cert_expires: Jan 14 23:59:59 2027 GMT
   hsts: null
 - host: api.arenasolutions.com
   https: true
@@ -15,30 +15,30 @@ hosts:
 - host: cloudreco.vuforia.com
   https: true
   tls_version: TLSv1.2
-  cert_expires: Nov 18 23:59:59 2026 GMT
+  cert_expires: Apr 20 23:59:59 2027 GMT
   hsts: null
 domains:
 - domain: ptc.com
   dnssec: false
   caa:
-  - 128 issuewild "quovadisglobal.com"
-  - 128 issue "pki.goog"
-  - 128 issue "globalsign.com"
-  - 128 issuewild "identrust.com"
+  - 128 issuewild "globalsign.com"
   - 128 issue "quovadisglobal.com"
+  - 128 issue "sectigo.com"
+  - 128 issuewild "pki.goog"
   - 128 issue "digicert.com"
+  - 128 issuewild "digicert.com"
   spf: true
   dmarc: true
   dmarc_policy: reject
 - domain: arenasolutions.com
   dnssec: false
   caa:
-  - 0 issue "sectigo.com"
-  - 0 issuewild ";"
-  - 0 iodef "mailto:arena-domains@ptc.com"
   - 0 issue "identrust.com"
-  - 0 issue "digicert.com"
   - 0 issue "amazon.com"
+  - 0 iodef "mailto:arena-domains@ptc.com"
+  - 0 issuewild ";"
+  - 0 issue "digicert.com"
+  - 0 issue "letsencrypt.org"
   spf: true
   dmarc: true
   dmarc_policy: none

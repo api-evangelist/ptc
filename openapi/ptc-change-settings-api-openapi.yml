@@ -1,0 +1,522 @@
+openapi: 3.2.0
+info:
+  title: Ptc Change Settings API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Change Settings across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Change Settings
+  description: Manage settings for changes (Categories, Attributes, Routings, Administrators, Number Prefixes).
+paths:
+  /settings/{objectType}/numbersequences:
+    get:
+      tags:
+      - Change Settings
+      summary: List all number sequences for a given type
+      description: List all number sequences for a given type. Supports Requests, Changes, Tickets, and Training Plan objects.
+      operationId: getNumberSequences
+      parameters:
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - qualityprocesses
+          - requests
+          - changes
+          - tickets
+          - trainingplans
+          - requirements
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NumberSequenceResultRep'
+    servers:
+    - url: /v1
+  /settings/{objectType}/numbersequences/{guid}:
+    get:
+      tags:
+      - Change Settings
+      summary: Get details of a specific number sequence
+      description: Get details of a specific number sequencefor Requests, Changes, Tickets, and Training Plans.
+      operationId: getNumberSequence
+      parameters:
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - qualityprocesses
+          - requests
+          - changes
+          - tickets
+          - trainingplans
+          - requirements
+      - name: guid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NumberSequenceCompactVo'
+    servers:
+    - url: /v1
+  /settings/{objectType}/numbersequenceprefixes:
+    get:
+      tags:
+      - Change Settings
+      summary: List all prefixes for number sequences for a given type
+      description: List all prefixes for number sequences for a given type. Supports Requests, Changes, Tickets, and Training Plan objects.
+      operationId: getNumberSequencePrefixes
+      parameters:
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - qualityprocesses
+          - requests
+          - changes
+          - tickets
+          - trainingplans
+          - requirements
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NumberSequencePrefixCompactResultRep'
+    servers:
+    - url: /v1
+  /settings/{objectType}/administrators:
+    get:
+      tags:
+      - Change Settings
+      summary: List administrators for changes or requests
+      operationId: getAdministratorsForChangesOrRequests
+      parameters:
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - requests
+          - changes
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCompactVoResultRep'
+    servers:
+    - url: /v1
+  /settings/{objectType}/administrators/{userGuid}:
+    get:
+      tags:
+      - Change Settings
+      summary: Get details of a specific change/request administrator
+      operationId: getAdministratorForChangesOrRequests
+      parameters:
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - requests
+          - changes
+      - name: userGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCompactVo'
+    servers:
+    - url: /v1
+  /settings/changes/routings:
+    get:
+      tags:
+      - Change Settings
+      summary: List all change routings
+      operationId: getChangesRoutings
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeRoutingShortResultRep'
+    servers:
+    - url: /v1
+  /settings/changes/routings/{routingGuid}:
+    get:
+      tags:
+      - Change Settings
+      summary: Get details of a specific change routing
+      operationId: getChangesRouting
+      parameters:
+      - name: routingGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeRoutingShortRep'
+    servers:
+    - url: /v1
+  /settings/changes/implemenationstatuses:
+    get:
+      tags:
+      - Change Settings
+      summary: List all change implementation statuses
+      operationId: getWorkspaceImplementationStatuses
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeImplementationStatusCompactResultRep'
+    servers:
+    - url: /v1
+  /settings/changes/categories/{categoryGuid}/routings:
+    get:
+      tags:
+      - Change Settings
+      summary: List routings for a specific change category
+      operationId: getChangesCategoriesRoutings
+      parameters:
+      - name: categoryGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeRoutingMiniResultRep'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    NumberSequenceCompactVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        lastUsed:
+          type: string
+        name:
+          type: string
+        nextValue:
+          type: string
+        prefixes:
+          type: array
+          items:
+            $ref: '#/components/schemas/NumberFormatPrefixVo'
+        creationDateTime:
+          type: string
+    ChangeRoutingMiniResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangeRoutingMinimalVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ChangeRoutingMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    UserCompactVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCompactVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ChangeRoutingShortRep:
+      type: object
+      properties:
+        guid:
+          type: string
+        creationDateTime:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    NumberSequenceResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/NumberSequenceCompactVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ImplementationStatusVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    ChangeRoutingShortResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangeRoutingShortRep'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    NumberFormatPrefixVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        value:
+          type: string
+    NumberSequencePrefixCompactResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/NumberFormatPrefixVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ChangeImplementationStatusCompactResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImplementationStatusVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

@@ -1,0 +1,272 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ptc/main/json-schema/ptc-attribute-definition-vo-schema.json",
+  "title": "AttributeDefinitionVo",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/ptc-arena-openapi.yml#/components/schemas/AttributeDefinitionVo",
+  "type": "object",
+  "properties": {
+    "guid": {
+      "type": "string"
+    },
+    "active": {
+      "type": "boolean"
+    },
+    "allowLowerCase": {
+      "type": "boolean"
+    },
+    "allowNegatives": {
+      "type": "boolean"
+    },
+    "allowUpperCase": {
+      "type": "boolean"
+    },
+    "allowsExplicitNullValue": {
+      "type": "boolean"
+    },
+    "creatable": {
+      "type": "boolean"
+    },
+    "custom": {
+      "type": "boolean"
+    },
+    "deleted": {
+      "type": "boolean"
+    },
+    "deprecated": {
+      "type": "boolean"
+    },
+    "editable": {
+      "type": "boolean"
+    },
+    "global": {
+      "type": "boolean"
+    },
+    "apiName": {
+      "type": "string"
+    },
+    "costCalculation": {
+      "type": "string",
+      "enum": [
+        "ENTERED",
+        "ROLLUP",
+        "ROLLUP_AND_ENTERED"
+      ]
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "USD",
+        "EUR",
+        "GBP",
+        "YEN",
+        "AUD",
+        "CAD",
+        "CNY",
+        "INR",
+        "JPY",
+        "KRW",
+        "NZD",
+        "SEK",
+        "DKK",
+        "NOK"
+      ]
+    },
+    "decimalPlaces": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "defaultValue": {},
+    "developerNotes": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "excludedValues": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "fieldType": {
+      "type": "string",
+      "enum": [
+        "SINGLE_LINE_TEXT",
+        "MULTI_LINE_TEXT",
+        "DROP_DOWN",
+        "FIXED_DROP_DOWN",
+        "DATE",
+        "NUMBER",
+        "BOOLEAN",
+        "INTEGER",
+        "OBJECT",
+        "POSITIVE_DOUBLE",
+        "POSITIVE_INTEGER",
+        "RICH_TEXT",
+        "GUID",
+        "DATETIME",
+        "COST",
+        "LIST",
+        "ENUM"
+      ]
+    },
+    "inViews": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "EMPTY_VIEW",
+          "ITEM_SPECS",
+          "ITEM_BOM",
+          "ITEM_WHEREUSED",
+          "ITEM_SOURCING",
+          "ITEM_COSTING",
+          "ITEM_FILES",
+          "ITEM_COMPLIANCE",
+          "ITEM_REVISIONS",
+          "ITEM_NOTIFICATIONS",
+          "ITEM_SUPPLIER_ACCESS",
+          "ITEM_PROJECTS",
+          "ITEM_QUALITY",
+          "ITEM_CUSTOM",
+          "ITEM_CUSTOM_NON_REV",
+          "ITEM_TRAINING",
+          "ITEM_TRAINING_PLANS",
+          "ITEM_TRAINING_RECORDS",
+          "ITEM_TRAINING_QUIZ",
+          "ITEM_TRAINING_QUIZ_HISTORY",
+          "ITEM_VERIFY",
+          "ITEM_REFERENCES",
+          "REQUEST_SUMMARY",
+          "REQUEST_FILES",
+          "REQUEST_ITEMS",
+          "REQUEST_PARTICIPANTS",
+          "REQUEST_EVALUATION",
+          "REQUEST_CHANGES",
+          "REQUEST_STATUS",
+          "REQUEST_RECENT_ACTIVITY",
+          "REQUEST_PROJECTS",
+          "REQUEST_QUALITY",
+          "REQUEST_CUSTOM",
+          "CHANGE_SUMMARY",
+          "CHANGE_FILES",
+          "CHANGE_ITEMS",
+          "CHANGE_REQUESTS",
+          "CHANGE_APPROVAL_ROUTINGS",
+          "CHANGE_APPROVAL_DECISIONS",
+          "CHANGE_IMPLEMENTATION",
+          "CHANGE_ALERTS",
+          "CHANGE_NOTIFICATIONS",
+          "CHANGE_STATUS",
+          "CHANGE_PROJECTS",
+          "CHANGE_QUALITY",
+          "CHANGE_SUPPLIER_ACCESS",
+          "CHANGE_CUSTOM",
+          "CHANGE_VERIFY",
+          "SUPPLIER_PROFILE",
+          "SUPPLIER_CONTACTS",
+          "SUPPLIER_SUPPLIER_ITEMS",
+          "SUPPLIER_SOURCING_LINES",
+          "SUPPLIER_SOURCED_ITEMS",
+          "SUPPLIER_FILES",
+          "SUPPLIER_QUALITY",
+          "SUPPLIER_CUSTOM",
+          "SUPPLIER_ITEMS_QUALITY",
+          "SI_SPECS",
+          "SI_SOURCING_LINES",
+          "SI_QUOTES",
+          "SI_PURCHASES",
+          "SI_FILES",
+          "SI_COMPLIANCE",
+          "SI_LOOKUP",
+          "SI_CUSTOM",
+          "FILE_SUMMARY",
+          "FILE_ASSOCIATIONS",
+          "FILE_EDITIONS",
+          "FILE_MARKUPS",
+          "FILE_RECENT_ACTIVITY",
+          "FILE_PROJECTS",
+          "FILE_QUALITY",
+          "PROJECT_SUMMARY",
+          "PROJECT_SCHEDULE",
+          "PROJECT_REFERENCES",
+          "PROJECT_QUALITY",
+          "QUALITY_SUMMARY",
+          "QUALITY_DETAILS",
+          "QUALITY_AFFECTED",
+          "QUALITY_PROJECTS",
+          "QUALITY_SUPPLIER_ACCESS",
+          "QUALITY_HISTORY",
+          "TRAINING_SUMMARY",
+          "TRAINING_ITEMS",
+          "TRAINING_RECORDS",
+          "TRAINING_USERS",
+          "TRAINING_HISTORY",
+          "TRAINING_PROGRESS",
+          "REQUIREMENT_SUMMARY",
+          "REQUIREMENT_TREE",
+          "REQUIREMENT_TRACE",
+          "REQUIREMENT_REFERENCES",
+          "REQUIREMENT_FILES",
+          "REQUIREMENT_HISTORY",
+          "REQUIREMENT_BASELINES",
+          "EXPORT_SUMMARY",
+          "VERIFY_SUMMARY",
+          "VERIFY_FILES",
+          "VERIFY_REFERENCES",
+          "VERIFY_HISTORY"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "maskingValue": {},
+    "maxLength": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "maxSelections": {
+      "type": "integer",
+      "format": "int32"
+    },
+    "maxValue": {
+      "type": "number",
+      "format": "double"
+    },
+    "multiSelect": {
+      "type": "boolean"
+    },
+    "name": {
+      "type": "string"
+    },
+    "possibleValues": {
+      "type": "array",
+      "items": {}
+    },
+    "required": {
+      "type": "boolean"
+    },
+    "revisionControlled": {
+      "type": "boolean"
+    },
+    "searchable": {
+      "type": "boolean"
+    },
+    "visibleWhenBlank": {
+      "type": "boolean"
+    },
+    "revisionType": {
+      "type": "string",
+      "enum": [
+        "NON_REVISION_CONTROLLED",
+        "REVISION_SPECIFIC",
+        "REVISION_CONTROLLED"
+      ]
+    },
+    "private": {
+      "type": "boolean"
+    }
+  }
+}

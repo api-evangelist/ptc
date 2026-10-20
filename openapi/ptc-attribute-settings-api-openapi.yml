@@ -1,0 +1,1512 @@
+openapi: 3.2.0
+info:
+  title: Ptc Attribute Settings API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Attribute Settings across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Attribute Settings
+  description: Manage settings for attributes across various objects (Item, BOM, File, Request, Change, Quality, Ticket, Supplier, Export).
+paths:
+  /settings/{objectType}/attributes:
+    get:
+      tags:
+      - Attribute Settings
+      summary: Search for attributes by object type
+      description: Search for attributes by object type. Supports Item, File, Quality Process, Supplier, Supplier Item, Change, Request, Ticket, and Training Plan objects.
+      operationId: getAttributesDefinitions
+      parameters:
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - items
+          - files
+          - qualityprocesses
+          - suppliers
+          - supplieritems
+          - changes
+          - requests
+          - tickets
+          - trainingplans
+          - requirements
+      - name: includePossibleValues
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: creatableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: editableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: searchableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: includeDeleted
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeDefinitionFullRepResultRep'
+    servers:
+    - url: /v1
+  /settings/{objectType}/attributegroups:
+    get:
+      tags:
+      - Attribute Settings
+      summary: Search for attribute groups by object type
+      description: Search for attribute groups by object type. Supports Items, Changes, Suppliers,and Request objects.
+      operationId: getAttributesGroups
+      parameters:
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - items
+          - changes
+          - suppliers
+          - requests
+          - supplieritems
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeGroupFullVoResultRep'
+    servers:
+    - url: /v1
+  /settings/{objectType}/attributegroups/{attributeGroupGuid}:
+    get:
+      tags:
+      - Attribute Settings
+      summary: Get details of a specific attribute group
+      description: Get details of a specific attribute group. Supports Items, Changes, Suppliers, and Request objects.
+      operationId: getAttributesGroup
+      parameters:
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - items
+          - changes
+          - suppliers
+          - requests
+          - supplieritems
+      - name: attributeGroupGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeGroupFullVo'
+    servers:
+    - url: /v1
+  /settings/{objectType}/categories/{categoryGuid}/attributegroups:
+    get:
+      tags:
+      - Attribute Settings
+      summary: List attribute groups for a specific category
+      operationId: getCategoryAttributeGroups
+      parameters:
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - items
+          - changes
+          - requests
+      - name: categoryGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeGroupsFullVo'
+    servers:
+    - url: /v1
+  /settings/{objectType}/categories/{categoryGuid}/attributegroups/{attributeGroupGuid}:
+    get:
+      tags:
+      - Attribute Settings
+      summary: Get details of a specific attribute group in a category
+      description: Get details of a specific attribute group in a category. Supports Items, Changes, and Request Objects.
+      operationId: getCategoryAttributeGroup
+      parameters:
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - items
+          - changes
+          - requests
+      - name: categoryGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: attributeGroupGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeGroupFullVo'
+    servers:
+    - url: /v1
+  /settings/tickets/templates/{templateGuid}/attributes:
+    get:
+      tags:
+      - Attribute Settings
+      summary: List all attributes of a specific ticket template
+      operationId: getTicketTemplateAttributes
+      parameters:
+      - name: templateGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: includePossibleValues
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: creatableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: editableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: searchableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeDefinitionFullRepResultRep'
+    servers:
+    - url: /v1
+  /settings/requirements/templates/{templateGuid}/attributes:
+    get:
+      tags:
+      - Attribute Settings
+      summary: List all attributes of a specific requirement template
+      operationId: getRequirementTemplateAttributes
+      parameters:
+      - name: templateGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: includePossibleValues
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: creatableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: editableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: searchableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeDefinitionFullRepResultRep'
+    servers:
+    - url: /v1
+  /settings/requests/items/attributes:
+    get:
+      tags:
+      - Attribute Settings
+      summary: List all attributes for request items
+      operationId: getRequestItemAttributes
+      parameters:
+      - name: includePossibleValues
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: creatableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: editableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: searchableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: includeDeleted
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeDefinitionFullRepResultRep'
+    servers:
+    - url: /v1
+  /settings/requests/attributes/{attributeDefinitionGuid}:
+    get:
+      tags:
+      - Attribute Settings
+      summary: Attributes Get Endpoint
+      operationId: getRequestAttributeDefinition
+      parameters:
+      - name: attributeDefinitionGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeDefinitionVo'
+    servers:
+    - url: /v1
+  /settings/qualityprocesses/templates/{templateGuid}/attributegroups:
+    get:
+      tags:
+      - Attribute Settings
+      summary: List attribute groups for a specific quality template
+      operationId: getTemplateAttributeGroups
+      parameters:
+      - name: templateGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeGroupsFullVo'
+    servers:
+    - url: /v1
+  /settings/qualityprocesses/templates/{qualityprocessTemplateGuid}/attributes:
+    get:
+      tags:
+      - Attribute Settings
+      summary: List all attributes for a specific quality template
+      operationId: getQualityTemplateAttributes
+      parameters:
+      - name: qualityprocessTemplateGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: includePossibleValues
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: creatableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: editableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: searchableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: includeDeleted
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityTemplateAttributeVo'
+    servers:
+    - url: /v1
+  /settings/qualityprocesses/steps/attributes:
+    get:
+      tags:
+      - Attribute Settings
+      summary: List all attributes for quality process steps
+      operationId: getStepsAttributes
+      parameters:
+      - name: includePossibleValues
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: creatableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: editableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: searchableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: includeDeleted
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeDefinitionFullRepResultRep'
+    servers:
+    - url: /v1
+  /settings/qualityprocesses/steps/attributegroups:
+    get:
+      tags:
+      - Attribute Settings
+      summary: List attribute groups for quality process steps
+      operationId: getQualityAttributesGroups
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeGroupFullVo'
+    servers:
+    - url: /v1
+  /settings/qualityprocesses/steps/attributegroups/{attributeGroupGuid}:
+    get:
+      tags:
+      - Attribute Settings
+      summary: Get details of a specific attribute group for quality process steps
+      operationId: getQualityAttributesGroup
+      parameters:
+      - name: attributeGroupGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeGroupFullVo'
+    servers:
+    - url: /v1
+  /settings/items/bom/attributes:
+    get:
+      tags:
+      - Attribute Settings
+      summary: List all attributes for item BOM
+      operationId: getBomAttributesDefinitions
+      parameters:
+      - name: includePossibleValues
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: creatableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: editableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: searchableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: includeDeleted
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeDefinitionFullRepResultRep'
+    servers:
+    - url: /v1
+  /settings/items/attributes/{attributeDefinitionGuid}:
+    get:
+      tags:
+      - Attribute Settings
+      summary: Get details of a specific attribute
+      operationId: getItemAttributeDefinition
+      parameters:
+      - name: attributeDefinitionGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeDefinitionVo'
+    servers:
+    - url: /v1
+  /settings/exports/attributes:
+    get:
+      tags:
+      - Attribute Settings
+      summary: List all attributes used in exports
+      operationId: getExportAttributes
+      parameters:
+      - name: world
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: includePossibleValues
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: creatableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: editableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: searchableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeDefinitionFullRepResultRep'
+    servers:
+    - url: /v1
+  /settings/changes/items/attributes:
+    get:
+      tags:
+      - Attribute Settings
+      summary: List all attributes for change items
+      operationId: getChangeItemAttributes
+      parameters:
+      - name: includePossibleValues
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: creatableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: editableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: searchableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: includeDeleted
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeDefinitionFullRepResultRep'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    AttributeGroupFullVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeGroupFullVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    AttributeGroupCascadingRuleVo:
+      type: object
+      properties:
+        drivingAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeGroupDrivingAttributeVo'
+        order:
+          type: integer
+          format: int32
+        dependentAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeGroupDependentAttributeVo'
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    AttributeDefinitionFullRepResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeDefinitionVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    AttributeGroupConditionalRuleVo:
+      type: object
+      properties:
+        drivingAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeGroupDrivingAttributeVo'
+        order:
+          type: integer
+          format: int32
+        required:
+          type: boolean
+        dependentAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeGroupConditionDependentAttrVo'
+    AttributeDefinitionFullRep:
+      type: object
+      properties:
+        allowsExplicitNullValue:
+          type: boolean
+        allowLowerCase:
+          type: boolean
+        allowNegatives:
+          type: boolean
+        allowNumbers:
+          type: boolean
+        allowUpperCase:
+          type: boolean
+        costCalculation:
+          type: string
+          enum:
+          - ENTERED
+          - ROLLUP
+          - ROLLUP_AND_ENTERED
+        currency:
+          type: string
+          enum:
+          - USD
+          - EUR
+          - GBP
+          - YEN
+          - AUD
+          - CAD
+          - CNY
+          - INR
+          - JPY
+          - KRW
+          - NZD
+          - SEK
+          - DKK
+          - NOK
+        decimalPlaces:
+          type: integer
+          format: int32
+        defaultValue: {}
+        deprecated:
+          type: boolean
+        description:
+          type: string
+        developerNotes:
+          type: string
+        example:
+          type: string
+        excludedValues:
+          type: array
+          items:
+            type: string
+        fieldType:
+          type: string
+          enum:
+          - SINGLE_LINE_TEXT
+          - MULTI_LINE_TEXT
+          - DROP_DOWN
+          - FIXED_DROP_DOWN
+          - DATE
+          - NUMBER
+          - BOOLEAN
+          - INTEGER
+          - OBJECT
+          - POSITIVE_DOUBLE
+          - POSITIVE_INTEGER
+          - RICH_TEXT
+          - GUID
+          - DATETIME
+          - COST
+          - LIST
+          - ENUM
+        inViews:
+          type: array
+          items:
+            type: string
+            enum:
+            - EMPTY_VIEW
+            - ITEM_SPECS
+            - ITEM_BOM
+            - ITEM_WHEREUSED
+            - ITEM_SOURCING
+            - ITEM_COSTING
+            - ITEM_FILES
+            - ITEM_COMPLIANCE
+            - ITEM_REVISIONS
+            - ITEM_NOTIFICATIONS
+            - ITEM_SUPPLIER_ACCESS
+            - ITEM_PROJECTS
+            - ITEM_QUALITY
+            - ITEM_CUSTOM
+            - ITEM_CUSTOM_NON_REV
+            - ITEM_TRAINING
+            - ITEM_TRAINING_PLANS
+            - ITEM_TRAINING_RECORDS
+            - ITEM_TRAINING_QUIZ
+            - ITEM_TRAINING_QUIZ_HISTORY
+            - ITEM_VERIFY
+            - ITEM_REFERENCES
+            - REQUEST_SUMMARY
+            - REQUEST_FILES
+            - REQUEST_ITEMS
+            - REQUEST_PARTICIPANTS
+            - REQUEST_EVALUATION
+            - REQUEST_CHANGES
+            - REQUEST_STATUS
+            - REQUEST_RECENT_ACTIVITY
+            - REQUEST_PROJECTS
+            - REQUEST_QUALITY
+            - REQUEST_CUSTOM
+            - CHANGE_SUMMARY
+            - CHANGE_FILES
+            - CHANGE_ITEMS
+            - CHANGE_REQUESTS
+            - CHANGE_APPROVAL_ROUTINGS
+            - CHANGE_APPROVAL_DECISIONS
+            - CHANGE_IMPLEMENTATION
+            - CHANGE_ALERTS
+            - CHANGE_NOTIFICATIONS
+            - CHANGE_STATUS
+            - CHANGE_PROJECTS
+            - CHANGE_QUALITY
+            - CHANGE_SUPPLIER_ACCESS
+            - CHANGE_CUSTOM
+            - CHANGE_VERIFY
+            - SUPPLIER_PROFILE
+            - SUPPLIER_CONTACTS
+            - SUPPLIER_SUPPLIER_ITEMS
+            - SUPPLIER_SOURCING_LINES
+            - SUPPLIER_SOURCED_ITEMS
+            - SUPPLIER_FILES
+            - SUPPLIER_QUALITY
+            - SUPPLIER_CUSTOM
+            - SUPPLIER_ITEMS_QUALITY
+            - SI_SPECS
+            - SI_SOURCING_LINES
+            - SI_QUOTES
+            - SI_PURCHASES
+            - SI_FILES
+            - SI_COMPLIANCE
+            - SI_LOOKUP
+            - SI_CUSTOM
+            - FILE_SUMMARY
+            - FILE_ASSOCIATIONS
+            - FILE_EDITIONS
+            - FILE_MARKUPS
+            - FILE_RECENT_ACTIVITY
+            - FILE_PROJECTS
+            - FILE_QUALITY
+            - PROJECT_SUMMARY
+            - PROJECT_SCHEDULE
+            - PROJECT_REFERENCES
+            - PROJECT_QUALITY
+            - QUALITY_SUMMARY
+            - QUALITY_DETAILS
+            - QUALITY_AFFECTED
+            - QUALITY_PROJECTS
+            - QUALITY_SUPPLIER_ACCESS
+            - QUALITY_HISTORY
+            - TRAINING_SUMMARY
+            - TRAINING_ITEMS
+            - TRAINING_RECORDS
+            - TRAINING_USERS
+            - TRAINING_HISTORY
+            - TRAINING_PROGRESS
+            - REQUIREMENT_SUMMARY
+            - REQUIREMENT_TREE
+            - REQUIREMENT_TRACE
+            - REQUIREMENT_REFERENCES
+            - REQUIREMENT_FILES
+            - REQUIREMENT_HISTORY
+            - REQUIREMENT_BASELINES
+            - EXPORT_SUMMARY
+            - VERIFY_SUMMARY
+            - VERIFY_FILES
+            - VERIFY_REFERENCES
+            - VERIFY_HISTORY
+          uniqueItems: true
+        maskingValue: {}
+        maxLength:
+          type: integer
+          format: int32
+        maxSelections:
+          type: integer
+          format: int32
+        maxValue:
+          type: number
+          format: double
+        name:
+          type: string
+        possibleValues:
+          type: array
+          items: {}
+        propertyId:
+          type: integer
+          format: int64
+        revisionControlled:
+          type: boolean
+        guid:
+          type: string
+        custom:
+          type: boolean
+        visibleWhenBlank:
+          type: boolean
+        global:
+          type: boolean
+        active:
+          type: boolean
+        apiName:
+          type: string
+        private:
+          type: boolean
+        required:
+          type: boolean
+        creatable:
+          type: boolean
+        editable:
+          type: boolean
+        searchable:
+          type: boolean
+        multiSelect:
+          type: boolean
+        deleted:
+          type: boolean
+        revisionType:
+          type: string
+      required:
+      - required
+    AttributeGroupDrivingAttributeVo:
+      type: object
+      properties:
+        attribute:
+          $ref: '#/components/schemas/AttributeGroupAttributeVo'
+        value: {}
+    AttributeGroupDependentAttributeVo:
+      type: object
+      properties:
+        attribute:
+          $ref: '#/components/schemas/AttributeGroupAttributeVo'
+        values: {}
+    AttributeGroupAttributeVo:
+      type: object
+      properties:
+        name:
+          type: string
+        custom:
+          type: boolean
+        guid:
+          type: string
+    AttributeGroupVisibilityRuleVo:
+      type: object
+      properties:
+        drivingAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeGroupDrivingAttributeVo'
+        order:
+          type: integer
+          format: int32
+        action:
+          type: string
+        dependentAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeGroupAttributeVo'
+    AttributeGroupConditionDependentAttrVo:
+      type: object
+      properties:
+        attribute:
+          $ref: '#/components/schemas/AttributeGroupAttributeVo'
+        defaultValue: {}
+    AttributeGroupsFullVo:
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int32
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeGroupFullVo'
+    QualityTemplateStepAttributeVo:
+      type: object
+      properties:
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeDefinitionFullRep'
+        guid:
+          type: string
+        name:
+          type: string
+        order:
+          type: integer
+          format: int32
+    AttributeDefinitionVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        active:
+          type: boolean
+        allowLowerCase:
+          type: boolean
+        allowNegatives:
+          type: boolean
+        allowUpperCase:
+          type: boolean
+        allowsExplicitNullValue:
+          type: boolean
+        creatable:
+          type: boolean
+        custom:
+          type: boolean
+        deleted:
+          type: boolean
+        deprecated:
+          type: boolean
+        editable:
+          type: boolean
+        global:
+          type: boolean
+        apiName:
+          type: string
+        costCalculation:
+          type: string
+          enum:
+          - ENTERED
+          - ROLLUP
+          - ROLLUP_AND_ENTERED
+        currency:
+          type: string
+          enum:
+          - USD
+          - EUR
+          - GBP
+          - YEN
+          - AUD
+          - CAD
+          - CNY
+          - INR
+          - JPY
+          - KRW
+          - NZD
+          - SEK
+          - DKK
+          - NOK
+        decimalPlaces:
+          type: integer
+          format: int32
+        defaultValue: {}
+        developerNotes:
+          type: string
+        description:
+          type: string
+        example:
+          type: string
+        excludedValues:
+          type: array
+          items:
+            type: string
+        fieldType:
+          type: string
+          enum:
+          - SINGLE_LINE_TEXT
+          - MULTI_LINE_TEXT
+          - DROP_DOWN
+          - FIXED_DROP_DOWN
+          - DATE
+          - NUMBER
+          - BOOLEAN
+          - INTEGER
+          - OBJECT
+          - POSITIVE_DOUBLE
+          - POSITIVE_INTEGER
+          - RICH_TEXT
+          - GUID
+          - DATETIME
+          - COST
+          - LIST
+          - ENUM
+        inViews:
+          type: array
+          items:
+            type: string
+            enum:
+            - EMPTY_VIEW
+            - ITEM_SPECS
+            - ITEM_BOM
+            - ITEM_WHEREUSED
+            - ITEM_SOURCING
+            - ITEM_COSTING
+            - ITEM_FILES
+            - ITEM_COMPLIANCE
+            - ITEM_REVISIONS
+            - ITEM_NOTIFICATIONS
+            - ITEM_SUPPLIER_ACCESS
+            - ITEM_PROJECTS
+            - ITEM_QUALITY
+            - ITEM_CUSTOM
+            - ITEM_CUSTOM_NON_REV
+            - ITEM_TRAINING
+            - ITEM_TRAINING_PLANS
+            - ITEM_TRAINING_RECORDS
+            - ITEM_TRAINING_QUIZ
+            - ITEM_TRAINING_QUIZ_HISTORY
+            - ITEM_VERIFY
+            - ITEM_REFERENCES
+            - REQUEST_SUMMARY
+            - REQUEST_FILES
+            - REQUEST_ITEMS
+            - REQUEST_PARTICIPANTS
+            - REQUEST_EVALUATION
+            - REQUEST_CHANGES
+            - REQUEST_STATUS
+            - REQUEST_RECENT_ACTIVITY
+            - REQUEST_PROJECTS
+            - REQUEST_QUALITY
+            - REQUEST_CUSTOM
+            - CHANGE_SUMMARY
+            - CHANGE_FILES
+            - CHANGE_ITEMS
+            - CHANGE_REQUESTS
+            - CHANGE_APPROVAL_ROUTINGS
+            - CHANGE_APPROVAL_DECISIONS
+            - CHANGE_IMPLEMENTATION
+            - CHANGE_ALERTS
+            - CHANGE_NOTIFICATIONS
+            - CHANGE_STATUS
+            - CHANGE_PROJECTS
+            - CHANGE_QUALITY
+            - CHANGE_SUPPLIER_ACCESS
+            - CHANGE_CUSTOM
+            - CHANGE_VERIFY
+            - SUPPLIER_PROFILE
+            - SUPPLIER_CONTACTS
+            - SUPPLIER_SUPPLIER_ITEMS
+            - SUPPLIER_SOURCING_LINES
+            - SUPPLIER_SOURCED_ITEMS
+            - SUPPLIER_FILES
+            - SUPPLIER_QUALITY
+            - SUPPLIER_CUSTOM
+            - SUPPLIER_ITEMS_QUALITY
+            - SI_SPECS
+            - SI_SOURCING_LINES
+            - SI_QUOTES
+            - SI_PURCHASES
+            - SI_FILES
+            - SI_COMPLIANCE
+            - SI_LOOKUP
+            - SI_CUSTOM
+            - FILE_SUMMARY
+            - FILE_ASSOCIATIONS
+            - FILE_EDITIONS
+            - FILE_MARKUPS
+            - FILE_RECENT_ACTIVITY
+            - FILE_PROJECTS
+            - FILE_QUALITY
+            - PROJECT_SUMMARY
+            - PROJECT_SCHEDULE
+            - PROJECT_REFERENCES
+            - PROJECT_QUALITY
+            - QUALITY_SUMMARY
+            - QUALITY_DETAILS
+            - QUALITY_AFFECTED
+            - QUALITY_PROJECTS
+            - QUALITY_SUPPLIER_ACCESS
+            - QUALITY_HISTORY
+            - TRAINING_SUMMARY
+            - TRAINING_ITEMS
+            - TRAINING_RECORDS
+            - TRAINING_USERS
+            - TRAINING_HISTORY
+            - TRAINING_PROGRESS
+            - REQUIREMENT_SUMMARY
+            - REQUIREMENT_TREE
+            - REQUIREMENT_TRACE
+            - REQUIREMENT_REFERENCES
+            - REQUIREMENT_FILES
+            - REQUIREMENT_HISTORY
+            - REQUIREMENT_BASELINES
+            - EXPORT_SUMMARY
+            - VERIFY_SUMMARY
+            - VERIFY_FILES
+            - VERIFY_REFERENCES
+            - VERIFY_HISTORY
+          uniqueItems: true
+        maskingValue: {}
+        maxLength:
+          type: integer
+          format: int32
+        maxSelections:
+          type: integer
+          format: int32
+        maxValue:
+          type: number
+          format: double
+        multiSelect:
+          type: boolean
+        name:
+          type: string
+        possibleValues:
+          type: array
+          items: {}
+        required:
+          type: boolean
+        revisionControlled:
+          type: boolean
+        searchable:
+          type: boolean
+        visibleWhenBlank:
+          type: boolean
+        revisionType:
+          type: string
+          enum:
+          - NON_REVISION_CONTROLLED
+          - REVISION_SPECIFIC
+          - REVISION_CONTROLLED
+        private:
+          type: boolean
+    AttributeGroupAttributeFullVo:
+      type: object
+      properties:
+        attribute:
+          $ref: '#/components/schemas/AttributeGroupAttributeVo'
+        hideByDefault:
+          type: boolean
+        order:
+          type: integer
+          format: int32
+    AttributeGroupFullVo:
+      type: object
+      properties:
+        name:
+          type: string
+        guid:
+          type: string
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeGroupAttributeFullVo'
+        visibilityRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeGroupVisibilityRuleVo'
+        cascadingRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeGroupCascadingRuleVo'
+        conditionallyRequiredRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeGroupConditionalRuleVo'
+    QualityTemplateAttributeVo:
+      type: object
+      properties:
+        steps:
+          type: array
+          items:
+            $ref: '#/components/schemas/QualityTemplateStepAttributeVo'
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

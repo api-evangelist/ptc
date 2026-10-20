@@ -1,0 +1,198 @@
+openapi: 3.2.0
+info:
+  title: Ptc Access API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Access across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Access
+  description: Login and logout API activities.
+paths:
+  /logout:
+    put:
+      tags:
+      - Access
+      summary: Logout Endpoint
+      description: This invalidates the access token. Once this is processed successfully, the user cannot use this token to perform any further actions.
+      operationId: logout
+      parameters:
+      - name: arena_session_id
+        in: header
+        description: arena session id to logout
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: Logout Successful
+        '401':
+          description: Logout Failure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: /v1
+  /login:
+    post:
+      tags:
+      - Access
+      summary: Login Endpoint
+      description: 'This logs a valid user into the Arena System and, once authentication is successful, a JSON response with an access token is returned. The token must be set in the headers of all subsequent requests for them to be processed successfully. The API client should add an HTTP header with the name arena_session_id, the same cookie name as in the Arena Web Application.
+
+
+        Note: If you do not specify a workspace_id value in the call, the API user will log in to its current workspace, or whichever it was last logged into.
+
+
+        The response to each Log In request includes the value workspaceRequestLimit, which is the maximum number of API requests allowed for your workspace during a 24-hour period. For all responses in the session, the remaining number of API requests for the current period and the scheduled time for resetting of the count are included in the HTTP headers.'
+      operationId: login
+      parameters:
+      - name: Arena-Usage-Reason
+        in: header
+        description: arena api usage reason
+        schema:
+          type: string
+      requestBody:
+        description: Login Request Body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginDetail'
+            example:
+              email: your_name@ptc.com
+              password: YOUR_PASSWORD
+              workspaceId: 12345678
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: Login Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginSuccess'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    LoginSuccess:
+      type: object
+      properties:
+        arenaSessionId:
+          type: string
+        workspaceId:
+          type: integer
+          format: int64
+        workspaceName:
+          type: string
+        workspaceRequestLimit:
+          type: integer
+          format: int32
+        reason:
+          type: string
+        note:
+          type: string
+      xml:
+        name: login
+    LoginDetail:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        forceLogin:
+          type: boolean
+        workspaceId:
+          type: integer
+          format: int64
+        webtoken:
+          type: string
+        accesstoken:
+          type: string
+        reason:
+          type: string
+        loginType:
+          type: string
+          enum:
+          - ACCESSTOKEN
+          - WEBTOKEN
+          - EMAIL
+      xml:
+        name: login
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

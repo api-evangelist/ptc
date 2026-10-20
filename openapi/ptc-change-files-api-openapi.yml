@@ -1,0 +1,763 @@
+openapi: 3.2.0
+info:
+  title: Ptc Change Files API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Change Files across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Change Files
+  description: Manage file associations for changes (including implementation files and task files).
+paths:
+  /changes/{changeGuid}/markupfiles:
+    get:
+      tags:
+      - Change Files
+      summary: List all markup files for a change
+      description: Returns a collection of Markup Files associated with a specific Change.
+      operationId: getChangeMarkupFileAssociations
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeMarkupFileAssociationVoResultRep'
+    post:
+      tags:
+      - Change Files
+      summary: Attach a new markup file to a change
+      description: Creates a Change File Markup File object.
+      operationId: createChangeMarkupFileAssociation
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileAssociationCreateVo'
+            example:
+              markup:
+                guid: BTVJK3M2L4U1J39J
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeMarkupFileAssociationVo'
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/implementationfiles:
+    get:
+      tags:
+      - Change Files
+      summary: List all implementation files for a change
+      description: Returns a list of file objects associated with the Implementation view of a Change with a specific GUID.
+      operationId: getChangeImplFileAssociations
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationVoResultRep'
+    post:
+      tags:
+      - Change Files
+      summary: Attach a new implementation file to a change
+      description: Associates an existing File Association object with the Implementation Files view of a Change with a given GUID.
+      operationId: createChangeImplFileAssociation
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileAssociationCreateVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationVo'
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/files:
+    get:
+      tags:
+      - Change Files
+      summary: List all files attached to a change
+      description: Returns a list of Files for a Change with a given GUID.
+      operationId: getChangeFileAssociations
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationVoResultRep'
+    post:
+      tags:
+      - Change Files
+      summary: Attach a new file to a change
+      description: Associates an existing File Association object with the Files view of a Change with a given GUID.
+      operationId: createChangeFileAssociation
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileAssociationCreateVo'
+            example:
+              file:
+                guid: 0IK89SBRATJRBVUA
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationVo'
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/markupfiles/{changeFileAssociationGuid}:
+    get:
+      tags:
+      - Change Files
+      summary: Get details of a specific markup file
+      description: Returns a Change File Markup object with a given GUID. This is the latest edition of the File.
+      operationId: getChangeMarkupFileAssociation
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: changeFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeMarkupFileAssociationVo'
+    delete:
+      tags:
+      - Change Files
+      summary: Remove a markup file from a change
+      description: Deletes a Change File Markup with a given GUID. When a File has more than one Markup, only the latest, unlocked edition can be deleted--to delete an entire file, repeat the DELETE request for all editions.
+      operationId: removeChangeMarkupFileAssociation
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: changeFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Delete Change Markup File Result
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/implementationfiles/{changeFileAssociationGuid}:
+    get:
+      tags:
+      - Change Files
+      summary: Get details of a specific implementation file
+      description: Returns a File object located within the Implementation Files view of a Change with a specific GUID.
+      operationId: getChangeImplFileAssociation
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: changeFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationVo'
+    delete:
+      tags:
+      - Change Files
+      summary: Remove an implementation file from a change
+      description: Removes a File association from the Implementation Files view of a Change with a given GUID.
+      operationId: removeChangeImplFileAssociation
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: changeFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Delete Change Implementation File Result
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/files/{changeFileAssociationGuid}:
+    get:
+      tags:
+      - Change Files
+      summary: Get details of a specific file attached to a change
+      description: Returns a specific File from the Files view of a specific Change with a given GUID.
+      operationId: getChangeFileAssociation
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: changeFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationVo'
+    delete:
+      tags:
+      - Change Files
+      summary: Remove a file from a change
+      description: Removes a File association from the Files view of a Change with a given GUID.
+      operationId: removeChangeFileAssociation
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: changeFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Delete Change File Result
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+components:
+  schemas:
+    ChangeMinimalVoWithoutUrl:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+    FileMarkupDetailVo:
+      type: object
+      properties:
+        category:
+          $ref: '#/components/schemas/CategoryCompactVo'
+        author:
+          $ref: '#/components/schemas/UserCompactVo'
+        creationDateTime:
+          type: string
+        format:
+          type: string
+        guid:
+          type: string
+        lastModifiedDateTime:
+          type: string
+        location:
+          type: string
+        mimeType:
+          type: string
+        name:
+          type: string
+        size:
+          type: integer
+          format: int64
+        haveContent:
+          type: boolean
+        storageMethodName:
+          type: string
+        title:
+          type: string
+        locked:
+          type: boolean
+    FileDetailMarkupOfVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+        edition:
+          type: string
+        author:
+          $ref: '#/components/schemas/FileAuthorVo'
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    RequestMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+    CategoryCompactVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        path:
+          type: string
+    FileAssociationVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        file:
+          $ref: '#/components/schemas/FileDetailVo'
+    FileDetailVo:
+      type: object
+      description: File metadata information
+      properties:
+        author:
+          $ref: '#/components/schemas/FileAuthorVo'
+        category:
+          $ref: '#/components/schemas/FileCategoryVo'
+        checkedOut:
+          type: boolean
+        checkoutDateTime:
+          type: string
+        corrected:
+          type: boolean
+        creationDateTime:
+          type: string
+        description:
+          type: string
+        edition:
+          type: string
+        format:
+          type: string
+        guid:
+          type: string
+        hasMarkup:
+          type: boolean
+        haveContent:
+          type: boolean
+        lastModifiedDateTime:
+          type: string
+        latest:
+          type: boolean
+        location:
+          type: string
+        locked:
+          type: boolean
+        microsoft365:
+          $ref: '#/components/schemas/Microsoft365Vo'
+        googleDocs:
+          $ref: '#/components/schemas/GoogleDocsVo'
+        mimeType:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        size:
+          type: integer
+          format: int64
+        storageMethodName:
+          type: string
+        title:
+          type: string
+        private:
+          type: boolean
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    FileAuthorVo:
+      type: object
+      properties:
+        fullName:
+          type: string
+    ChangeMarkupFileAssociationVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangeMarkupFileAssociationVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    Microsoft365Vo:
+      type: object
+      properties:
+        authorEmail:
+          type: string
+        creationDate:
+          type: string
+        driveId:
+          type: string
+        fileId:
+          type: string
+        fileName:
+          type: string
+        lastEditors:
+          type: array
+          items:
+            type: string
+        modifiedDate:
+          type: string
+        originalAuthor:
+          type: string
+        siteId:
+          type: string
+        size:
+          type: integer
+          format: int64
+        version:
+          type: string
+        webUrl:
+          type: string
+    FileCategoryVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    GoogleDocsVo:
+      type: object
+      properties:
+        authorEmail:
+          type: string
+        creationDate:
+          type: string
+        driveId:
+          type: string
+        fileId:
+          type: string
+        fileName:
+          type: string
+        lastEditors:
+          type: array
+          items:
+            type: string
+        modifiedDate:
+          type: string
+        originalAuthor:
+          type: string
+        size:
+          type: integer
+          format: int64
+        version:
+          type: string
+        webUrl:
+          type: string
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    FileAssociationCreateVo:
+      type: object
+      properties:
+        file:
+          $ref: '#/components/schemas/SingleGuidVo'
+    FileAssociationVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileAssociationVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ChangeMarkupFileAssociationVo:
+      type: object
+      properties:
+        markup:
+          $ref: '#/components/schemas/FileMarkupDetailVo'
+        markupOf:
+          $ref: '#/components/schemas/FileDetailMarkupOfVo'
+        change:
+          $ref: '#/components/schemas/ChangeMinimalVoWithoutUrl'
+        request:
+          $ref: '#/components/schemas/RequestMinimalVo'
+        guid:
+          type: string
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

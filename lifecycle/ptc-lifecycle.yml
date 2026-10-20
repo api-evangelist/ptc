@@ -1,0 +1,11 @@
+name: PTC API lifecycle
+generated: '2026-10-20'
+method: searched
+source: https://ptc-arena.github.io/arena-dev-help/policies/api-policy/
+versioning: We aim for additive, backward‑compatible API evolution. If a change would
+  break compatibility, we provide a versioned interface and maintain the prior version
+  for a defined period. (Arena; path-versioned /v1)
+deprecation: Prior version maintained "for a defined period" after a breaking change;
+  no period is stated.
+status_page: https://status.ptc.com/
+changelog: https://ptc-arena.github.io/arena-dev-help/changelog/

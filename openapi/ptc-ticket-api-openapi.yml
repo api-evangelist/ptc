@@ -1,0 +1,544 @@
+openapi: 3.2.0
+info:
+  title: Ptc Ticket API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Ticket across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Ticket
+  description: 'Core ticket operations: search, create, update, delete, summary, workflow status, and references (Changes, Tickets, Quality Processes, Items, Files).'
+paths:
+  /tickets/{verifyGuid}:
+    get:
+      tags:
+      - Ticket
+      summary: Get details of a specific ticket
+      description: Returns a Ticket object with a given GUID.
+      operationId: getVerify
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketVo'
+    put:
+      tags:
+      - Ticket
+      summary: Update an existing ticket
+      description: Updates information for a Tickets with a given GUID.
+      operationId: updateVerify
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketUpdateVo'
+            example:
+              additionalAttributes:
+              - guid: FXH0JRRGKFWEXGZI1AL1
+                value: Very High Liability, address NOW
+              title: Power supply overheats
+              description: Power supply is overheating when deployed in La Paz. Suspect altitude affects air flow. Works fine in Lima.
+              assignee:
+                guid: ASCVEMMBFARATCVEXS59
+              priority: High
+              foundOn: '1.0'
+              fixVersion: '1.1'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketVo'
+    delete:
+      tags:
+      - Ticket
+      summary: Delete a specific ticket
+      operationId: deleteVerify
+      parameters:
+      - name: verifyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /tickets:
+    get:
+      tags:
+      - Ticket
+      summary: Search for tickets using filters like number, title, or status
+      description: Returns a collection of Ticket objects matching the given search criteria.
+      operationId: getVerifies
+      parameters:
+      - name: number
+        in: query
+        description: ticket number
+        schema:
+          type: string
+      - name: title
+        in: query
+        description: ticket title
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: status
+        schema:
+          type: string
+      - name: template.guid
+        in: query
+        description: template guid
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: query result offset (default 0)
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: query result limit (default 20, max 400)
+        schema:
+          type: integer
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketVoResultRep'
+    post:
+      tags:
+      - Ticket
+      summary: Create a new ticket
+      description: 'Users can assign a Ticket number via the following methods:
+
+
+        Specify the numberSequencePrefix in the request body. User specifies the prefix while Arena auto-generates the next values to complete the Ticket number.
+
+
+        Specify the number in the request body. User defines the entire Ticket number in the endpoint.
+
+
+        User specifies neither of the above. The default numbering for the template will be used. If there are multiple sequences for the number, the first alphabetic prefix will be selected.'
+      operationId: createVerify
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/TicketCreateVo'
+              - $ref: '#/components/schemas/TicketCreateVo2'
+            examples:
+              Auto Number:
+                description: Auto Number
+                value:
+                  additionalAttributes:
+                  - guid: FXH0JRRGKFWEXGZI1AL1
+                    value: Liability, address quickly
+                  template:
+                    guid: 3L5O7FF483KFYH0J2G0X
+                  numberSequencePrefix:
+                    value: ISS-
+                  title: Power supply overheats
+                  description: Power supply is overheating when deployed in La Paz. Suspect altitude affects air flow. Works fine in Lima.
+                  assignee:
+                    guid: ASCVEMMBFARATCVEXS59
+                  priority: Critical
+                  foundOn: '1.0'
+                  fixVersion: '1.1'
+              Manual Number:
+                description: Manual Number
+                value:
+                  additionalAttributes:
+                  - guid: FXH0JRRGKFWEXGZI1AL1
+                    value: Liability, address quickly
+                  template:
+                    guid: 3L5O7FF483KFYH0J2G0X
+                  number: ISS-00023-1
+                  title: Power supply overheats
+                  description: Power supply is overheating when deployed in La Paz. Suspect altitude affects air flow. Works fine in Lima.
+                  assignee:
+                    guid: ASCVEMMBFARATCVEXS59
+                  priority: Critical
+                  foundOn: '1.0'
+                  fixVersion: '1.1'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketVo'
+    servers:
+    - url: /v1
+  /tickets/statuschanges:
+    post:
+      tags:
+      - Ticket
+      summary: Change the status of a ticket
+      description: 'Users can change the status of a Ticket through this endpoint. Supported statuses: NOT_STARTED, IN_PROGRESS, and COMPLETE.'
+      operationId: changeVerifyStatus
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TicketStatusChangeCreateVo'
+            example:
+              ticket:
+                guid: I0K3HEIKVCT8RATCV2DU
+              status: COMPLETED
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TicketVo'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    TicketStatusChangeCreateVo:
+      type: object
+      properties:
+        ticket:
+          $ref: '#/components/schemas/SingleGuidVo'
+        status:
+          type: string
+          enum:
+          - NOT_STARTED
+          - IN_PROGRESS
+          - COMPLETED
+    TicketCreateVo2:
+      type: object
+      properties:
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCreateVo'
+        title:
+          type: string
+        description:
+          type: string
+        numberSequencePrefix:
+          $ref: '#/components/schemas/SingleValueVo'
+        template:
+          $ref: '#/components/schemas/SingleGuidVo'
+        fixVersion:
+          type: string
+        foundOn:
+          type: string
+        assignee:
+          $ref: '#/components/schemas/SingleGuidVo'
+        priority:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    TicketTemplateVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    TicketUpdateVo:
+      type: object
+      properties:
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCreateVo'
+        title:
+          type: string
+        description:
+          type: string
+        fixVersion:
+          type: string
+        foundOn:
+          type: string
+        assignee:
+          $ref: '#/components/schemas/SingleGuidVo'
+        priority:
+          type: string
+    TicketVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TicketVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    TicketCreateVo:
+      type: object
+      properties:
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCreateVo'
+        title:
+          type: string
+        description:
+          type: string
+        number:
+          type: string
+        template:
+          $ref: '#/components/schemas/SingleGuidVo'
+        fixVersion:
+          type: string
+        foundOn:
+          type: string
+        assignee:
+          $ref: '#/components/schemas/SingleGuidVo'
+        priority:
+          type: string
+    AdditionalAttributeCompactVo:
+      type: object
+      properties:
+        apiName:
+          type: string
+        fieldType:
+          type: string
+          enum:
+          - SINGLE_LINE_TEXT
+          - MULTI_LINE_TEXT
+          - DROP_DOWN
+          - FIXED_DROP_DOWN
+          - DATE
+          - NUMBER
+          - BOOLEAN
+          - INTEGER
+          - OBJECT
+          - POSITIVE_DOUBLE
+          - POSITIVE_INTEGER
+          - RICH_TEXT
+          - GUID
+          - DATETIME
+          - COST
+          - LIST
+          - ENUM
+        guid:
+          type: string
+        multiSelect:
+          type: boolean
+        name:
+          type: string
+        value: {}
+    SingleValueVo:
+      type: object
+      properties:
+        value:
+          type: string
+    AdditionalAttributeCreateVo:
+      type: object
+      properties:
+        name:
+          type: string
+        guid:
+          type: string
+        value: {}
+    TicketVo:
+      type: object
+      properties:
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCompactVo'
+        assignee:
+          $ref: '#/components/schemas/UserCompactVo'
+        creationDateTime:
+          type: string
+        description:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        fixVersion:
+          type: string
+        foundOn:
+          type: string
+        guid:
+          type: string
+        modifyDateTime:
+          type: string
+        title:
+          type: string
+        number:
+          type: string
+        priority:
+          type: string
+        status:
+          $ref: '#/components/schemas/TicketStatusVo'
+        template:
+          $ref: '#/components/schemas/TicketTemplateVo'
+    TicketStatusVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        value:
+          type: string
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

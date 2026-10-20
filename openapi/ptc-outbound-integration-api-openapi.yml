@@ -1,0 +1,2127 @@
+openapi: 3.2.0
+info:
+  title: Ptc Outbound Integration API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Outbound Integration across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Outbound Integration
+  description: Access and manage outbound integration definitions and administrators.
+paths:
+  /outboundintegrations/{integrationGuid}/events/{eventGuid}:
+    get:
+      tags:
+      - Outbound Integration
+      summary: Get details of a specific event in an integration
+      description: Returns an Event object matching the GUID.
+      operationId: getEvent
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: eventGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/ChangeEventDetailVo'
+                - $ref: '#/components/schemas/ItemBasedEventDetailVo'
+    put:
+      tags:
+      - Outbound Integration
+      summary: Update the reconciliation status of an integration event
+      description: 'Updates the reconciliation status for all Items in an event with a given GUID.
+
+
+        Security: User must be an integration administrator.
+
+        If the event''s itemsReconciled property is already set to the desired value, the response code will be 200 and no action will be performed.'
+      operationId: updateIntegrationEventReconciled
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: eventGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemBasedEventDetail'
+            example:
+              itemsReconciled: true
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemBasedEventDetailVo'
+    servers:
+    - url: /v1
+  /outboundintegrations/{integrationGuid}/events/{eventGuid}/items/{eventItemGuid}:
+    get:
+      tags:
+      - Outbound Integration
+      summary: Get details of a specific item in an integration event
+      description: Returns an Item from an integration event with a given GUID.
+      operationId: getEventItem
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: eventGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: eventItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventItemRep'
+    put:
+      tags:
+      - Outbound Integration
+      summary: Update the reconciliation status of a specific event item
+      description: 'Updates the reconciliation status for a specific event Item with a GUID in an event with a given GUID.
+
+
+        Security: User must be an integration administrator.
+
+        If the item''s Reconciled property is already set to the desired value, the response code will be 200 and no action will be performed.
+
+        Changing the event item reconciled property may change the event''s itemsReconciled property.'
+      operationId: updateEventItemReconciled
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: eventGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: eventItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReconciledVo'
+            example:
+              reconciled: true
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventItemRep'
+    servers:
+    - url: /v1
+  /outboundintegrations:
+    get:
+      tags:
+      - Outbound Integration
+      summary: Search for outbound integrations using filters like name or status
+      description: Returns a collection of outbound integrations objects matching the given search criteria.
+      operationId: getIntegrations
+      parameters:
+      - name: name
+        in: query
+        schema:
+          type: string
+      - name: enabled
+        in: query
+        schema:
+          type: boolean
+      - name: offset
+        in: query
+        description: query result offset (default 0)
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: query result limit (default 20, max 400)
+        schema:
+          type: integer
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegrationShortRepResult'
+    servers:
+    - url: /v1
+  /outboundintegrations/{integrationGuid}:
+    get:
+      tags:
+      - Outbound Integration
+      summary: Get details of a specific outbound integration
+      description: Returns a specific outbound integrations object matching the given GUID.
+      operationId: getIntegration
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IntegrationFullVo'
+    servers:
+    - url: /v1
+  /outboundintegrations/{integrationGuid}/filters:
+    get:
+      tags:
+      - Outbound Integration
+      summary: Get filter settings for a specific integration
+      operationId: getIntegrationFilters
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FilterVo'
+    servers:
+    - url: /v1
+  /outboundintegrations/{integrationGuid}/events:
+    get:
+      tags:
+      - Outbound Integration
+      summary: List all events associated with a specific integration
+      description: Returns unreconciled event objects matching the given search criteria.
+      operationId: getEventAssociations
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: itemsReconciled
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: creationDateTimeFrom
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: creationDateTimeTo
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/ChangeBasedEventVoResultRep'
+                - $ref: '#/components/schemas/ItemBasedEventVoResultRep'
+    servers:
+    - url: /v1
+  /outboundintegrations/{integrationGuid}/events/{eventGuid}/items:
+    get:
+      tags:
+      - Outbound Integration
+      summary: List all items associated with a specific integration event
+      description: Returns items of an outbound integrations matching the given search criteria.
+      operationId: getEventItems
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: eventGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: reconciled
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: reconciledDateTimeFrom
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: reconciledDateTimeTo
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventItemRepResult'
+    servers:
+    - url: /v1
+  /outboundintegrations/{integrationGuid}/events/{eventGuid}/itemguids:
+    get:
+      tags:
+      - Outbound Integration
+      summary: Get GUIDs of items associated with a specific integration event
+      description: Returns a list of Item revision GUIDs from an integration event.
+      operationId: getEventItemGuids
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: eventGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: reconciled
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringResultRep'
+    servers:
+    - url: /v1
+  /outboundintegrations/{integrationGuid}/administrators:
+    get:
+      tags:
+      - Outbound Integration
+      summary: List administrators assigned to a specific integration
+      description: Returns all the integration administrators of a specific outbound integrations objects matching the given GUID.
+      operationId: getIntegrationAdministrators
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCompactVoResultRep'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    ItemBasedEventVo:
+      type: object
+      properties:
+        change:
+          $ref: '#/components/schemas/ShortChangeVo'
+        revisioningEvent:
+          $ref: '#/components/schemas/ShortRevisionVo'
+        creationDateTime:
+          type: string
+        guid:
+          type: string
+        itemsReconciled:
+          type: boolean
+        status:
+          type: string
+        eventType:
+          type: string
+    ShortChange:
+      type: object
+      properties:
+        number:
+          type: string
+        title:
+          type: string
+        guid:
+          type: string
+        category:
+          $ref: '#/components/schemas/ShortCategory'
+        approvedOnDateTime:
+          type: string
+        effectiveDateTime:
+          type: string
+        effectivityPlannedDateTime:
+          type: string
+        effectivityType:
+          type: string
+        affectedItemCount:
+          type: integer
+          format: int64
+        expirationDateTime:
+          type: string
+        lifecycleStatus:
+          $ref: '#/components/schemas/ChangeLifecycleStatus'
+        plmEntityType:
+          type: string
+          enum:
+          - ITEM
+          - FILE
+          - FILE_MASTER
+          - REPORT
+          - REPORT_INSTANCE
+          - ITEM_FILE_MAP
+          - AFS_FOLDER
+          - CATEGORY
+          - NUMBER_FORMAT
+          - ITEM_REVISION
+          - BOM_LINE
+          - SUPPLIER
+          - SUPPLIER_ITEM
+          - CHANGE
+          - CHANGE_CUSTOM_ATTRIBUTE
+          - CHANGE_LIFECYCLE
+          - CHANGE_DECISION
+          - REQUEST
+          - REQUEST_CUSTOM_ATTRIBUTE
+          - REQUEST_LIFECYCLE
+          - QUALITY
+          - QUALITY_STEP
+          - PROJECT
+          - PROJECT_SCHEDULE
+          - QUALITY_CUSTOM_ATTRIBUTE
+          - PROJECT_CUSTOM_ATTRIBUTE
+          - DW_EXTRACT
+          - DW_EXTRACT_RUN
+          - DW_EXTRACT_RUNFILE_ASSOCIATION
+          - CHANGE_CUSTOM_CHANGE_VALUE_ID
+          - REQUEST_CUSTOM_ATTRIBUTE_REQUEST_VALUE_ID
+          - EXTRACT_VALUE_ID
+          - ITEM_ADDITIONAL_ATTRIBUTE
+          - ITEM_BOM
+          - ITEM_BOM_SUB
+          - SOURCING_RELATIONSHIP
+          - SUPPLIER_ITEM_GUID
+          - SUPPLIER_GUID
+          - ITEM_CUST_ATTR_SI
+          - ITEM_CUST_ATTR_PROPERTY_ID
+          - REQUEST_ITEM_ECR_ITEM_MAP_ID
+          - QUALITYPROCESS_ASSOCIATION
+          - URL
+          - HISTORY_AUDIT
+          - PROJECT_ITEM_MAP_ID
+          - PROJECT_CHANGE_MAP_ID
+          - PROJECT_ECR_MAP_ID
+          - PROJECT_PROJECT_MAP_ID
+          - CHANGE_ITEM
+          - LIFECYCLE_PHASE
+          - BOMLINE_ADDITIONAL_ATTRIBUTE
+          - SUPPLIER_VALUE_ID
+          - QUALITY_STEP_DECISION
+          - ITEM_COMPLIANCE_REQUIREMENT
+          - ITEM_REQUIREMENT
+          - SUPPLIERITEM_COMPLIANCE_REQUIREMENT
+          - ITEM_BOM_SETTINGS
+          - ITEM_LIFECYCLE_CHANGE
+          - QUALITY_CUSTOM_ATTRIBUTE_QUALITY_PROPERTY_MAP_ID
+          - SUPPLIER_ITEM_RUNFILE_ASSOCIATION
+          - SUPPLIER_ITEM_SUMMARY_ITEM_GUID
+          - PROJECT_ITEM_GUID
+          - QUALITY_AO_ITEM_GUID
+          - SUPPLIER_ITEM_CUST_ATTR_ITEM_ID
+          - CHANGE_REQUEST_ECR_CHANGE_MAP_ID
+          - ATTRIBUTE
+          - BOMLINE_ATTRIBUTE
+          - QUALITY_PREFIX
+          - USER
+          - ADDITIONAL_ATTRIBUTE
+          - REQUEST_EVALUATOR_GROUP
+          - REQUEST_PREFIX
+          - VERIFY
+          - RECENT_ACTIVITY
+          - RECENT_ACTIVITY_USER_ACCESS
+          - RECENT_ACTIVITY_REPORT_RUN
+          - RECENT_ACTIVITY_FILE_ACCESS
+          - RECENT_ACTIVITY_FILE_ACCESS_FILE
+          - RECENT_ACTIVITY_EXPORT
+          - SUPPLIER_RUNFILE_ASSOCIATION
+          - CHANGE_FILE_MAP
+          - REQUEST_FILE_MAP
+          - ITEM_LIFECYCLE_TRANSITION
+          - ITEM_UOM
+          - ROUTING
+          - COST_ATTRIBUTE
+          - AFS_OBJECT
+          - SUPPLIERITEM_REQUIREMENT
+          - BULK_SESSION
+          - REQUEST_ISSUES
+          - CHANGE_NUMBER_FORMAT_SEQUENCE_PREFIX
+          - PROD_REQUIREMENT
+          - SETTINGS_TEMPLATE
+          - PLM_REFERENCE
+          - NON_REVISION_CONTROLLED_ADDITIONAL_ATTRIBUTE_VALUE
+          - NON_REVISION_CONTROLLED_ADDITIONAL_ATTRIBUTE
+          - CHANGE_IMPLEMENTATION_NOTES
+          - REVISION
+          - REQUIREMENT_BASELINE
+          - PLM_WORKFLOW
+          - ITEM_NUMBER_FORMAT_FIELD
+          - ITEM_REFERENCE
+          - TRAINING
+          - TRAINING_ITEMS
+          - TRAINING_USERS
+          - TRAINING_RECORDS
+          - EXPORT_DEFINITION
+          - ITEM_EXPORT_DEFINITION
+          - EXPORT_RUN
+          - QUALITYPROCESS_STATUS_CHANGE
+          - REQUIREMENT
+          - QUALITY_TEMPLATE
+          - PROJECT_PHASE
+          - PROJECT_TASK
+          - PROJECT_MILESTONE
+          - PROJECT_REFERENCE
+          - VERIFY_PREFIX
+          - TRAINING_PREFIX
+          - NUMBER_SEQUENCE
+          - NUMBER_PREFIX
+          - PROJECT_TEMPLATE
+          - PROJECT_TEMPLATE_PHASE
+          - PROJECT_TEMPLATE_TASK
+          - RELATIONSHIP_TYPE
+          - MANUFACTURER_ITEM_GUID
+          - BC_EMAIL_TEMPLATE
+          - FILE_MARKUP_FILE_ASSOCIATION
+          - CHANGE_IMPL_FILE_ASSOCIATION
+          - CHANGE_MARKUP_FILE_ASSOCIATION
+          - REQUEST_MARKUP_FILE_ASSOCIATION
+          - CHANGE_NUMBER_FORMAT
+          - CHANGE_IMPLEMENTATION_STATUS
+          - TRAINING_FILE_ASSOCIATION
+          - REQUIREMENT_FILE_ASSOCIATION
+          - VERIFY_FILE_ASSOCIATION
+          - PROJECT_FILE_ASSOCIATION
+          - REQUEST_ITEM
+          - SI_SCI_RISK_INDICATOR_ID
+          - ITEM_SCI_RISK_INDICATOR_ID
+          - INTEGRATION
+          - INTEGRATION_EVENT
+          - INTEGRATION_EVENT_ITEM
+          - ADDRESS
+          - SUPPLIER_ADDRESS
+          - SUPPLIER_PHONE_NUMBER
+          - CHANGE_IMPLEMENTATION_TASKS
+          - OUTBOUND_EVENT
+          - EVENT_RESOURCE
+          - OUTBOUND_EVENT_INTEGRATION
+          - TRIGGER
+          - SUPPLIER_APPROVAL_STATUS
+          - FILE_CORRECTION
+          - USER_GROUP
+          - ITEM_BULK_CHANGE
+          - WORKFLOW_DECISION
+          - ITEM_TRAINING_ASSOCIATION
+          - USER_GROUP_MEMBER
+          - QUOTE_LINE
+          - PURCHASE_LINE
+          - CONTACT
+          - CONTACT_PHONE_NUMBER
+          - CONTACT_ADDRESS
+          - INTEGRATED_APP
+          - IMPORT_DEFINITION
+          - IMPORT_RUN
+          - ATTRIBUTE_GROUP
+          - ITEM_NUMBER_RESERVATION
+          - REQUIREMENT_TRACE
+          - FOLDER
+          - EXTRACT_OWNER_USER
+          - TICKET
+          - POLICY
+          - USER_2_POLICY
+          - USER_2_USER_GROUP
+          - DASHBOARD
+          - SCHEDULED_TRIGGER
+          - ON_DEMAND_HOMEPAGE_TRIGGER
+          - GLOBAL
+    ShortRevision:
+      type: object
+      properties:
+        number:
+          type: string
+        guid:
+          type: string
+        performedOnDateTime:
+          type: string
+        plmEntityType:
+          type: string
+          enum:
+          - ITEM
+          - FILE
+          - FILE_MASTER
+          - REPORT
+          - REPORT_INSTANCE
+          - ITEM_FILE_MAP
+          - AFS_FOLDER
+          - CATEGORY
+          - NUMBER_FORMAT
+          - ITEM_REVISION
+          - BOM_LINE
+          - SUPPLIER
+          - SUPPLIER_ITEM
+          - CHANGE
+          - CHANGE_CUSTOM_ATTRIBUTE
+          - CHANGE_LIFECYCLE
+          - CHANGE_DECISION
+          - REQUEST
+          - REQUEST_CUSTOM_ATTRIBUTE
+          - REQUEST_LIFECYCLE
+          - QUALITY
+          - QUALITY_STEP
+          - PROJECT
+          - PROJECT_SCHEDULE
+          - QUALITY_CUSTOM_ATTRIBUTE
+          - PROJECT_CUSTOM_ATTRIBUTE
+          - DW_EXTRACT
+          - DW_EXTRACT_RUN
+          - DW_EXTRACT_RUNFILE_ASSOCIATION
+          - CHANGE_CUSTOM_CHANGE_VALUE_ID
+          - REQUEST_CUSTOM_ATTRIBUTE_REQUEST_VALUE_ID
+          - EXTRACT_VALUE_ID
+          - ITEM_ADDITIONAL_ATTRIBUTE
+          - ITEM_BOM
+          - ITEM_BOM_SUB
+          - SOURCING_RELATIONSHIP
+          - SUPPLIER_ITEM_GUID
+          - SUPPLIER_GUID
+          - ITEM_CUST_ATTR_SI
+          - ITEM_CUST_ATTR_PROPERTY_ID
+          - REQUEST_ITEM_ECR_ITEM_MAP_ID
+          - QUALITYPROCESS_ASSOCIATION
+          - URL
+          - HISTORY_AUDIT
+          - PROJECT_ITEM_MAP_ID
+          - PROJECT_CHANGE_MAP_ID
+          - PROJECT_ECR_MAP_ID
+          - PROJECT_PROJECT_MAP_ID
+          - CHANGE_ITEM
+          - LIFECYCLE_PHASE
+          - BOMLINE_ADDITIONAL_ATTRIBUTE
+          - SUPPLIER_VALUE_ID
+          - QUALITY_STEP_DECISION
+          - ITEM_COMPLIANCE_REQUIREMENT
+          - ITEM_REQUIREMENT
+          - SUPPLIERITEM_COMPLIANCE_REQUIREMENT
+          - ITEM_BOM_SETTINGS
+          - ITEM_LIFECYCLE_CHANGE
+          - QUALITY_CUSTOM_ATTRIBUTE_QUALITY_PROPERTY_MAP_ID
+          - SUPPLIER_ITEM_RUNFILE_ASSOCIATION
+          - SUPPLIER_ITEM_SUMMARY_ITEM_GUID
+          - PROJECT_ITEM_GUID
+          - QUALITY_AO_ITEM_GUID
+          - SUPPLIER_ITEM_CUST_ATTR_ITEM_ID
+          - CHANGE_REQUEST_ECR_CHANGE_MAP_ID
+          - ATTRIBUTE
+          - BOMLINE_ATTRIBUTE
+          - QUALITY_PREFIX
+          - USER
+          - ADDITIONAL_ATTRIBUTE
+          - REQUEST_EVALUATOR_GROUP
+          - REQUEST_PREFIX
+          - VERIFY
+          - RECENT_ACTIVITY
+          - RECENT_ACTIVITY_USER_ACCESS
+          - RECENT_ACTIVITY_REPORT_RUN
+          - RECENT_ACTIVITY_FILE_ACCESS
+          - RECENT_ACTIVITY_FILE_ACCESS_FILE
+          - RECENT_ACTIVITY_EXPORT
+          - SUPPLIER_RUNFILE_ASSOCIATION
+          - CHANGE_FILE_MAP
+          - REQUEST_FILE_MAP
+          - ITEM_LIFECYCLE_TRANSITION
+          - ITEM_UOM
+          - ROUTING
+          - COST_ATTRIBUTE
+          - AFS_OBJECT
+          - SUPPLIERITEM_REQUIREMENT
+          - BULK_SESSION
+          - REQUEST_ISSUES
+          - CHANGE_NUMBER_FORMAT_SEQUENCE_PREFIX
+          - PROD_REQUIREMENT
+          - SETTINGS_TEMPLATE
+          - PLM_REFERENCE
+          - NON_REVISION_CONTROLLED_ADDITIONAL_ATTRIBUTE_VALUE
+          - NON_REVISION_CONTROLLED_ADDITIONAL_ATTRIBUTE
+          - CHANGE_IMPLEMENTATION_NOTES
+          - REVISION
+          - REQUIREMENT_BASELINE
+          - PLM_WORKFLOW
+          - ITEM_NUMBER_FORMAT_FIELD
+          - ITEM_REFERENCE
+          - TRAINING
+          - TRAINING_ITEMS
+          - TRAINING_USERS
+          - TRAINING_RECORDS
+          - EXPORT_DEFINITION
+          - ITEM_EXPORT_DEFINITION
+          - EXPORT_RUN
+          - QUALITYPROCESS_STATUS_CHANGE
+          - REQUIREMENT
+          - QUALITY_TEMPLATE
+          - PROJECT_PHASE
+          - PROJECT_TASK
+          - PROJECT_MILESTONE
+          - PROJECT_REFERENCE
+          - VERIFY_PREFIX
+          - TRAINING_PREFIX
+          - NUMBER_SEQUENCE
+          - NUMBER_PREFIX
+          - PROJECT_TEMPLATE
+          - PROJECT_TEMPLATE_PHASE
+          - PROJECT_TEMPLATE_TASK
+          - RELATIONSHIP_TYPE
+          - MANUFACTURER_ITEM_GUID
+          - BC_EMAIL_TEMPLATE
+          - FILE_MARKUP_FILE_ASSOCIATION
+          - CHANGE_IMPL_FILE_ASSOCIATION
+          - CHANGE_MARKUP_FILE_ASSOCIATION
+          - REQUEST_MARKUP_FILE_ASSOCIATION
+          - CHANGE_NUMBER_FORMAT
+          - CHANGE_IMPLEMENTATION_STATUS
+          - TRAINING_FILE_ASSOCIATION
+          - REQUIREMENT_FILE_ASSOCIATION
+          - VERIFY_FILE_ASSOCIATION
+          - PROJECT_FILE_ASSOCIATION
+          - REQUEST_ITEM
+          - SI_SCI_RISK_INDICATOR_ID
+          - ITEM_SCI_RISK_INDICATOR_ID
+          - INTEGRATION
+          - INTEGRATION_EVENT
+          - INTEGRATION_EVENT_ITEM
+          - ADDRESS
+          - SUPPLIER_ADDRESS
+          - SUPPLIER_PHONE_NUMBER
+          - CHANGE_IMPLEMENTATION_TASKS
+          - OUTBOUND_EVENT
+          - EVENT_RESOURCE
+          - OUTBOUND_EVENT_INTEGRATION
+          - TRIGGER
+          - SUPPLIER_APPROVAL_STATUS
+          - FILE_CORRECTION
+          - USER_GROUP
+          - ITEM_BULK_CHANGE
+          - WORKFLOW_DECISION
+          - ITEM_TRAINING_ASSOCIATION
+          - USER_GROUP_MEMBER
+          - QUOTE_LINE
+          - PURCHASE_LINE
+          - CONTACT
+          - CONTACT_PHONE_NUMBER
+          - CONTACT_ADDRESS
+          - INTEGRATED_APP
+          - IMPORT_DEFINITION
+          - IMPORT_RUN
+          - ATTRIBUTE_GROUP
+          - ITEM_NUMBER_RESERVATION
+          - REQUIREMENT_TRACE
+          - FOLDER
+          - EXTRACT_OWNER_USER
+          - TICKET
+          - POLICY
+          - USER_2_POLICY
+          - USER_2_USER_GROUP
+          - DASHBOARD
+          - SCHEDULED_TRIGGER
+          - ON_DEMAND_HOMEPAGE_TRIGGER
+          - GLOBAL
+    ItemBasedEventDetail:
+      type: object
+      properties:
+        guid:
+          type: string
+        change:
+          $ref: '#/components/schemas/ShortChange'
+        revisioningEvent:
+          $ref: '#/components/schemas/ShortRevision'
+        creator:
+          $ref: '#/components/schemas/User'
+        creationDateTime:
+          type: string
+        itemsReconciled:
+          type: boolean
+        status:
+          type: string
+        eventType:
+          type: string
+        plmEntityType:
+          type: string
+          enum:
+          - ITEM
+          - FILE
+          - FILE_MASTER
+          - REPORT
+          - REPORT_INSTANCE
+          - ITEM_FILE_MAP
+          - AFS_FOLDER
+          - CATEGORY
+          - NUMBER_FORMAT
+          - ITEM_REVISION
+          - BOM_LINE
+          - SUPPLIER
+          - SUPPLIER_ITEM
+          - CHANGE
+          - CHANGE_CUSTOM_ATTRIBUTE
+          - CHANGE_LIFECYCLE
+          - CHANGE_DECISION
+          - REQUEST
+          - REQUEST_CUSTOM_ATTRIBUTE
+          - REQUEST_LIFECYCLE
+          - QUALITY
+          - QUALITY_STEP
+          - PROJECT
+          - PROJECT_SCHEDULE
+          - QUALITY_CUSTOM_ATTRIBUTE
+          - PROJECT_CUSTOM_ATTRIBUTE
+          - DW_EXTRACT
+          - DW_EXTRACT_RUN
+          - DW_EXTRACT_RUNFILE_ASSOCIATION
+          - CHANGE_CUSTOM_CHANGE_VALUE_ID
+          - REQUEST_CUSTOM_ATTRIBUTE_REQUEST_VALUE_ID
+          - EXTRACT_VALUE_ID
+          - ITEM_ADDITIONAL_ATTRIBUTE
+          - ITEM_BOM
+          - ITEM_BOM_SUB
+          - SOURCING_RELATIONSHIP
+          - SUPPLIER_ITEM_GUID
+          - SUPPLIER_GUID
+          - ITEM_CUST_ATTR_SI
+          - ITEM_CUST_ATTR_PROPERTY_ID
+          - REQUEST_ITEM_ECR_ITEM_MAP_ID
+          - QUALITYPROCESS_ASSOCIATION
+          - URL
+          - HISTORY_AUDIT
+          - PROJECT_ITEM_MAP_ID
+          - PROJECT_CHANGE_MAP_ID
+          - PROJECT_ECR_MAP_ID
+          - PROJECT_PROJECT_MAP_ID
+          - CHANGE_ITEM
+          - LIFECYCLE_PHASE
+          - BOMLINE_ADDITIONAL_ATTRIBUTE
+          - SUPPLIER_VALUE_ID
+          - QUALITY_STEP_DECISION
+          - ITEM_COMPLIANCE_REQUIREMENT
+          - ITEM_REQUIREMENT
+          - SUPPLIERITEM_COMPLIANCE_REQUIREMENT
+          - ITEM_BOM_SETTINGS
+          - ITEM_LIFECYCLE_CHANGE
+          - QUALITY_CUSTOM_ATTRIBUTE_QUALITY_PROPERTY_MAP_ID
+          - SUPPLIER_ITEM_RUNFILE_ASSOCIATION
+          - SUPPLIER_ITEM_SUMMARY_ITEM_GUID
+          - PROJECT_ITEM_GUID
+          - QUALITY_AO_ITEM_GUID
+          - SUPPLIER_ITEM_CUST_ATTR_ITEM_ID
+          - CHANGE_REQUEST_ECR_CHANGE_MAP_ID
+          - ATTRIBUTE
+          - BOMLINE_ATTRIBUTE
+          - QUALITY_PREFIX
+          - USER
+          - ADDITIONAL_ATTRIBUTE
+          - REQUEST_EVALUATOR_GROUP
+          - REQUEST_PREFIX
+          - VERIFY
+          - RECENT_ACTIVITY
+          - RECENT_ACTIVITY_USER_ACCESS
+          - RECENT_ACTIVITY_REPORT_RUN
+          - RECENT_ACTIVITY_FILE_ACCESS
+          - RECENT_ACTIVITY_FILE_ACCESS_FILE
+          - RECENT_ACTIVITY_EXPORT
+          - SUPPLIER_RUNFILE_ASSOCIATION
+          - CHANGE_FILE_MAP
+          - REQUEST_FILE_MAP
+          - ITEM_LIFECYCLE_TRANSITION
+          - ITEM_UOM
+          - ROUTING
+          - COST_ATTRIBUTE
+          - AFS_OBJECT
+          - SUPPLIERITEM_REQUIREMENT
+          - BULK_SESSION
+          - REQUEST_ISSUES
+          - CHANGE_NUMBER_FORMAT_SEQUENCE_PREFIX
+          - PROD_REQUIREMENT
+          - SETTINGS_TEMPLATE
+          - PLM_REFERENCE
+          - NON_REVISION_CONTROLLED_ADDITIONAL_ATTRIBUTE_VALUE
+          - NON_REVISION_CONTROLLED_ADDITIONAL_ATTRIBUTE
+          - CHANGE_IMPLEMENTATION_NOTES
+          - REVISION
+          - REQUIREMENT_BASELINE
+          - PLM_WORKFLOW
+          - ITEM_NUMBER_FORMAT_FIELD
+          - ITEM_REFERENCE
+          - TRAINING
+          - TRAINING_ITEMS
+          - TRAINING_USERS
+          - TRAINING_RECORDS
+          - EXPORT_DEFINITION
+          - ITEM_EXPORT_DEFINITION
+          - EXPORT_RUN
+          - QUALITYPROCESS_STATUS_CHANGE
+          - REQUIREMENT
+          - QUALITY_TEMPLATE
+          - PROJECT_PHASE
+          - PROJECT_TASK
+          - PROJECT_MILESTONE
+          - PROJECT_REFERENCE
+          - VERIFY_PREFIX
+          - TRAINING_PREFIX
+          - NUMBER_SEQUENCE
+          - NUMBER_PREFIX
+          - PROJECT_TEMPLATE
+          - PROJECT_TEMPLATE_PHASE
+          - PROJECT_TEMPLATE_TASK
+          - RELATIONSHIP_TYPE
+          - MANUFACTURER_ITEM_GUID
+          - BC_EMAIL_TEMPLATE
+          - FILE_MARKUP_FILE_ASSOCIATION
+          - CHANGE_IMPL_FILE_ASSOCIATION
+          - CHANGE_MARKUP_FILE_ASSOCIATION
+          - REQUEST_MARKUP_FILE_ASSOCIATION
+          - CHANGE_NUMBER_FORMAT
+          - CHANGE_IMPLEMENTATION_STATUS
+          - TRAINING_FILE_ASSOCIATION
+          - REQUIREMENT_FILE_ASSOCIATION
+          - VERIFY_FILE_ASSOCIATION
+          - PROJECT_FILE_ASSOCIATION
+          - REQUEST_ITEM
+          - SI_SCI_RISK_INDICATOR_ID
+          - ITEM_SCI_RISK_INDICATOR_ID
+          - INTEGRATION
+          - INTEGRATION_EVENT
+          - INTEGRATION_EVENT_ITEM
+          - ADDRESS
+          - SUPPLIER_ADDRESS
+          - SUPPLIER_PHONE_NUMBER
+          - CHANGE_IMPLEMENTATION_TASKS
+          - OUTBOUND_EVENT
+          - EVENT_RESOURCE
+          - OUTBOUND_EVENT_INTEGRATION
+          - TRIGGER
+          - SUPPLIER_APPROVAL_STATUS
+          - FILE_CORRECTION
+          - USER_GROUP
+          - ITEM_BULK_CHANGE
+          - WORKFLOW_DECISION
+          - ITEM_TRAINING_ASSOCIATION
+          - USER_GROUP_MEMBER
+          - QUOTE_LINE
+          - PURCHASE_LINE
+          - CONTACT
+          - CONTACT_PHONE_NUMBER
+          - CONTACT_ADDRESS
+          - INTEGRATED_APP
+          - IMPORT_DEFINITION
+          - IMPORT_RUN
+          - ATTRIBUTE_GROUP
+          - ITEM_NUMBER_RESERVATION
+          - REQUIREMENT_TRACE
+          - FOLDER
+          - EXTRACT_OWNER_USER
+          - TICKET
+          - POLICY
+          - USER_2_POLICY
+          - USER_2_USER_GROUP
+          - DASHBOARD
+          - SCHEDULED_TRIGGER
+          - ON_DEMAND_HOMEPAGE_TRIGGER
+          - GLOBAL
+    CategoryCompactVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        path:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    ItemBasedEventDetailVo:
+      type: object
+      properties:
+        change:
+          $ref: '#/components/schemas/ShortChangeVo'
+        revisioningEvent:
+          $ref: '#/components/schemas/ShortRevisionVo'
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        itemsReconciled:
+          type: boolean
+        creationDateTime:
+          type: string
+        guid:
+          type: string
+        status:
+          type: string
+        eventType:
+          type: string
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        guid:
+          type: string
+        creationDateTime:
+          type: string
+        creatorId:
+          type: integer
+          format: int64
+        mappingId:
+          type: integer
+          format: int64
+        modifierId:
+          type: integer
+          format: int64
+        workspaceId:
+          type: integer
+          format: int64
+        fullName:
+          type: string
+        email:
+          type: string
+        type:
+          type: string
+          enum:
+          - ALL
+          - EMPLOYEE
+          - PARTNER
+          - SUPPLIER
+          - BASIC_SUPPLIER
+          - ADVANCED_SUPPLIER
+          - INTEGRATION_USER
+        enabled_p:
+          type: string
+          writeOnly: true
+        name:
+          type: string
+        defaultValue: {}
+        enabled:
+          type: string
+        plmEntityType:
+          type: string
+          enum:
+          - ITEM
+          - FILE
+          - FILE_MASTER
+          - REPORT
+          - REPORT_INSTANCE
+          - ITEM_FILE_MAP
+          - AFS_FOLDER
+          - CATEGORY
+          - NUMBER_FORMAT
+          - ITEM_REVISION
+          - BOM_LINE
+          - SUPPLIER
+          - SUPPLIER_ITEM
+          - CHANGE
+          - CHANGE_CUSTOM_ATTRIBUTE
+          - CHANGE_LIFECYCLE
+          - CHANGE_DECISION
+          - REQUEST
+          - REQUEST_CUSTOM_ATTRIBUTE
+          - REQUEST_LIFECYCLE
+          - QUALITY
+          - QUALITY_STEP
+          - PROJECT
+          - PROJECT_SCHEDULE
+          - QUALITY_CUSTOM_ATTRIBUTE
+          - PROJECT_CUSTOM_ATTRIBUTE
+          - DW_EXTRACT
+          - DW_EXTRACT_RUN
+          - DW_EXTRACT_RUNFILE_ASSOCIATION
+          - CHANGE_CUSTOM_CHANGE_VALUE_ID
+          - REQUEST_CUSTOM_ATTRIBUTE_REQUEST_VALUE_ID
+          - EXTRACT_VALUE_ID
+          - ITEM_ADDITIONAL_ATTRIBUTE
+          - ITEM_BOM
+          - ITEM_BOM_SUB
+          - SOURCING_RELATIONSHIP
+          - SUPPLIER_ITEM_GUID
+          - SUPPLIER_GUID
+          - ITEM_CUST_ATTR_SI
+          - ITEM_CUST_ATTR_PROPERTY_ID
+          - REQUEST_ITEM_ECR_ITEM_MAP_ID
+          - QUALITYPROCESS_ASSOCIATION
+          - URL
+          - HISTORY_AUDIT
+          - PROJECT_ITEM_MAP_ID
+          - PROJECT_CHANGE_MAP_ID
+          - PROJECT_ECR_MAP_ID
+          - PROJECT_PROJECT_MAP_ID
+          - CHANGE_ITEM
+          - LIFECYCLE_PHASE
+          - BOMLINE_ADDITIONAL_ATTRIBUTE
+          - SUPPLIER_VALUE_ID
+          - QUALITY_STEP_DECISION
+          - ITEM_COMPLIANCE_REQUIREMENT
+          - ITEM_REQUIREMENT
+          - SUPPLIERITEM_COMPLIANCE_REQUIREMENT
+          - ITEM_BOM_SETTINGS
+          - ITEM_LIFECYCLE_CHANGE
+          - QUALITY_CUSTOM_ATTRIBUTE_QUALITY_PROPERTY_MAP_ID
+          - SUPPLIER_ITEM_RUNFILE_ASSOCIATION
+          - SUPPLIER_ITEM_SUMMARY_ITEM_GUID
+          - PROJECT_ITEM_GUID
+          - QUALITY_AO_ITEM_GUID
+          - SUPPLIER_ITEM_CUST_ATTR_ITEM_ID
+          - CHANGE_REQUEST_ECR_CHANGE_MAP_ID
+          - ATTRIBUTE
+          - BOMLINE_ATTRIBUTE
+          - QUALITY_PREFIX
+          - USER
+          - ADDITIONAL_ATTRIBUTE
+          - REQUEST_EVALUATOR_GROUP
+          - REQUEST_PREFIX
+          - VERIFY
+          - RECENT_ACTIVITY
+          - RECENT_ACTIVITY_USER_ACCESS
+          - RECENT_ACTIVITY_REPORT_RUN
+          - RECENT_ACTIVITY_FILE_ACCESS
+          - RECENT_ACTIVITY_FILE_ACCESS_FILE
+          - RECENT_ACTIVITY_EXPORT
+          - SUPPLIER_RUNFILE_ASSOCIATION
+          - CHANGE_FILE_MAP
+          - REQUEST_FILE_MAP
+          - ITEM_LIFECYCLE_TRANSITION
+          - ITEM_UOM
+          - ROUTING
+          - COST_ATTRIBUTE
+          - AFS_OBJECT
+          - SUPPLIERITEM_REQUIREMENT
+          - BULK_SESSION
+          - REQUEST_ISSUES
+          - CHANGE_NUMBER_FORMAT_SEQUENCE_PREFIX
+          - PROD_REQUIREMENT
+          - SETTINGS_TEMPLATE
+          - PLM_REFERENCE
+          - NON_REVISION_CONTROLLED_ADDITIONAL_ATTRIBUTE_VALUE
+          - NON_REVISION_CONTROLLED_ADDITIONAL_ATTRIBUTE
+          - CHANGE_IMPLEMENTATION_NOTES
+          - REVISION
+          - REQUIREMENT_BASELINE
+          - PLM_WORKFLOW
+          - ITEM_NUMBER_FORMAT_FIELD
+          - ITEM_REFERENCE
+          - TRAINING
+          - TRAINING_ITEMS
+          - TRAINING_USERS
+          - TRAINING_RECORDS
+          - EXPORT_DEFINITION
+          - ITEM_EXPORT_DEFINITION
+          - EXPORT_RUN
+          - QUALITYPROCESS_STATUS_CHANGE
+          - REQUIREMENT
+          - QUALITY_TEMPLATE
+          - PROJECT_PHASE
+          - PROJECT_TASK
+          - PROJECT_MILESTONE
+          - PROJECT_REFERENCE
+          - VERIFY_PREFIX
+          - TRAINING_PREFIX
+          - NUMBER_SEQUENCE
+          - NUMBER_PREFIX
+          - PROJECT_TEMPLATE
+          - PROJECT_TEMPLATE_PHASE
+          - PROJECT_TEMPLATE_TASK
+          - RELATIONSHIP_TYPE
+          - MANUFACTURER_ITEM_GUID
+          - BC_EMAIL_TEMPLATE
+          - FILE_MARKUP_FILE_ASSOCIATION
+          - CHANGE_IMPL_FILE_ASSOCIATION
+          - CHANGE_MARKUP_FILE_ASSOCIATION
+          - REQUEST_MARKUP_FILE_ASSOCIATION
+          - CHANGE_NUMBER_FORMAT
+          - CHANGE_IMPLEMENTATION_STATUS
+          - TRAINING_FILE_ASSOCIATION
+          - REQUIREMENT_FILE_ASSOCIATION
+          - VERIFY_FILE_ASSOCIATION
+          - PROJECT_FILE_ASSOCIATION
+          - REQUEST_ITEM
+          - SI_SCI_RISK_INDICATOR_ID
+          - ITEM_SCI_RISK_INDICATOR_ID
+          - INTEGRATION
+          - INTEGRATION_EVENT
+          - INTEGRATION_EVENT_ITEM
+          - ADDRESS
+          - SUPPLIER_ADDRESS
+          - SUPPLIER_PHONE_NUMBER
+          - CHANGE_IMPLEMENTATION_TASKS
+          - OUTBOUND_EVENT
+          - EVENT_RESOURCE
+          - OUTBOUND_EVENT_INTEGRATION
+          - TRIGGER
+          - SUPPLIER_APPROVAL_STATUS
+          - FILE_CORRECTION
+          - USER_GROUP
+          - ITEM_BULK_CHANGE
+          - WORKFLOW_DECISION
+          - ITEM_TRAINING_ASSOCIATION
+          - USER_GROUP_MEMBER
+          - QUOTE_LINE
+          - PURCHASE_LINE
+          - CONTACT
+          - CONTACT_PHONE_NUMBER
+          - CONTACT_ADDRESS
+          - INTEGRATED_APP
+          - IMPORT_DEFINITION
+          - IMPORT_RUN
+          - ATTRIBUTE_GROUP
+          - ITEM_NUMBER_RESERVATION
+          - REQUIREMENT_TRACE
+          - FOLDER
+          - EXTRACT_OWNER_USER
+          - TICKET
+          - POLICY
+          - USER_2_POLICY
+          - USER_2_USER_GROUP
+          - DASHBOARD
+          - SCHEDULED_TRIGGER
+          - ON_DEMAND_HOMEPAGE_TRIGGER
+          - GLOBAL
+        getGuid:
+          type: string
+          writeOnly: true
+    ShortItemRep:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        revisionNumber:
+          type: string
+        lifecyclePhase:
+          $ref: '#/components/schemas/ShortLifecyclePhase'
+        modifiedSpecs:
+          type: boolean
+        modifiedBom:
+          type: boolean
+        modifiedSourcing:
+          type: boolean
+        modifiedFiles:
+          type: boolean
+    IntegrationShortRepResult:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/IntegrationShortRep'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    EventItemRepResult:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventItemRep'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    LifecyclePhaseFullVo:
+      type: object
+      properties:
+        active:
+          type: boolean
+        displayOrder:
+          type: integer
+          format: int32
+        guid:
+          type: string
+        name:
+          type: string
+        shortName:
+          type: string
+        stage:
+          type: string
+        type:
+          type: string
+        used:
+          type: boolean
+    ShortLifecyclePhase:
+      type: object
+      properties:
+        name:
+          type: string
+        stage:
+          type: string
+        guid:
+          type: string
+        id:
+          type: integer
+          format: int64
+          writeOnly: true
+        plmEntityType:
+          type: string
+          enum:
+          - ITEM
+          - FILE
+          - FILE_MASTER
+          - REPORT
+          - REPORT_INSTANCE
+          - ITEM_FILE_MAP
+          - AFS_FOLDER
+          - CATEGORY
+          - NUMBER_FORMAT
+          - ITEM_REVISION
+          - BOM_LINE
+          - SUPPLIER
+          - SUPPLIER_ITEM
+          - CHANGE
+          - CHANGE_CUSTOM_ATTRIBUTE
+          - CHANGE_LIFECYCLE
+          - CHANGE_DECISION
+          - REQUEST
+          - REQUEST_CUSTOM_ATTRIBUTE
+          - REQUEST_LIFECYCLE
+          - QUALITY
+          - QUALITY_STEP
+          - PROJECT
+          - PROJECT_SCHEDULE
+          - QUALITY_CUSTOM_ATTRIBUTE
+          - PROJECT_CUSTOM_ATTRIBUTE
+          - DW_EXTRACT
+          - DW_EXTRACT_RUN
+          - DW_EXTRACT_RUNFILE_ASSOCIATION
+          - CHANGE_CUSTOM_CHANGE_VALUE_ID
+          - REQUEST_CUSTOM_ATTRIBUTE_REQUEST_VALUE_ID
+          - EXTRACT_VALUE_ID
+          - ITEM_ADDITIONAL_ATTRIBUTE
+          - ITEM_BOM
+          - ITEM_BOM_SUB
+          - SOURCING_RELATIONSHIP
+          - SUPPLIER_ITEM_GUID
+          - SUPPLIER_GUID
+          - ITEM_CUST_ATTR_SI
+          - ITEM_CUST_ATTR_PROPERTY_ID
+          - REQUEST_ITEM_ECR_ITEM_MAP_ID
+          - QUALITYPROCESS_ASSOCIATION
+          - URL
+          - HISTORY_AUDIT
+          - PROJECT_ITEM_MAP_ID
+          - PROJECT_CHANGE_MAP_ID
+          - PROJECT_ECR_MAP_ID
+          - PROJECT_PROJECT_MAP_ID
+          - CHANGE_ITEM
+          - LIFECYCLE_PHASE
+          - BOMLINE_ADDITIONAL_ATTRIBUTE
+          - SUPPLIER_VALUE_ID
+          - QUALITY_STEP_DECISION
+          - ITEM_COMPLIANCE_REQUIREMENT
+          - ITEM_REQUIREMENT
+          - SUPPLIERITEM_COMPLIANCE_REQUIREMENT
+          - ITEM_BOM_SETTINGS
+          - ITEM_LIFECYCLE_CHANGE
+          - QUALITY_CUSTOM_ATTRIBUTE_QUALITY_PROPERTY_MAP_ID
+          - SUPPLIER_ITEM_RUNFILE_ASSOCIATION
+          - SUPPLIER_ITEM_SUMMARY_ITEM_GUID
+          - PROJECT_ITEM_GUID
+          - QUALITY_AO_ITEM_GUID
+          - SUPPLIER_ITEM_CUST_ATTR_ITEM_ID
+          - CHANGE_REQUEST_ECR_CHANGE_MAP_ID
+          - ATTRIBUTE
+          - BOMLINE_ATTRIBUTE
+          - QUALITY_PREFIX
+          - USER
+          - ADDITIONAL_ATTRIBUTE
+          - REQUEST_EVALUATOR_GROUP
+          - REQUEST_PREFIX
+          - VERIFY
+          - RECENT_ACTIVITY
+          - RECENT_ACTIVITY_USER_ACCESS
+          - RECENT_ACTIVITY_REPORT_RUN
+          - RECENT_ACTIVITY_FILE_ACCESS
+          - RECENT_ACTIVITY_FILE_ACCESS_FILE
+          - RECENT_ACTIVITY_EXPORT
+          - SUPPLIER_RUNFILE_ASSOCIATION
+          - CHANGE_FILE_MAP
+          - REQUEST_FILE_MAP
+          - ITEM_LIFECYCLE_TRANSITION
+          - ITEM_UOM
+          - ROUTING
+          - COST_ATTRIBUTE
+          - AFS_OBJECT
+          - SUPPLIERITEM_REQUIREMENT
+          - BULK_SESSION
+          - REQUEST_ISSUES
+          - CHANGE_NUMBER_FORMAT_SEQUENCE_PREFIX
+          - PROD_REQUIREMENT
+          - SETTINGS_TEMPLATE
+          - PLM_REFERENCE
+          - NON_REVISION_CONTROLLED_ADDITIONAL_ATTRIBUTE_VALUE
+          - NON_REVISION_CONTROLLED_ADDITIONAL_ATTRIBUTE
+          - CHANGE_IMPLEMENTATION_NOTES
+          - REVISION
+          - REQUIREMENT_BASELINE
+          - PLM_WORKFLOW
+          - ITEM_NUMBER_FORMAT_FIELD
+          - ITEM_REFERENCE
+          - TRAINING
+          - TRAINING_ITEMS
+          - TRAINING_USERS
+          - TRAINING_RECORDS
+          - EXPORT_DEFINITION
+          - ITEM_EXPORT_DEFINITION
+          - EXPORT_RUN
+          - QUALITYPROCESS_STATUS_CHANGE
+          - REQUIREMENT
+          - QUALITY_TEMPLATE
+          - PROJECT_PHASE
+          - PROJECT_TASK
+          - PROJECT_MILESTONE
+          - PROJECT_REFERENCE
+          - VERIFY_PREFIX
+          - TRAINING_PREFIX
+          - NUMBER_SEQUENCE
+          - NUMBER_PREFIX
+          - PROJECT_TEMPLATE
+          - PROJECT_TEMPLATE_PHASE
+          - PROJECT_TEMPLATE_TASK
+          - RELATIONSHIP_TYPE
+          - MANUFACTURER_ITEM_GUID
+          - BC_EMAIL_TEMPLATE
+          - FILE_MARKUP_FILE_ASSOCIATION
+          - CHANGE_IMPL_FILE_ASSOCIATION
+          - CHANGE_MARKUP_FILE_ASSOCIATION
+          - REQUEST_MARKUP_FILE_ASSOCIATION
+          - CHANGE_NUMBER_FORMAT
+          - CHANGE_IMPLEMENTATION_STATUS
+          - TRAINING_FILE_ASSOCIATION
+          - REQUIREMENT_FILE_ASSOCIATION
+          - VERIFY_FILE_ASSOCIATION
+          - PROJECT_FILE_ASSOCIATION
+          - REQUEST_ITEM
+          - SI_SCI_RISK_INDICATOR_ID
+          - ITEM_SCI_RISK_INDICATOR_ID
+          - INTEGRATION
+          - INTEGRATION_EVENT
+          - INTEGRATION_EVENT_ITEM
+          - ADDRESS
+          - SUPPLIER_ADDRESS
+          - SUPPLIER_PHONE_NUMBER
+          - CHANGE_IMPLEMENTATION_TASKS
+          - OUTBOUND_EVENT
+          - EVENT_RESOURCE
+          - OUTBOUND_EVENT_INTEGRATION
+          - TRIGGER
+          - SUPPLIER_APPROVAL_STATUS
+          - FILE_CORRECTION
+          - USER_GROUP
+          - ITEM_BULK_CHANGE
+          - WORKFLOW_DECISION
+          - ITEM_TRAINING_ASSOCIATION
+          - USER_GROUP_MEMBER
+          - QUOTE_LINE
+          - PURCHASE_LINE
+          - CONTACT
+          - CONTACT_PHONE_NUMBER
+          - CONTACT_ADDRESS
+          - INTEGRATED_APP
+          - IMPORT_DEFINITION
+          - IMPORT_RUN
+          - ATTRIBUTE_GROUP
+          - ITEM_NUMBER_RESERVATION
+          - REQUIREMENT_TRACE
+          - FOLDER
+          - EXTRACT_OWNER_USER
+          - TICKET
+          - POLICY
+          - USER_2_POLICY
+          - USER_2_USER_GROUP
+          - DASHBOARD
+          - SCHEDULED_TRIGGER
+          - ON_DEMAND_HOMEPAGE_TRIGGER
+          - GLOBAL
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    ChangeBasedEventVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangeBasedEventVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    ReconciledVo:
+      type: object
+      properties:
+        reconciled:
+          type: boolean
+    StringResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: string
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    IntegrationFullVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        enabled:
+          type: boolean
+        status:
+          type: string
+        type:
+          type: string
+        transferType:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        creationDateTime:
+          type: string
+        modifyUser:
+          $ref: '#/components/schemas/UserCompactVo'
+        modifyDateTime:
+          type: string
+        integrationUser:
+          $ref: '#/components/schemas/UserCompactVo'
+    ChangeBasedEventVo:
+      type: object
+      properties:
+        change:
+          $ref: '#/components/schemas/ShortChangeVo'
+        revisioningEvent:
+          $ref: '#/components/schemas/ShortRevisionVo'
+        reconciledDateTime:
+          type: string
+        eventType:
+          type: string
+        guid:
+          type: string
+        reconciled:
+          type: boolean
+        status:
+          type: string
+        creationDateTime:
+          type: string
+    UrlVo:
+      type: object
+      properties:
+        api:
+          type: string
+        app:
+          type: string
+    FilterVo:
+      type: object
+      properties:
+        lifecyclePhases:
+          type: array
+          items:
+            $ref: '#/components/schemas/LifecyclePhaseFullVo'
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryCompactVo'
+    UserCompactVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCompactVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    EventItemRep:
+      type: object
+      properties:
+        guid:
+          type: string
+        effectiveItemRevision:
+          $ref: '#/components/schemas/ShortItemRep'
+        supersededItemRevision:
+          $ref: '#/components/schemas/ShortItemRep'
+        reconciled:
+          type: boolean
+        reconciledDateTime:
+          type: string
+        reconciledUser:
+          $ref: '#/components/schemas/UserCompactVo'
+    ShortChangeVo:
+      type: object
+      properties:
+        number:
+          type: string
+        title:
+          type: string
+        guid:
+          type: string
+        approvedOnDateTime:
+          type: string
+        effectiveDateTime:
+          type: string
+        effectivityPlannedDateTime:
+          type: string
+        effectivityType:
+          type: string
+        expirationDateTime:
+          type: string
+        lifecycleStatus:
+          $ref: '#/components/schemas/ChangeLifecycleStatus'
+        affectedItemCount:
+          type: integer
+          format: int64
+        category:
+          $ref: '#/components/schemas/ShortCategory'
+        url:
+          $ref: '#/components/schemas/UrlVo'
+    ChangeLifecycleStatus:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - OPEN
+          - SUBMITTED_FOR_APPROVAL
+          - SUBMITTED
+          - APPROVED
+          - EFFECTIVE
+          - EXPIRED
+          - REJECTED
+          - OPEN_AND_UNLOCKED
+          - OPEN_AND_LOCKED
+          - SUBMITTED_FOR_ROUTING
+          - CANCELED
+          - COMPLETED
+    ChangeEventDetailVo:
+      type: object
+      properties:
+        change:
+          $ref: '#/components/schemas/ShortChangeVo'
+        revisioningEvent:
+          $ref: '#/components/schemas/ShortRevisionVo'
+        reconciled:
+          type: boolean
+        reconciledDateTime:
+          type: string
+        reconciledUser:
+          $ref: '#/components/schemas/UserCompactVo'
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        creationDateTime:
+          type: string
+        status:
+          type: string
+        eventType:
+          type: string
+        guid:
+          type: string
+    ShortRevisionVo:
+      type: object
+      properties:
+        number:
+          type: string
+        guid:
+          type: string
+        performedOnDateTime:
+          type: string
+    ShortCategory:
+      type: object
+      properties:
+        categoryName:
+          type: string
+        categoryPath:
+          type: string
+        guid:
+          type: string
+        plmEntityType:
+          type: string
+          enum:
+          - ITEM
+          - FILE
+          - FILE_MASTER
+          - REPORT
+          - REPORT_INSTANCE
+          - ITEM_FILE_MAP
+          - AFS_FOLDER
+          - CATEGORY
+          - NUMBER_FORMAT
+          - ITEM_REVISION
+          - BOM_LINE
+          - SUPPLIER
+          - SUPPLIER_ITEM
+          - CHANGE
+          - CHANGE_CUSTOM_ATTRIBUTE
+          - CHANGE_LIFECYCLE
+          - CHANGE_DECISION
+          - REQUEST
+          - REQUEST_CUSTOM_ATTRIBUTE
+          - REQUEST_LIFECYCLE
+          - QUALITY
+          - QUALITY_STEP
+          - PROJECT
+          - PROJECT_SCHEDULE
+          - QUALITY_CUSTOM_ATTRIBUTE
+          - PROJECT_CUSTOM_ATTRIBUTE
+          - DW_EXTRACT
+          - DW_EXTRACT_RUN
+          - DW_EXTRACT_RUNFILE_ASSOCIATION
+          - CHANGE_CUSTOM_CHANGE_VALUE_ID
+          - REQUEST_CUSTOM_ATTRIBUTE_REQUEST_VALUE_ID
+          - EXTRACT_VALUE_ID
+          - ITEM_ADDITIONAL_ATTRIBUTE
+          - ITEM_BOM
+          - ITEM_BOM_SUB
+          - SOURCING_RELATIONSHIP
+          - SUPPLIER_ITEM_GUID
+          - SUPPLIER_GUID
+          - ITEM_CUST_ATTR_SI
+          - ITEM_CUST_ATTR_PROPERTY_ID
+          - REQUEST_ITEM_ECR_ITEM_MAP_ID
+          - QUALITYPROCESS_ASSOCIATION
+          - URL
+          - HISTORY_AUDIT
+          - PROJECT_ITEM_MAP_ID
+          - PROJECT_CHANGE_MAP_ID
+          - PROJECT_ECR_MAP_ID
+          - PROJECT_PROJECT_MAP_ID
+          - CHANGE_ITEM
+          - LIFECYCLE_PHASE
+          - BOMLINE_ADDITIONAL_ATTRIBUTE
+          - SUPPLIER_VALUE_ID
+          - QUALITY_STEP_DECISION
+          - ITEM_COMPLIANCE_REQUIREMENT
+          - ITEM_REQUIREMENT
+          - SUPPLIERITEM_COMPLIANCE_REQUIREMENT
+          - ITEM_BOM_SETTINGS
+          - ITEM_LIFECYCLE_CHANGE
+          - QUALITY_CUSTOM_ATTRIBUTE_QUALITY_PROPERTY_MAP_ID
+          - SUPPLIER_ITEM_RUNFILE_ASSOCIATION
+          - SUPPLIER_ITEM_SUMMARY_ITEM_GUID
+          - PROJECT_ITEM_GUID
+          - QUALITY_AO_ITEM_GUID
+          - SUPPLIER_ITEM_CUST_ATTR_ITEM_ID
+          - CHANGE_REQUEST_ECR_CHANGE_MAP_ID
+          - ATTRIBUTE
+          - BOMLINE_ATTRIBUTE
+          - QUALITY_PREFIX
+          - USER
+          - ADDITIONAL_ATTRIBUTE
+          - REQUEST_EVALUATOR_GROUP
+          - REQUEST_PREFIX
+          - VERIFY
+          - RECENT_ACTIVITY
+          - RECENT_ACTIVITY_USER_ACCESS
+          - RECENT_ACTIVITY_REPORT_RUN
+          - RECENT_ACTIVITY_FILE_ACCESS
+          - RECENT_ACTIVITY_FILE_ACCESS_FILE
+          - RECENT_ACTIVITY_EXPORT
+          - SUPPLIER_RUNFILE_ASSOCIATION
+          - CHANGE_FILE_MAP
+          - REQUEST_FILE_MAP
+          - ITEM_LIFECYCLE_TRANSITION
+          - ITEM_UOM
+          - ROUTING
+          - COST_ATTRIBUTE
+          - AFS_OBJECT
+          - SUPPLIERITEM_REQUIREMENT
+          - BULK_SESSION
+          - REQUEST_ISSUES
+          - CHANGE_NUMBER_FORMAT_SEQUENCE_PREFIX
+          - PROD_REQUIREMENT
+          - SETTINGS_TEMPLATE
+          - PLM_REFERENCE
+          - NON_REVISION_CONTROLLED_ADDITIONAL_ATTRIBUTE_VALUE
+          - NON_REVISION_CONTROLLED_ADDITIONAL_ATTRIBUTE
+          - CHANGE_IMPLEMENTATION_NOTES
+          - REVISION
+          - REQUIREMENT_BASELINE
+          - PLM_WORKFLOW
+          - ITEM_NUMBER_FORMAT_FIELD
+          - ITEM_REFERENCE
+          - TRAINING
+          - TRAINING_ITEMS
+          - TRAINING_USERS
+          - TRAINING_RECORDS
+          - EXPORT_DEFINITION
+          - ITEM_EXPORT_DEFINITION
+          - EXPORT_RUN
+          - QUALITYPROCESS_STATUS_CHANGE
+          - REQUIREMENT
+          - QUALITY_TEMPLATE
+          - PROJECT_PHASE
+          - PROJECT_TASK
+          - PROJECT_MILESTONE
+          - PROJECT_REFERENCE
+          - VERIFY_PREFIX
+          - TRAINING_PREFIX
+          - NUMBER_SEQUENCE
+          - NUMBER_PREFIX
+          - PROJECT_TEMPLATE
+          - PROJECT_TEMPLATE_PHASE
+          - PROJECT_TEMPLATE_TASK
+          - RELATIONSHIP_TYPE
+          - MANUFACTURER_ITEM_GUID
+          - BC_EMAIL_TEMPLATE
+          - FILE_MARKUP_FILE_ASSOCIATION
+          - CHANGE_IMPL_FILE_ASSOCIATION
+          - CHANGE_MARKUP_FILE_ASSOCIATION
+          - REQUEST_MARKUP_FILE_ASSOCIATION
+          - CHANGE_NUMBER_FORMAT
+          - CHANGE_IMPLEMENTATION_STATUS
+          - TRAINING_FILE_ASSOCIATION
+          - REQUIREMENT_FILE_ASSOCIATION
+          - VERIFY_FILE_ASSOCIATION
+          - PROJECT_FILE_ASSOCIATION
+          - REQUEST_ITEM
+          - SI_SCI_RISK_INDICATOR_ID
+          - ITEM_SCI_RISK_INDICATOR_ID
+          - INTEGRATION
+          - INTEGRATION_EVENT
+          - INTEGRATION_EVENT_ITEM
+          - ADDRESS
+          - SUPPLIER_ADDRESS
+          - SUPPLIER_PHONE_NUMBER
+          - CHANGE_IMPLEMENTATION_TASKS
+          - OUTBOUND_EVENT
+          - EVENT_RESOURCE
+          - OUTBOUND_EVENT_INTEGRATION
+          - TRIGGER
+          - SUPPLIER_APPROVAL_STATUS
+          - FILE_CORRECTION
+          - USER_GROUP
+          - ITEM_BULK_CHANGE
+          - WORKFLOW_DECISION
+          - ITEM_TRAINING_ASSOCIATION
+          - USER_GROUP_MEMBER
+          - QUOTE_LINE
+          - PURCHASE_LINE
+          - CONTACT
+          - CONTACT_PHONE_NUMBER
+          - CONTACT_ADDRESS
+          - INTEGRATED_APP
+          - IMPORT_DEFINITION
+          - IMPORT_RUN
+          - ATTRIBUTE_GROUP
+          - ITEM_NUMBER_RESERVATION
+          - REQUIREMENT_TRACE
+          - FOLDER
+          - EXTRACT_OWNER_USER
+          - TICKET
+          - POLICY
+          - USER_2_POLICY
+          - USER_2_USER_GROUP
+          - DASHBOARD
+          - SCHEDULED_TRIGGER
+          - ON_DEMAND_HOMEPAGE_TRIGGER
+          - GLOBAL
+    ItemBasedEventVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemBasedEventVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    IntegrationShortRep:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        enabled:
+          type: boolean
+        status:
+          type: string
+        type:
+          type: string
+        transferType:
+          type: string
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

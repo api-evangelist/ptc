@@ -1,0 +1,736 @@
+openapi: 3.2.0
+info:
+  title: Ptc Item File API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Item File across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Item File
+  description: Manage file associations and content for items.
+paths:
+  /items/{itemGuid}/files/{itemFileAssociationGuid}:
+    get:
+      tags:
+      - Item File
+      summary: Retrieve detailed information of the specified file association
+      description: Returns a File Association object with a given GUID belonging to an item with a given GUID.
+      operationId: getItemFileAssociation
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: itemFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemFileVo'
+    put:
+      tags:
+      - Item File
+      summary: Update the metadata of the specified file association
+      description: 'Updates the details of an existing File association with a given GUID.
+
+
+        This endpoint can only be used to update whether the latest edition of the File should be associated to the Item (latestEditionAssociation) or whether the associated File should be the primary File in the relationship (primary).
+
+
+        For updating File Summary information, use File endpoints such as PUT File Summary Update, POST File Edition, POST File Correct, etc.'
+      operationId: updateItemFileAssociation
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: itemFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemFileUpdateVo'
+            example:
+              latestEditionAssociation: true
+              primary: true
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemFileVo'
+    delete:
+      tags:
+      - Item File
+      summary: Delete the specified file association
+      description: Removes a File association from an Item with a given GUID.
+      operationId: removeItemFileAssociation
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: itemFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Delete Item File
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /items/{itemGuid}/files:
+    get:
+      tags:
+      - Item File
+      summary: Retrieve all file association information of the specified item
+      description: Returns a collection of File objects belonging to an item with a given GUID. To return a specific File association for an Item, append the GUID of the association.
+      operationId: getItemFileAssociations
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemFileVoResultRep'
+    post:
+      tags:
+      - Item File
+      summary: Create file association for an item (including file content)
+      description: 'Creates a new File Association object and associates it with an item with a given GUID.
+
+
+        If you wish to create a File record with no uploaded content, construct a JSON request with a storageMethodName of PLACE_HOLDER, FTP, or WEB.
+
+        When the storageMethodName is FTP or WEB, the location attribute should be the web or ftp address where the file resides.
+
+
+        If you wish to create a File record and upload file content to the Arena servers, construct a request that is content type multipart/form-data and has a storageMethodName of FILE.
+
+        For File editions with storageMethodName FILE, the location attribute should be null.
+
+
+        NOTES:
+
+        1. Only Item files are supported for this endpoint. Files associated with sourced Supplier Items use /supplieritems/<GUID>/files.'
+      operationId: addItemFileAssociationWithMetadataAndContent
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SupplierFileCreateVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemFileVo'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/files/{itemFileAssociationGuid}/content:
+    get:
+      tags:
+      - Item File
+      summary: Download the file content of the specified file association
+      description: Returns file content belonging to a file with a given GUID, which is associated with an item with a given GUID.
+      operationId: downloadFileContentInItems
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: itemFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+    post:
+      tags:
+      - Item File
+      summary: Upload or update the file content of the specified file association
+      description: Updates file content for an existing File with a given GUID associated with an item with a given GUID.
+      operationId: uploadFileContent
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: itemFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FileCreateContent'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json: {}
+    servers:
+    - url: /v1
+  /items/{itemGuid}/files/json:
+    post:
+      tags:
+      - Item File
+      summary: Create file association for an item (JSON metadata, no uploaded content)
+      description: 'Creates a new File Association for the Item GUID using JSON metadata only.
+
+
+        Use this endpoint when creating a File record with a storageMethodName of PLACE_HOLDER, FTP, GOOGLE_DOCS, MICROSOFT_365 or WEB.
+
+        For FTP or WEB specify the location (URL). For PLACE_HOLDER omit location.
+
+
+        To upload file content (storageMethodName FILE) use the multipart endpoint: /items/{itemGuid}/files (multipart/form-data).
+
+
+        NOTES:
+
+        1. Only Item files are supported here. Supplier Item files use /supplieritems/{supplierItemGuid}/files.'
+      operationId: addFileAssociationWithJson
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/ItemFileJsonCreateVo'
+              - $ref: '#/components/schemas/ItemFileAssociationCreateVo'
+            examples:
+              WEB URL:
+                description: WEB URL
+                value:
+                  file:
+                    author:
+                      fullName: Jamie Moore
+                    category:
+                      guid: 7P9S6379K1KUDWCUEIJG
+                    description: Arena on the web
+                    edition: '1'
+                    format: url
+                    location: http://www.arenasolutions.com
+                    private: false
+                    storageMethodName: WEB
+                    title: Arena Web Site
+                  primary: true
+                  latestEditionAssociation: false
+              Existing File:
+                description: Existing File
+                value:
+                  latestEditionAssociation: true
+                  primary: false
+                  file:
+                    guid: XFZIWTXZARAQ9SZNK0GM
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemFileVo'
+    servers:
+    - url: /v1
+  /items/{itemGuid}/files/{itemFileAssociationGuid}/watermarkcontent:
+    get:
+      tags:
+      - Item File
+      summary: Download the watermark file content of the specified file association
+      description: Returns the watermarked file with watermark data associated with the specified item revision.
+      operationId: downloadItemWatermarkFileContent
+      parameters:
+      - name: itemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: itemFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json: {}
+    servers:
+    - url: /v1
+components:
+  schemas:
+    FileCreateContent:
+      type: object
+      description: File content for uploading a file
+      properties:
+        content:
+          type: string
+          format: binary
+          description: The uploaded file binary
+    ItemFileVo:
+      type: object
+      properties:
+        file:
+          $ref: '#/components/schemas/FileDetailFullVo'
+        guid:
+          type: string
+        latestEditionAssociation:
+          type: boolean
+        primary:
+          type: boolean
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    GoogleDocsVo:
+      type: object
+      properties:
+        authorEmail:
+          type: string
+        creationDate:
+          type: string
+        driveId:
+          type: string
+        fileId:
+          type: string
+        fileName:
+          type: string
+        lastEditors:
+          type: array
+          items:
+            type: string
+        modifiedDate:
+          type: string
+        originalAuthor:
+          type: string
+        size:
+          type: integer
+          format: int64
+        version:
+          type: string
+        webUrl:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    FileDetailFullVo:
+      type: object
+      description: File metadata information including smart link and watermarked smart link
+      properties:
+        author:
+          $ref: '#/components/schemas/FileAuthorVo'
+        category:
+          $ref: '#/components/schemas/FileCategoryVo'
+        checkedOut:
+          type: boolean
+        checkoutDateTime:
+          type: string
+        corrected:
+          type: boolean
+        creationDateTime:
+          type: string
+        description:
+          type: string
+        edition:
+          type: string
+        format:
+          type: string
+        guid:
+          type: string
+        hasMarkup:
+          type: boolean
+        haveContent:
+          type: boolean
+        lastModifiedDateTime:
+          type: string
+        latest:
+          type: boolean
+        location:
+          type: string
+        locked:
+          type: boolean
+        microsoft365:
+          $ref: '#/components/schemas/Microsoft365Vo'
+        googleDocs:
+          $ref: '#/components/schemas/GoogleDocsVo'
+        mimeType:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        size:
+          type: integer
+          format: int64
+        storageMethodName:
+          type: string
+        title:
+          type: string
+        smartLink:
+          type: string
+        watermarkedSmartLink:
+          type: string
+        private:
+          type: boolean
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    SupplierFileCreateVo:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+          description: The file to upload
+        file.author.fullName:
+          type: string
+          description: Author's full name
+          example: Joe Dore
+        file.category.guid:
+          type: string
+          description: Category GUID
+          example: 7P9S6379K1KUDWCUEIJG
+        file.edition:
+          type: string
+          description: Edition of the file
+          example: '1'
+        file.format:
+          type: string
+          description: File format
+          example: '1'
+        file.private:
+          type: boolean
+          description: Whether the file is private
+          example: true
+        file.storageMethodName:
+          type: string
+          description: Storage method name
+          example: FILE
+        file.title:
+          type: string
+          description: File title
+          example: Sample File
+        file.description:
+          type: string
+          description: File description
+          example: Sample file description
+        latestEditionAssociation:
+          type: boolean
+          description: Associate with latest edition
+          example: true
+        primary:
+          type: boolean
+          description: Whether this is the primary file
+          example: true
+    FileCreateVo:
+      type: object
+      properties:
+        author:
+          $ref: '#/components/schemas/FileAuthorVo'
+        category:
+          $ref: '#/components/schemas/SingleGuidVo'
+        description:
+          type: string
+        edition:
+          type: string
+        format:
+          type: string
+        storageMethodName:
+          type: string
+          enum:
+          - FTP
+          - WEB
+          - PLACE_HOLDER
+        title:
+          type: string
+        location:
+          type: string
+        private:
+          type: boolean
+    FileAuthorVo:
+      type: object
+      properties:
+        fullName:
+          type: string
+    ItemFileUpdateVo:
+      type: object
+      properties:
+        latestEditionAssociation:
+          type: boolean
+        primary:
+          type: boolean
+    ItemFileJsonCreateVo:
+      type: object
+      properties:
+        file:
+          $ref: '#/components/schemas/FileCreateVo'
+        primary:
+          type: boolean
+        latestEditionAssociation:
+          type: boolean
+    Microsoft365Vo:
+      type: object
+      properties:
+        authorEmail:
+          type: string
+        creationDate:
+          type: string
+        driveId:
+          type: string
+        fileId:
+          type: string
+        fileName:
+          type: string
+        lastEditors:
+          type: array
+          items:
+            type: string
+        modifiedDate:
+          type: string
+        originalAuthor:
+          type: string
+        siteId:
+          type: string
+        size:
+          type: integer
+          format: int64
+        version:
+          type: string
+        webUrl:
+          type: string
+    ItemFileVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemFileVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    FileCategoryVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    ItemFileAssociationCreateVo:
+      type: object
+      properties:
+        file:
+          $ref: '#/components/schemas/SingleGuidVo'
+        latestEditionAssociation:
+          type: boolean
+        primary:
+          type: boolean
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

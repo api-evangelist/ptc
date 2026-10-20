@@ -1,0 +1,458 @@
+openapi: 3.2.0
+info:
+  title: Ptc Recent Activities API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Recent Activities across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Recent Activities
+  description: Retrieve recent activity logs (User Access, Exports, File Access, Report Runs).
+paths:
+  /settings/recentactivities/useraccesses:
+    get:
+      tags:
+      - Recent Activities
+      summary: View recent user access activities
+      operationId: getRecentActivityUserAccesses
+      parameters:
+      - name: dateTimeFrom
+        in: query
+        schema:
+          type: string
+      - name: dateTimeTo
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAccessResultRep'
+    servers:
+    - url: /v1
+  /settings/recentactivities/reportruns:
+    get:
+      tags:
+      - Recent Activities
+      summary: View recent report run activities
+      operationId: getRecentActivityReportRuns
+      parameters:
+      - name: dateTimeFrom
+        in: query
+        schema:
+          type: string
+      - name: dateTimeTo
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportRunResultRep'
+    servers:
+    - url: /v1
+  /settings/recentactivities/fileaccesses:
+    get:
+      tags:
+      - Recent Activities
+      summary: View recent file access activities
+      operationId: getRecentActivityFileAccesses
+      parameters:
+      - name: dateTimeFrom
+        in: query
+        schema:
+          type: string
+      - name: dateTimeTo
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAccessFullResultRep'
+    servers:
+    - url: /v1
+  /settings/recentactivities/exports:
+    get:
+      tags:
+      - Recent Activities
+      summary: View recent export activities
+      operationId: getRecentActivityExports
+      parameters:
+      - name: dateTimeFrom
+        in: query
+        schema:
+          type: string
+      - name: dateTimeTo
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportResultRep'
+    servers:
+    - url: /v1
+  /settings/recentactivities/apiusages:
+    get:
+      tags:
+      - Recent Activities
+      summary: Get API Usage
+      operationId: getApiUsages
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepApiUseageVo'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    UserAccessVo:
+      type: object
+      properties:
+        loginDateTime:
+          type: string
+        logoutDateTime:
+          type: string
+        duration:
+          type: integer
+          format: int64
+        connectedThrough:
+          type: string
+        originatingIp:
+          type: string
+        domain:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserCompactVo'
+    FileAccessVo:
+      type: object
+      properties:
+        activity:
+          type: string
+        comments:
+          type: string
+        dateTime:
+          type: string
+        file:
+          $ref: '#/components/schemas/FileCompactVo'
+        user:
+          $ref: '#/components/schemas/UserCompactVo'
+    ExportVo:
+      type: object
+      properties:
+        configuration:
+          type: string
+        dateTime:
+          type: string
+        numberOfResources:
+          type: integer
+          format: int32
+        type:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserCompactVo'
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    ApiUseageVo:
+      type: object
+      properties:
+        date:
+          type: string
+        method:
+          type: string
+        resource:
+          type: string
+        endpoint:
+          type: string
+        count:
+          type: integer
+          format: int64
+        user:
+          $ref: '#/components/schemas/UserCompactVo'
+    MarkupCompactVo:
+      type: object
+      properties:
+        title:
+          type: string
+        name:
+          type: string
+        guid:
+          type: string
+    ExportResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExportVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    ReportCompactVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+        visibility:
+          type: string
+    QueryResultRepApiUseageVo:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiUseageVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ReportRunResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportRunVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    UserAccessResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserAccessVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    FileCompactVo:
+      type: object
+      properties:
+        edition:
+          type: string
+        guid:
+          type: string
+        markup:
+          $ref: '#/components/schemas/MarkupCompactVo'
+        name:
+          type: string
+        storageMethod:
+          type: integer
+          format: int32
+        storageMethodName:
+          type: string
+        title:
+          type: string
+    FileAccessFullResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileAccessVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ReportRunVo:
+      type: object
+      properties:
+        dateTime:
+          type: string
+        description:
+          type: string
+        numberOfObjects:
+          type: integer
+          format: int32
+        report:
+          $ref: '#/components/schemas/ReportCompactVo'
+        user:
+          $ref: '#/components/schemas/UserCompactVo'
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

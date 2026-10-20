@@ -1,0 +1,3270 @@
+openapi: 3.2.0
+info:
+  title: Ptc User Settings API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged User Settings across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: User Settings
+  description: Manage users (via GET Users).
+paths:
+  /settings/users/partners/{partnerGuid}:
+    get:
+      tags:
+      - User Settings
+      summary: Get details of a specific partner user
+      operationId: getPartner
+      parameters:
+      - name: partnerGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PartnerInfoVo'
+    put:
+      tags:
+      - User Settings
+      summary: Update license settings for a partner user
+      operationId: updatePartnerLicense
+      parameters:
+      - name: partnerGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceEmployeeUpdateVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/PartnerInfoVo'
+    delete:
+      tags:
+      - User Settings
+      summary: Remove a partner user from the workspace
+      operationId: removePartnerLicense
+      parameters:
+      - name: partnerGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+    servers:
+    - url: /v1
+  /settings/users/machines/{machineUserGuid}:
+    put:
+      tags:
+      - User Settings
+      summary: Update license settings for a machine user
+      operationId: updateMachineLicense
+      parameters:
+      - name: machineUserGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceEmployeeUpdateVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MachineUserAccessVo'
+    delete:
+      tags:
+      - User Settings
+      summary: Remove a machine user from the workspace
+      operationId: removeMachineUser
+      parameters:
+      - name: machineUserGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+    servers:
+    - url: /v1
+  /settings/users/employees/{employeeGuid}:
+    get:
+      tags:
+      - User Settings
+      summary: Get details of a specific workspace employee
+      description: Gets details on Employee Users in the workspace that the current API user is logged into.
+      operationId: getAccountEmployeeDeprecated
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/WorkspaceEmployeeAccessVo'
+    put:
+      tags:
+      - User Settings
+      summary: Update license settings for a workspace employee
+      operationId: updateLicence
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceEmployeeUpdateVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/WorkspaceEmployeeAccessVo'
+    delete:
+      tags:
+      - User Settings
+      summary: Remove an employee from the workspace
+      operationId: removeAccess
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /settings/accountusers/machines/{machineUserGuid}:
+    get:
+      tags:
+      - User Settings
+      summary: Get details of a specific machine user
+      operationId: getAccountMachineUser
+      parameters:
+      - name: machineUserGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountMachineUserVo'
+    put:
+      tags:
+      - User Settings
+      summary: Update the details of a machine user
+      description: 'Updates the metadata of a Machine User with a given GUID.
+
+
+        This endpoint does not support setting the password or token for Machine Users. POST sets the password automatically to a secure random string and does not set the token. Passwords can be set by the user manually in the UI.
+
+        This endpoint does not support the ForIntegrationUse attribute.'
+      operationId: updateAccountMachineUser
+      parameters:
+      - name: setnull
+        in: query
+        schema:
+          type: boolean
+      - name: machineUserGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountMachineUserUpdateVo'
+            example:
+              email: build-bot@example.com
+              enabled: true
+              name: build-bot
+              owner:
+                guid: L3N6KHLNYFVBUDR505J3
+              isAdministrator: false
+              applicationLanguage: English (United States)
+              loginConflictResolution: TERMINATE_EXISTING_SESSION
+              notes: Service account for CI/CD tasks.
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountMachineUserVo'
+    servers:
+    - url: /v1
+  /settings/accountusers/employees/{employeeGuid}:
+    get:
+      tags:
+      - User Settings
+      summary: Get detailed information about a specific employee
+      description: Users are managed in Arena at the account level. Users can then belong to 0 or more workspaces that are associated with the account.
+      operationId: getAccountEmployee
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountEmployeeVo'
+    put:
+      tags:
+      - User Settings
+      summary: Update the details of a specific employee
+      description: 'Updates the metadata of an Employee User with a given GUID.
+
+
+        Neither twoFactorAuthenticationConfigured nor securityQuestionConfigured can be set using the API.
+
+        If notifyUser is specified and the user has not reset their password, the following error is returned: notifyUser is not editable until the user resets their password.
+
+        This endpoint does not support the ForIntegrationUse attribute.
+
+        There is no response for temporaryPassword and notifyUser.'
+      operationId: updateAccountEmployee
+      parameters:
+      - name: setnull
+        in: query
+        schema:
+          type: boolean
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountEmployeeUpdateVo'
+            example:
+              email: jane.doe@example.com
+              enabled: true
+              firstName: Jane
+              lastName: Doe
+              department: Engineering
+              location: San Francisco
+              title: Senior Software Engineer
+              manager: john.manager@example.com
+              notes: Promoted in Q3.
+              phone: +1-415-555-0123
+              mobile: +1-415-555-0456
+              fax: +1-415-555-0789
+              address:
+                address1: 123 Market St
+                address2: Suite 400
+                city: San Francisco
+                state: CALIFORNIA
+                country: United States
+                province: null
+                postalCode: '94103'
+              isAdministrator: false
+              applicationLanguage: English (United States)
+              temporaryPassword: TempPass!234
+              notifyUser: true
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountEmployeeVo'
+    servers:
+    - url: /v1
+  /settings/users/partners/{employeeGuid}/usergroups:
+    get:
+      tags:
+      - User Settings
+      summary: List all user groups assigned to a partner
+      operationId: getPartnerUsergroups
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepUserGroupMemberVo'
+    post:
+      tags:
+      - User Settings
+      summary: Assign a user group to a partner
+      operationId: assignUsergroupForPartner
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignUserGroupVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserGroupMemberVo'
+    servers:
+    - url: /v1
+  /settings/users/partners/{employeeGuid}/accesspolicies:
+    get:
+      tags:
+      - User Settings
+      summary: List all access policies assigned to a partner
+      operationId: getAllPolicyRelationshipsForPartners
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepGrantedPolicyVo'
+    post:
+      tags:
+      - User Settings
+      summary: Assign an access policy to a partner
+      operationId: assignPolicyToPartners
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PolicyAssignRequestVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GrantedPolicyVo'
+    servers:
+    - url: /v1
+  /settings/users/machines:
+    get:
+      tags:
+      - User Settings
+      summary: List all machine users in the workspace
+      operationId: getWorkspaceMachineUsers
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepMachineUserAccessVo'
+    post:
+      tags:
+      - User Settings
+      summary: Assign a license to a machine user
+      operationId: grantAccessForMachine
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceEmployeeCreateVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MachineUserAccessVo'
+    servers:
+    - url: /v1
+  /settings/users/machines/{employeeGuid}/usergroups:
+    get:
+      tags:
+      - User Settings
+      summary: List all user groups assigned to a machine user
+      operationId: getMachineUsergroups
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepUserGroupMemberVo'
+    post:
+      tags:
+      - User Settings
+      summary: Assign a user group to a machine user
+      operationId: assignUsergroupForMachine
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignUserGroupVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserGroupMemberVo'
+    servers:
+    - url: /v1
+  /settings/users/machines/{employeeGuid}/accesspolicies:
+    get:
+      tags:
+      - User Settings
+      summary: List all access policies assigned to a machine user
+      operationId: getAllPolicyRelationshipsForMachine
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepGrantedPolicyVo'
+    post:
+      tags:
+      - User Settings
+      summary: Assign an access policy to a machine user
+      operationId: assignPolicyToMachine
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PolicyAssignRequestVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GrantedPolicyVo'
+    servers:
+    - url: /v1
+  /settings/users/employees:
+    get:
+      tags:
+      - User Settings
+      summary: Search for workspace employees using filters like name, email, or department
+      operationId: getAccountEmployeesDeprecated
+      parameters:
+      - name: email
+        in: query
+        schema:
+          type: string
+      - name: firstName
+        in: query
+        schema:
+          type: string
+      - name: lastName
+        in: query
+        schema:
+          type: string
+      - name: department
+        in: query
+        schema:
+          type: string
+      - name: location
+        in: query
+        schema:
+          type: string
+      - name: title
+        in: query
+        schema:
+          type: string
+      - name: manager
+        in: query
+        schema:
+          type: string
+      - name: notes
+        in: query
+        schema:
+          type: string
+      - name: address.city
+        in: query
+        schema:
+          type: string
+      - name: address.state
+        in: query
+        schema:
+          type: string
+      - name: address.province
+        in: query
+        schema:
+          type: string
+      - name: address.country
+        in: query
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepWorkspaceEmployeeAccessVo'
+    post:
+      tags:
+      - User Settings
+      summary: Add an employee to the workspace
+      description: 'Adds an existing Employee User to the workspace that the API user is currently logged into.
+
+
+        accountUser.guid or accountUser.email is required. If both are included, they must match the same account.'
+      operationId: createAccountEmployee
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceEmployeeCreateVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/WorkspaceEmployeeAccessVo'
+    servers:
+    - url: /v1
+  /settings/users/employees/{employeeGuid}/usergroups:
+    get:
+      tags:
+      - User Settings
+      summary: List all user groups assigned to an employee
+      operationId: getEmployeeUsergroups
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepUserGroupMemberVo'
+    post:
+      tags:
+      - User Settings
+      summary: Assign a user group to an employee
+      operationId: assignUsergroup
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignUserGroupVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserGroupMemberVo'
+    servers:
+    - url: /v1
+  /settings/users/employees/{employeeGuid}/accesspolicies:
+    get:
+      tags:
+      - User Settings
+      summary: List all access policies assigned to an employee
+      operationId: getAllPolicyRelationships
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepGrantedPolicyVo'
+    post:
+      tags:
+      - User Settings
+      summary: Assign an access policy to an employee
+      operationId: assignPolicyToUser
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PolicyAssignRequestVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GrantedPolicyVo'
+    servers:
+    - url: /v1
+  /settings/accountusers/machines:
+    get:
+      tags:
+      - User Settings
+      summary: Retrieve a list of all machine users
+      description: The GET Machine Users endpoint returns all Machine Users in the account that the API user is logged into.
+      operationId: getAccountMachineUsers
+      parameters:
+      - name: email
+        in: query
+        schema:
+          type: string
+      - name: name
+        in: query
+        schema:
+          type: string
+      - name: notes
+        in: query
+        schema:
+          type: string
+      - name: enabled
+        in: query
+        schema:
+          type: boolean
+      - name: owner.email
+        in: query
+        schema:
+          type: string
+      - name: owner.guid
+        in: query
+        schema:
+          type: string
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountMachineUserResultRep'
+    post:
+      tags:
+      - User Settings
+      summary: Add a new machine user
+      description: 'The POST Employee Users endpoint creates a Machine User for the account associated with the Arena session''s workspace. It excludes integration & machine users.
+
+
+        This endpoint does not support setting the password or token for Machine Users. POST sets the password automatically to a secure random string and does not set the token. Passwords can be set by the user manually in the UI.
+
+        This endpoint does not support the ForIntegrationUse attribute.'
+      operationId: createAccountMachineUser
+      requestBody:
+        description: Account Machine User Create Object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountMachineUserCreateVo'
+            example:
+              email: user@example.com
+              enabled: true
+              name: John Doe
+              owner:
+                userId: '12345'
+                username: johndoe
+              isAdministrator: true
+              applicationLanguage: English (United States)
+              loginConflictResolution: TERMINATE_EXISTING_SESSION
+              notes: This is a sample machine user.
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountMachineUserVo'
+    servers:
+    - url: /v1
+  /settings/accountusers/employees:
+    get:
+      tags:
+      - User Settings
+      summary: Retrieve a list of all employees in the account
+      description: 'Users are managed in Arena at the account level. Users can then belong to 0 or more workspaces that are associated with the account.
+
+
+        The GET Employee Users endpoint returns an array of Employee Users for the account associated with the Arena session''s workspace. It excludes integration & machine users.'
+      operationId: getAccountEmployees
+      parameters:
+      - name: email
+        in: query
+        schema:
+          type: string
+      - name: firstName
+        in: query
+        schema:
+          type: string
+      - name: lastName
+        in: query
+        schema:
+          type: string
+      - name: department
+        in: query
+        schema:
+          type: string
+      - name: location
+        in: query
+        schema:
+          type: string
+      - name: title
+        in: query
+        schema:
+          type: string
+      - name: manager
+        in: query
+        schema:
+          type: string
+      - name: notes
+        in: query
+        schema:
+          type: string
+      - name: address.city
+        in: query
+        schema:
+          type: string
+      - name: address.state
+        in: query
+        schema:
+          type: string
+      - name: address.province
+        in: query
+        schema:
+          type: string
+      - name: address.country
+        in: query
+        schema:
+          type: string
+      - name: enabled
+        in: query
+        schema:
+          type: boolean
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountUserResultRep'
+    post:
+      tags:
+      - User Settings
+      summary: Add a new employee to the account
+      description: 'Users are managed in Arena at the account level. Users can then belong to 0 or more workspaces that are associated with the account.
+
+
+        The POST Employee Users endpoint creates an Employee User for the account associated with the Arena session''s workspace. It excludes integration & machine users.
+
+
+        Neither Two Factor Authentication (twoFactorAuthenticationConfigured) nor Security Questions (securityQuestionConfigured) can be set using this endpoint.
+
+        This endpoint does not support the ForIntegrationUse attribute.
+
+        There is no response for temporaryPassword and notifyUser.'
+      operationId: createAccountEmployeeProfile
+      requestBody:
+        description: Account Employee Create Object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountEmployeeCreateVo'
+            example:
+              email: john.doe@example.com
+              enabled: true
+              firstName: John
+              lastName: Doe
+              department: Engineering
+              location: HQ
+              title: Software Engineer
+              manager: Jane Smith
+              notes: New employee
+              phone: 123-456-7890
+              mobile: 987-654-3210
+              fax: 123-456-7899
+              address:
+                label: Home
+                address1: 123 Main St
+                address2: Apt 4B
+                city: San Jose
+                state: CALIFORNIA
+                province: ''
+                postalCode: '95131'
+                country: United States
+              isAdministrator: false
+              applicationLanguage: English (United States)
+              temporaryPassword: Temp@123
+              notifyUser: true
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountEmployeeVo'
+    servers:
+    - url: /v1
+  /settings/users:
+    get:
+      tags:
+      - User Settings
+      summary: List all users in the current workspace
+      description: Returns an array of Users matching the given search criteria.
+      operationId: getSettings
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFullVoResultRep'
+    servers:
+    - url: /v1
+  /settings/users/{userGuid}:
+    get:
+      tags:
+      - User Settings
+      summary: Get details of a specific workspace user
+      description: Appending a GUID to the URL returns the user with that GUID
+      operationId: getUserByGuid
+      parameters:
+      - name: userGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserFullVo'
+    servers:
+    - url: /v1
+  /settings/users/personalsettings:
+    get:
+      tags:
+      - User Settings
+      summary: Retrieve the current user's personal settings
+      description: Returns the logged in API user’s preferences for Time Zone, Language, Date Format, Time Format, and Number Format.
+      operationId: getUserPersonalSetting
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserPreferencesVo'
+    servers:
+    - url: /v1
+  /settings/users/partners:
+    get:
+      tags:
+      - User Settings
+      summary: List all partner users
+      operationId: getAllPartners
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepPartnerInfoVo'
+    servers:
+    - url: /v1
+  /settings/users/partners/{employeeGuid}/usergroups/{userGroupRelationGuid}:
+    get:
+      tags:
+      - User Settings
+      summary: Get details of a specific user group assigned to a partner
+      operationId: getPartnerUsergroup
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: userGroupRelationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserGroupMemberVo'
+    delete:
+      tags:
+      - User Settings
+      summary: Remove a user group from a partner
+      operationId: deleteUserGroupRelationForPartner
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: userGroupRelationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+    servers:
+    - url: /v1
+  /settings/users/partners/{employeeGuid}/accesspolicies/{relationshipGuid}:
+    get:
+      tags:
+      - User Settings
+      summary: Get details of a specific access policy assigned to a partner
+      operationId: getPolicyRelationshipForPartner
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: relationshipGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GrantedPolicyVo'
+    delete:
+      tags:
+      - User Settings
+      summary: Remove an access policy from a partner
+      operationId: deAssignPolicyFromPartner
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: relationshipGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+    servers:
+    - url: /v1
+  /settings/users/machines/{employeeGuid}:
+    get:
+      tags:
+      - User Settings
+      summary: Get details of a specific machine user
+      operationId: getWorkspaceMachineUser
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MachineUserAccessVo'
+    servers:
+    - url: /v1
+  /settings/users/machines/{employeeGuid}/usergroups/{userGroupRelationGuid}:
+    get:
+      tags:
+      - User Settings
+      summary: Get details of a specific user group assigned to a machine user
+      operationId: getMachineUsergroup
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: userGroupRelationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserGroupMemberVo'
+    delete:
+      tags:
+      - User Settings
+      summary: Remove a user group from a machine user
+      operationId: deleteUserGroupRelationForMachine
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: userGroupRelationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+    servers:
+    - url: /v1
+  /settings/users/machines/{employeeGuid}/accesspolicies/{relationshipGuid}:
+    get:
+      tags:
+      - User Settings
+      summary: Get details of a specific access policy assigned to a machine user
+      operationId: getPolicyRelationshipForMachine
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: relationshipGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GrantedPolicyVo'
+    delete:
+      tags:
+      - User Settings
+      summary: Remove an access policy from a machine user
+      operationId: deAssignPolicyFromMachine
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: relationshipGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+    servers:
+    - url: /v1
+  /settings/users/employees/{employeeGuid}/usergroups/{userGroupRelationGuid}:
+    get:
+      tags:
+      - User Settings
+      summary: Get details of a specific user group assigned to an employee
+      operationId: getEmployeeUsergroup
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: userGroupRelationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserGroupMemberVo'
+    delete:
+      tags:
+      - User Settings
+      summary: Remove a user group from an employee
+      operationId: deleteUserGroupRelation
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: userGroupRelationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+    servers:
+    - url: /v1
+  /settings/users/employees/{employeeGuid}/accesspolicies/{relationshipGuid}:
+    get:
+      tags:
+      - User Settings
+      summary: Get details of a specific access policy assigned to an employee
+      operationId: getPolicyRelationship
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: relationshipGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/GrantedPolicyVo'
+    delete:
+      tags:
+      - User Settings
+      summary: Remove an access policy from an employee
+      operationId: deAssignPolicyFromUser
+      parameters:
+      - name: employeeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: relationshipGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+    servers:
+    - url: /v1
+  /settings/users/basicsuppliers:
+    get:
+      tags:
+      - User Settings
+      summary: List all basic suppliers
+      operationId: getBasicSuppliers
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepSupplierInfoVo'
+    servers:
+    - url: /v1
+  /settings/users/basicsuppliers/{basicSupplierGuid}:
+    get:
+      tags:
+      - User Settings
+      summary: Get details of a specific basic supplier
+      operationId: getBasicSupplierByGuid
+      parameters:
+      - name: basicSupplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SupplierInfoVo'
+    servers:
+    - url: /v1
+  /settings/users/advancedsuppliers:
+    get:
+      tags:
+      - User Settings
+      summary: List all advanced suppliers
+      operationId: getAdvancedSuppliers
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepSupplierInfoVo'
+    servers:
+    - url: /v1
+  /settings/users/advancedsuppliers/{advancedSupplierGuid}:
+    get:
+      tags:
+      - User Settings
+      summary: Get details of a specific advanced supplier
+      operationId: getAdvancedSupplierByGuid
+      parameters:
+      - name: advancedSupplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SupplierInfoVo'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    MachineUserAccessVo:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        guid:
+          type: string
+        license:
+          $ref: '#/components/schemas/LicenseVo'
+        accountUser:
+          $ref: '#/components/schemas/AccountUserForMachineUserVo'
+    PolicyAssignRequestVo:
+      type: object
+      properties:
+        accessPolicy:
+          $ref: '#/components/schemas/AccessPolicy'
+    PolicyResponseVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+    QueryResultRepGrantedPolicyVo:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GrantedPolicyVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    AccountUserForMachineUserVo:
+      type: object
+      properties:
+        email:
+          type: string
+        enabled:
+          type: boolean
+        name:
+          type: string
+        guid:
+          type: string
+        account:
+          $ref: '#/components/schemas/AccountVo'
+    PartnerInfoVo:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        guid:
+          type: string
+        license:
+          $ref: '#/components/schemas/LicenseVo'
+        accountUser:
+          $ref: '#/components/schemas/AccountUserCompactVo'
+        status:
+          type: string
+          enum:
+          - ACCEPTED
+          - PENDING
+          - REJECTED
+    GrantedPolicyVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        accessPolicy:
+          $ref: '#/components/schemas/PolicyResponseVo'
+    LicenseVo:
+      type: object
+      properties:
+        name:
+          type: string
+          enum:
+          - FULL
+          - READ_ONLY
+          - APPROVER
+          - ADAPTER
+          - ADDON_PRODUCT_ONLY
+        training:
+          type: boolean
+        analytics:
+          type: string
+          enum:
+          - VIEWER
+          - EDITOR
+          - OTHER
+          - DISABLED
+    AddressVo:
+      type: object
+      properties:
+        label:
+          type: string
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+          enum:
+          - ALASKA
+          - AK
+          - ALABAMA
+          - AL
+          - ARKANSAS
+          - AR
+          - ARIZONA
+          - AZ
+          - CALIFORNIA
+          - CA
+          - COLORADO
+          - CO
+          - CONNECTICUT
+          - CT
+          - DISTRICT OF COLUMBIA
+          - DC
+          - DELAWARE
+          - DE
+          - FLORIDA
+          - FL
+          - GEORGIA
+          - GA
+          - HAWAII
+          - HI
+          - IOWA
+          - IA
+          - IDAHO
+          - ID
+          - ILLINOIS
+          - IL
+          - INDIANA
+          - IN
+          - KANSAS
+          - KS
+          - KENTUCKY
+          - KY
+          - LOUISIANA
+          - LA
+          - MASSACHUSETTS
+          - MA
+          - MARYLAND
+          - MD
+          - MAINE
+          - ME
+          - MICHIGAN
+          - MI
+          - MINNESOTA
+          - MN
+          - MISSOURI
+          - MO
+          - MISSISSIPPI
+          - MS
+          - MONTANA
+          - MT
+          - NORTH CAROLINA
+          - NC
+          - NORTH DAKOTA
+          - ND
+          - NEBRASKA
+          - NE
+          - NEW HAMPSHIRE
+          - NH
+          - NEW JERSEY
+          - NJ
+          - NEW MEXICO
+          - NM
+          - NEVADA
+          - NV
+          - NEW YORK
+          - NY
+          - OHIO
+          - OH
+          - OKLAHOMA
+          - OK
+          - OREGON
+          - OR
+          - PENNSYLVANIA
+          - PA
+          - RHODE ISLAND
+          - RI
+          - SOUTH CAROLINA
+          - SC
+          - SOUTH DAKOTA
+          - SD
+          - TENNESSEE
+          - TN
+          - TEXAS
+          - TX
+          - UTAH
+          - UT
+          - VIRGINIA
+          - VA
+          - VERMONT
+          - VT
+          - WASHINGTON
+          - WA
+          - WISCONSIN
+          - WI
+          - WEST VIRGINIA
+          - WV
+          - WYOMING
+          - WY
+        province:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+          enum:
+          - af
+          - Afghanistan
+          - ax
+          - Aland Islands
+          - al
+          - Albania
+          - dz
+          - Algeria
+          - as
+          - American Samoa
+          - ad
+          - Andorra
+          - ao
+          - Angola
+          - ai
+          - Anguilla
+          - aq
+          - Antarctica
+          - ag
+          - Antigua and Barbuda
+          - ar
+          - Argentina
+          - am
+          - Armenia
+          - aw
+          - Aruba
+          - au
+          - Australia
+          - at
+          - Austria
+          - az
+          - Azerbaijan
+          - bs
+          - Bahamas
+          - bh
+          - Bahrain
+          - bd
+          - Bangladesh
+          - bb
+          - Barbados
+          - by
+          - Belarus
+          - be
+          - Belgium
+          - bz
+          - Belize
+          - bj
+          - Benin
+          - bm
+          - Bermuda
+          - bt
+          - Bhutan
+          - bo
+          - Bolivia
+          - ba
+          - Bosnia and Herzegovina
+          - bw
+          - Botswana
+          - bv
+          - Bouvet Island
+          - br
+          - Brazil
+          - io
+          - British Indian Ocean Territory
+          - bn
+          - Brunei Darussalam
+          - bg
+          - Bulgaria
+          - bf
+          - Burkina Faso
+          - bi
+          - Burundi
+          - kh
+          - Cambodia
+          - cm
+          - Cameroon
+          - ca
+          - Canada
+          - cv
+          - Cape Verde
+          - ky
+          - Cayman Islands
+          - cf
+          - Central African Republic
+          - td
+          - Chad
+          - cl
+          - Chile
+          - cn
+          - China
+          - cx
+          - Christmas Island
+          - cc
+          - Cocos (Keeling) Islands
+          - co
+          - Colombia
+          - km
+          - Comoros
+          - cg
+          - Congo
+          - cd
+          - Congo, the Democratic Republic of the
+          - ck
+          - Cook Islands
+          - cr
+          - Costa Rica
+          - hr
+          - Croatia
+          - cu
+          - Cuba
+          - cy
+          - Cyprus
+          - cz
+          - Czech Republic
+          - dk
+          - Denmark
+          - dj
+          - Djibouti
+          - dm
+          - Dominica
+          - do
+          - Dominican Republic
+          - tp
+          - East Timor
+          - ec
+          - Ecuador
+          - eg
+          - Egypt
+          - sv
+          - El Salvador
+          - gq
+          - Equatorial Guinea
+          - er
+          - Eritrea
+          - ee
+          - Estonia
+          - et
+          - Ethiopia
+          - fk
+          - Falkland Islands (Malvinas
+          - fo
+          - Faroe Islands
+          - fj
+          - Fiji
+          - fi
+          - Finland
+          - fr
+          - France
+          - fx
+          - France, Metropolitan
+          - gf
+          - French Guiana
+          - pf
+          - French Polynesia
+          - tf
+          - French Southern Territories
+          - ga
+          - Gabon
+          - gm
+          - Gambia
+          - ge
+          - Georgia
+          - de
+          - Germany
+          - gh
+          - Ghana
+          - gi
+          - Gibraltar
+          - gb
+          - Great Britain (UK)
+          - gr
+          - Greece
+          - gl
+          - Greenland
+          - gd
+          - Grenada
+          - gp
+          - Guadeloupe
+          - gu
+          - Guam
+          - gt
+          - Guatemala
+          - gg
+          - Guernsey
+          - gn
+          - Guinea
+          - gw
+          - Guinea-Bissau
+          - gy
+          - Guyana
+          - ht
+          - Haiti
+          - hm
+          - Heard and McDonald Islands
+          - hn
+          - Honduras
+          - hk
+          - Hong Kong
+          - hu
+          - Hungary
+          - is
+          - Iceland
+          - in
+          - India
+          - id
+          - Indonesia
+          - ir
+          - Iran
+          - iq
+          - Iraq
+          - ie
+          - Ireland
+          - im
+          - Isle of Man
+          - il
+          - Israel
+          - it
+          - Italy
+          - ci
+          - Ivory Coast
+          - jm
+          - Jamaica
+          - jp
+          - Japan
+          - je
+          - Jersey
+          - jo
+          - Jordan
+          - kz
+          - Kazakhstan
+          - ke
+          - Kenya
+          - ki
+          - Kiribati
+          - XK
+          - Kosovo
+          - kw
+          - Kuwait
+          - kg
+          - Kyrgyzstan
+          - la
+          - Laos
+          - lv
+          - Latvia
+          - lb
+          - Lebanon
+          - ls
+          - Lesotho
+          - lr
+          - Liberia
+          - ly
+          - Libya
+          - li
+          - Liechtenstein
+          - lt
+          - Lithuania
+          - lu
+          - Luxembourg
+          - mo
+          - Macau
+          - mg
+          - Madagascar
+          - mw
+          - Malawi
+          - my
+          - Malaysia
+          - mv
+          - Maldives
+          - ml
+          - Mali
+          - mt
+          - Malta
+          - mh
+          - Marshall Islands
+          - mq
+          - Martinique
+          - mr
+          - Mauritania
+          - mu
+          - Mauritius
+          - yt
+          - Mayotte
+          - mx
+          - Mexico
+          - fm
+          - Micronesia
+          - md
+          - Moldova
+          - mc
+          - Monaco
+          - mn
+          - Mongolia
+          - me
+          - Montenegro
+          - ms
+          - Montserrat
+          - ma
+          - Morocco
+          - mz
+          - Mozambique
+          - mm
+          - Myanmar
+          - na
+          - Namibia
+          - nr
+          - Nauru
+          - np
+          - Nepal
+          - nl
+          - Netherlands
+          - an
+          - Netherlands Antilles
+          - nt
+          - Neutral Zone
+          - nc
+          - New Caledonia
+          - nz
+          - New Zealand
+          - ni
+          - Nicaragua
+          - ne
+          - Niger
+          - ng
+          - Nigeria
+          - nu
+          - Niue
+          - nf
+          - Norfolk Island
+          - kp
+          - North Korea
+          - mk
+          - North Macedonia
+          - mp
+          - Northern Mariana Islands
+          - 'no'
+          - Norway
+          - om
+          - Oman
+          - pk
+          - Pakistan
+          - pw
+          - Palau
+          - ps
+          - Palestine
+          - pa
+          - Panama
+          - pg
+          - Papua New Guinea
+          - py
+          - Paraguay
+          - pe
+          - Peru
+          - ph
+          - Philippines
+          - pn
+          - Pitcairn
+          - pl
+          - Poland
+          - pt
+          - Portugal
+          - pr
+          - Puerto Rico
+          - qa
+          - Qatar
+          - re
+          - Reunion
+          - ro
+          - Romania
+          - su
+          - Russia
+          - ru
+          - Russian Federation
+          - rw
+          - Rwanda
+          - gs
+          - S. Georgia and S. Sandwich Isls.
+          - bl
+          - Saint Barthélemy
+          - kn
+          - Saint Kitts and Nevis
+          - lc
+          - Saint Lucia
+          - mf
+          - Saint Martin (French part)
+          - vc
+          - Saint Vincent and the Grenadines
+          - ws
+          - Samoa
+          - sm
+          - San Marino
+          - st
+          - Sao Tome and Principe
+          - sa
+          - Saudi Arabia
+          - sn
+          - Senegal
+          - rs
+          - Serbia
+          - sc
+          - Seychelles
+          - sl
+          - Sierra Leone
+          - sg
+          - Singapore
+          - sk
+          - Slovakia
+          - si
+          - Slovenia
+          - sb
+          - Solomon Islands
+          - so
+          - Somalia
+          - za
+          - South Africa
+          - kr
+          - South Korea
+          - es
+          - Spain
+          - lk
+          - Sri Lanka
+          - sh
+          - St. Helena
+          - pm
+          - St. Pierre and Miquelon
+          - sd
+          - Sudan
+          - sr
+          - Suriname
+          - sj
+          - Svalbard and Jan Mayen Islands
+          - sz
+          - Swaziland
+          - se
+          - Sweden
+          - ch
+          - Switzerland
+          - sy
+          - Syria
+          - tw
+          - Taiwan
+          - tj
+          - Tajikistan
+          - tz
+          - Tanzania
+          - th
+          - Thailand
+          - tl
+          - Timor-Leste
+          - tg
+          - Togo
+          - tk
+          - Tokelau
+          - to
+          - Tonga
+          - tt
+          - Trinidad and Tobago
+          - tn
+          - Tunisia
+          - tr
+          - Turkey
+          - tm
+          - Turkmenistan
+          - tc
+          - Turks and Caicos Islands
+          - tv
+          - Tuvalu
+          - um
+          - US Minor Outlying Islands
+          - ug
+          - Uganda
+          - ua
+          - Ukraine
+          - ae
+          - United Arab Emirates
+          - uk
+          - United Kingdom
+          - us
+          - United States
+          - uy
+          - Uruguay
+          - uz
+          - Uzbekistan
+          - vu
+          - Vanuatu
+          - va
+          - Vatican City State (Holy See)
+          - ve
+          - Venezuela
+          - vn
+          - Vietnam
+          - vg
+          - Virgin Islands (British)
+          - vi
+          - Virgin Islands (U.S.)
+          - wf
+          - Wallis and Futuna Islands
+          - eh
+          - Western Sahara
+          - ye
+          - Yemen
+          - zr
+          - Zaire
+          - zm
+          - Zambia
+          - zw
+          - Zimbabwe
+        guid:
+          type: string
+    WorkspaceEmployeeAccessVo:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        guid:
+          type: string
+        license:
+          $ref: '#/components/schemas/LicenseVo'
+        accountUser:
+          $ref: '#/components/schemas/AccountUserCompactVo'
+    UserPreferencesVo:
+      type: object
+      properties:
+        timezoneId:
+          type: string
+        appLanguage:
+          type: string
+        dateFormat:
+          type: string
+        timeFormat:
+          type: string
+        numberFormat:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserFullVo'
+    SupplierRoleVo:
+      type: object
+      properties:
+        name:
+          type: string
+        training:
+          type: boolean
+    WorkspaceEmployeeUpdateVo:
+      type: object
+      properties:
+        license:
+          $ref: '#/components/schemas/LicenseVo'
+    QueryResultRepSupplierInfoVo:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupplierInfoVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    AccountUserMinimalRequestVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    AccountVo:
+      type: object
+      properties:
+        name:
+          type: string
+    UserGroupMinimalRequestVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    QueryResultRepUserGroupMemberVo:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserGroupMemberVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    AccountUserResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountEmployeeVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    AccountMachineUserResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccountMachineUserVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    QueryResultRepPartnerInfoVo:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PartnerInfoVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    AccountMachineUserUpdateVo:
+      type: object
+      properties:
+        email:
+          type: string
+        enabled:
+          type: boolean
+        name:
+          type: string
+        owner:
+          $ref: '#/components/schemas/AccountUserMinimalRequestVo'
+        applicationLanguage:
+          type: string
+        loginConflictResolution:
+          type: string
+          enum:
+          - PREVENT_NEW_LOGINS
+          - TERMINATE_EXISTING_SESSION
+        notes:
+          type: string
+        isAdministrator:
+          type: boolean
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    AccountEmployeeVo:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/AccountVo'
+        address:
+          $ref: '#/components/schemas/AddressVo'
+        applicationLanguage:
+          type: string
+        createdOn:
+          type: string
+        department:
+          type: string
+        email:
+          type: string
+        enabled:
+          type: boolean
+        fax:
+          type: string
+        firstName:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+        isAdministrator:
+          type: boolean
+        lastName:
+          type: string
+        location:
+          type: string
+        loggedIn:
+          type: boolean
+        manager:
+          type: string
+        mobile:
+          type: string
+        notes:
+          type: string
+        numberOfLogins:
+          type: integer
+          format: int64
+        numberOfWorkspaces:
+          type: integer
+          format: int64
+        phone:
+          type: string
+        securityQuestionConfigured:
+          type: string
+          enum:
+          - ENABLED
+          - NOT_CONFIGURED
+          - DISABLED
+        title:
+          type: string
+        twoFactorAuthenticationConfigured:
+          type: string
+          enum:
+          - NOT_SETUP
+          - DISABLED
+          - TEXT
+          - EMAIL
+          - PHONE
+          - SSO
+    WorkspaceEmployeeCreateVo:
+      type: object
+      properties:
+        accountUser:
+          $ref: '#/components/schemas/UserCompactRequestVo'
+        license:
+          $ref: '#/components/schemas/LicenseVo'
+    UserFullVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        fullName:
+          type: string
+        email:
+          type: string
+        type:
+          type: string
+        enabled:
+          type: boolean
+    QueryResultRepWorkspaceEmployeeAccessVo:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceEmployeeAccessVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    AccountMachineUserCreateVo:
+      type: object
+      properties:
+        email:
+          type: string
+        enabled:
+          type: boolean
+        name:
+          type: string
+        owner:
+          $ref: '#/components/schemas/AccountUserMinimalRequestVo'
+        applicationLanguage:
+          type: string
+        loginConflictResolution:
+          type: string
+          enum:
+          - PREVENT_NEW_LOGINS
+          - TERMINATE_EXISTING_SESSION
+        notes:
+          type: string
+        isAdministrator:
+          type: boolean
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    UserGroupCompactVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        enabled:
+          type: boolean
+    AccountMachineUserVo:
+      type: object
+      properties:
+        account:
+          $ref: '#/components/schemas/AccountVo'
+        applicationLanguage:
+          type: string
+        createdOn:
+          type: string
+        email:
+          type: string
+        enabled:
+          type: boolean
+        guid:
+          type: string
+        isAdministrator:
+          type: boolean
+        loggedIn:
+          type: boolean
+        loginConflictResolution:
+          type: string
+        name:
+          type: string
+        notes:
+          type: string
+        numberOfLogins:
+          type: integer
+          format: int64
+        numberOfWorkspaces:
+          type: integer
+          format: int64
+        owner:
+          $ref: '#/components/schemas/UserCompactVo'
+    UserCompactRequestVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        email:
+          type: string
+    AssignUserGroupVo:
+      type: object
+      properties:
+        userGroup:
+          $ref: '#/components/schemas/UserGroupMinimalRequestVo'
+    AccountEmployeeUpdateVo:
+      type: object
+      properties:
+        email:
+          type: string
+        enabled:
+          type: boolean
+        firstName:
+          type: string
+        lastName:
+          type: string
+        department:
+          type: string
+        location:
+          type: string
+        title:
+          type: string
+        manager:
+          type: string
+        notes:
+          type: string
+        phone:
+          type: string
+        mobile:
+          type: string
+        fax:
+          type: string
+        address:
+          $ref: '#/components/schemas/AddressVo'
+        applicationLanguage:
+          type: string
+        temporaryPassword:
+          type: string
+        notifyUser:
+          type: boolean
+        isAdministrator:
+          type: boolean
+    AccessPolicy:
+      type: object
+      properties:
+        guid:
+          type: string
+    AccountEmployeeCreateVo:
+      type: object
+      properties:
+        email:
+          type: string
+        enabled:
+          type: boolean
+        firstName:
+          type: string
+        lastName:
+          type: string
+        department:
+          type: string
+        location:
+          type: string
+        title:
+          type: string
+        manager:
+          type: string
+        notes:
+          type: string
+        phone:
+          type: string
+        mobile:
+          type: string
+        fax:
+          type: string
+        address:
+          $ref: '#/components/schemas/AddressVo'
+        applicationLanguage:
+          type: string
+          enum:
+          - Chinese (China) - 中文 (中国)
+          - German - Deutsch
+          - French - Français
+          - English (United States)
+        temporaryPassword:
+          type: string
+        notifyUser:
+          type: boolean
+        isAdministrator:
+          type: boolean
+    UserGroupMemberVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        userGroup:
+          $ref: '#/components/schemas/UserGroupCompactVo'
+    AccountUserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        enabled:
+          type: boolean
+        firstName:
+          type: string
+        lastName:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+        account:
+          $ref: '#/components/schemas/AccountVo'
+    SupplierInfoVo:
+      type: object
+      properties:
+        email:
+          type: string
+        enabled:
+          type: boolean
+        firstName:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+        lastName:
+          type: string
+        status:
+          type: string
+        role:
+          $ref: '#/components/schemas/SupplierRoleVo'
+    QueryResultRepMachineUserAccessVo:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MachineUserAccessVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    UserFullVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserFullVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

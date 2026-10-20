@@ -1,0 +1,91 @@
+name: PTC Arena REST API changelog
+generated: '2026-10-20'
+method: searched
+source: https://ptc-arena.github.io/arena-dev-help/changelog/
+api: Arena PLM REST API
+scheme: dated releases (Arena release numbers e.g. 2026.2)
+current_version: '2026.2'
+entries:
+- version: null
+  date: '2026-10-05'
+  breaking: false
+  highlights:
+  - 'Setting Values to Null: A new setting-values-to-null.md article shows how to
+    clear supported attributes with PUT requests by adding ?setnull=true to the endpoint
+    URL, a capability released in Release'
+- version: '2026.2'
+  date: '2026-08-02'
+  breaking: false
+  highlights:
+  - 'Requirements Support Added to the REST API: The API now supports the Requirements
+    world with the following endpoints: Resource (View) View/Location GET POST PUT
+    DELETE Requirements Summary ✔ ✔ ✔ ✔ Tra'
+- version: '2026.1'
+  date: '2026-04-06'
+  breaking: false
+  highlights:
+  - 'Workflow Comments: POST /status/changes now returns an error if a required workflow
+    comment is required. Request Rich Text Attributes: POST /requests now supports
+    creating Requests with Rich Text attr'
+- version: '2025.4'
+  date: '2025-12-06'
+  breaking: false
+  highlights:
+  - 'Quality Management Attributes: New attributes were added to support Quality Workflow
+    Controls. Quality Processes now include sequence_Mode and targetDateComment ;
+    Quality Steps include firstOpened and'
+- version: '2025.3'
+  date: '2025-09-14'
+  breaking: false
+  highlights:
+  - 'Category Search Filtering: A new includeChildCategories query parameter was added
+    to endpoints for items, changes, requests, and files. Setting this to false returns
+    resources assigned only to the spe'
+- version: null
+  date: '2025-07-27'
+  breaking: false
+  highlights:
+  - DataExtract endpoints updated to specify that the API user must be the DataExtract
+    owner in order to access the file. July 12, 2025
+- version: '2025.2'
+  date: '2025-06-22'
+  breaking: false
+  highlights:
+  - 'In conjunction with the Arena 2025.2 release: - The response to the endpoint
+    GET Change Category Attributes now includes Change routing configuration. - The
+    API now supports the ability for non-creato'
+- version: null
+  date: '2025-04-21'
+  breaking: false
+  highlights:
+  - We've added two previously undocumented Items History and Changes History endpoints.
+    March 14, 2025
+- version: null
+  date: '2024-12-07'
+  breaking: false
+  highlights:
+  - 'GET Changes : The general search for changes can now use Any as a searchable
+    attribute. Any is equivalent to Arena''s ''Any Search'' used within the user interface.
+    A new GET /settings/users/personal set'
+- version: null
+  date: '2024-09-08'
+  breaking: false
+  highlights:
+  - Arena API users can now retrieve all the attributes associated with a Quality
+    Template through a new GET Quality Process Template Attributes endpoint. The new
+    Canceled status for the overall Implement
+- version: null
+  date: '2024-06-15'
+  breaking: false
+  highlights:
+  - The Workspace Settings > Recent Activity view contains a new subview labeled API
+    Usage . API Usage logs the use of API endpoints within a workspace. API Usage
+    can also be retrieved from a new Recent A
+- version: null
+  date: '2024-04-20'
+  breaking: false
+  highlights:
+  - Arena integrations require at least Java 8 Update 101 (8u101) or more recent versions.
+    December 1, 2023
+note: breaking flagged false where the entry does not announce a breaking change;
+  the May 20, 2023 header case-insensitivity notice is outside the recent window.

@@ -1,0 +1,943 @@
+openapi: 3.2.0
+info:
+  title: Ptc Export API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Export across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Export
+  description: Manage export definitions and runs, including file content and metadata.
+paths:
+  /exports:
+    get:
+      tags:
+      - Export
+      summary: Search for export definitions using filters like name or creator
+      description: Returns a collection of Export Definition objects matching the given search criteria.
+      operationId: getExports
+      parameters:
+      - name: number
+        in: query
+        description: export number
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: export name
+        schema:
+          type: string
+      - name: description
+        in: query
+        description: export description
+        schema:
+          type: string
+      - name: creator.guid
+        in: query
+        description: creator guid
+        schema:
+          type: string
+      - name: creator.email
+        in: query
+        description: creator email
+        schema:
+          type: string
+      - name: creator.fullName
+        in: query
+        description: creator fullName
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: query result offset (default 0)
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: query result limit (default 20, max 400)
+        schema:
+          type: integer
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportDefinitionVoResultRep'
+    post:
+      tags:
+      - Export
+      summary: Create a new export definition
+      description: 'Creates a new Export Definition object.
+
+
+        Notes:
+
+        1. Export Definitions cannot be edited or deleted.
+
+        2. Criteria can be specified in the Export Definition or in the Export Run.
+
+        3. Criteria cannot be specified in both the Export Definition and in the Export Run. It also cannot be specified in neither.
+
+        4. Export results are saved in Arena and expire after 60 days. Once expired, the results files are deleted in Arena and are no longer available.
+
+        5. Export Limits: If the criteria return more than 20,000 items, then an error shall be returned. If the criteria return more than 5,000 items, and BOM and FILES view are included as exportViews, then an error shall be returned.
+
+        6. For an Item Export with revisionStatus set to LATEST used with modifiedBOM, the modifiedBOM attribute refers to the working revision for released Items. Released, effective revisions can''t have a modified BOM. This applies to modifiedSpecs, modifiedSourcing, and modifiedFiles with revisionStatus LATEST.
+
+        7. Arena Export does not support export for category.guid using the GUID for uncategorized. For uncategorized Items, use criteria: attribute is category.name, operator is IS_EQUAL_TO, value is -uncategorized-.
+
+        8. Item Export with revisionStatus WORKING or POTENTIAL returns the working revision even if an effective, released version exists.
+
+        9. See Export Options for a full list of options.
+
+        10. If export format is JSON and certain Export Options are selected, the JSON export file may be empty.'
+      operationId: createExport
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExportDefinitionCreateVo'
+            examples:
+              csv:
+                description: csv
+                value:
+                  name: Export All CSV
+                  description: Export All Item Data
+                  world: ITEMS
+                  options:
+                    exportViews:
+                    - SPECS
+                    - BOM
+                    - BOM_SUBSTITUTES
+                    - SOURCING
+                    - FILES
+                    - FILES_FILE_SUMMARY
+                    - SOURCING_SUPPLIERITEM_SPECS
+                    - SOURCING_SUPPLIERITEM_SUPPLIER_PROFILE
+                    - SOURCING_SUPPLIERITEM_FILES
+                    - SOURCING_SUPPLIERITEM_FILES_FILE_SUMMARY
+                    bomLevels: FULL
+                    header: apiName
+                    revisionStatus: LATEST
+                    fileContent:
+                      item: ALL
+                      supplierItem: ALL
+                  criteria: []
+              json:
+                description: json
+                value:
+                  name: Export All JSON
+                  description: Export All Item Data
+                  world: ITEMS
+                  options:
+                    format: json
+                    exportViews:
+                    - SPECS
+                    - BOM
+                    - BOM_SUBSTITUTES
+                    - SOURCING
+                    - FILES
+                    - FILES_FILE_SUMMARY
+                    - SOURCING_SUPPLIERITEM_SPECS
+                    - SOURCING_SUPPLIERITEM_SUPPLIER_PROFILE
+                    - SOURCING_SUPPLIERITEM_FILES
+                    - SOURCING_SUPPLIERITEM_FILES_FILE_SUMMARY
+                    bomLevels: SINGLE
+                    revisionStatus: LATEST
+                    fileContent:
+                      item: NONE
+                      supplierItem: NONE
+                  criteria: []
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportDefinitionVo'
+    servers:
+    - url: /v1
+  /exports/{exportGuid}/runs:
+    get:
+      tags:
+      - Export
+      summary: Search for export run jobs using filters like status or number
+      description: Returns the runs executed by an export definition with a given GUID.
+      operationId: getExportRuns
+      parameters:
+      - name: number
+        in: query
+        description: export number
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: export run lifecycle status
+        schema:
+          type: string
+      - name: latestCompleted
+        in: query
+        description: latest completed flag
+        schema:
+          type: boolean
+      - name: offset
+        in: query
+        description: query result offset (default 0)
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: query result limit (default 20, max 400)
+        schema:
+          type: integer
+      - name: exportGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportRunVoResultRep'
+    post:
+      tags:
+      - Export
+      summary: Start a new export run based on an export definition
+      description: 'Initiates an Export run based on an existing Export Definition.
+
+
+        Notes:
+
+        1. The export run endpoint executes an export definition.
+
+        2. If criteria was specified in the export definition, that criteria will be used in the run and cannot be specified in the export run.
+
+        3. If criteria was not specified in the export definition, a criteria must be specified in the export run.
+
+        4. Export results are saved in Arena and expire after 60 days. Once expired, the results files are deleted in Arena and are no longer available.
+
+        5. Export Limits: If the criteria return more than 20,000 items, then an error shall be returned. If the criteria return more than 5,000 items, and BOM and FILES view are included as exportViews, then an error shall be returned.'
+      operationId: runExport
+      parameters:
+      - name: exportGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CriteriaVoWrapper'
+            examples:
+              Simple Criteria:
+                description: Simple Criteria
+                value:
+                  criteria:
+                  - - attribute: number
+                      operator: STARTS_WITH
+                      value: T32-
+              Complex Criteria:
+                description: Complex Criteria
+                value:
+                  criteria:
+                  - - attribute: lifecyclePhase.name
+                      operator: IS_EQUAL_TO
+                      value: Unreleased
+                    - OR
+                    - attribute: lifecyclePhase.stage
+                      operator: IS_EQUAL_TO
+                      value: DESIGN
+                  - AND
+                  - - attribute: category.guid
+                      operator: IS_IN
+                      value:
+                      - BTDWFNNCGBU4N6P6Q7T2
+                      - 4M6P8GG594NXGZIZMP3N
+                  - OR
+                  - - attribute: creationDateTime
+                      operator: IS_AFTER
+                      value: '2020-01-01T07:59:59Z'
+              Custom Attribute Criteria:
+                description: Custom Attribute Criteria
+                value:
+                  criteria:
+                  - - attribute: lifecyclePhase.name
+                      operator: IS_EQUAL_TO
+                      value: Unreleased
+                    - AND
+                    - attribute: R9TCQNRT4L2K3M14WYUZ
+                      operator: IS_IN
+                      value:
+                      - Capricorn
+                      - Aries
+              Multiple Guids:
+                description: Multiple Guids
+                value:
+                  criteria:
+                  - - attribute: guid
+                      operator: IS_IN
+                      value:
+                      - BTDWFNNCGBU4N6P6Q7T2
+                      - 4M6P8GG594NXGZIZMP3N
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportRunVo'
+    servers:
+    - url: /v1
+  /exports/{exportGuid}:
+    get:
+      tags:
+      - Export
+      summary: Get details of a specific export definition
+      description: Returns an Export Definition with a given GUID.
+      operationId: getExport
+      parameters:
+      - name: exportGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: includeEmptyAdditionalAttributes
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportDefinitionVo'
+    servers:
+    - url: /v1
+  /exports/{exportGuid}/runs/{exportRunGuid}:
+    get:
+      tags:
+      - Export
+      summary: Get details of a specific export run
+      description: 'Returns an Export Run with a given GUID.
+
+
+        Security: Only the user who initiated the export run can access its details. Other users will receive an error.'
+      operationId: getExportRun
+      parameters:
+      - name: exportGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: exportRunGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportRunVo'
+    servers:
+    - url: /v1
+  /exports/{exportGuid}/runs/{exportRunGuid}/files/{fileGuid}:
+    get:
+      tags:
+      - Export
+      summary: Get details of a specific file from an export run
+      description: 'Returns the metadata of an export file generated from an export run with a given GUID.
+
+
+        Security: Only the user who initiated the export run can access its file metadata. Other users will receive an error.'
+      operationId: getExportRunFile
+      parameters:
+      - name: exportGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: exportRunGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDetailVo'
+    servers:
+    - url: /v1
+  /exports/{exportGuid}/runs/{exportRunGuid}/files/{fileGuid}/content:
+    get:
+      tags:
+      - Export
+      summary: Download the content of a file from an export run
+      description: 'Streams the content of an export file generated from an export run with a given GUID.
+
+
+        Notes:
+
+        1. Export results are saved in Arena and expire after 60 days. Once expired, the results files are deleted in Arena and are no longer available.
+
+        2. Export Limits: If the criteria return more than 20,000 items, then an error shall be returned. If the criteria return more than 5,000 items, and BOM and FILES view are included as exportViews, then an error shall be returned.'
+      operationId: downloadExportFileContent
+      parameters:
+      - name: exportGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: exportRunGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+    servers:
+    - url: /v1
+  /exports/{exportGuid}/runs/latestCompleted:
+    get:
+      tags:
+      - Export
+      summary: Get the most recent completed export run
+      operationId: getLatestCompletedExportRun
+      parameters:
+      - name: exportGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExportRunVo'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    ExportRunVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExportRunVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ExportDefinitionVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExportDefinitionVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    FileDetailVo:
+      type: object
+      description: File metadata information
+      properties:
+        author:
+          $ref: '#/components/schemas/FileAuthorVo'
+        category:
+          $ref: '#/components/schemas/FileCategoryVo'
+        checkedOut:
+          type: boolean
+        checkoutDateTime:
+          type: string
+        corrected:
+          type: boolean
+        creationDateTime:
+          type: string
+        description:
+          type: string
+        edition:
+          type: string
+        format:
+          type: string
+        guid:
+          type: string
+        hasMarkup:
+          type: boolean
+        haveContent:
+          type: boolean
+        lastModifiedDateTime:
+          type: string
+        latest:
+          type: boolean
+        location:
+          type: string
+        locked:
+          type: boolean
+        microsoft365:
+          $ref: '#/components/schemas/Microsoft365Vo'
+        googleDocs:
+          $ref: '#/components/schemas/GoogleDocsVo'
+        mimeType:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        size:
+          type: integer
+          format: int64
+        storageMethodName:
+          type: string
+        title:
+          type: string
+        private:
+          type: boolean
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    ExportDefinitionVo:
+      type: object
+      properties:
+        creationDateTime:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        criteria:
+          type: array
+          items:
+            $ref: '#/components/schemas/CriteriaElement'
+          properties:
+            empty:
+              type: boolean
+        description:
+          type: string
+        name:
+          type: string
+        number:
+          type: integer
+          format: int64
+        world:
+          type: string
+        options:
+          $ref: '#/components/schemas/ItemOptions'
+    CriterionVo:
+      type: object
+      properties:
+        attribute:
+          type: string
+          description: Attribute to filter on
+          example: number
+        operator:
+          type: string
+          description: Comparison operator
+          example: STARTS_WITH
+        value:
+          type: string
+          description: Value to compare against
+          example: Item
+      required:
+      - attribute
+      - operator
+      - value
+    FileAuthorVo:
+      type: object
+      properties:
+        fullName:
+          type: string
+    ExportDefinitionCreateVo:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        world:
+          type: string
+        criteria:
+          type: array
+          description: '[condition], ''OR'', [condition]'
+          items:
+            oneOf:
+            - type: array
+              items:
+                $ref: '#/components/schemas/ConditionCreateVo'
+            - type: string
+        options:
+          $ref: '#/components/schemas/OptionsCreateVo'
+    Microsoft365Vo:
+      type: object
+      properties:
+        authorEmail:
+          type: string
+        creationDate:
+          type: string
+        driveId:
+          type: string
+        fileId:
+          type: string
+        fileName:
+          type: string
+        lastEditors:
+          type: array
+          items:
+            type: string
+        modifiedDate:
+          type: string
+        originalAuthor:
+          type: string
+        siteId:
+          type: string
+        size:
+          type: integer
+          format: int64
+        version:
+          type: string
+        webUrl:
+          type: string
+    FileCategoryVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    ExportRunVo:
+      type: object
+      properties:
+        completionDateTime:
+          type: string
+        creationDateTime:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        criteria:
+          type: array
+          items:
+            $ref: '#/components/schemas/CriteriaElement'
+          properties:
+            empty:
+              type: boolean
+        criteriaResultsCount:
+          type: integer
+          format: int32
+        guid:
+          type: string
+        number:
+          type: integer
+          format: int32
+        status:
+          type: string
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExportFileVo'
+    GoogleDocsVo:
+      type: object
+      properties:
+        authorEmail:
+          type: string
+        creationDate:
+          type: string
+        driveId:
+          type: string
+        fileId:
+          type: string
+        fileName:
+          type: string
+        lastEditors:
+          type: array
+          items:
+            type: string
+        modifiedDate:
+          type: string
+        originalAuthor:
+          type: string
+        size:
+          type: integer
+          format: int64
+        version:
+          type: string
+        webUrl:
+          type: string
+    ConditionCreateVo:
+      type: object
+      properties:
+        attribute:
+          type: string
+        value:
+          type: string
+        operator:
+          type: string
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    ItemOptions:
+      type: object
+      properties:
+        bomLevels:
+          type: string
+        exportViews:
+          type: array
+          items:
+            type: string
+        revisionStatus:
+          type: string
+        header:
+          type: string
+        format:
+          type: string
+        enableNotifications:
+          type: boolean
+        fileContent:
+          $ref: '#/components/schemas/FileContent'
+    ExportFileVo:
+      type: object
+      properties:
+        author:
+          $ref: '#/components/schemas/UserCompactVo'
+        guid:
+          type: string
+        name:
+          type: string
+        storageMethodName:
+          type: string
+    CriteriaElement: {}
+    OptionsCreateVo:
+      type: object
+      properties:
+        exportViews:
+          type: array
+          items:
+            type: string
+        bomLevels:
+          type: string
+        revisionStatus:
+          type: string
+        header:
+          type: string
+        enableNotifications:
+          type: boolean
+    FileContent:
+      type: object
+      properties:
+        item:
+          type: string
+          enum:
+          - NONE
+          - PRIMARY
+          - ALL
+        supplierItem:
+          type: string
+          enum:
+          - NONE
+          - PRIMARY
+          - ALL
+    CriteriaVoWrapper:
+      type: object
+      properties:
+        criteria:
+          type: array
+          description: Nested list of criteria. Each inner list represents a group of conditions.
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/CriterionVo'
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

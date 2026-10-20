@@ -1,0 +1,2303 @@
+openapi: 3.2.0
+info:
+  title: Ptc Supplier API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Supplier across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Supplier
+  description: 'Core supplier operations: search, create, update, delete, get profile, addresses, phone numbers, quality processes, and files.'
+paths:
+  /suppliers/{supplierGuid}:
+    get:
+      tags:
+      - Supplier
+      summary: Get details of a specific supplier
+      description: Returns a Supplier object with a given GUID.
+      operationId: getSupplier
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: includeEmptyAdditionalAttributes
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SupplierFullVo'
+    put:
+      tags:
+      - Supplier
+      summary: Update information for a specific supplier
+      description: Updates the metadata of a supplier with a given GUID. To update values for additional attributes, first retrieve the GUID of each attribute using the GET Supplier Item endpoint. Updated values must be valid for the attribute.
+      operationId: updateSupplier
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SupplierUpdateRequestVo'
+            example:
+              accountNumber: H0036878
+              additionalAttributes:
+              - guid: ZH1KYVZ1CTASBUDQT110
+                value: Critical too
+              approvalStatus: approved
+              description: great source updated
+              name: Avernet
+              website: www.avernet.com
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SupplierFullVo'
+    delete:
+      tags:
+      - Supplier
+      summary: Delete a specific supplier
+      operationId: deleteSupplier
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /suppliers/{supplierGuid}/phonenumbers/{phoneNumberGuid}:
+    get:
+      tags:
+      - Supplier
+      summary: Get details of a specific supplier phone number
+      description: Returns a specific phone number with a given GUID of a Supplier object with a given GUID.
+      operationId: getPhoneNumber
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: phoneNumberGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierPhoneNumberVo'
+    put:
+      tags:
+      - Supplier
+      summary: Update a specific supplier phone number
+      description: Updates the existing phone numbers of a supplier with a given GUID.
+      operationId: updatePhoneNumber
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: phoneNumberGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SupplierPhoneNumberCreateVo'
+            example:
+              comment: Main line
+              extension: x102
+              label: Main
+              number: 123-456-7890
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierPhoneNumberVo'
+    delete:
+      tags:
+      - Supplier
+      summary: Delete a specific supplier phone number
+      description: Deletes a specific Supplier phone number with a given GUID.
+      operationId: deletePhoneNumber
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: phoneNumberGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /suppliers/{supplierGuid}/contacts/{contactGuid}:
+    get:
+      tags:
+      - Supplier
+      summary: Get details of a specific supplier contact
+      description: Returns a specific contact object with a given GUID for a supplier with a given GUID.
+      operationId: getContact
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: contactGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierContactVo'
+    put:
+      tags:
+      - Supplier
+      summary: Update supplier contact
+      description: Updates the supplier contact identified by contactGuid under the supplier identified by supplierGuid and returns the updated supplier contact representation.
+      operationId: updateSupplierContact
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: contactGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SupplierContactShortVo'
+            example:
+              firstNames: John
+              lastName: Smith
+              title: Procurement Manager
+              email: john.smith@supplier.com
+              primary: true
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierContactVo'
+    delete:
+      tags:
+      - Supplier
+      summary: Delete supplier contact
+      description: Deletes the supplier contact identified by contactGuid under the supplier identified by supplierGuid and returns no content.
+      operationId: deleteSupplierContact
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: contactGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+    servers:
+    - url: /v1
+  /suppliers/{supplierGuid}/contacts/{contactGuid}/phonenumbers/{phoneNumberGuid}:
+    get:
+      tags:
+      - Supplier
+      summary: Get details of a specific supplier contact phone number
+      description: Returns a specific phone number object with a given GUID for a supplier contact with a given GUID.
+      operationId: getContactPhoneNumber
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: contactGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: phoneNumberGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierContactPhoneNumberVo'
+    put:
+      tags:
+      - Supplier
+      summary: Update supplier contact phone number
+      description: Updates the supplier contact phone number identified by phoneNumberGuid for contactGuid under supplierGuid and returns the updated supplier contact phone number representation.
+      operationId: updateSupplierContactPhoneNumber
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: contactGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: phoneNumberGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSupplierContactPhoneNumberShortVo'
+            examples:
+              Update Personal Phone Number:
+                description: Update Personal Phone Number
+                value:
+                  primary: true
+                  phoneNumber:
+                    label: FAX
+                    number: 123-456-7890
+                    extension: '1234'
+              Update Company Phone Number:
+                description: Update Company Phone Number
+                value:
+                  primary: true
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierContactPhoneNumberVo'
+    delete:
+      tags:
+      - Supplier
+      summary: Delete supplier contact phone number
+      description: Deletes the supplier contact phone number identified by phoneNumberGuid for contactGuid under supplierGuid and returns no content.
+      operationId: deleteSupplierContactPhoneNumber
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: contactGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: phoneNumberGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+    servers:
+    - url: /v1
+  /suppliers/{supplierGuid}/addresses/{addressGuid}:
+    get:
+      tags:
+      - Supplier
+      summary: Get details of a specific supplier address
+      description: Returns a specific address with a given GUID of a Supplier object with a given GUID.
+      operationId: getAddresse
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: addressGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierAddressCompactVo'
+    put:
+      tags:
+      - Supplier
+      summary: Update a specific supplier address
+      description: Updates an existing specific phone numbers of a supplier with a given GUID.
+      operationId: updateAddresse
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: addressGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SupplierAddressCreateVo'
+            example:
+              address:
+                address1: 1982 Lundy Ave.
+                address2: Box 100
+                city: San Jose
+                country: United States
+                label: main
+                postalCode: '95131'
+                province: null
+                state: CALIFORNIA
+              primary: false
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierAddressCompactVo'
+    delete:
+      tags:
+      - Supplier
+      summary: Delete a specific supplier address
+      description: Deletes a specific Supplier address with a given GUID.
+      operationId: deleteAddresse
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: addressGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /suppliers:
+    get:
+      tags:
+      - Supplier
+      summary: Search for suppliers using filters like name
+      description: Returns a collection of Supplier objects matching the given search criteria.
+      operationId: getSuppliers
+      parameters:
+      - name: name
+        in: query
+        description: supplier name
+        schema:
+          type: string
+      - name: supplierId
+        in: query
+        description: supplier unique identifier
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: query result offset (default 0)
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: query result limit (default 20, max 400)
+        schema:
+          type: integer
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepSupplierFullVo'
+    post:
+      tags:
+      - Supplier
+      summary: Create a new supplier
+      description: 'NOTES:
+
+        1. The values you specify for attributes must match the attribute types specified in the workspace. For example, when specifying a value for a predefined list, the value must be one of the allowed values.
+
+        2. Number values must appear in quotation marks.'
+      operationId: createSupplier
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SupplierCreateRequestVo'
+            example:
+              accountNumber: '1'
+              additionalAttributes:
+              - guid: ZH1KYVZ1CTASBUDQT110
+                value: Critical
+              addresses:
+              - primary: true
+                address:
+                  label: HQ
+                  address1: 1 Main St
+                  address2: Box 100
+                  city: San Bruno
+                  state: California
+                  province: ''
+                  postalCode: '94066'
+                  country: United States
+              approvalStatus: approved
+              description: ONE
+              name: Chris' Crafts
+              phoneNumbers:
+              - number: 111-111-1111
+                label: Main
+              - number: 111-111-1110
+                label: Fax
+              website: www.one.com
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SupplierFullVo'
+    servers:
+    - url: /v1
+  /suppliers/{supplierGuid}/phonenumbers:
+    get:
+      tags:
+      - Supplier
+      summary: List all phone numbers associated with a supplier
+      description: Returns the phone numbers of a Supplier object with a given GUID.
+      operationId: getPhoneNumbers
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierPhoneNumberVoResultRep'
+    post:
+      tags:
+      - Supplier
+      summary: Add a new phone number to a supplier
+      description: Creates a new phone number for a Supplier object.
+      operationId: createPhoneNumbers
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SupplierPhoneNumberCreateVo'
+            example:
+              comment: Main line
+              extension: x101
+              label: Main
+              number: 123-456-7890
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierPhoneNumberVo'
+    servers:
+    - url: /v1
+  /suppliers/{supplierGuid}/contacts:
+    get:
+      tags:
+      - Supplier
+      summary: List all contacts associated with a supplier
+      description: Returns a collection of contact objects for a supplier with a given GUID.
+      operationId: getContacts
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierContactVoResultRep'
+    post:
+      tags:
+      - Supplier
+      summary: Create supplier contact
+      description: Creates a new contact for the supplier identified by supplierGuid and returns the created supplier contact representation.
+      operationId: createSupplierContact
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SupplierContactShortVo'
+            example:
+              firstNames: John
+              lastName: Smith
+              title: Procurement Manager
+              email: john.smith@supplier.com
+              primary: true
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierContactVo'
+    servers:
+    - url: /v1
+  /suppliers/{supplierGuid}/contacts/{contactGuid}/phonenumbers:
+    get:
+      tags:
+      - Supplier
+      summary: List all phone numbers associated with a supplier contact
+      description: Returns a collection of phone number objects for a supplier contact with a given GUID.
+      operationId: getContactPhoneNumbers
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: contactGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierContactPhoneNumberVoResultRep'
+    post:
+      tags:
+      - Supplier
+      summary: Create supplier contact phone number
+      description: Creates a new phone number for the supplier contact identified by contactGuid under supplierGuid and returns the created supplier contact phone number representation.
+      operationId: createSupplierContactPhoneNumber
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: contactGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSupplierContactPhoneNumberShortVo'
+            examples:
+              Create Personal Phone Number:
+                description: Create Personal Phone Number
+                value:
+                  phoneType: PERSONAL
+                  primary: true
+                  phoneNumber:
+                    label: FAX
+                    number: 123-456-7890
+                    extension: '1234'
+              Create Company Phone Number:
+                description: Create Company Phone Number
+                value:
+                  phoneType: COMPANY
+                  primary: true
+                  phoneNumber:
+                    guid: 7P9SXNM47GZ5O7C13YNS
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierContactPhoneNumberVo'
+    servers:
+    - url: /v1
+  /suppliers/{supplierGuid}/contacts/{contactGuid}/companyaddresses:
+    get:
+      tags:
+      - Supplier
+      summary: List all company addresses associated with a supplier contact
+      description: Returns a collection of company address objects for a supplier contact with a given GUID.
+      operationId: getContactAddresses
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: contactGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierContactAddressVoResultRep'
+    post:
+      tags:
+      - Supplier
+      summary: Create supplier contact company address
+      description: Creates a new company address for the supplier contact identified by contactGuid under supplierGuid and returns the created supplier contact company address representation.
+      operationId: createSupplierContactAddress
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: contactGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SupplierContactAddressShortVo'
+            example:
+              address:
+                guid: N5P8D32KNW07Q9MYMJW9
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierContactAddressVo'
+    servers:
+    - url: /v1
+  /suppliers/{supplierGuid}/addresses:
+    get:
+      tags:
+      - Supplier
+      summary: List all addresses associated with a supplier
+      description: Returns the addresses a Supplier object with a given GUID.
+      operationId: getAddresses
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierAddressCompactVoResultRep'
+    post:
+      tags:
+      - Supplier
+      summary: Add a new address to a supplier
+      description: Creates new addresses for a Supplier object.
+      operationId: createAddresses
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SupplierAddressCreateVo'
+            example:
+              address:
+                address1: 1982 Lundy Ave.
+                address2: null
+                city: San Jose
+                country: United States
+                label: main
+                postalCode: '95131'
+                province: null
+                state: CALIFORNIA
+              primary: false
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierAddressCompactVo'
+    servers:
+    - url: /v1
+  /suppliers/{supplierGuid}/contacts/{contactGuid}/companyaddresses/{addressGuid}:
+    get:
+      tags:
+      - Supplier
+      summary: Get details of a specific supplier contact company address
+      description: Returns a specific company address object with a given GUID for a supplier contact with a given GUID.
+      operationId: getContactAddress
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: contactGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: addressGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupplierContactAddressVo'
+    delete:
+      tags:
+      - Supplier
+      summary: Delete supplier contact company address
+      description: Deletes the supplier contact company address identified by addressGuid for contactGuid under supplierGuid and returns no content.
+      operationId: deleteSupplierContactAddress
+      parameters:
+      - name: supplierGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: contactGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: addressGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+    servers:
+    - url: /v1
+components:
+  schemas:
+    UpdateSupplierContactPhoneNumberShortVo:
+      type: object
+      properties:
+        phoneNumber:
+          $ref: '#/components/schemas/SupplierContactPhoneNumberDetailVo'
+        primary:
+          type: boolean
+    SupplierContactVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupplierContactVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    AddressVo:
+      type: object
+      properties:
+        label:
+          type: string
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+          enum:
+          - ALASKA
+          - AK
+          - ALABAMA
+          - AL
+          - ARKANSAS
+          - AR
+          - ARIZONA
+          - AZ
+          - CALIFORNIA
+          - CA
+          - COLORADO
+          - CO
+          - CONNECTICUT
+          - CT
+          - DISTRICT OF COLUMBIA
+          - DC
+          - DELAWARE
+          - DE
+          - FLORIDA
+          - FL
+          - GEORGIA
+          - GA
+          - HAWAII
+          - HI
+          - IOWA
+          - IA
+          - IDAHO
+          - ID
+          - ILLINOIS
+          - IL
+          - INDIANA
+          - IN
+          - KANSAS
+          - KS
+          - KENTUCKY
+          - KY
+          - LOUISIANA
+          - LA
+          - MASSACHUSETTS
+          - MA
+          - MARYLAND
+          - MD
+          - MAINE
+          - ME
+          - MICHIGAN
+          - MI
+          - MINNESOTA
+          - MN
+          - MISSOURI
+          - MO
+          - MISSISSIPPI
+          - MS
+          - MONTANA
+          - MT
+          - NORTH CAROLINA
+          - NC
+          - NORTH DAKOTA
+          - ND
+          - NEBRASKA
+          - NE
+          - NEW HAMPSHIRE
+          - NH
+          - NEW JERSEY
+          - NJ
+          - NEW MEXICO
+          - NM
+          - NEVADA
+          - NV
+          - NEW YORK
+          - NY
+          - OHIO
+          - OH
+          - OKLAHOMA
+          - OK
+          - OREGON
+          - OR
+          - PENNSYLVANIA
+          - PA
+          - RHODE ISLAND
+          - RI
+          - SOUTH CAROLINA
+          - SC
+          - SOUTH DAKOTA
+          - SD
+          - TENNESSEE
+          - TN
+          - TEXAS
+          - TX
+          - UTAH
+          - UT
+          - VIRGINIA
+          - VA
+          - VERMONT
+          - VT
+          - WASHINGTON
+          - WA
+          - WISCONSIN
+          - WI
+          - WEST VIRGINIA
+          - WV
+          - WYOMING
+          - WY
+        province:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+          enum:
+          - af
+          - Afghanistan
+          - ax
+          - Aland Islands
+          - al
+          - Albania
+          - dz
+          - Algeria
+          - as
+          - American Samoa
+          - ad
+          - Andorra
+          - ao
+          - Angola
+          - ai
+          - Anguilla
+          - aq
+          - Antarctica
+          - ag
+          - Antigua and Barbuda
+          - ar
+          - Argentina
+          - am
+          - Armenia
+          - aw
+          - Aruba
+          - au
+          - Australia
+          - at
+          - Austria
+          - az
+          - Azerbaijan
+          - bs
+          - Bahamas
+          - bh
+          - Bahrain
+          - bd
+          - Bangladesh
+          - bb
+          - Barbados
+          - by
+          - Belarus
+          - be
+          - Belgium
+          - bz
+          - Belize
+          - bj
+          - Benin
+          - bm
+          - Bermuda
+          - bt
+          - Bhutan
+          - bo
+          - Bolivia
+          - ba
+          - Bosnia and Herzegovina
+          - bw
+          - Botswana
+          - bv
+          - Bouvet Island
+          - br
+          - Brazil
+          - io
+          - British Indian Ocean Territory
+          - bn
+          - Brunei Darussalam
+          - bg
+          - Bulgaria
+          - bf
+          - Burkina Faso
+          - bi
+          - Burundi
+          - kh
+          - Cambodia
+          - cm
+          - Cameroon
+          - ca
+          - Canada
+          - cv
+          - Cape Verde
+          - ky
+          - Cayman Islands
+          - cf
+          - Central African Republic
+          - td
+          - Chad
+          - cl
+          - Chile
+          - cn
+          - China
+          - cx
+          - Christmas Island
+          - cc
+          - Cocos (Keeling) Islands
+          - co
+          - Colombia
+          - km
+          - Comoros
+          - cg
+          - Congo
+          - cd
+          - Congo, the Democratic Republic of the
+          - ck
+          - Cook Islands
+          - cr
+          - Costa Rica
+          - hr
+          - Croatia
+          - cu
+          - Cuba
+          - cy
+          - Cyprus
+          - cz
+          - Czech Republic
+          - dk
+          - Denmark
+          - dj
+          - Djibouti
+          - dm
+          - Dominica
+          - do
+          - Dominican Republic
+          - tp
+          - East Timor
+          - ec
+          - Ecuador
+          - eg
+          - Egypt
+          - sv
+          - El Salvador
+          - gq
+          - Equatorial Guinea
+          - er
+          - Eritrea
+          - ee
+          - Estonia
+          - et
+          - Ethiopia
+          - fk
+          - Falkland Islands (Malvinas
+          - fo
+          - Faroe Islands
+          - fj
+          - Fiji
+          - fi
+          - Finland
+          - fr
+          - France
+          - fx
+          - France, Metropolitan
+          - gf
+          - French Guiana
+          - pf
+          - French Polynesia
+          - tf
+          - French Southern Territories
+          - ga
+          - Gabon
+          - gm
+          - Gambia
+          - ge
+          - Georgia
+          - de
+          - Germany
+          - gh
+          - Ghana
+          - gi
+          - Gibraltar
+          - gb
+          - Great Britain (UK)
+          - gr
+          - Greece
+          - gl
+          - Greenland
+          - gd
+          - Grenada
+          - gp
+          - Guadeloupe
+          - gu
+          - Guam
+          - gt
+          - Guatemala
+          - gg
+          - Guernsey
+          - gn
+          - Guinea
+          - gw
+          - Guinea-Bissau
+          - gy
+          - Guyana
+          - ht
+          - Haiti
+          - hm
+          - Heard and McDonald Islands
+          - hn
+          - Honduras
+          - hk
+          - Hong Kong
+          - hu
+          - Hungary
+          - is
+          - Iceland
+          - in
+          - India
+          - id
+          - Indonesia
+          - ir
+          - Iran
+          - iq
+          - Iraq
+          - ie
+          - Ireland
+          - im
+          - Isle of Man
+          - il
+          - Israel
+          - it
+          - Italy
+          - ci
+          - Ivory Coast
+          - jm
+          - Jamaica
+          - jp
+          - Japan
+          - je
+          - Jersey
+          - jo
+          - Jordan
+          - kz
+          - Kazakhstan
+          - ke
+          - Kenya
+          - ki
+          - Kiribati
+          - XK
+          - Kosovo
+          - kw
+          - Kuwait
+          - kg
+          - Kyrgyzstan
+          - la
+          - Laos
+          - lv
+          - Latvia
+          - lb
+          - Lebanon
+          - ls
+          - Lesotho
+          - lr
+          - Liberia
+          - ly
+          - Libya
+          - li
+          - Liechtenstein
+          - lt
+          - Lithuania
+          - lu
+          - Luxembourg
+          - mo
+          - Macau
+          - mg
+          - Madagascar
+          - mw
+          - Malawi
+          - my
+          - Malaysia
+          - mv
+          - Maldives
+          - ml
+          - Mali
+          - mt
+          - Malta
+          - mh
+          - Marshall Islands
+          - mq
+          - Martinique
+          - mr
+          - Mauritania
+          - mu
+          - Mauritius
+          - yt
+          - Mayotte
+          - mx
+          - Mexico
+          - fm
+          - Micronesia
+          - md
+          - Moldova
+          - mc
+          - Monaco
+          - mn
+          - Mongolia
+          - me
+          - Montenegro
+          - ms
+          - Montserrat
+          - ma
+          - Morocco
+          - mz
+          - Mozambique
+          - mm
+          - Myanmar
+          - na
+          - Namibia
+          - nr
+          - Nauru
+          - np
+          - Nepal
+          - nl
+          - Netherlands
+          - an
+          - Netherlands Antilles
+          - nt
+          - Neutral Zone
+          - nc
+          - New Caledonia
+          - nz
+          - New Zealand
+          - ni
+          - Nicaragua
+          - ne
+          - Niger
+          - ng
+          - Nigeria
+          - nu
+          - Niue
+          - nf
+          - Norfolk Island
+          - kp
+          - North Korea
+          - mk
+          - North Macedonia
+          - mp
+          - Northern Mariana Islands
+          - 'no'
+          - Norway
+          - om
+          - Oman
+          - pk
+          - Pakistan
+          - pw
+          - Palau
+          - ps
+          - Palestine
+          - pa
+          - Panama
+          - pg
+          - Papua New Guinea
+          - py
+          - Paraguay
+          - pe
+          - Peru
+          - ph
+          - Philippines
+          - pn
+          - Pitcairn
+          - pl
+          - Poland
+          - pt
+          - Portugal
+          - pr
+          - Puerto Rico
+          - qa
+          - Qatar
+          - re
+          - Reunion
+          - ro
+          - Romania
+          - su
+          - Russia
+          - ru
+          - Russian Federation
+          - rw
+          - Rwanda
+          - gs
+          - S. Georgia and S. Sandwich Isls.
+          - bl
+          - Saint Barthélemy
+          - kn
+          - Saint Kitts and Nevis
+          - lc
+          - Saint Lucia
+          - mf
+          - Saint Martin (French part)
+          - vc
+          - Saint Vincent and the Grenadines
+          - ws
+          - Samoa
+          - sm
+          - San Marino
+          - st
+          - Sao Tome and Principe
+          - sa
+          - Saudi Arabia
+          - sn
+          - Senegal
+          - rs
+          - Serbia
+          - sc
+          - Seychelles
+          - sl
+          - Sierra Leone
+          - sg
+          - Singapore
+          - sk
+          - Slovakia
+          - si
+          - Slovenia
+          - sb
+          - Solomon Islands
+          - so
+          - Somalia
+          - za
+          - South Africa
+          - kr
+          - South Korea
+          - es
+          - Spain
+          - lk
+          - Sri Lanka
+          - sh
+          - St. Helena
+          - pm
+          - St. Pierre and Miquelon
+          - sd
+          - Sudan
+          - sr
+          - Suriname
+          - sj
+          - Svalbard and Jan Mayen Islands
+          - sz
+          - Swaziland
+          - se
+          - Sweden
+          - ch
+          - Switzerland
+          - sy
+          - Syria
+          - tw
+          - Taiwan
+          - tj
+          - Tajikistan
+          - tz
+          - Tanzania
+          - th
+          - Thailand
+          - tl
+          - Timor-Leste
+          - tg
+          - Togo
+          - tk
+          - Tokelau
+          - to
+          - Tonga
+          - tt
+          - Trinidad and Tobago
+          - tn
+          - Tunisia
+          - tr
+          - Turkey
+          - tm
+          - Turkmenistan
+          - tc
+          - Turks and Caicos Islands
+          - tv
+          - Tuvalu
+          - um
+          - US Minor Outlying Islands
+          - ug
+          - Uganda
+          - ua
+          - Ukraine
+          - ae
+          - United Arab Emirates
+          - uk
+          - United Kingdom
+          - us
+          - United States
+          - uy
+          - Uruguay
+          - uz
+          - Uzbekistan
+          - vu
+          - Vanuatu
+          - va
+          - Vatican City State (Holy See)
+          - ve
+          - Venezuela
+          - vn
+          - Vietnam
+          - vg
+          - Virgin Islands (British)
+          - vi
+          - Virgin Islands (U.S.)
+          - wf
+          - Wallis and Futuna Islands
+          - eh
+          - Western Sahara
+          - ye
+          - Yemen
+          - zr
+          - Zaire
+          - zm
+          - Zambia
+          - zw
+          - Zimbabwe
+        guid:
+          type: string
+    AdditionalAttributeCompactVo:
+      type: object
+      properties:
+        apiName:
+          type: string
+        fieldType:
+          type: string
+          enum:
+          - SINGLE_LINE_TEXT
+          - MULTI_LINE_TEXT
+          - DROP_DOWN
+          - FIXED_DROP_DOWN
+          - DATE
+          - NUMBER
+          - BOOLEAN
+          - INTEGER
+          - OBJECT
+          - POSITIVE_DOUBLE
+          - POSITIVE_INTEGER
+          - RICH_TEXT
+          - GUID
+          - DATETIME
+          - COST
+          - LIST
+          - ENUM
+        guid:
+          type: string
+        multiSelect:
+          type: boolean
+        name:
+          type: string
+        value: {}
+    SupplierContactPhoneNumberDetailVo:
+      type: object
+      properties:
+        label:
+          type: string
+        number:
+          type: string
+        extension:
+          type: string
+        guid:
+          type: string
+    SupplierContactPhoneNumberVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupplierContactPhoneNumberVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    SupplierContactAddressVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupplierContactAddressVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    SupplierContactAddressVo:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/AddressVo'
+        guid:
+          type: string
+    CreateSupplierContactPhoneNumberShortVo:
+      type: object
+      properties:
+        phoneNumber:
+          $ref: '#/components/schemas/SupplierContactPhoneNumberDetailVo'
+        phoneType:
+          type: string
+        primary:
+          type: boolean
+    SupplierContactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        firstNames:
+          type: string
+        guid:
+          type: string
+        lastName:
+          type: string
+        primary:
+          type: boolean
+        role:
+          type: string
+        status:
+          type: string
+        title:
+          type: string
+        trainingEnabled:
+          type: boolean
+    PhoneNumberVo:
+      type: object
+      properties:
+        label:
+          type: string
+        number:
+          type: string
+        extension:
+          type: string
+        comment:
+          type: string
+        guid:
+          type: string
+    SupplierContactAddressShortVo:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/AddressShortVo'
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    SupplierPhoneNumberCreateVo:
+      type: object
+      properties:
+        label:
+          type: string
+        number:
+          type: string
+        extension:
+          type: string
+        comment:
+          type: string
+    SupplierPhoneNumberVo:
+      type: object
+      properties:
+        label:
+          type: string
+        number:
+          type: string
+        extension:
+          type: string
+        comment:
+          type: string
+        guid:
+          type: string
+    SupplierAddressCompactVo:
+      type: object
+      properties:
+        primary:
+          type: boolean
+        address:
+          $ref: '#/components/schemas/AddressVo'
+    QueryResultRepSupplierFullVo:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupplierFullVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    SupplierUpdateRequestVo:
+      type: object
+      properties:
+        accountNumber:
+          type: string
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCompactVo'
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupplierAddressCompactVo'
+        approvalStatusSetting:
+          $ref: '#/components/schemas/SupplierApprovalStatusMinimalVo'
+        description:
+          type: string
+        name:
+          type: string
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumberVo'
+        website:
+          type: string
+        supplierId:
+          type: string
+    SupplierFullVo:
+      type: object
+      properties:
+        accountNumber:
+          type: string
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCompactVo'
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupplierAddressCompactVo'
+        approvalStatus:
+          type: string
+        approvalStatusSetting:
+          $ref: '#/components/schemas/SupplierApprovalStatusCompactVo'
+        creationDateTime:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        description:
+          type: string
+        guid:
+          type: string
+        name:
+          type: string
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumberVo'
+        supplierId:
+          type: string
+        website:
+          type: string
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    SupplierApprovalStatusMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    AddressShortVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    AddressCreateVo:
+      type: object
+      properties:
+        label:
+          type: string
+        address1:
+          type: string
+        address2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        province:
+          type: string
+        postalCode:
+          type: string
+        country:
+          type: string
+    SupplierContactShortVo:
+      type: object
+      properties:
+        email:
+          type: string
+        firstNames:
+          type: string
+        lastName:
+          type: string
+        primary:
+          type: boolean
+        title:
+          type: string
+    SupplierCreateRequestVo:
+      type: object
+      properties:
+        accountNumber:
+          type: string
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCompactVo'
+        addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupplierAddressCompactVo'
+        approvalStatusSetting:
+          $ref: '#/components/schemas/SupplierApprovalStatusMinimalVo'
+        description:
+          type: string
+        name:
+          type: string
+        phoneNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PhoneNumberVo'
+        website:
+          type: string
+        supplierId:
+          type: string
+    SupplierApprovalStatusCompactVo:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        guid:
+          type: string
+    SupplierContactPhoneNumberVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        phoneNumber:
+          $ref: '#/components/schemas/PhoneNumberVo'
+        phoneType:
+          type: string
+        primary:
+          type: boolean
+    SupplierPhoneNumberVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupplierPhoneNumberVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    SupplierAddressCreateVo:
+      type: object
+      properties:
+        primary:
+          type: boolean
+        address:
+          $ref: '#/components/schemas/AddressCreateVo'
+    SupplierAddressCompactVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupplierAddressCompactVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

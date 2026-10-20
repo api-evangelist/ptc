@@ -1,0 +1,1280 @@
+openapi: 3.2.0
+info:
+  title: Ptc QualityProcess Detail API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged QualityProcess Detail across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: QualityProcess Detail
+  description: 'Manage details of quality process steps: get, update, complete, reopen, decisions.'
+paths:
+  /qualityprocesses/{qualityprocessGuid}/steps/{stepGuid}:
+    get:
+      tags:
+      - QualityProcess Detail
+      summary: Get details of a specific step in a quality process
+      description: Returns a Quality Process Step object with a given GUID for a Quality Process with a given GUID.
+      operationId: getStep
+      parameters:
+      - name: qualityprocessGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: stepGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: includeEmptyAdditionalAttributes
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityProcessStepVo'
+    put:
+      tags:
+      - QualityProcess Detail
+      summary: Update a specific step in a quality process
+      operationId: updateStep
+      parameters:
+      - name: qualityprocessGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: stepGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QualityStepUpdateVo'
+            examples:
+              User Assignee:
+                description: User Assignee
+                value:
+                  assignees:
+                    users:
+                    - guid: ASCVEMMBFARATCVEXS59
+                  attributes:
+                  - guid: XFZI199Y2XEWFYH0JZ99
+                    value: N/A
+                  dueDateTime: '2026-08-08T15:00:00Z'
+              User Group Assignee:
+                description: User Group Assignee
+                value:
+                  assignees:
+                    userGroups:
+                    - guid: GYI1KSSHLGWDWFYH0D3Z
+                  attributes:
+                  - guid: VDXGZ77W0VCUDWFYHX7A
+                    value: That is the problem.
+                  dueDateTime: '2026-08-08T15:00:00Z'
+              Deprecated:
+                description: Deprecated
+                value:
+                  assignee:
+                    guid: ASCV96ACN4L4N6P8BG6H
+                  attributes:
+                  - guid: P7RAOLPR2J0I1K3M5IIU
+                    value: N/A
+                  dueDateTime: '2026-08-08T15:00:00Z'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityProcessStepVo'
+    servers:
+    - url: /v1
+  /qualityprocesses/{qualityprocessGuid}/steps/{stepGuid}/decisions/{decisionGuid}:
+    get:
+      tags:
+      - QualityProcess Detail
+      summary: Get details of a specific decision in a quality step
+      operationId: getQualityStepDecision
+      parameters:
+      - name: qualityprocessGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: stepGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: decisionGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityDecisionVo'
+    put:
+      tags:
+      - QualityProcess Detail
+      summary: Submit a decision for a sign-off step
+      description: Makes a decision on an existing Step object with a given GUID in a Quality Process with a given GUID. Decisions can only be made within a quality process sign-off step.
+      operationId: makeDecision
+      parameters:
+      - name: qualityprocessGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: stepGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: decisionGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignOffStepDecisionVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowDecisionResponseVo'
+    servers:
+    - url: /v1
+  /qualityprocesses/{qualityprocessGuid}/steps/{stepGuid}/affected/{affectedGuid}:
+    get:
+      tags:
+      - QualityProcess Detail
+      summary: Get details of a specific affected object in a quality step
+      description: Returns an Affected Object with a given GUID that appears in a step with a given GUID in a Quality Process with a given GUID.
+      operationId: getQualityStepAffectedByGuid
+      parameters:
+      - name: qualityprocessGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: stepGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: affectedGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityAffectedVo'
+    put:
+      tags:
+      - QualityProcess Detail
+      summary: Update the note for an affected object in a quality step
+      description: Updates an existing Affected Object with a given GUID in a step with a given GUID in a Quality Process with a given GUID. Current supported Affected Objects are ITEMS, CHANGES, SUPPLIERS, SUPPLIER ITEMS, FILES, QUALITY, and URLs.
+      operationId: updateQualityAffectedObject
+      parameters:
+      - name: qualityprocessGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: stepGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: affectedGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AffectedUpdateVo'
+            example:
+              notes: Updated note
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityAffectedVo'
+    delete:
+      tags:
+      - QualityProcess Detail
+      summary: Remove an affected object from a quality step
+      description: Deletes an Affected Object with a given GUID from Quality Process step with a given GUID in a Quality Process with a given GUID.
+      operationId: deleteQualityAffectedObject
+      parameters:
+      - name: qualityprocessGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: stepGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: affectedGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /qualityprocesses/{qualityprocessGuid}/steps/{stepGuid}/decisions:
+    get:
+      tags:
+      - QualityProcess Detail
+      summary: List all decisions made in a quality step
+      description: Returns the decisions of users in a Quality Process sign-off step when given the GUID of the Quality Process and the GUID of the Quality sign-off step.
+      operationId: getQualityStepDecisions
+      parameters:
+      - name: qualityprocessGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: stepGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepWorkflowDecisionFullRep'
+    post:
+      tags:
+      - QualityProcess Detail
+      summary: Add an approver to a sign-off step
+      description: Adds decision makers on an existing Step object with a given GUID in a Quality Process with a given GUID.
+      operationId: addSignOffStepApprover
+      parameters:
+      - name: qualityprocessGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: stepGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApproverDecisionRequestVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepWorkflowDecisionResponseVo'
+    servers:
+    - url: /v1
+  /qualityprocesses/{qualityprocessGuid}/steps/{stepGuid}/affected:
+    get:
+      tags:
+      - QualityProcess Detail
+      summary: List all affected objects in a quality step
+      description: Returns a collection of Affected Objects for a step with a given GUID in a Quality Process with a given GUID.
+      operationId: getQualityStepAffected
+      parameters:
+      - name: qualityprocessGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: stepGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityAffectedVoResultRep'
+    post:
+      tags:
+      - QualityProcess Detail
+      summary: Add an affected object to a quality step
+      description: Adds an Affected Object in a step with a given GUID in a Quality Process with a given GUID. The type can be ITEM, REQUEST, CHANGE, SUPPLIER, SUPPLIER ITEM, FILE, QUALITY, or URL.
+      operationId: insertQualityAffectedObject
+      parameters:
+      - name: qualityprocessGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: stepGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/QualityStepAffectedCreateVo'
+              - $ref: '#/components/schemas/QualityStepAffectedQualityCreateVo'
+              - $ref: '#/components/schemas/QualityStepAffectedUrlCreateVo'
+            examples:
+              Item:
+                description: Item
+                value:
+                  notes: Generated from this NCMR
+                  affected:
+                    guid: UCWFK835VXGCVEX9BQZA
+                    step:
+                      guid: 1J3MRFAC24NJ2L4GIX63
+              Supplier:
+                description: Supplier
+                value:
+                  notes: A Supplier
+                  affected:
+                    guid: UCWFKABBKRAGZINDEEM1
+              Supplier Item:
+                description: Supplier Item
+                value:
+                  notes: A Supplier Item
+                  affected:
+                    guid: HZJ27XYY7EX2L44UD816
+              Change:
+                description: Change
+                value:
+                  notes: A Change
+                  affected:
+                    guid: L3N6PXXMQL47Q8RCGOQ3
+              Request:
+                description: Request
+                value:
+                  notes: A Request
+                  affected:
+                    guid: J1L4IFJLWDWVEXTEZ3GH
+              Ticket:
+                description: Ticket
+                value:
+                  notes: A Ticket
+                  affected:
+                    guid: J1L4IFJLWDWVEXTEZ3GH
+              Training Plan:
+                description: Training Plan
+                value:
+                  notes: A TraingPlan
+                  affected:
+                    guid: J1L4IFJLWDWVEXTEZ3GH
+              File:
+                description: File
+                value:
+                  notes: A File
+                  affected:
+                    guid: FXH0JRRGKFYEXGZ8WDLF
+              Quality Process Step:
+                description: Quality Process Step
+                value:
+                  notes: A File
+                  affected:
+                    guid: FXH0JRRGKFYEXGZ8WDLF
+              URL:
+                description: URL
+                value:
+                  notes: A URL
+                  affected:
+                    link: http://www.arenasolutions.com
+                    display: Arena
+                    description: Arena's web site
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityAffectedVo'
+    servers:
+    - url: /v1
+  /qualityprocesses/statuschanges:
+    post:
+      tags:
+      - QualityProcess Detail
+      summary: Change the status of a quality process or one of its steps
+      description: 'Completes a specific Quality Process step.
+
+
+        NOTES:
+
+        1. Assigned Quality Process steps (excluding sign-off steps) can be completed by the Quality Process Step Assignee or the Quality Process Owner.
+
+        2. Quality Process steps without an assignee (excluding sign-off steps) can be completed by any user with permissions.
+
+        3. Quality Process steps (excluding sign-off steps) cannot be completed if the Quality Process itself is completed.
+
+        4. Quality Process sign-off steps cannot be completed by this endpoint.
+
+        5. For Access Policies: A user must have the Quality Edit Details rule enabled to complete a Quality Process step.
+
+        Reopens a Quality Process step.
+
+
+        NOTES:
+
+        1. Assigned Quality Process steps (excluding sign-off steps) can be reopened by the Quality Process Step Assignee or the Quality Process Owner.
+
+        2. Quality Process steps without an assignee (excluding sign-off steps) can be reopened by any user with permissions.
+
+        3. Quality Process steps (excluding sign-off steps) cannot be reopened if the Quality Process itself is completed.
+
+        4. Quality Process approved sign-off steps cannot be reopened or reversed by this endpoint.
+
+        5. For Access Policies: A user must have the Quality Edit Details rule enabled to reopen a Quality Process step.'
+      operationId: statusChange
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/QualityStatusChangeVo'
+              - $ref: '#/components/schemas/QualityStepWorkflowVo'
+            examples:
+              Quality Process:
+                description: Quality Process
+                value:
+                  qualityProcess:
+                    guid: SAUDROSU5M51K3M3VJAR
+                    status: COMPLETED
+                  comment: Completing quality process.
+              Step:
+                description: Step
+                value:
+                  qualityProcess:
+                    guid: SAUDROSU5M51K3M3VJAR
+                    step:
+                      guid: 7P9SXNOOX4NJ2L4N1EUS
+                      status: COMPLETED
+                  comment: Completing quality process.
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusChangeVo'
+    servers:
+    - url: /v1
+  /qualityprocesses/{qualityprocessGuid}/steps:
+    get:
+      tags:
+      - QualityProcess Detail
+      summary: List all steps in a quality process
+      description: Returns a collection of Quality Process Step objects for a Quality Process with a given GUID.
+      operationId: getSteps
+      parameters:
+      - name: qualityprocessGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityProcessStepVoResultRep'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    QualityStepAssigneeUpdateVo:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/SingleGuidVo'
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/SingleGuidVo'
+    AffectedUpdateVo:
+      type: object
+      properties:
+        notes:
+          type: string
+    AffectedUrlCreateVo:
+      type: object
+      properties:
+        link:
+          type: string
+        display:
+          type: string
+        description:
+          type: string
+    QualityDeprecateAssigneeVo:
+      type: object
+      properties:
+        deprecated:
+          type: boolean
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+        note:
+          type: string
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    CurrentStepVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    UserCompactRep:
+      type: object
+      properties:
+        guid:
+          type: string
+        creationDateTime:
+          type: string
+        fullName:
+          type: string
+        email:
+          type: string
+    QualityStepUpdateVo:
+      type: object
+      properties:
+        assignees:
+          $ref: '#/components/schemas/QualityStepAssigneeUpdateVo'
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCreateVo'
+        dueDateTime:
+          type: string
+    AdditionalAttributeCompactVo:
+      type: object
+      properties:
+        apiName:
+          type: string
+        fieldType:
+          type: string
+          enum:
+          - SINGLE_LINE_TEXT
+          - MULTI_LINE_TEXT
+          - DROP_DOWN
+          - FIXED_DROP_DOWN
+          - DATE
+          - NUMBER
+          - BOOLEAN
+          - INTEGER
+          - OBJECT
+          - POSITIVE_DOUBLE
+          - POSITIVE_INTEGER
+          - RICH_TEXT
+          - GUID
+          - DATETIME
+          - COST
+          - LIST
+          - ENUM
+        guid:
+          type: string
+        multiSelect:
+          type: boolean
+        name:
+          type: string
+        value: {}
+    QualityStepAffectedCreateVo:
+      type: object
+      properties:
+        notes:
+          type: string
+        affected:
+          $ref: '#/components/schemas/SingleGuidVo'
+    QualityStepAssigneeVo:
+      type: object
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCompactVo'
+        userGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserGroupWithUserVo'
+    UserGroupWithUserVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCompactVo'
+    SignOffStepDecisionVo:
+      type: object
+      properties:
+        decision:
+          type: string
+          enum:
+          - APPROVED
+          - REJECTED
+          - COMMENT
+        comments:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    UserGroupMinimalRequestVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    QualityProcessStepVo:
+      type: object
+      properties:
+        allowOwnerToAddApprovers:
+          type: boolean
+        approvals:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCompactVo'
+        assignee:
+          $ref: '#/components/schemas/QualityDeprecateAssigneeVo'
+        attributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCompactVo'
+        assignees:
+          $ref: '#/components/schemas/QualityStepAssigneeVo'
+        canceledDateTime:
+          type: string
+        canceledUser:
+          $ref: '#/components/schemas/UserCompactVo'
+        completeDateTime:
+          type: string
+        completeUser:
+          $ref: '#/components/schemas/UserCompactVo'
+        dueDateTime:
+          type: string
+        guid:
+          type: string
+        name:
+          type: string
+        order:
+          type: integer
+          format: int32
+        status:
+          type: string
+        type:
+          type: string
+        stepAssignComment:
+          type: string
+        firstOpened:
+          type: string
+        required:
+          type: string
+        reopenUser:
+          $ref: '#/components/schemas/UserCompactVo'
+        reopenedDate:
+          type: string
+    QualityProcessStepVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/QualityProcessStepVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    AdditionalAttributeCreateVo:
+      type: object
+      properties:
+        name:
+          type: string
+        guid:
+          type: string
+        value: {}
+    WorkflowDecisionResponseVo:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/UserCompactVo'
+        proxyFor:
+          $ref: '#/components/schemas/UserCompactVo'
+        group:
+          $ref: '#/components/schemas/UserGroupMinimalResponseVo'
+        comments:
+          type: string
+        decision:
+          type: string
+          enum:
+          - APPROVED
+          - REJECTED
+          - OVERRIDE_APPROVED
+          - OVERRIDE_REJECTED
+          - OVERRIDE_CANCEL
+          - COMMENTED
+          - NA
+        decisionDateTime:
+          type: string
+          format: date-time
+        decisionType:
+          type: string
+          enum:
+          - ALL_REQUIRED
+          - ONE_REQUIRED
+          - OPTIONAL
+          - COMMENTS_ONLY
+        guid:
+          type: string
+    QualityDecisionVo:
+      type: object
+      properties:
+        user:
+          $ref: '#/components/schemas/UserCompactVo'
+        proxyFor:
+          $ref: '#/components/schemas/UserCompactVo'
+        group:
+          $ref: '#/components/schemas/UserCompactVo'
+        guid:
+          type: string
+        decisionType:
+          type: string
+        decision:
+          type: string
+        decisionDateTime:
+          type: string
+        comments:
+          type: string
+    UserMinimalRequestVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    StepStatusChangeVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        step:
+          $ref: '#/components/schemas/QualityStepStatusChangeVo'
+    AffectedObjectVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        specificRevision:
+          type: boolean
+        type:
+          type: string
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    QualityAffectedVo:
+      type: object
+      properties:
+        addedAfterCompletion:
+          type: boolean
+        addedBy:
+          $ref: '#/components/schemas/UserCompactVo'
+        addedDateTime:
+          type: string
+        affected:
+          $ref: '#/components/schemas/AffectedObjectVo'
+        guid:
+          type: string
+        notes:
+          type: string
+    TemplateCompactVo:
+      type: object
+      properties:
+        active:
+          type: boolean
+        guid:
+          type: string
+    QualityStepAffectedQualityCreateVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        affected:
+          $ref: '#/components/schemas/AffectedQualityCreateVo'
+    QueryResultRepWorkflowDecisionFullRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkflowDecisionFullRep'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ApproverDecisionRequestVo:
+      type: object
+      properties:
+        decisionType:
+          type: string
+          enum:
+          - ALL_REQUIRED
+          - ONE_REQUIRED
+          - OPTIONAL
+          - COMMENTS_ONLY
+        group:
+          $ref: '#/components/schemas/UserGroupMinimalRequestVo'
+        user:
+          $ref: '#/components/schemas/UserMinimalRequestVo'
+    QualityStepStatusChangeVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        status:
+          type: string
+          enum:
+          - OPEN
+          - COMPLETED
+          - COMPLETED_STATUS
+          - SUBMITTED
+          - CANCELED
+    QualityStepAffectedUrlCreateVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        affected:
+          $ref: '#/components/schemas/AffectedUrlCreateVo'
+    QueryResultRepWorkflowDecisionResponseVo:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkflowDecisionResponseVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    QualityAffectedVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/QualityAffectedVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    AffectedQualityCreateVo:
+      type: object
+      properties:
+        step:
+          $ref: '#/components/schemas/SingleGuidVo'
+    QualityStatusChangeVo:
+      type: object
+      properties:
+        qualityProcess:
+          $ref: '#/components/schemas/QualityStatusWorkflowVo'
+        comment:
+          type: string
+    QualityStatusWorkflowVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        status:
+          type: string
+          enum:
+          - OPEN
+          - COMPLETED
+          - COMPLETED_STATUS
+          - SUBMITTED
+          - CANCELED
+    WorkflowDecisionFullRep:
+      type: object
+      properties:
+        guid:
+          type: string
+        creationDateTime:
+          type: string
+        decisionType:
+          type: string
+          enum:
+          - ALL_REQUIRED
+          - ONE_REQUIRED
+          - OPTIONAL
+          - COMMENTS_ONLY
+        user:
+          $ref: '#/components/schemas/UserCompactRep'
+        decision:
+          type: string
+          enum:
+          - APPROVED
+          - REJECTED
+          - OVERRIDE_APPROVED
+          - OVERRIDE_REJECTED
+          - OVERRIDE_CANCEL
+          - COMMENTED
+          - NA
+        decisionDateTime:
+          type: string
+          format: date-time
+        comments:
+          type: string
+        group:
+          $ref: '#/components/schemas/UserGroupMiniRep'
+        proxyFor:
+          $ref: '#/components/schemas/UserCompactRep'
+    QualityProcessVo:
+      type: object
+      properties:
+        canceledDateTime:
+          type: string
+        completedDateTime:
+          type: string
+        creationDateTime:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        currentStep:
+          $ref: '#/components/schemas/CurrentStepVo'
+        description:
+          type: string
+        guid:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        owner:
+          $ref: '#/components/schemas/UserCompactVo'
+        qualityProcessNotes:
+          type: string
+        status:
+          type: string
+        statusComments:
+          type: string
+        statusMode:
+          type: string
+        targetCompletionDateTime:
+          type: string
+        template:
+          $ref: '#/components/schemas/TemplateCompactVo'
+        type:
+          type: string
+        targetDateComments:
+          type: string
+    StatusChangeVo:
+      type: object
+      properties:
+        qualityProcess:
+          $ref: '#/components/schemas/QualityProcessVo'
+        complete:
+          type: boolean
+        comment:
+          type: string
+        status:
+          type: string
+    UserGroupMinimalResponseVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    UserGroupMiniRep:
+      type: object
+      properties:
+        guid:
+          type: string
+        creationDateTime:
+          type: string
+        name:
+          type: string
+    QualityStepWorkflowVo:
+      type: object
+      properties:
+        comment:
+          type: string
+        qualityProcess:
+          $ref: '#/components/schemas/StepStatusChangeVo'
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

@@ -1,0 +1,1125 @@
+openapi: 3.2.0
+info:
+  title: Ptc Policy Settings API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Policy Settings across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Policy Settings
+  description: Manage users access.
+paths:
+  /settings/accesspolicies:
+    get:
+      tags:
+      - Policy Settings
+      summary: List all access policies
+      operationId: getWorkspacePolicies
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyResponseVoResultRep'
+    servers:
+    - url: /v1
+  /settings/accesspolicies/{policyGuid}:
+    get:
+      tags:
+      - Policy Settings
+      summary: Get details of a specific access policy
+      operationId: getPolicy
+      parameters:
+      - name: policyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyResponseVo'
+    servers:
+    - url: /v1
+  /settings/accesspolicies/{policyGuid}/users:
+    get:
+      tags:
+      - Policy Settings
+      summary: List users linked to an access policy
+      operationId: getUsersInPolicy
+      parameters:
+      - name: policyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GrantedUserVoResultRep'
+    servers:
+    - url: /v1
+  /settings/accesspolicies/{policyGuid}/users/{grantGuid}:
+    get:
+      tags:
+      - Policy Settings
+      summary: Get details of a specific user linked to a policy
+      operationId: getUserInPolicy
+      parameters:
+      - name: policyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: grantGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GrantedUserVo'
+    servers:
+    - url: /v1
+  /settings/accesspolicies/{policyGuid}/usergroups:
+    get:
+      tags:
+      - Policy Settings
+      summary: List user groups linked to an access policy
+      operationId: getUserGroupsInPolicy
+      parameters:
+      - name: policyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GrantedUserGroupVoResultRep'
+    servers:
+    - url: /v1
+  /settings/accesspolicies/{policyGuid}/usergroups/{grantGuid}:
+    get:
+      tags:
+      - Policy Settings
+      summary: Get details of a specific group linked to a policy
+      operationId: getUserGroupInPolicy
+      parameters:
+      - name: policyGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: grantGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GrantedUserGroupVo'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    GrantedUserVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GrantedUserVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    PolicyResponseVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+    GrantedUserGroupVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/GrantedUserGroupVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    PolicyResponseVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyResponseVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    GrantedUserGroupVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        usergroup:
+          $ref: '#/components/schemas/UserGroupFullRep'
+    UserFullVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        fullName:
+          type: string
+        email:
+          type: string
+        type:
+          type: string
+        enabled:
+          type: boolean
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        guid:
+          type: string
+        creationDateTime:
+          type: string
+        creatorId:
+          type: integer
+          format: int64
+        mappingId:
+          type: integer
+          format: int64
+        modifierId:
+          type: integer
+          format: int64
+        workspaceId:
+          type: integer
+          format: int64
+        fullName:
+          type: string
+        email:
+          type: string
+        type:
+          type: string
+          enum:
+          - ALL
+          - EMPLOYEE
+          - PARTNER
+          - SUPPLIER
+          - BASIC_SUPPLIER
+          - ADVANCED_SUPPLIER
+          - INTEGRATION_USER
+        enabled_p:
+          type: string
+          writeOnly: true
+        name:
+          type: string
+        defaultValue: {}
+        enabled:
+          type: string
+        plmEntityType:
+          type: string
+          enum:
+          - ITEM
+          - FILE
+          - FILE_MASTER
+          - REPORT
+          - REPORT_INSTANCE
+          - ITEM_FILE_MAP
+          - AFS_FOLDER
+          - CATEGORY
+          - NUMBER_FORMAT
+          - ITEM_REVISION
+          - BOM_LINE
+          - SUPPLIER
+          - SUPPLIER_ITEM
+          - CHANGE
+          - CHANGE_CUSTOM_ATTRIBUTE
+          - CHANGE_LIFECYCLE
+          - CHANGE_DECISION
+          - REQUEST
+          - REQUEST_CUSTOM_ATTRIBUTE
+          - REQUEST_LIFECYCLE
+          - QUALITY
+          - QUALITY_STEP
+          - PROJECT
+          - PROJECT_SCHEDULE
+          - QUALITY_CUSTOM_ATTRIBUTE
+          - PROJECT_CUSTOM_ATTRIBUTE
+          - DW_EXTRACT
+          - DW_EXTRACT_RUN
+          - DW_EXTRACT_RUNFILE_ASSOCIATION
+          - CHANGE_CUSTOM_CHANGE_VALUE_ID
+          - REQUEST_CUSTOM_ATTRIBUTE_REQUEST_VALUE_ID
+          - EXTRACT_VALUE_ID
+          - ITEM_ADDITIONAL_ATTRIBUTE
+          - ITEM_BOM
+          - ITEM_BOM_SUB
+          - SOURCING_RELATIONSHIP
+          - SUPPLIER_ITEM_GUID
+          - SUPPLIER_GUID
+          - ITEM_CUST_ATTR_SI
+          - ITEM_CUST_ATTR_PROPERTY_ID
+          - REQUEST_ITEM_ECR_ITEM_MAP_ID
+          - QUALITYPROCESS_ASSOCIATION
+          - URL
+          - HISTORY_AUDIT
+          - PROJECT_ITEM_MAP_ID
+          - PROJECT_CHANGE_MAP_ID
+          - PROJECT_ECR_MAP_ID
+          - PROJECT_PROJECT_MAP_ID
+          - CHANGE_ITEM
+          - LIFECYCLE_PHASE
+          - BOMLINE_ADDITIONAL_ATTRIBUTE
+          - SUPPLIER_VALUE_ID
+          - QUALITY_STEP_DECISION
+          - ITEM_COMPLIANCE_REQUIREMENT
+          - ITEM_REQUIREMENT
+          - SUPPLIERITEM_COMPLIANCE_REQUIREMENT
+          - ITEM_BOM_SETTINGS
+          - ITEM_LIFECYCLE_CHANGE
+          - QUALITY_CUSTOM_ATTRIBUTE_QUALITY_PROPERTY_MAP_ID
+          - SUPPLIER_ITEM_RUNFILE_ASSOCIATION
+          - SUPPLIER_ITEM_SUMMARY_ITEM_GUID
+          - PROJECT_ITEM_GUID
+          - QUALITY_AO_ITEM_GUID
+          - SUPPLIER_ITEM_CUST_ATTR_ITEM_ID
+          - CHANGE_REQUEST_ECR_CHANGE_MAP_ID
+          - ATTRIBUTE
+          - BOMLINE_ATTRIBUTE
+          - QUALITY_PREFIX
+          - USER
+          - ADDITIONAL_ATTRIBUTE
+          - REQUEST_EVALUATOR_GROUP
+          - REQUEST_PREFIX
+          - VERIFY
+          - RECENT_ACTIVITY
+          - RECENT_ACTIVITY_USER_ACCESS
+          - RECENT_ACTIVITY_REPORT_RUN
+          - RECENT_ACTIVITY_FILE_ACCESS
+          - RECENT_ACTIVITY_FILE_ACCESS_FILE
+          - RECENT_ACTIVITY_EXPORT
+          - SUPPLIER_RUNFILE_ASSOCIATION
+          - CHANGE_FILE_MAP
+          - REQUEST_FILE_MAP
+          - ITEM_LIFECYCLE_TRANSITION
+          - ITEM_UOM
+          - ROUTING
+          - COST_ATTRIBUTE
+          - AFS_OBJECT
+          - SUPPLIERITEM_REQUIREMENT
+          - BULK_SESSION
+          - REQUEST_ISSUES
+          - CHANGE_NUMBER_FORMAT_SEQUENCE_PREFIX
+          - PROD_REQUIREMENT
+          - SETTINGS_TEMPLATE
+          - PLM_REFERENCE
+          - NON_REVISION_CONTROLLED_ADDITIONAL_ATTRIBUTE_VALUE
+          - NON_REVISION_CONTROLLED_ADDITIONAL_ATTRIBUTE
+          - CHANGE_IMPLEMENTATION_NOTES
+          - REVISION
+          - REQUIREMENT_BASELINE
+          - PLM_WORKFLOW
+          - ITEM_NUMBER_FORMAT_FIELD
+          - ITEM_REFERENCE
+          - TRAINING
+          - TRAINING_ITEMS
+          - TRAINING_USERS
+          - TRAINING_RECORDS
+          - EXPORT_DEFINITION
+          - ITEM_EXPORT_DEFINITION
+          - EXPORT_RUN
+          - QUALITYPROCESS_STATUS_CHANGE
+          - REQUIREMENT
+          - QUALITY_TEMPLATE
+          - PROJECT_PHASE
+          - PROJECT_TASK
+          - PROJECT_MILESTONE
+          - PROJECT_REFERENCE
+          - VERIFY_PREFIX
+          - TRAINING_PREFIX
+          - NUMBER_SEQUENCE
+          - NUMBER_PREFIX
+          - PROJECT_TEMPLATE
+          - PROJECT_TEMPLATE_PHASE
+          - PROJECT_TEMPLATE_TASK
+          - RELATIONSHIP_TYPE
+          - MANUFACTURER_ITEM_GUID
+          - BC_EMAIL_TEMPLATE
+          - FILE_MARKUP_FILE_ASSOCIATION
+          - CHANGE_IMPL_FILE_ASSOCIATION
+          - CHANGE_MARKUP_FILE_ASSOCIATION
+          - REQUEST_MARKUP_FILE_ASSOCIATION
+          - CHANGE_NUMBER_FORMAT
+          - CHANGE_IMPLEMENTATION_STATUS
+          - TRAINING_FILE_ASSOCIATION
+          - REQUIREMENT_FILE_ASSOCIATION
+          - VERIFY_FILE_ASSOCIATION
+          - PROJECT_FILE_ASSOCIATION
+          - REQUEST_ITEM
+          - SI_SCI_RISK_INDICATOR_ID
+          - ITEM_SCI_RISK_INDICATOR_ID
+          - INTEGRATION
+          - INTEGRATION_EVENT
+          - INTEGRATION_EVENT_ITEM
+          - ADDRESS
+          - SUPPLIER_ADDRESS
+          - SUPPLIER_PHONE_NUMBER
+          - CHANGE_IMPLEMENTATION_TASKS
+          - OUTBOUND_EVENT
+          - EVENT_RESOURCE
+          - OUTBOUND_EVENT_INTEGRATION
+          - TRIGGER
+          - SUPPLIER_APPROVAL_STATUS
+          - FILE_CORRECTION
+          - USER_GROUP
+          - ITEM_BULK_CHANGE
+          - WORKFLOW_DECISION
+          - ITEM_TRAINING_ASSOCIATION
+          - USER_GROUP_MEMBER
+          - QUOTE_LINE
+          - PURCHASE_LINE
+          - CONTACT
+          - CONTACT_PHONE_NUMBER
+          - CONTACT_ADDRESS
+          - INTEGRATED_APP
+          - IMPORT_DEFINITION
+          - IMPORT_RUN
+          - ATTRIBUTE_GROUP
+          - ITEM_NUMBER_RESERVATION
+          - REQUIREMENT_TRACE
+          - FOLDER
+          - EXTRACT_OWNER_USER
+          - TICKET
+          - POLICY
+          - USER_2_POLICY
+          - USER_2_USER_GROUP
+          - DASHBOARD
+          - SCHEDULED_TRIGGER
+          - ON_DEMAND_HOMEPAGE_TRIGGER
+          - GLOBAL
+        getGuid:
+          type: string
+          writeOnly: true
+    UserCompactRep:
+      type: object
+      properties:
+        guid:
+          type: string
+        creationDateTime:
+          type: string
+        fullName:
+          type: string
+        email:
+          type: string
+    UserGroupFullRep:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        guid:
+          type: string
+        creationDateTime:
+          type: string
+        creatorId:
+          type: integer
+          format: int64
+        mappingId:
+          type: integer
+          format: int64
+        modifierId:
+          type: integer
+          format: int64
+        workspaceId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        enabled:
+          type: boolean
+        updatedDateTime:
+          type: string
+        creatorName:
+          type: string
+        updaterName:
+          type: string
+        creator:
+          $ref: '#/components/schemas/User'
+        modifier:
+          $ref: '#/components/schemas/User'
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserGroupMemberProfile'
+        assignability:
+          type: string
+        assignabilityText:
+          type: string
+        memberCount:
+          type: integer
+          format: int32
+        href:
+          type: string
+        creatorRepresentation:
+          $ref: '#/components/schemas/UserCompactRep'
+          xml:
+            name: creator
+        modifierRepresentation:
+          $ref: '#/components/schemas/UserCompactRep'
+          xml:
+            name: modifiedBy
+        createDateTime:
+          type: string
+          xml:
+            name: creationDateTime
+        updateDateTime:
+          type: string
+          xml:
+            name: lastModifiedDateTime
+        assignabilities:
+          type: array
+          items:
+            type: string
+            xml:
+              name: assignability
+          xml:
+            name: assignability
+        plmEntityType:
+          type: string
+          enum:
+          - ITEM
+          - FILE
+          - FILE_MASTER
+          - REPORT
+          - REPORT_INSTANCE
+          - ITEM_FILE_MAP
+          - AFS_FOLDER
+          - CATEGORY
+          - NUMBER_FORMAT
+          - ITEM_REVISION
+          - BOM_LINE
+          - SUPPLIER
+          - SUPPLIER_ITEM
+          - CHANGE
+          - CHANGE_CUSTOM_ATTRIBUTE
+          - CHANGE_LIFECYCLE
+          - CHANGE_DECISION
+          - REQUEST
+          - REQUEST_CUSTOM_ATTRIBUTE
+          - REQUEST_LIFECYCLE
+          - QUALITY
+          - QUALITY_STEP
+          - PROJECT
+          - PROJECT_SCHEDULE
+          - QUALITY_CUSTOM_ATTRIBUTE
+          - PROJECT_CUSTOM_ATTRIBUTE
+          - DW_EXTRACT
+          - DW_EXTRACT_RUN
+          - DW_EXTRACT_RUNFILE_ASSOCIATION
+          - CHANGE_CUSTOM_CHANGE_VALUE_ID
+          - REQUEST_CUSTOM_ATTRIBUTE_REQUEST_VALUE_ID
+          - EXTRACT_VALUE_ID
+          - ITEM_ADDITIONAL_ATTRIBUTE
+          - ITEM_BOM
+          - ITEM_BOM_SUB
+          - SOURCING_RELATIONSHIP
+          - SUPPLIER_ITEM_GUID
+          - SUPPLIER_GUID
+          - ITEM_CUST_ATTR_SI
+          - ITEM_CUST_ATTR_PROPERTY_ID
+          - REQUEST_ITEM_ECR_ITEM_MAP_ID
+          - QUALITYPROCESS_ASSOCIATION
+          - URL
+          - HISTORY_AUDIT
+          - PROJECT_ITEM_MAP_ID
+          - PROJECT_CHANGE_MAP_ID
+          - PROJECT_ECR_MAP_ID
+          - PROJECT_PROJECT_MAP_ID
+          - CHANGE_ITEM
+          - LIFECYCLE_PHASE
+          - BOMLINE_ADDITIONAL_ATTRIBUTE
+          - SUPPLIER_VALUE_ID
+          - QUALITY_STEP_DECISION
+          - ITEM_COMPLIANCE_REQUIREMENT
+          - ITEM_REQUIREMENT
+          - SUPPLIERITEM_COMPLIANCE_REQUIREMENT
+          - ITEM_BOM_SETTINGS
+          - ITEM_LIFECYCLE_CHANGE
+          - QUALITY_CUSTOM_ATTRIBUTE_QUALITY_PROPERTY_MAP_ID
+          - SUPPLIER_ITEM_RUNFILE_ASSOCIATION
+          - SUPPLIER_ITEM_SUMMARY_ITEM_GUID
+          - PROJECT_ITEM_GUID
+          - QUALITY_AO_ITEM_GUID
+          - SUPPLIER_ITEM_CUST_ATTR_ITEM_ID
+          - CHANGE_REQUEST_ECR_CHANGE_MAP_ID
+          - ATTRIBUTE
+          - BOMLINE_ATTRIBUTE
+          - QUALITY_PREFIX
+          - USER
+          - ADDITIONAL_ATTRIBUTE
+          - REQUEST_EVALUATOR_GROUP
+          - REQUEST_PREFIX
+          - VERIFY
+          - RECENT_ACTIVITY
+          - RECENT_ACTIVITY_USER_ACCESS
+          - RECENT_ACTIVITY_REPORT_RUN
+          - RECENT_ACTIVITY_FILE_ACCESS
+          - RECENT_ACTIVITY_FILE_ACCESS_FILE
+          - RECENT_ACTIVITY_EXPORT
+          - SUPPLIER_RUNFILE_ASSOCIATION
+          - CHANGE_FILE_MAP
+          - REQUEST_FILE_MAP
+          - ITEM_LIFECYCLE_TRANSITION
+          - ITEM_UOM
+          - ROUTING
+          - COST_ATTRIBUTE
+          - AFS_OBJECT
+          - SUPPLIERITEM_REQUIREMENT
+          - BULK_SESSION
+          - REQUEST_ISSUES
+          - CHANGE_NUMBER_FORMAT_SEQUENCE_PREFIX
+          - PROD_REQUIREMENT
+          - SETTINGS_TEMPLATE
+          - PLM_REFERENCE
+          - NON_REVISION_CONTROLLED_ADDITIONAL_ATTRIBUTE_VALUE
+          - NON_REVISION_CONTROLLED_ADDITIONAL_ATTRIBUTE
+          - CHANGE_IMPLEMENTATION_NOTES
+          - REVISION
+          - REQUIREMENT_BASELINE
+          - PLM_WORKFLOW
+          - ITEM_NUMBER_FORMAT_FIELD
+          - ITEM_REFERENCE
+          - TRAINING
+          - TRAINING_ITEMS
+          - TRAINING_USERS
+          - TRAINING_RECORDS
+          - EXPORT_DEFINITION
+          - ITEM_EXPORT_DEFINITION
+          - EXPORT_RUN
+          - QUALITYPROCESS_STATUS_CHANGE
+          - REQUIREMENT
+          - QUALITY_TEMPLATE
+          - PROJECT_PHASE
+          - PROJECT_TASK
+          - PROJECT_MILESTONE
+          - PROJECT_REFERENCE
+          - VERIFY_PREFIX
+          - TRAINING_PREFIX
+          - NUMBER_SEQUENCE
+          - NUMBER_PREFIX
+          - PROJECT_TEMPLATE
+          - PROJECT_TEMPLATE_PHASE
+          - PROJECT_TEMPLATE_TASK
+          - RELATIONSHIP_TYPE
+          - MANUFACTURER_ITEM_GUID
+          - BC_EMAIL_TEMPLATE
+          - FILE_MARKUP_FILE_ASSOCIATION
+          - CHANGE_IMPL_FILE_ASSOCIATION
+          - CHANGE_MARKUP_FILE_ASSOCIATION
+          - REQUEST_MARKUP_FILE_ASSOCIATION
+          - CHANGE_NUMBER_FORMAT
+          - CHANGE_IMPLEMENTATION_STATUS
+          - TRAINING_FILE_ASSOCIATION
+          - REQUIREMENT_FILE_ASSOCIATION
+          - VERIFY_FILE_ASSOCIATION
+          - PROJECT_FILE_ASSOCIATION
+          - REQUEST_ITEM
+          - SI_SCI_RISK_INDICATOR_ID
+          - ITEM_SCI_RISK_INDICATOR_ID
+          - INTEGRATION
+          - INTEGRATION_EVENT
+          - INTEGRATION_EVENT_ITEM
+          - ADDRESS
+          - SUPPLIER_ADDRESS
+          - SUPPLIER_PHONE_NUMBER
+          - CHANGE_IMPLEMENTATION_TASKS
+          - OUTBOUND_EVENT
+          - EVENT_RESOURCE
+          - OUTBOUND_EVENT_INTEGRATION
+          - TRIGGER
+          - SUPPLIER_APPROVAL_STATUS
+          - FILE_CORRECTION
+          - USER_GROUP
+          - ITEM_BULK_CHANGE
+          - WORKFLOW_DECISION
+          - ITEM_TRAINING_ASSOCIATION
+          - USER_GROUP_MEMBER
+          - QUOTE_LINE
+          - PURCHASE_LINE
+          - CONTACT
+          - CONTACT_PHONE_NUMBER
+          - CONTACT_ADDRESS
+          - INTEGRATED_APP
+          - IMPORT_DEFINITION
+          - IMPORT_RUN
+          - ATTRIBUTE_GROUP
+          - ITEM_NUMBER_RESERVATION
+          - REQUIREMENT_TRACE
+          - FOLDER
+          - EXTRACT_OWNER_USER
+          - TICKET
+          - POLICY
+          - USER_2_POLICY
+          - USER_2_USER_GROUP
+          - DASHBOARD
+          - SCHEDULED_TRIGGER
+          - ON_DEMAND_HOMEPAGE_TRIGGER
+          - GLOBAL
+        getGuid:
+          type: string
+          writeOnly: true
+    GrantedUserVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        user:
+          $ref: '#/components/schemas/UserFullVo'
+    UserGroupMemberProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        guid:
+          type: string
+        creationDateTime:
+          type: string
+        creatorId:
+          type: integer
+          format: int64
+        mappingId:
+          type: integer
+          format: int64
+        modifierId:
+          type: integer
+          format: int64
+        workspaceId:
+          type: integer
+          format: int64
+        fullName:
+          type: string
+        email:
+          type: string
+        type:
+          type: string
+          enum:
+          - ALL
+          - EMPLOYEE
+          - PARTNER
+          - SUPPLIER
+          - BASIC_SUPPLIER
+          - ADVANCED_SUPPLIER
+          - INTEGRATION_USER
+        enabled_p:
+          type: string
+          writeOnly: true
+        company:
+          type: string
+        department:
+          type: string
+        location:
+          type: string
+        workspaceName:
+          type: string
+        license:
+          type: string
+          enum:
+          - FULL
+          - READ_ONLY
+          - APPROVER
+          - ADAPTER
+          - ADDON_PRODUCT_ONLY
+        creator:
+          $ref: '#/components/schemas/User'
+        modifier:
+          $ref: '#/components/schemas/User'
+        creationDate:
+          type: string
+          format: date-time
+        modificationDate:
+          type: string
+          format: date-time
+        escalationUser:
+          $ref: '#/components/schemas/User'
+        proxyApprover:
+          $ref: '#/components/schemas/User'
+        trainingEnabled:
+          type: boolean
+        qualityEscalationUser:
+          $ref: '#/components/schemas/User'
+        visibility:
+          type: boolean
+        machineUserP:
+          type: boolean
+        ownerId:
+          type: integer
+          format: int64
+        ownerEmail:
+          type: string
+        ownerFirstName:
+          type: string
+        ownerLastName:
+          type: string
+        title:
+          type: string
+        manager:
+          type: string
+        gid:
+          type: integer
+          format: int64
+        name:
+          type: string
+        defaultValue: {}
+        enabled:
+          type: string
+        plmEntityType:
+          type: string
+          enum:
+          - ITEM
+          - FILE
+          - FILE_MASTER
+          - REPORT
+          - REPORT_INSTANCE
+          - ITEM_FILE_MAP
+          - AFS_FOLDER
+          - CATEGORY
+          - NUMBER_FORMAT
+          - ITEM_REVISION
+          - BOM_LINE
+          - SUPPLIER
+          - SUPPLIER_ITEM
+          - CHANGE
+          - CHANGE_CUSTOM_ATTRIBUTE
+          - CHANGE_LIFECYCLE
+          - CHANGE_DECISION
+          - REQUEST
+          - REQUEST_CUSTOM_ATTRIBUTE
+          - REQUEST_LIFECYCLE
+          - QUALITY
+          - QUALITY_STEP
+          - PROJECT
+          - PROJECT_SCHEDULE
+          - QUALITY_CUSTOM_ATTRIBUTE
+          - PROJECT_CUSTOM_ATTRIBUTE
+          - DW_EXTRACT
+          - DW_EXTRACT_RUN
+          - DW_EXTRACT_RUNFILE_ASSOCIATION
+          - CHANGE_CUSTOM_CHANGE_VALUE_ID
+          - REQUEST_CUSTOM_ATTRIBUTE_REQUEST_VALUE_ID
+          - EXTRACT_VALUE_ID
+          - ITEM_ADDITIONAL_ATTRIBUTE
+          - ITEM_BOM
+          - ITEM_BOM_SUB
+          - SOURCING_RELATIONSHIP
+          - SUPPLIER_ITEM_GUID
+          - SUPPLIER_GUID
+          - ITEM_CUST_ATTR_SI
+          - ITEM_CUST_ATTR_PROPERTY_ID
+          - REQUEST_ITEM_ECR_ITEM_MAP_ID
+          - QUALITYPROCESS_ASSOCIATION
+          - URL
+          - HISTORY_AUDIT
+          - PROJECT_ITEM_MAP_ID
+          - PROJECT_CHANGE_MAP_ID
+          - PROJECT_ECR_MAP_ID
+          - PROJECT_PROJECT_MAP_ID
+          - CHANGE_ITEM
+          - LIFECYCLE_PHASE
+          - BOMLINE_ADDITIONAL_ATTRIBUTE
+          - SUPPLIER_VALUE_ID
+          - QUALITY_STEP_DECISION
+          - ITEM_COMPLIANCE_REQUIREMENT
+          - ITEM_REQUIREMENT
+          - SUPPLIERITEM_COMPLIANCE_REQUIREMENT
+          - ITEM_BOM_SETTINGS
+          - ITEM_LIFECYCLE_CHANGE
+          - QUALITY_CUSTOM_ATTRIBUTE_QUALITY_PROPERTY_MAP_ID
+          - SUPPLIER_ITEM_RUNFILE_ASSOCIATION
+          - SUPPLIER_ITEM_SUMMARY_ITEM_GUID
+          - PROJECT_ITEM_GUID
+          - QUALITY_AO_ITEM_GUID
+          - SUPPLIER_ITEM_CUST_ATTR_ITEM_ID
+          - CHANGE_REQUEST_ECR_CHANGE_MAP_ID
+          - ATTRIBUTE
+          - BOMLINE_ATTRIBUTE
+          - QUALITY_PREFIX
+          - USER
+          - ADDITIONAL_ATTRIBUTE
+          - REQUEST_EVALUATOR_GROUP
+          - REQUEST_PREFIX
+          - VERIFY
+          - RECENT_ACTIVITY
+          - RECENT_ACTIVITY_USER_ACCESS
+          - RECENT_ACTIVITY_REPORT_RUN
+          - RECENT_ACTIVITY_FILE_ACCESS
+          - RECENT_ACTIVITY_FILE_ACCESS_FILE
+          - RECENT_ACTIVITY_EXPORT
+          - SUPPLIER_RUNFILE_ASSOCIATION
+          - CHANGE_FILE_MAP
+          - REQUEST_FILE_MAP
+          - ITEM_LIFECYCLE_TRANSITION
+          - ITEM_UOM
+          - ROUTING
+          - COST_ATTRIBUTE
+          - AFS_OBJECT
+          - SUPPLIERITEM_REQUIREMENT
+          - BULK_SESSION
+          - REQUEST_ISSUES
+          - CHANGE_NUMBER_FORMAT_SEQUENCE_PREFIX
+          - PROD_REQUIREMENT
+          - SETTINGS_TEMPLATE
+          - PLM_REFERENCE
+          - NON_REVISION_CONTROLLED_ADDITIONAL_ATTRIBUTE_VALUE
+          - NON_REVISION_CONTROLLED_ADDITIONAL_ATTRIBUTE
+          - CHANGE_IMPLEMENTATION_NOTES
+          - REVISION
+          - REQUIREMENT_BASELINE
+          - PLM_WORKFLOW
+          - ITEM_NUMBER_FORMAT_FIELD
+          - ITEM_REFERENCE
+          - TRAINING
+          - TRAINING_ITEMS
+          - TRAINING_USERS
+          - TRAINING_RECORDS
+          - EXPORT_DEFINITION
+          - ITEM_EXPORT_DEFINITION
+          - EXPORT_RUN
+          - QUALITYPROCESS_STATUS_CHANGE
+          - REQUIREMENT
+          - QUALITY_TEMPLATE
+          - PROJECT_PHASE
+          - PROJECT_TASK
+          - PROJECT_MILESTONE
+          - PROJECT_REFERENCE
+          - VERIFY_PREFIX
+          - TRAINING_PREFIX
+          - NUMBER_SEQUENCE
+          - NUMBER_PREFIX
+          - PROJECT_TEMPLATE
+          - PROJECT_TEMPLATE_PHASE
+          - PROJECT_TEMPLATE_TASK
+          - RELATIONSHIP_TYPE
+          - MANUFACTURER_ITEM_GUID
+          - BC_EMAIL_TEMPLATE
+          - FILE_MARKUP_FILE_ASSOCIATION
+          - CHANGE_IMPL_FILE_ASSOCIATION
+          - CHANGE_MARKUP_FILE_ASSOCIATION
+          - REQUEST_MARKUP_FILE_ASSOCIATION
+          - CHANGE_NUMBER_FORMAT
+          - CHANGE_IMPLEMENTATION_STATUS
+          - TRAINING_FILE_ASSOCIATION
+          - REQUIREMENT_FILE_ASSOCIATION
+          - VERIFY_FILE_ASSOCIATION
+          - PROJECT_FILE_ASSOCIATION
+          - REQUEST_ITEM
+          - SI_SCI_RISK_INDICATOR_ID
+          - ITEM_SCI_RISK_INDICATOR_ID
+          - INTEGRATION
+          - INTEGRATION_EVENT
+          - INTEGRATION_EVENT_ITEM
+          - ADDRESS
+          - SUPPLIER_ADDRESS
+          - SUPPLIER_PHONE_NUMBER
+          - CHANGE_IMPLEMENTATION_TASKS
+          - OUTBOUND_EVENT
+          - EVENT_RESOURCE
+          - OUTBOUND_EVENT_INTEGRATION
+          - TRIGGER
+          - SUPPLIER_APPROVAL_STATUS
+          - FILE_CORRECTION
+          - USER_GROUP
+          - ITEM_BULK_CHANGE
+          - WORKFLOW_DECISION
+          - ITEM_TRAINING_ASSOCIATION
+          - USER_GROUP_MEMBER
+          - QUOTE_LINE
+          - PURCHASE_LINE
+          - CONTACT
+          - CONTACT_PHONE_NUMBER
+          - CONTACT_ADDRESS
+          - INTEGRATED_APP
+          - IMPORT_DEFINITION
+          - IMPORT_RUN
+          - ATTRIBUTE_GROUP
+          - ITEM_NUMBER_RESERVATION
+          - REQUIREMENT_TRACE
+          - FOLDER
+          - EXTRACT_OWNER_USER
+          - TICKET
+          - POLICY
+          - USER_2_POLICY
+          - USER_2_USER_GROUP
+          - DASHBOARD
+          - SCHEDULED_TRIGGER
+          - ON_DEMAND_HOMEPAGE_TRIGGER
+          - GLOBAL
+        getGuid:
+          type: string
+          writeOnly: true
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

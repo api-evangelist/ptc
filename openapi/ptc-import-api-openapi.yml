@@ -1,0 +1,863 @@
+openapi: 3.2.0
+info:
+  title: Ptc Import API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Import across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Import
+  description: Manage import definitions and runs, including submitting content, getting results/errors, and committing.
+paths:
+  /imports/{importGuid}:
+    get:
+      tags:
+      - Import
+      summary: Get details of a specific import definition
+      description: Returns an Import Definition with a given GUID.
+      operationId: getImportDefinition
+      parameters:
+      - name: importGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefinitionResponseWithGuidVo'
+    put:
+      tags:
+      - Import
+      summary: Update an existing import definition
+      description: Edits the Import Definition name and description. Import Engine endpoints are only supported in Access Policies workspaces.
+      operationId: updateDefinition
+      parameters:
+      - name: importGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDefinitionRequest'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefinitionResponseWithGuidVo'
+    servers:
+    - url: /v1
+  /imports/{importGuid}/runs/{importRunGuid}:
+    get:
+      tags:
+      - Import
+      summary: Get details of a specific import run
+      description: Returns anImport Runs object with a given GUID.
+      operationId: getImportRun
+      parameters:
+      - name: importGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: importRunGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunResponseWithGuidVo'
+    put:
+      tags:
+      - Import
+      summary: Re-run a previous import job using form data
+      operationId: rerunImportJobFormData
+      parameters:
+      - name: importGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: importRunGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: commit
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+      - name: debug
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+      - name: actor
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunResponseWithGuidVo'
+    servers:
+    - url: /v1
+  /imports/{importGuid}/runs/{importRunGuid}/complete:
+    put:
+      tags:
+      - Import
+      summary: Mark an import run as completed
+      operationId: forceCompleteRun
+      parameters:
+      - name: importGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: importRunGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunResponseWithGuidVo'
+    servers:
+    - url: /v1
+  /imports:
+    get:
+      tags:
+      - Import
+      summary: Search for import definitions using filters like name or creator
+      description: Returns a collection of Import Definition objects matching the given search criteria.
+      operationId: getImportDefinitions
+      parameters:
+      - name: number
+        in: query
+        schema:
+          type: string
+      - name: name
+        in: query
+        schema:
+          type: string
+      - name: description
+        in: query
+        schema:
+          type: string
+      - name: resource
+        in: query
+        schema:
+          type: string
+      - name: mode
+        in: query
+        schema:
+          type: string
+      - name: creator.guid
+        in: query
+        schema:
+          type: string
+      - name: creator.fullName
+        in: query
+        schema:
+          type: string
+      - name: creator.email
+        in: query
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: query result offset (default 0)
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: query result limit (default 20, max 400)
+        schema:
+          type: integer
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefinitionResponseResultRep'
+    post:
+      tags:
+      - Import
+      summary: Create a new import definition
+      description: Creates a new Import Definition object. Note that all Import Engine endpoints are only supported in Access Policies workspaces.
+      operationId: createDefinition
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDefinitionRequest'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefinitionResponseWithGuidVo'
+    servers:
+    - url: /v1
+  /imports/{importGuid}/runs:
+    get:
+      tags:
+      - Import
+      summary: Search for import run jobs using filters like status or creator
+      description: Returns Import Runs objects that are the result of an import definition.
+      operationId: getImportRuns
+      parameters:
+      - name: number
+        in: query
+        schema:
+          type: string
+      - name: status
+        in: query
+        schema:
+          type: string
+      - name: creator.guid
+        in: query
+        schema:
+          type: string
+      - name: creator.fullName
+        in: query
+        schema:
+          type: string
+      - name: creator.email
+        in: query
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: query result offset (default 0)
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: query result limit (default 20, max 400)
+        schema:
+          type: integer
+      - name: importGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunStatusResponseResultRep'
+    post:
+      tags:
+      - Import
+      summary: Start a new import run with file uploads
+      description: 'Initiates an Import run using an import source file in conjunction with an existing Import Definition. Creates an Import Run object.
+
+
+        Notes:
+
+        1. The import run endpoint executes an import definition.
+
+        2. Import results are saved in Arena and expire after 60 days. Once expired, the results files are deleted in Arena and are no longer available.
+
+        3. Import Limits: COMING SOON.
+
+
+        Import runs can have the following six statuses.'
+      operationId: runImportJob
+      parameters:
+      - name: importGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: submitFileType
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: commit
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+      - name: submitWorksheetName
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: debug
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: true
+      - name: actor
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                submitContent:
+                  type: string
+                  format: binary
+                fileContent:
+                  type: string
+                  format: binary
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RunResponseWithGuidVo'
+    servers:
+    - url: /v1
+  /imports/{importGuid}/runs/{importRunGuid}/submitContent:
+    get:
+      tags:
+      - Import
+      summary: Download the original submitted file for an import run
+      description: Streams the content of the submitContent file (also called the source file) of a specific import run.
+      operationId: getJobRunSubmitContent
+      parameters:
+      - name: importGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: importRunGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/StreamingResponseBody'
+    servers:
+    - url: /v1
+  /imports/{importGuid}/runs/{importRunGuid}/resultContent:
+    get:
+      tags:
+      - Import
+      summary: Download the result report from an import run
+      description: Streams the content of the resultContent file (also called the source file) for a specific import run. The results content file contains both the successes and errors of the import run.
+      operationId: getJobRunResultContent
+      parameters:
+      - name: importGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: importRunGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/StreamingResponseBody'
+    servers:
+    - url: /v1
+  /imports/{importGuid}/runs/{importRunGuid}/errorContent:
+    get:
+      tags:
+      - Import
+      summary: Download the error report from an import run
+      description: Streams the content of the errorContent file of an import run. Unlike the results content file, this file only contains errors.
+      operationId: getJobRunErrorContent
+      parameters:
+      - name: importGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: importRunGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/StreamingResponseBody'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    RunStatusResponseResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RunResponseWithGuidVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    QueryResultRepErrorDetails:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetails'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    StreamingResponseBody: {}
+    ErrorDetails:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int64
+        message:
+          type: string
+    DefinitionResponseResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/DefinitionResponseWithGuidVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    UpdateDefinitionRequest:
+      type: object
+      properties:
+        workspaceId:
+          type: integer
+          format: int64
+        userId:
+          type: integer
+          format: int64
+        definitionId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        uniqueRequestID:
+          type: string
+    CreateDefinitionRequest:
+      type: object
+      properties:
+        workspaceId:
+          type: integer
+          format: int64
+        userId:
+          type: integer
+          format: int64
+        uniqueRequestID:
+          type: string
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        resource:
+          type: string
+        mode:
+          type: string
+        options:
+          $ref: '#/components/schemas/Options'
+        optionsMapping:
+          type: array
+          items:
+            $ref: '#/components/schemas/MappingItem'
+          writeOnly: true
+    RunResponseWithGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        warnings:
+          $ref: '#/components/schemas/QueryResultRepErrorDetails'
+        number:
+          type: integer
+          format: int64
+          description: job instance number, auto-generate asc order number for one job definition
+        workspaceId:
+          type: integer
+          format: int64
+          description: workspace id information
+        creationDateTime:
+          type: string
+          format: date-time
+          description: creation datetime in zulu format, start when the job start in import engine service
+        completionDateTime:
+          type: string
+          format: date-time
+          description: completion datetime in zulu format
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        submitFileType:
+          type: string
+          description: '[optional] submit file type is the index file type, current support xlsx and csv only, not support xls, it will be auto-identified by job'
+          enum:
+          - EXCEL_WORKSHEET
+          - CSV
+        submitWorksheetName:
+          type: string
+          description: '[optional] specified worksheet name of the xlsx file'
+        status:
+          type: string
+          description: job status
+          enum:
+          - CREATED
+          - RUNNING
+          - COMPLETE
+          - PURGED
+          - ERROR
+        commit:
+          type: boolean
+          description: job commit status
+        totalCount:
+          type: integer
+          format: int64
+          description: job process records total count, total = success + error
+        successCount:
+          type: integer
+          format: int64
+          description: job process records success count
+        errorCount:
+          type: integer
+          format: int64
+          description: job process records error count
+    MappingItem:
+      type: object
+      properties:
+        resource:
+          type: string
+        apiName:
+          type: string
+        sourceName:
+          type: string
+        inResponse:
+          type: boolean
+        notes:
+          type: string
+    Options:
+      type: object
+      properties:
+        createDuplicates:
+          type: string
+        matchDuplicates:
+          type: string
+        matchDuplicateParents:
+          type: string
+        fileEditionEdit:
+          type: string
+        fileEditionDelete:
+          type: string
+        filePlaceHolder:
+          type: string
+        removeValue:
+          type: string
+        multiSelectDelimiter:
+          type: string
+        useCategoryNumberFormat:
+          type: string
+        checkRefDes:
+          type: string
+        timeZone:
+          type: string
+        mergeIdenticalBOMLines:
+          type: string
+        stripWhiteSpace:
+          type: string
+        numberingFreeTextHeader:
+          type: string
+        mapping:
+          type: array
+          items:
+            $ref: '#/components/schemas/MappingItem'
+    DefinitionResponseWithGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: integer
+          format: int64
+        creationDateTime:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        name:
+          type: string
+        description:
+          type: string
+        resource:
+          type: string
+        mode:
+          type: string
+        options:
+          $ref: '#/components/schemas/Options'
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

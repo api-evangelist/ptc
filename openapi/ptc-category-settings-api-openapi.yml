@@ -1,0 +1,1117 @@
+openapi: 3.2.0
+info:
+  title: Ptc Category Settings API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Category Settings across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Category Settings
+  description: Manage settings for categories across various objects (Item, File, Request, Change).
+paths:
+  /settings/{objectType}/categories:
+    get:
+      tags:
+      - Category Settings
+      summary: List all categories for a given object type
+      description: List all categories for a given object type. Supports Item, Change, and Request objects.
+      operationId: getCategories
+      parameters:
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - items
+          - files
+          - changes
+          - requests
+      - name: path
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: includeDeleted
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: assignable
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: user
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: action
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/ChangeCategoryResultRep'
+                - $ref: '#/components/schemas/CategoryFullResultRep'
+                - $ref: '#/components/schemas/RequestCategoryResultRep'
+    servers:
+    - url: /v1
+  /settings/{objectType}/categories/{categoryGuid}:
+    get:
+      tags:
+      - Category Settings
+      summary: Get details of a specific category
+      description: Get details of a specific category. Supports Item, File, Change and Request objects.
+      operationId: getCategory
+      parameters:
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - items
+          - files
+          - changes
+          - requests
+      - name: categoryGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/ChangeCategoryVo'
+                - $ref: '#/components/schemas/CategoryVo'
+                - $ref: '#/components/schemas/RequestCategoryVo'
+    servers:
+    - url: /v1
+  /settings/{objectType}/categories/{categoryGuid}/attributes:
+    get:
+      tags:
+      - Category Settings
+      summary: List all attributes for a specific category
+      description: List all attributes for a specific category. Supports Item, Change, and Request objects.
+      operationId: getCategoryAttributesDefinitions
+      parameters:
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - items
+          - changes
+          - requests
+      - name: categoryGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: includePossibleValues
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: creatableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: editableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: searchableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: user
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: action
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryAttributeDefinitionResultRep'
+    servers:
+    - url: /v1
+  /settings/{objectType}/categories/{categoryGuid}/attributes/{attributeDefinitionGuid}:
+    get:
+      tags:
+      - Category Settings
+      summary: Get details of a specific attribute in a category
+      description: Get details of a specific attribute in a categor. Supports Item, Change, and Request objects.
+      operationId: getCategoryAttributeDefinition
+      parameters:
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - items
+          - changes
+          - requests
+      - name: categoryGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: attributeDefinitionGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoryAttributeDefinitionVo'
+    servers:
+    - url: /v1
+  /settings/changes/categories/{categoryGuid}/items/attributes:
+    get:
+      tags:
+      - Category Settings
+      summary: List item attributes for a change category
+      operationId: getChangeCategoryItemAttributes
+      parameters:
+      - name: categoryGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: includePossibleValues
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: creatableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: editableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: searchableOnly
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: includeDeleted
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttributeDefinitionFullRepResultRep'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    AdditionalAttributeCompactVo:
+      type: object
+      properties:
+        apiName:
+          type: string
+        fieldType:
+          type: string
+          enum:
+          - SINGLE_LINE_TEXT
+          - MULTI_LINE_TEXT
+          - DROP_DOWN
+          - FIXED_DROP_DOWN
+          - DATE
+          - NUMBER
+          - BOOLEAN
+          - INTEGER
+          - OBJECT
+          - POSITIVE_DOUBLE
+          - POSITIVE_INTEGER
+          - RICH_TEXT
+          - GUID
+          - DATETIME
+          - COST
+          - LIST
+          - ENUM
+        guid:
+          type: string
+        multiSelect:
+          type: boolean
+        name:
+          type: string
+        value: {}
+    RequirementTemplateMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    RequirementStatusVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        value:
+          type: string
+        code:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    AttributeDefinitionFullRepResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AttributeDefinitionVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    CategoryAttributeDefinitionVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        active:
+          type: boolean
+        allowLowerCase:
+          type: boolean
+        allowNegatives:
+          type: boolean
+        allowUpperCase:
+          type: boolean
+        allowsExplicitNullValue:
+          type: boolean
+        creatable:
+          type: boolean
+        custom:
+          type: boolean
+        deleted:
+          type: boolean
+        deprecated:
+          type: boolean
+        editable:
+          type: boolean
+        global:
+          type: boolean
+        apiName:
+          type: string
+        costCalculation:
+          type: string
+          enum:
+          - ENTERED
+          - ROLLUP
+          - ROLLUP_AND_ENTERED
+        currency:
+          type: string
+          enum:
+          - USD
+          - EUR
+          - GBP
+          - YEN
+          - AUD
+          - CAD
+          - CNY
+          - INR
+          - JPY
+          - KRW
+          - NZD
+          - SEK
+          - DKK
+          - NOK
+        decimalPlaces:
+          type: integer
+          format: int32
+        defaultValue: {}
+        developerNotes:
+          type: string
+        description:
+          type: string
+        example:
+          type: string
+        excludedValues:
+          type: array
+          items:
+            type: string
+        fieldType:
+          type: string
+          enum:
+          - SINGLE_LINE_TEXT
+          - MULTI_LINE_TEXT
+          - DROP_DOWN
+          - FIXED_DROP_DOWN
+          - DATE
+          - NUMBER
+          - BOOLEAN
+          - INTEGER
+          - OBJECT
+          - POSITIVE_DOUBLE
+          - POSITIVE_INTEGER
+          - RICH_TEXT
+          - GUID
+          - DATETIME
+          - COST
+          - LIST
+          - ENUM
+        inViews:
+          type: array
+          items:
+            type: string
+            enum:
+            - EMPTY_VIEW
+            - ITEM_SPECS
+            - ITEM_BOM
+            - ITEM_WHEREUSED
+            - ITEM_SOURCING
+            - ITEM_COSTING
+            - ITEM_FILES
+            - ITEM_COMPLIANCE
+            - ITEM_REVISIONS
+            - ITEM_NOTIFICATIONS
+            - ITEM_SUPPLIER_ACCESS
+            - ITEM_PROJECTS
+            - ITEM_QUALITY
+            - ITEM_CUSTOM
+            - ITEM_CUSTOM_NON_REV
+            - ITEM_TRAINING
+            - ITEM_TRAINING_PLANS
+            - ITEM_TRAINING_RECORDS
+            - ITEM_TRAINING_QUIZ
+            - ITEM_TRAINING_QUIZ_HISTORY
+            - ITEM_VERIFY
+            - ITEM_REFERENCES
+            - REQUEST_SUMMARY
+            - REQUEST_FILES
+            - REQUEST_ITEMS
+            - REQUEST_PARTICIPANTS
+            - REQUEST_EVALUATION
+            - REQUEST_CHANGES
+            - REQUEST_STATUS
+            - REQUEST_RECENT_ACTIVITY
+            - REQUEST_PROJECTS
+            - REQUEST_QUALITY
+            - REQUEST_CUSTOM
+            - CHANGE_SUMMARY
+            - CHANGE_FILES
+            - CHANGE_ITEMS
+            - CHANGE_REQUESTS
+            - CHANGE_APPROVAL_ROUTINGS
+            - CHANGE_APPROVAL_DECISIONS
+            - CHANGE_IMPLEMENTATION
+            - CHANGE_ALERTS
+            - CHANGE_NOTIFICATIONS
+            - CHANGE_STATUS
+            - CHANGE_PROJECTS
+            - CHANGE_QUALITY
+            - CHANGE_SUPPLIER_ACCESS
+            - CHANGE_CUSTOM
+            - CHANGE_VERIFY
+            - SUPPLIER_PROFILE
+            - SUPPLIER_CONTACTS
+            - SUPPLIER_SUPPLIER_ITEMS
+            - SUPPLIER_SOURCING_LINES
+            - SUPPLIER_SOURCED_ITEMS
+            - SUPPLIER_FILES
+            - SUPPLIER_QUALITY
+            - SUPPLIER_CUSTOM
+            - SUPPLIER_ITEMS_QUALITY
+            - SI_SPECS
+            - SI_SOURCING_LINES
+            - SI_QUOTES
+            - SI_PURCHASES
+            - SI_FILES
+            - SI_COMPLIANCE
+            - SI_LOOKUP
+            - SI_CUSTOM
+            - FILE_SUMMARY
+            - FILE_ASSOCIATIONS
+            - FILE_EDITIONS
+            - FILE_MARKUPS
+            - FILE_RECENT_ACTIVITY
+            - FILE_PROJECTS
+            - FILE_QUALITY
+            - PROJECT_SUMMARY
+            - PROJECT_SCHEDULE
+            - PROJECT_REFERENCES
+            - PROJECT_QUALITY
+            - QUALITY_SUMMARY
+            - QUALITY_DETAILS
+            - QUALITY_AFFECTED
+            - QUALITY_PROJECTS
+            - QUALITY_SUPPLIER_ACCESS
+            - QUALITY_HISTORY
+            - TRAINING_SUMMARY
+            - TRAINING_ITEMS
+            - TRAINING_RECORDS
+            - TRAINING_USERS
+            - TRAINING_HISTORY
+            - TRAINING_PROGRESS
+            - REQUIREMENT_SUMMARY
+            - REQUIREMENT_TREE
+            - REQUIREMENT_TRACE
+            - REQUIREMENT_REFERENCES
+            - REQUIREMENT_FILES
+            - REQUIREMENT_HISTORY
+            - REQUIREMENT_BASELINES
+            - EXPORT_SUMMARY
+            - VERIFY_SUMMARY
+            - VERIFY_FILES
+            - VERIFY_REFERENCES
+            - VERIFY_HISTORY
+          uniqueItems: true
+        maskingValue: {}
+        maxLength:
+          type: integer
+          format: int32
+        maxSelections:
+          type: integer
+          format: int32
+        maxValue:
+          type: number
+          format: double
+        multiSelect:
+          type: boolean
+        name:
+          type: string
+        possibleValues:
+          type: array
+          items: {}
+        required:
+          type: boolean
+        revisionControlled:
+          type: boolean
+        searchable:
+          type: boolean
+        visibleWhenBlank:
+          type: boolean
+        origin:
+          $ref: '#/components/schemas/CategoryMinimalVo'
+        private:
+          type: boolean
+    CategoryMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    NumberFormatPrefixVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        value:
+          type: string
+    RequestCategoryVo:
+      type: object
+      properties:
+        activated:
+          type: boolean
+        assignable:
+          type: boolean
+        creationDateTime:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        description:
+          type: string
+        evaluatorGroupDefault:
+          $ref: '#/components/schemas/EvaluatorGroupCompactVo'
+        guid:
+          type: string
+        level:
+          type: integer
+          format: int32
+        name:
+          type: string
+        numberingSequencePrefixDefault:
+          $ref: '#/components/schemas/NumberFormatPrefixVo'
+        parentCategory:
+          $ref: '#/components/schemas/ParentCategoryVo'
+        path:
+          type: string
+        structural:
+          type: boolean
+        systemDefined:
+          type: boolean
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    RequirementVo:
+      type: object
+      properties:
+        assignee:
+          $ref: '#/components/schemas/UserCompactVo'
+        creationDateTime:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        modifier:
+          $ref: '#/components/schemas/UserCompactVo'
+        modificationDateTime:
+          type: string
+        description:
+          type: string
+        guid:
+          type: string
+        title:
+          type: string
+        number:
+          type: string
+        priority:
+          type: string
+        status:
+          $ref: '#/components/schemas/RequirementStatusVo'
+        template:
+          $ref: '#/components/schemas/RequirementTemplateMinimalVo'
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCompactVo'
+    CategoryAttributeDefinitionResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryAttributeDefinitionVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    CategoryFullResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ChangeCategoryVo:
+      type: object
+      properties:
+        activated:
+          type: boolean
+        allowDuplicateRevisions:
+          type: boolean
+        allowManualRevisionEntry:
+          type: boolean
+        assignable:
+          type: boolean
+        creationDateTime:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        description:
+          type: string
+        effectivityType:
+          type: string
+          enum:
+          - PERMANENT_ON_APPROVAL
+          - PERMANENT_ON_DATE
+          - TEMPORARY
+          - PERMANENT
+          - IMMEDIATE
+        enforceDefaultEffectivityType:
+          type: boolean
+        enforceDefaultNumberSequence:
+          type: boolean
+        guid:
+          type: string
+        initialImplementationStatus:
+          type: string
+          enum:
+          - NOT_STARTED
+          - IN_PROGRESS
+          - NEEDS_ATTENTION
+          - DONE
+          - BLANK
+          - CANCELED
+        level:
+          type: integer
+          format: int32
+        name:
+          type: string
+        numberingSequencePrefixDefault:
+          $ref: '#/components/schemas/NumberFormatPrefixVo'
+        parentCategory:
+          $ref: '#/components/schemas/ParentCategoryVo'
+        path:
+          type: string
+        structural:
+          type: boolean
+        systemDefined:
+          type: boolean
+    CategoryVo:
+      type: object
+      properties:
+        activated:
+          type: boolean
+        assignable:
+          type: boolean
+        creationDateTime:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        description:
+          type: string
+        guid:
+          type: string
+        level:
+          type: integer
+          format: int32
+        name:
+          type: string
+        numberFormat:
+          $ref: '#/components/schemas/NumberFormatCompactVo'
+        parentCategory:
+          $ref: '#/components/schemas/ParentCategoryVo'
+        path:
+          type: string
+        requirements:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequirementVo'
+        structural:
+          type: boolean
+        systemDefined:
+          type: boolean
+    EvaluatorGroupCompactVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    RequestCategoryResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RequestCategoryVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    NumberFormatFieldCompactVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        value:
+          type: string
+    ChangeCategoryResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangeCategoryVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    AttributeDefinitionVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        active:
+          type: boolean
+        allowLowerCase:
+          type: boolean
+        allowNegatives:
+          type: boolean
+        allowUpperCase:
+          type: boolean
+        allowsExplicitNullValue:
+          type: boolean
+        creatable:
+          type: boolean
+        custom:
+          type: boolean
+        deleted:
+          type: boolean
+        deprecated:
+          type: boolean
+        editable:
+          type: boolean
+        global:
+          type: boolean
+        apiName:
+          type: string
+        costCalculation:
+          type: string
+          enum:
+          - ENTERED
+          - ROLLUP
+          - ROLLUP_AND_ENTERED
+        currency:
+          type: string
+          enum:
+          - USD
+          - EUR
+          - GBP
+          - YEN
+          - AUD
+          - CAD
+          - CNY
+          - INR
+          - JPY
+          - KRW
+          - NZD
+          - SEK
+          - DKK
+          - NOK
+        decimalPlaces:
+          type: integer
+          format: int32
+        defaultValue: {}
+        developerNotes:
+          type: string
+        description:
+          type: string
+        example:
+          type: string
+        excludedValues:
+          type: array
+          items:
+            type: string
+        fieldType:
+          type: string
+          enum:
+          - SINGLE_LINE_TEXT
+          - MULTI_LINE_TEXT
+          - DROP_DOWN
+          - FIXED_DROP_DOWN
+          - DATE
+          - NUMBER
+          - BOOLEAN
+          - INTEGER
+          - OBJECT
+          - POSITIVE_DOUBLE
+          - POSITIVE_INTEGER
+          - RICH_TEXT
+          - GUID
+          - DATETIME
+          - COST
+          - LIST
+          - ENUM
+        inViews:
+          type: array
+          items:
+            type: string
+            enum:
+            - EMPTY_VIEW
+            - ITEM_SPECS
+            - ITEM_BOM
+            - ITEM_WHEREUSED
+            - ITEM_SOURCING
+            - ITEM_COSTING
+            - ITEM_FILES
+            - ITEM_COMPLIANCE
+            - ITEM_REVISIONS
+            - ITEM_NOTIFICATIONS
+            - ITEM_SUPPLIER_ACCESS
+            - ITEM_PROJECTS
+            - ITEM_QUALITY
+            - ITEM_CUSTOM
+            - ITEM_CUSTOM_NON_REV
+            - ITEM_TRAINING
+            - ITEM_TRAINING_PLANS
+            - ITEM_TRAINING_RECORDS
+            - ITEM_TRAINING_QUIZ
+            - ITEM_TRAINING_QUIZ_HISTORY
+            - ITEM_VERIFY
+            - ITEM_REFERENCES
+            - REQUEST_SUMMARY
+            - REQUEST_FILES
+            - REQUEST_ITEMS
+            - REQUEST_PARTICIPANTS
+            - REQUEST_EVALUATION
+            - REQUEST_CHANGES
+            - REQUEST_STATUS
+            - REQUEST_RECENT_ACTIVITY
+            - REQUEST_PROJECTS
+            - REQUEST_QUALITY
+            - REQUEST_CUSTOM
+            - CHANGE_SUMMARY
+            - CHANGE_FILES
+            - CHANGE_ITEMS
+            - CHANGE_REQUESTS
+            - CHANGE_APPROVAL_ROUTINGS
+            - CHANGE_APPROVAL_DECISIONS
+            - CHANGE_IMPLEMENTATION
+            - CHANGE_ALERTS
+            - CHANGE_NOTIFICATIONS
+            - CHANGE_STATUS
+            - CHANGE_PROJECTS
+            - CHANGE_QUALITY
+            - CHANGE_SUPPLIER_ACCESS
+            - CHANGE_CUSTOM
+            - CHANGE_VERIFY
+            - SUPPLIER_PROFILE
+            - SUPPLIER_CONTACTS
+            - SUPPLIER_SUPPLIER_ITEMS
+            - SUPPLIER_SOURCING_LINES
+            - SUPPLIER_SOURCED_ITEMS
+            - SUPPLIER_FILES
+            - SUPPLIER_QUALITY
+            - SUPPLIER_CUSTOM
+            - SUPPLIER_ITEMS_QUALITY
+            - SI_SPECS
+            - SI_SOURCING_LINES
+            - SI_QUOTES
+            - SI_PURCHASES
+            - SI_FILES
+            - SI_COMPLIANCE
+            - SI_LOOKUP
+            - SI_CUSTOM
+            - FILE_SUMMARY
+            - FILE_ASSOCIATIONS
+            - FILE_EDITIONS
+            - FILE_MARKUPS
+            - FILE_RECENT_ACTIVITY
+            - FILE_PROJECTS
+            - FILE_QUALITY
+            - PROJECT_SUMMARY
+            - PROJECT_SCHEDULE
+            - PROJECT_REFERENCES
+            - PROJECT_QUALITY
+            - QUALITY_SUMMARY
+            - QUALITY_DETAILS
+            - QUALITY_AFFECTED
+            - QUALITY_PROJECTS
+            - QUALITY_SUPPLIER_ACCESS
+            - QUALITY_HISTORY
+            - TRAINING_SUMMARY
+            - TRAINING_ITEMS
+            - TRAINING_RECORDS
+            - TRAINING_USERS
+            - TRAINING_HISTORY
+            - TRAINING_PROGRESS
+            - REQUIREMENT_SUMMARY
+            - REQUIREMENT_TREE
+            - REQUIREMENT_TRACE
+            - REQUIREMENT_REFERENCES
+            - REQUIREMENT_FILES
+            - REQUIREMENT_HISTORY
+            - REQUIREMENT_BASELINES
+            - EXPORT_SUMMARY
+            - VERIFY_SUMMARY
+            - VERIFY_FILES
+            - VERIFY_REFERENCES
+            - VERIFY_HISTORY
+          uniqueItems: true
+        maskingValue: {}
+        maxLength:
+          type: integer
+          format: int32
+        maxSelections:
+          type: integer
+          format: int32
+        maxValue:
+          type: number
+          format: double
+        multiSelect:
+          type: boolean
+        name:
+          type: string
+        possibleValues:
+          type: array
+          items: {}
+        required:
+          type: boolean
+        revisionControlled:
+          type: boolean
+        searchable:
+          type: boolean
+        visibleWhenBlank:
+          type: boolean
+        revisionType:
+          type: string
+          enum:
+          - NON_REVISION_CONTROLLED
+          - REVISION_SPECIFIC
+          - REVISION_CONTROLLED
+        private:
+          type: boolean
+    NumberFormatCompactVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/NumberFormatFieldCompactVo'
+    ParentCategoryVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

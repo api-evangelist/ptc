@@ -1,0 +1,755 @@
+openapi: 3.2.0
+info:
+  title: Ptc Outbound Event API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Outbound Event across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Outbound Event
+  description: Access and manage outbound events and event items, including reconciliation.
+paths:
+  /outboundevents/{integrationGuid}/events/{eventGuid}:
+    get:
+      tags:
+      - Outbound Event
+      summary: Get details of a specific event in an outbound event integration
+      description: Returns a specific event for an outbound-event integration with a specific GUID.
+      operationId: getIntegrationEvent
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: eventGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutboundEventShortVo'
+    put:
+      tags:
+      - Outbound Event
+      summary: Update the reconciliation status of a specific event
+      operationId: updateOutboundEventReconciled
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: eventGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceReconcileEntity'
+            example:
+              resourcesReconciled: true
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutboundEventShortVo'
+    servers:
+    - url: /v1
+  /outboundevents/{integrationGuid}/events/{eventGuid}/{objectType}/{intUpdateGuid}:
+    get:
+      tags:
+      - Outbound Event
+      summary: Get details of a specific resource in an outbound event integration event
+      operationId: getResource
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: eventGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - items
+          - qualityprocesses
+          - changes
+          - requests
+      - name: intUpdateGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutboundEventResourceVo'
+    put:
+      tags:
+      - Outbound Event
+      summary: Update the reconciliation status of a specific resource
+      operationId: reconcileResources
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: eventGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - items
+          - qualityprocesses
+          - changes
+          - requests
+      - name: intUpdateGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReconciledEntity'
+            example:
+              reconciled: true
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutboundEventResourceVo'
+    servers:
+    - url: /v1
+  /outboundevents:
+    get:
+      tags:
+      - Outbound Event
+      summary: Search for outbound event integrations using filters
+      description: Returns a collection of outbound event integrations objects matching the given search criteria.
+      operationId: getOutboundEventIntegrations
+      parameters:
+      - name: name
+        in: query
+        schema:
+          type: string
+      - name: enable
+        in: query
+        schema:
+          type: boolean
+      - name: offset
+        in: query
+        description: query result offset (default 0)
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: query result limit (default 20, max 400)
+        schema:
+          type: integer
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutboundEventIntegrationVoResultRep'
+    servers:
+    - url: /v1
+  /outboundevents/{integrationGuid}:
+    get:
+      tags:
+      - Outbound Event
+      summary: Get details of a specific outbound event integration
+      description: Returns a specific outbound event integration matching the given GUID.
+      operationId: getOutboundEventIntegration
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutboundEventIntegrationVo'
+    servers:
+    - url: /v1
+  /outboundevents/{integrationGuid}/triggers:
+    get:
+      tags:
+      - Outbound Event
+      summary: List all triggers for a specific outbound event integration
+      description: Returns all the triggers for a specific outbound event integration.
+      operationId: getOutboundEventIntegrationTriggers
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TriggerVoShortResultRep'
+    servers:
+    - url: /v1
+  /outboundevents/{integrationGuid}/triggers/{triggerGuid}:
+    get:
+      tags:
+      - Outbound Event
+      summary: Get details of a specific trigger in an outbound event integration
+      description: Returns a specific trigger for an outbound event integration with a specific GUID.
+      operationId: getOutboundEventIntegrationTrigger
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: triggerGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TriggerShortVo'
+    servers:
+    - url: /v1
+  /outboundevents/{integrationGuid}/events:
+    get:
+      tags:
+      - Outbound Event
+      summary: List all events for a specific outbound event integration
+      description: Returns all the events for a specific outbound event integration.
+      operationId: getIntegrationEvents
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: resourcesReconciled
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: order
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutboundEventShortVoResultRep'
+    servers:
+    - url: /v1
+  /outboundevents/{integrationGuid}/events/{eventGuid}/{objectType}:
+    get:
+      tags:
+      - Outbound Event
+      summary: List all resources for a specific event in an outbound event integration
+      operationId: getResources
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: eventGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: objectType
+        in: path
+        required: true
+        schema:
+          type: string
+          enum:
+          - items
+          - qualityprocesses
+          - changes
+          - requests
+      - name: reconciled
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: reconciledDateTimeFrom
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: reconciledDateTimeTo
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OutboundEventResourceVoResultRep'
+    servers:
+    - url: /v1
+  /outboundevents/{integrationGuid}/administrators:
+    get:
+      tags:
+      - Outbound Event
+      summary: List administrators of a specific outbound event integration
+      description: Returns all the integration administrators of a specific outbound event integration matching the given GUID.
+      operationId: getOutboundEventIntegrationAdministrators
+      parameters:
+      - name: integrationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCompactVoResultRep'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    ReconciledEntity:
+      type: object
+      properties:
+        reconciled:
+          type: boolean
+    OutboundEventShortVo:
+      type: object
+      properties:
+        triggers:
+          type: array
+          items:
+            $ref: '#/components/schemas/TriggerShortVo'
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        resourcesReconciled:
+          type: boolean
+        eventType:
+          type: string
+        status:
+          type: string
+        creationDateTime:
+          type: string
+        guid:
+          type: string
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    OutboundEventIntegrationVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutboundEventIntegrationVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    UrlVo:
+      type: object
+      properties:
+        api:
+          type: string
+        app:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    ChangeOnlyGuidAndUrlRep:
+      type: object
+      properties:
+        guid:
+          type: string
+        url:
+          $ref: '#/components/schemas/UrlVo'
+    OutboundEventResourceVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutboundEventResourceVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    UserCompactVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCompactVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ResourceReconcileEntity:
+      type: object
+      properties:
+        resourcesReconciled:
+          type: boolean
+    OutboundEventResourceVo:
+      type: object
+      properties:
+        reconciledUser:
+          $ref: '#/components/schemas/UserCompactVo'
+        reconciledDatetime:
+          type: string
+        guid:
+          type: string
+        reconciled:
+          type: boolean
+        change:
+          $ref: '#/components/schemas/ChangeOnlyGuidAndUrlRep'
+        item:
+          $ref: '#/components/schemas/SingleGuidVo'
+        request:
+          $ref: '#/components/schemas/SingleGuidVo'
+        qualityProcess:
+          $ref: '#/components/schemas/SingleGuidVo'
+        preEvents:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+        postEvents:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    TriggerShortVo:
+      type: object
+      properties:
+        action:
+          type: string
+        description:
+          type: string
+        guid:
+          type: string
+        name:
+          type: string
+        resource:
+          type: string
+    OutboundEventIntegrationVo:
+      type: object
+      properties:
+        name:
+          type: string
+        enabled:
+          type: boolean
+        status:
+          type: string
+        modifyUser:
+          $ref: '#/components/schemas/UserCompactVo'
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        lastModifiedDateTime:
+          type: string
+        guid:
+          type: string
+        creationDateTime:
+          type: string
+    OutboundEventShortVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OutboundEventShortVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    TriggerVoShortResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/TriggerShortVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

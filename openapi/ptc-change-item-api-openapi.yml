@@ -1,0 +1,531 @@
+openapi: 3.2.0
+info:
+  title: Ptc Change Item API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Change Item across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Change Item
+  description: 'Manage affected items associated with a change: add, edit, delete, get.'
+paths:
+  /changes/{changeGuid}/items/{changeItemAssociationGuid}:
+    get:
+      tags:
+      - Change Item
+      summary: Get details of a specific item in a change
+      description: 'Returns a Change Affected Item with a given GUID included in a change with a given GUID. The response includes inventory disposition and information about each view of the item, including whether or not the view is included in the change and whether or not it contains modifications to the working revision.
+
+
+        Permanent Changes:
+
+        1. If the Item added to the Change is unreleased:
+
+        a. No affectedItemRevision attribute.
+
+        b. Before effective, newItemRevision GUID references the working revision.
+
+        c. After effective, newItemRevision GUID references the revision made effective by this Change.
+
+        d. newLifecyclePhase is the new phase introduced when the Change became effective.
+
+        e. newRevisionNumber is the new revision number made effective.
+
+        2. If the Item added to the Change is released:
+
+        a. Before effective:
+
+        i. newItemRevision GUID references the working revision (may change if released elsewhere).
+
+        ii. affectedItemRevision GUID references the effective revision.
+
+        b. After effective:
+
+        i. newItemRevision GUID references the revision made effective.
+
+        ii. affectedItemRevision GUID references the effective revision.
+
+        c. newLifecyclePhase is the new phase after Change is effective.
+
+        d. newRevisionNumber is the planned revision number, which becomes effective.
+
+
+        Temporary Changes:
+
+        a. Unreleased Items cannot be added. newLifecyclePhase and newRevisionNumber are not used.
+
+        b. Before effective, affectedItemRevision GUID is the effective revision.
+
+        c. After effective, affectedItemRevision GUID is the superseded revision; newItemRevision GUID is the new revision inserted.
+
+        d. After expiration, affectedItemRevision and newItemRevision GUIDs do not change.'
+      operationId: getChangeItemAssociation
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: changeItemAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeItemAssociationVo'
+    put:
+      tags:
+      - Change Item
+      summary: Update an item associated with a change
+      description: 'Updates modification information for an item on a change with a given change-item association GUID, included in a change with a given GUID. This includes item views/notes, new revision number, new lifecycle phase, and inventory disposition information.
+
+
+        Item modifications can only be edited while a change is in the Open and Unlocked lifecycle phase. As soon as a change is submitted, all included Items are locked to modification.
+
+
+        When making edits to an Item''s modification information, you must provide newRevisionNumber, even if you do not wish to change it from the current value.'
+      operationId: updateChangeItemAssociation
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: changeItemAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeItemAssociationUpdateVo'
+            example:
+              filesView:
+                includedInThisChange: true
+                notes: Files notes.
+              sourcingView:
+                includedInThisChange: true
+                notes: Sourcing notes.
+              specsView:
+                includedInThisChange: true
+                notes: Specs notes.
+              bomView:
+                includedInThisChange: true
+                notes: BOM notes.
+              newRevisionNumber: B
+              newLifecyclePhase:
+                guid: AS96UL36P8RATCBI
+              materialEffectivityDateTime: '2018-06-02T00:00:00Z'
+              retrainingRequired: false
+              dispositionAttributes:
+              - guid: 6O52QHZM5O7Q9PAB
+                value: Scrap
+                notes: Scrap in stock product.
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeItemAssociationVo'
+    delete:
+      tags:
+      - Change Item
+      summary: Remove an item from a change
+      description: Removes an item with a given GUID from a change with a given GUID. Items can only be removed from changes in the Open and Unlocked lifecycle phase.
+      operationId: deleteChangeItemAssociation
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: changeItemAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Delete Change Item Result
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/items:
+    get:
+      tags:
+      - Change Item
+      summary: List all items associated with a change
+      description: Returns all Change Affected Items included in a change with a given GUID. The response includes inventory dispostion and information about each view of each item, including whether it is included in the change and whether it contains modifications to the working revision.
+      operationId: getChangeItemAssociations
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeItemAssociationVoResultRep'
+    post:
+      tags:
+      - Change Item
+      summary: Add a new item to a change
+      description: 'Adds an item to a change with a specific GUID.
+
+
+        For an overview of the Change Lifecycle in Arena, including a summary of Lifecycle Rules for adding Items to Changes, see About the Change Lifecycle.
+
+
+        NOTES:
+
+        1. newItemRevision is the GUID of the working revision of the Item being added. In workspaces with Revision Sequences, newRevisionNumber can be omitted if a next revision is available.
+
+        2. affectedItemRevision is the GUID of the effective revision of the Item being added.
+
+        3. The GUID in the response is the Change-Item association GUID, used in the PUT Change Affected Item endpoint.
+
+        4. If includedInThisChange=false for any view, the notes field is not allowed.
+
+        5. When adding items to a Change with temporary effectivity, no views can be specified.'
+      operationId: createChangeItemAssociation
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeItemAssociationCreateVo'
+            example:
+              filesView:
+                includedInThisChange: true
+                notes: Files notes.
+              sourcingView:
+                includedInThisChange: true
+                notes: Sourcing notes.
+              specsView:
+                includedInThisChange: true
+                notes: Specs notes.
+              bomView:
+                includedInThisChange: true
+                notes: BOM notes.
+              newItemRevision:
+                guid: UCTQE5O5O28LEMPB
+              newRevisionNumber: B
+              newLifecyclePhase:
+                guid: O6Q9NKOQ1I03M5O7QUNR
+              materialEffectivityDateTime: '2018-06-02T00:00:00Z'
+              retraining: AFTER_EFFECTIVE
+              retrainingRequired: true
+              dispositionAttributes:
+              - guid: TBVESPTV6N4M5O7T2HTD
+                value: Scrap
+                notes: Scrap in stock product.
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeItemAssociationVo'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    ChangeModifiedViewCreateVo:
+      type: object
+      properties:
+        includedInThisChange:
+          type: boolean
+        notes:
+          type: string
+    ChangeModifiedViewVo:
+      type: object
+      properties:
+        includedInThisChange:
+          type: boolean
+        lockedByAnotherChange:
+          type: boolean
+        modifiedOnWorkingRev:
+          type: boolean
+        notes:
+          type: string
+    DispositionAttributeVo:
+      type: object
+      properties:
+        fieldType:
+          type: string
+        guid:
+          type: string
+        multiSelect:
+          type: boolean
+        name:
+          type: string
+        notes:
+          type: string
+        value: {}
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    UrlVo:
+      type: object
+      properties:
+        api:
+          type: string
+        app:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    ChangeItemAssociationUpdateVo:
+      type: object
+      properties:
+        filesView:
+          $ref: '#/components/schemas/ChangeModifiedViewCreateVo'
+        sourcingView:
+          $ref: '#/components/schemas/ChangeModifiedViewCreateVo'
+        specsView:
+          $ref: '#/components/schemas/ChangeModifiedViewCreateVo'
+        bomView:
+          $ref: '#/components/schemas/ChangeModifiedViewCreateVo'
+        newRevisionNumber:
+          type: string
+        newLifecyclePhase:
+          $ref: '#/components/schemas/SingleGuidVo'
+        materialEffectivityDateTime:
+          type: string
+        retrainingRequired:
+          type: boolean
+        dispositionAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DispositionAttributeCreateVo'
+    ChangeItemAssociationVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangeItemAssociationVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ChangeItemAssociationVo:
+      type: object
+      properties:
+        affectedItemRevision:
+          $ref: '#/components/schemas/ItemShortVo'
+        bomView:
+          $ref: '#/components/schemas/ChangeModifiedViewVo'
+        dispositionAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DispositionAttributeVo'
+        filesView:
+          $ref: '#/components/schemas/ChangeModifiedViewVo'
+        costingView:
+          $ref: '#/components/schemas/ChangeModifiedViewVo'
+        guid:
+          type: string
+        materialEffectivityDateTime:
+          type: string
+        newItemRevision:
+          $ref: '#/components/schemas/ItemShortVo'
+        newLifecyclePhase:
+          $ref: '#/components/schemas/LifecyclePhaseMinimalVo'
+        newRevisionNumber:
+          type: string
+        sourcingView:
+          $ref: '#/components/schemas/ChangeModifiedViewVo'
+        specsView:
+          $ref: '#/components/schemas/ChangeModifiedViewVo'
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    DispositionAttributeCreateVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        value: {}
+        notes:
+          type: string
+    LifecyclePhaseMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    ChangeItemAssociationCreateVo:
+      type: object
+      properties:
+        filesView:
+          $ref: '#/components/schemas/ChangeModifiedViewCreateVo'
+        sourcingView:
+          $ref: '#/components/schemas/ChangeModifiedViewCreateVo'
+        specsView:
+          $ref: '#/components/schemas/ChangeModifiedViewCreateVo'
+        bomView:
+          $ref: '#/components/schemas/ChangeModifiedViewCreateVo'
+        newItemRevision:
+          $ref: '#/components/schemas/SingleGuidVo'
+        newRevisionNumber:
+          type: string
+        newLifecyclePhase:
+          $ref: '#/components/schemas/SingleGuidVo'
+        materialEffectivityDateTime:
+          type: string
+        retraining:
+          type: string
+        retrainingRequired:
+          type: boolean
+        dispositionAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DispositionAttributeCreateVo'
+    ItemShortVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        revisionNumber:
+          type: string
+        revisionStatus:
+          type: string
+        url:
+          $ref: '#/components/schemas/UrlVo'
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

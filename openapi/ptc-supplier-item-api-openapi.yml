@@ -1,0 +1,1160 @@
+openapi: 3.2.0
+info:
+  title: Ptc Supplier Item API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Supplier Item across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Supplier Item
+  description: 'Manage supplier items: search, create, update, delete, specs, source relationships, files, thumbnail, compliance, quality processes.'
+paths:
+  /supplieritems/{supplierItemGuid}:
+    get:
+      tags:
+      - Supplier Item
+      summary: Get details of a specific supplier item
+      description: 'Creates a new Supplier Item object.
+
+
+        NOTES:
+
+        1. The values you specify for attributes must match the attribute types specified in the workspace. For example, when specifying a value for a predefined list, the value must be one of the allowed values.
+
+        2. Number values must appear in quotation marks.'
+      operationId: getSupplierItem
+      parameters:
+      - name: supplierItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: includeEmptyAdditionalAttributes
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SupplierItemFullVo'
+    put:
+      tags:
+      - Supplier Item
+      summary: Update a specific supplier item
+      description: Updates the metadata of a Supplier Item with a given GUID. To update values for additional attributes, first retrieve the GUID of each attribute using the GET Supplier Item endpoint. Updated values must be valid for the attribute.
+      operationId: updateSupplierItem
+      parameters:
+      - name: supplierItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SupplierItemUpdateVo'
+            example:
+              additionalAttributes:
+              - guid: Q8SBPMQS3K1J2L4HSCSJ
+                value: 'No'
+              description: New Tantalum Capacitor
+              name: New Tantalum Capacitor 10uF@16V,B pkg
+              number: PCT10/16BM-New
+              offTheShelf: true
+              type: PART
+              uom: each
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SupplierItemFullVo'
+    delete:
+      tags:
+      - Supplier Item
+      summary: Delete a specific supplier item
+      description: Deletes a supplier item with a given GUID.
+      operationId: deleteSupplierItem
+      parameters:
+      - name: supplierItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /supplieritems/{supplierItemGuid}/quotes/{quoteLineGuid}:
+    get:
+      tags:
+      - Supplier Item
+      summary: Get details of a specific supplier item quote
+      description: Returns a specific quote cost object with a given GUID for a supplier item with a given GUID.
+      operationId: getSupplierItemQuotes
+      parameters:
+      - name: supplierItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: quoteLineGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuoteLineVo'
+    put:
+      tags:
+      - Supplier Item
+      summary: Update a specific supplier item quote
+      description: Updates a specific quote cost object with a given GUID for a supplier item with a given GUID.
+      operationId: updateSupplierItemQuotes
+      parameters:
+      - name: setnull
+        in: query
+        schema:
+          type: boolean
+      - name: supplierItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: quoteLineGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuoteLineUpdateVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuoteLineVo'
+    delete:
+      tags:
+      - Supplier Item
+      summary: Delete a specific supplier item quote
+      description: Deletes a specific quote cost object with a given GUID for a supplier item with a given GUID.
+      operationId: deleteSupplierItemQuotes
+      parameters:
+      - name: supplierItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: quoteLineGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+    servers:
+    - url: /v1
+  /supplieritems/{supplierItemGuid}/purchases/{purchaseGuid}:
+    get:
+      tags:
+      - Supplier Item
+      summary: Get details of a specific supplier item purchase
+      description: Returns a specific purchase cost object with a given GUID for a supplier item with a given GUID.
+      operationId: getSupplierItemPurchase
+      parameters:
+      - name: supplierItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: purchaseGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseVo'
+    put:
+      tags:
+      - Supplier Item
+      summary: Update a specific supplier item purchase
+      description: Updates a specific purchase cost object with a given GUID for a supplier item with a given GUID.
+      operationId: updatePurchase
+      parameters:
+      - name: setnull
+        in: query
+        schema:
+          type: boolean
+      - name: proceedOnWarning
+        in: query
+        schema:
+          type: boolean
+      - name: supplierItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: purchaseGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseUpdateVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseVo'
+    delete:
+      tags:
+      - Supplier Item
+      summary: Delete a specific supplier item purchase
+      description: Deletes a specific purchase cost object with a given GUID for a supplier item with a given GUID.
+      operationId: deleteSupplierItemPurchase
+      parameters:
+      - name: supplierItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: purchaseGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+    servers:
+    - url: /v1
+  /supplieritems:
+    get:
+      tags:
+      - Supplier Item
+      summary: Search for supplier items using filters like number or name
+      description: Returns an array of Supplier Item objects matching the given search criteria.
+      operationId: getSupplierItems
+      parameters:
+      - name: number
+        in: query
+        description: supplier item number
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: supplier item name
+        schema:
+          type: string
+      - name: supplier.name
+        in: query
+        description: supplier name
+        schema:
+          type: string
+      - name: supplier.guid
+        in: query
+        description: supplier guid
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: query result offset (default 0)
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: query result limit (default 20, max 400)
+        schema:
+          type: integer
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepSupplierItemFullVo'
+    post:
+      tags:
+      - Supplier Item
+      summary: Create a new supplier item
+      description: Returns a Supplier Item object with a given GUID.
+      operationId: createSupplierItem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SupplierItemCreateVo'
+            example:
+              additionalAttributes:
+              - guid: Q8SBPMQS3K1J2L4HSCSJ
+                value: 'Yes'
+              description: Tantalum Capacitor
+              name: Tantalum Capacitor 10uF@16V,B pkg
+              number: PCT10/16BM
+              offTheShelf: true
+              supplier:
+                guid: 9RBU859BM3MSBUZOIDUQ
+              type: PART
+              uom: each
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/SupplierItemFullVo'
+    servers:
+    - url: /v1
+  /supplieritems/{supplierItemGuid}/quotes:
+    get:
+      tags:
+      - Supplier Item
+      summary: List all quotes associated with a supplier item
+      description: Returns a collection of quote cost objects for a supplier item with a given GUID.
+      operationId: getSupplierItemQuotes_1
+      parameters:
+      - name: supplierItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuoteLineVoResultRep'
+    post:
+      tags:
+      - Supplier Item
+      summary: Create a quote for a supplier item
+      description: Creates a new quote cost object for a supplier item with a given GUID.
+      operationId: createQuoteLine
+      parameters:
+      - name: supplierItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuoteLineCreateVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuoteLineVo'
+    servers:
+    - url: /v1
+  /supplieritems/{supplierItemGuid}/purchases:
+    get:
+      tags:
+      - Supplier Item
+      summary: List all purchases associated with a supplier item
+      description: Returns a collection of purchase cost objects for a supplier item with a given GUID.
+      operationId: getSupplierItemPurchases
+      parameters:
+      - name: supplierItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseVoResultRep'
+    post:
+      tags:
+      - Supplier Item
+      summary: Create a purchase for a supplier item
+      description: Creates a purchase cost object for a supplier item with a given GUID.
+      operationId: createPurchase
+      parameters:
+      - name: proceedOnWarning
+        in: query
+        schema:
+          type: boolean
+      - name: supplierItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseCreateVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseVo'
+    servers:
+    - url: /v1
+  /supplieritems/{supplierItemGuid}/image:
+    post:
+      tags:
+      - Supplier Item
+      summary: Upload a new thumbnail image for a supplier item
+      description: This endpoint uploads an image to the Supplier Item's Specs view thumbnail.
+      operationId: createSupplierItemImage
+      parameters:
+      - name: supplierItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  format: binary
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: string
+    delete:
+      tags:
+      - Supplier Item
+      summary: Delete the thumbnail image of a supplier item
+      description: Deletes the Supplier Item Image Thumbnail Image of an Supplier Item with a specific GUID. The Supplier Item Thumbnail Image is located in the Specs view of a Supplier Item.
+      operationId: deleteSupplierItemImage
+      parameters:
+      - name: supplierItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: No Content
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /supplieritems/{supplierItemGuid}/image/json:
+    post:
+      tags:
+      - Supplier Item
+      summary: Associate existing image file as the supplier item's thumbnail
+      description: 'Sets an already uploaded image file (pass its file `guid`) as the Supplier Item Specs thumbnail.
+
+
+        Use the multipart endpoint `/{supplierItemGuid}/image` (multipart/form-data) to upload new image content. This JSON endpoint only associates an existing file and does not accept binary content.'
+      operationId: createSupplierItemImageWithJson
+      parameters:
+      - name: supplierItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SingleGuidVo'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleGuidVo'
+    servers:
+    - url: /v1
+  /supplieritems/{supplierItemGuid}/image/content:
+    get:
+      tags:
+      - Supplier Item
+      summary: Download the thumbnail image of a supplier item
+      description: Returns the Supplier Item Thumbnail Image content with a given Supplier Item GUID. The Supplier Item Thumbnail Image (also known as the Specs Image) is located within the Specs view of a Supplier Item.
+      operationId: getSupplierItemImage
+      parameters:
+      - name: supplierItemGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: byte
+    servers:
+    - url: /v1
+  /supplieritems/hasimage:
+    get:
+      tags:
+      - Supplier Item
+      summary: List supplier items that have thumbnail images
+      operationId: getThumbnailsForSupplierItems
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/QueryResultRepRevisionGuidVo'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    QuoteLineVo:
+      type: object
+      properties:
+        cost:
+          type: number
+        currency:
+          type: string
+        guid:
+          type: string
+        leadTimeSpan:
+          type: number
+        leadTimeUnit:
+          type: string
+        maxQuantity:
+          type: number
+        minQuantity:
+          type: number
+        notes:
+          type: string
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    AdditionalAttributeCompactVo:
+      type: object
+      properties:
+        apiName:
+          type: string
+        fieldType:
+          type: string
+          enum:
+          - SINGLE_LINE_TEXT
+          - MULTI_LINE_TEXT
+          - DROP_DOWN
+          - FIXED_DROP_DOWN
+          - DATE
+          - NUMBER
+          - BOOLEAN
+          - INTEGER
+          - OBJECT
+          - POSITIVE_DOUBLE
+          - POSITIVE_INTEGER
+          - RICH_TEXT
+          - GUID
+          - DATETIME
+          - COST
+          - LIST
+          - ENUM
+        guid:
+          type: string
+        multiSelect:
+          type: boolean
+        name:
+          type: string
+        value: {}
+    QuoteLineVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuoteLineVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    SupplierItemCreateVo:
+      type: object
+      properties:
+        number:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        supplier:
+          $ref: '#/components/schemas/SingleGuidVo'
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCreateVo'
+        description:
+          type: string
+        uom:
+          type: string
+        offTheShelf:
+          type: boolean
+        procurementType:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    SupplierItemFullVo:
+      type: object
+      properties:
+        creationDateTime:
+          type: string
+        number:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        description:
+          type: string
+        guid:
+          type: string
+        name:
+          type: string
+        uom:
+          type: string
+        offTheShelf:
+          type: boolean
+        type:
+          type: string
+        procurementType:
+          type: string
+          enum:
+          - OTS
+          - MTS
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCompactVo'
+        supplier:
+          $ref: '#/components/schemas/SupplierCompactVo'
+    AdditionalAttributeCreateVo:
+      type: object
+      properties:
+        name:
+          type: string
+        guid:
+          type: string
+        value: {}
+    QueryResultRepRevisionGuidVo:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/RevisionGuidVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    PurchaseVo:
+      type: object
+      properties:
+        buyer:
+          type: string
+        cost:
+          type: number
+        currency:
+          type: string
+        guid:
+          type: string
+        notes:
+          type: string
+        orderedDate:
+          type: string
+        promisedDate:
+          type: string
+        purchaseOrderNumber:
+          type: string
+        quantity:
+          type: number
+        receivedDate:
+          type: string
+        verbal:
+          type: boolean
+    QuoteLineCreateVo:
+      type: object
+      properties:
+        minQuantity:
+          type: number
+        maxQuantity:
+          type: number
+        leadTimeSpan:
+          type: number
+        leadTimeUnit:
+          type: string
+        cost:
+          type: number
+        notes:
+          type: string
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    QuoteLineUpdateVo:
+      type: object
+      properties:
+        minQuantity:
+          type: number
+        maxQuantity:
+          type: number
+        leadTimeSpan:
+          type: number
+        leadTimeUnit:
+          type: string
+        cost:
+          type: number
+        notes:
+          type: string
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    PurchaseCreateVo:
+      type: object
+      properties:
+        purchaseOrderNumber:
+          type: string
+        orderedDate:
+          type: string
+        buyer:
+          type: string
+        quantity:
+          type: number
+        cost:
+          type: number
+        verbal:
+          type: boolean
+        promisedDate:
+          type: string
+        receivedDate:
+          type: string
+        notes:
+          type: string
+    SupplierItemUpdateVo:
+      type: object
+      properties:
+        number:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        uom:
+          type: string
+        offTheShelf:
+          type: boolean
+        procurementType:
+          type: string
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCreateVo'
+    PurchaseUpdateVo:
+      type: object
+      properties:
+        purchaseOrderNumber:
+          type: string
+        orderedDate:
+          type: string
+        buyer:
+          type: string
+        quantity:
+          type: number
+        cost:
+          type: number
+        verbal:
+          type: boolean
+        promisedDate:
+          type: string
+        receivedDate:
+          type: string
+        notes:
+          type: string
+    SupplierCompactVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    PurchaseVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PurchaseVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    RevisionGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    QueryResultRepSupplierItemFullVo:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SupplierItemFullVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

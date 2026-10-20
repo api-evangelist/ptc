@@ -1,0 +1,1016 @@
+openapi: 3.2.0
+info:
+  title: Ptc File Association API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged File Association across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: File Association
+  description: Manage file associations with other objects (Items, Suppliers, Supplier Items, Changes, Requests, Quality Processes, Change Implementations).
+paths:
+  /files/{fileGuid}/markups/{markupFileAssociationGuid}:
+    get:
+      tags:
+      - File Association
+      summary: Retrieve detailed file markup information of the specified file
+      description: Returns a File Markup object with a given GUID. This is the latest edition of the File.
+      operationId: getFileMarkupAssociation
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: markupFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationMarkupVo'
+    put:
+      tags:
+      - File Association
+      summary: Update file markup metadata by its GUID
+      description: 'Updates a File object.
+
+
+        Also supports updating storageMethodName from FILE, FTP, WEB, or PLACE_HOLDER to FTP, WEB, or PLACE_HOLDER. This update can only be performed on unlocked Files.
+
+
+        Updating storageMethodName to FTP, WEB, or PLACE_HOLDER also requires including the attribute location.
+
+
+        This endpoint does not support updating the storageMethodName from FTP, WEB, or PLACE_HOLDER to FILE. This requires a POST call. See POST File Update.'
+      operationId: updateFileMarkupNoContent
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: markupFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileAssociationMarkupUpdateVo'
+            example:
+              markup:
+                storageMethodName: WEB
+                location: http://www.arenasolutions.com
+                category:
+                  guid: M46UVEX7Q9LSM9J0
+                title: Markup title
+                format: pdf
+                author:
+                  fullName: Zhongwei Lin
+              reserved: false
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationMarkupVo'
+    post:
+      tags:
+      - File Association
+      summary: Update file markup content by its GUID
+      operationId: updateFileMarkupContentAndMeta
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: markupFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FileMarkupCreate'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationMarkupVo'
+    delete:
+      tags:
+      - File Association
+      summary: Delete the specified markup file
+      description: Deletes a File Markup with a given GUID. When a File has more than one Markup, only the latest, unlocked edition can be deleted--to delete an entire file, repeat the DELETE request for all editions.
+      operationId: removeFileMarkupAssociation
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: markupFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Deleted File Markup
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /files/{fileGuid}/markups:
+    get:
+      tags:
+      - File Association
+      summary: Retrieve all file markup information of the specified file
+      description: Returns a collection of Markup Files associated with a specific File.
+      operationId: getFileMarkupAssociations
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationMarkupVoResultRep'
+    post:
+      tags:
+      - File Association
+      summary: Create file markup for specific file edition (including file content)
+      description: 'Creates a File Markup File object.
+
+
+        If you wish to create a File record and upload file content to the Arena servers, construct a request that is content type multipart/form-data (specified in the header) and has a storageMethodName of FILE (stored on Arena servers).
+
+
+        If you wish to create a File record with no uploaded content, construct a JSON request with a storageMethodName of FTP (stored on user FTP server), WEB (web link), or PLACE_HOLDER (will upload content later).
+
+
+        When the storageMethod is FTP or WEB, the location attribute should be the web or ftp address where the file resides. For Files with storageMethodName FILE, the location attribute is not used.
+
+
+        Currently, only Files less than 2GB can be uploaded through this endpoint.'
+      operationId: createFileMarkupWithContent
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FileMarkupCreate'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationMarkupVo'
+    servers:
+    - url: /v1
+  /files/{fileGuid}/markups/json:
+    post:
+      tags:
+      - File Association
+      summary: Create file markup for specific file edition (including file content)
+      description: 'Creates a File Markup File object.
+
+
+        If you wish to create a File record with no uploaded content, construct a JSON request with a storageMethodName of FTP (stored on user FTP server), WEB (web link), or PLACE_HOLDER (will upload content later).
+
+
+        When the storageMethod is FTP or WEB, the location attribute should be the web or ftp address where the file resides. For Files with storageMethodName FILE, the location attribute is not used.'
+      operationId: createFileMarkupWithJson
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileMarkupJsonCreateVo'
+            example:
+              markup:
+                storageMethodName: WEB
+                location: http://www.arenasolutions.com
+                category:
+                  guid: TBVEX55UYTCM5O7O8NMA
+                title: Markup title
+                format: pdf
+                author:
+                  fullName: Zhongwei Lin
+              reserved: false
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationMarkupVo'
+    servers:
+    - url: /v1
+  /files/{fileGuid}/{objectType}/{fileAssociationGuid}:
+    get:
+      tags:
+      - File Association
+      summary: Retrieve detailed object information of the specified file association
+      operationId: getFileAssociationById
+      parameters:
+      - name: objectType
+        in: path
+        description: Type of the file association object
+        required: true
+        schema:
+          type: string
+          enum:
+          - supplieritems
+          - suppliers
+          - requests
+          - qualityprocesses
+          - changereferences
+          - changeimplementations
+          - projects
+          - tickets
+          - trainingplans
+          - requirements
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/FileAssociationRequestVo'
+                - $ref: '#/components/schemas/FileAssociationSupplierVo'
+                - $ref: '#/components/schemas/FileAssociationSupplierItemVo'
+                - $ref: '#/components/schemas/FileAssociationChangeVo'
+                - $ref: '#/components/schemas/FileAssociationQualityVo'
+                - $ref: '#/components/schemas/FileAssociationProjectVo'
+                - $ref: '#/components/schemas/FileAssociationTicketVo'
+                - $ref: '#/components/schemas/FileAssociationTrainingVo'
+    servers:
+    - url: /v1
+  /files/{fileGuid}/{objectType}:
+    get:
+      tags:
+      - File Association
+      summary: Retrieve all file association object information of the specified file
+      description: Retrieve all file association object information for the specified file. Supports Item, Supplier Item, Supplier, Request, Quality Process, Change Reference, Change Implmenetation, Project, Ticket, Training Plan and Requirement objects.
+      operationId: getFileItemAssociations
+      parameters:
+      - name: objectType
+        in: path
+        description: Type of the file association object
+        required: true
+        schema:
+          type: string
+          enum:
+          - supplieritems
+          - suppliers
+          - requests
+          - qualityprocesses
+          - changereferences
+          - changeimplementations
+          - projects
+          - tickets
+          - trainingplans
+          - requirements
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/FileAssociationItemVoResultRep'
+                - $ref: '#/components/schemas/FileAssociationRequestVoResultRep'
+                - $ref: '#/components/schemas/FileAssociationSupplierVoResultRep'
+                - $ref: '#/components/schemas/FileAssociationSupplierItemVoResultRep'
+                - $ref: '#/components/schemas/FileAssociationChangeVoResultRep'
+                - $ref: '#/components/schemas/FileAssociationQualityVoResultRep'
+                - $ref: '#/components/schemas/FileAssociationProjectVoResultRep'
+                - $ref: '#/components/schemas/FileAssociationTicketVoResultRep'
+                - $ref: '#/components/schemas/FileAssociationTrainingVoResultRep'
+    servers:
+    - url: /v1
+  /files/{fileGuid}/markups/{markupFileAssociationGuid}/content:
+    get:
+      tags:
+      - File Association
+      summary: Download file markup content by its GUID
+      description: Returns file content belonging to a file markup with a given GUID.
+      operationId: downloadMarkupFileContent
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: markupFileAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+    servers:
+    - url: /v1
+  /files/{fileGuid}/items/{fileItemAssociationGuid}:
+    get:
+      tags:
+      - File Association
+      summary: Retrieve detailed item information of the specified file association
+      operationId: getFileItemsAssociationById
+      parameters:
+      - name: fileGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: fileItemAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileAssociationItemVo'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    FileAssociationItemVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        primary:
+          type: boolean
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemShortVo'
+    MarkupJsonVo:
+      type: object
+      properties:
+        storageMethodName:
+          type: string
+        location:
+          type: string
+        category:
+          $ref: '#/components/schemas/SingleGuidVo'
+        title:
+          type: string
+        format:
+          type: string
+        author:
+          $ref: '#/components/schemas/FileAuthorVo'
+    FileMarkupOfCompactVo:
+      type: object
+      properties:
+        author:
+          $ref: '#/components/schemas/UserMinimalVo'
+        edition:
+          type: string
+        guid:
+          type: string
+        number:
+          type: string
+    FileAssociationSupplierItemVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileAssociationSupplierItemVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    FileAssociationSupplierVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        supplier:
+          $ref: '#/components/schemas/SupplierCompactVo'
+    ProjectPhaseCompactVo: {}
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    TicketMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+    FileAssociationTicketVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        ticket:
+          $ref: '#/components/schemas/TicketMinimalVo'
+    RequestMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+    ProjectCompactVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        phase:
+          $ref: '#/components/schemas/ProjectPhaseCompactVo'
+        task:
+          $ref: '#/components/schemas/ProjectTaskCompactVo'
+    FileMarkupJsonCreateVo:
+      type: object
+      properties:
+        reserved:
+          type: boolean
+        markup:
+          $ref: '#/components/schemas/MarkupJsonVo'
+    FileAssociationProjectVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileAssociationProjectVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    FileAssociationQualityVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileAssociationQualityVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    FileAssociationChangeVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        change:
+          $ref: '#/components/schemas/ChangeLiteVo'
+    ChangeLiteVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    FileMarkupCompactVo:
+      type: object
+      properties:
+        category:
+          $ref: '#/components/schemas/CategoryMinimalVo'
+        author:
+          $ref: '#/components/schemas/UserMinimalVo'
+        creationDateTime:
+          type: string
+        format:
+          type: string
+        guid:
+          type: string
+        lastModifiedDateTime:
+          type: string
+        location:
+          type: string
+        mimeType:
+          type: string
+        name:
+          type: string
+        size:
+          type: integer
+          format: int64
+        haveContent:
+          type: boolean
+        storageMethodName:
+          type: string
+        title:
+          type: string
+        locked:
+          type: boolean
+    FileAuthorVo:
+      type: object
+      properties:
+        fullName:
+          type: string
+    FileMarkupCreate:
+      type: object
+      description: File option when creating new file markup
+      properties:
+        reserved:
+          type: boolean
+          description: Whether to reserve the markup file
+          example: false
+        markup.content:
+          type: string
+          format: binary
+          description: The uploaded markup file binary
+        markup.storageMethodName:
+          type: string
+          description: Markup file storage method
+          example: FILE
+        markup.category.guid:
+          type: string
+          description: Markup file category GUID
+          example: TBVEX55UYTCM5O7O8NMA
+        markup.title:
+          type: string
+          description: Markup file title
+          example: Project Markup Document
+        markup.format:
+          type: string
+          description: Markup file format
+          example: pdf
+        markup.author.fullName:
+          type: string
+          description: Markup file author full name
+          example: Jane Smith
+    FileAssociationRequestVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        request:
+          $ref: '#/components/schemas/RequestMinimalVo'
+    UserMinimalVo:
+      type: object
+      properties:
+        fullName:
+          type: string
+    CategoryMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    FileAssociationMarkupVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        reserved:
+          type: boolean
+        markup:
+          $ref: '#/components/schemas/FileMarkupCompactVo'
+        markupOf:
+          $ref: '#/components/schemas/FileMarkupOfCompactVo'
+        reservedUser:
+          $ref: '#/components/schemas/UserCompactVo'
+    FileAssociationTicketVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileAssociationTicketVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    QualityStepCompactVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    FileAssociationProjectVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        project:
+          $ref: '#/components/schemas/ProjectCompactVo'
+    FileAssociationMarkupVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileAssociationMarkupVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    FileAssociationSupplierItemVo: {}
+    FileAssociationMarkupUpdateVo:
+      type: object
+      properties:
+        reserved:
+          type: boolean
+        markup:
+          $ref: '#/components/schemas/FileMarkUpdateVo'
+    TrainingMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+    FileAssociationItemVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileAssociationItemVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    FileAssociationTrainingVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileAssociationTrainingVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    FileAssociationRequestVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileAssociationRequestVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    FileAssociationSupplierVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileAssociationSupplierVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    UrlVo:
+      type: object
+      properties:
+        api:
+          type: string
+        app:
+          type: string
+    SupplierCompactVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    FileAssociationQualityVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        qualityProcess:
+          $ref: '#/components/schemas/QualityProcessCompactVo'
+    QualityProcessCompactVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+        step:
+          $ref: '#/components/schemas/QualityStepCompactVo'
+    FileAssociationTrainingVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        trainingplan:
+          $ref: '#/components/schemas/TrainingMinimalVo'
+    ProjectTaskCompactVo: {}
+    FileAssociationChangeVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangeLiteVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ItemShortVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        revisionNumber:
+          type: string
+        revisionStatus:
+          type: string
+        url:
+          $ref: '#/components/schemas/UrlVo'
+    FileMarkUpdateVo:
+      type: object
+      properties:
+        storageMethodName:
+          type: string
+        location:
+          type: string
+        category:
+          $ref: '#/components/schemas/SingleGuidVo'
+        title:
+          type: string
+        format:
+          type: string
+        author:
+          $ref: '#/components/schemas/FileAuthorVo'
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

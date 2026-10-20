@@ -1,0 +1,25 @@
+name: PTC API conventions
+generated: '2026-10-20'
+method: searched
+source: https://ptc-arena.github.io/arena-dev-help/get-started/connecting/
+api: Arena PLM REST API
+auth: 'Log in with Arena credentials (POST /login) to obtain an access token sent
+  as the arena_session_id header on later requests; OAuth2 client credentials and
+  bearer JWT schemes are also declared in the OpenAPI. One concurrent session per
+  user: logging in again cancels the first token. Machine users recommended; SSO not
+  supported for API auth.'
+idempotency:
+  coverage: none
+  note: No Idempotency-Key header or replay protection is documented; duplicate item
+    numbers are rejected with 409.
+versioning: URL path /v1; additive backward-compatible evolution per the API policy
+  page.
+errors: errors/ptc-error-codes.yml
+rate_limits: rate-limits/ptc-rate-limits.yml
+lifecycle: lifecycle/ptc-lifecycle.yml
+authentication: authentication/ptc-authentication.yml
+null_values: Clear supported attributes with PUT and ?setnull=true (https://ptc-arena.github.io/arena-dev-help/get-started/setting-values-to-null/).
+reversibility:
+  status: none-documented
+  note: DELETE operations exist in the OpenAPI but no undo/restore operation or window
+    is documented.

@@ -1,0 +1,463 @@
+openapi: 3.2.0
+info:
+  title: Ptc Change Reference API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Change Reference across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Change Reference
+  description: Manage references between Changes and Requests, Tickets, or Quality Processes.
+paths:
+  /changes/{changeGuid}/requests:
+    get:
+      tags:
+      - Change Reference
+      summary: List all requests associated with a change
+      description: Returns all the requests associated with a specific change. Users must have a Read Change Summary and Edit Change Requests rule for the Change. Additionally users must have a Read Request Summary rule for the request being added.
+      operationId: getChangeRequests
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeRequestAssociationVoResultRep'
+    post:
+      tags:
+      - Change Reference
+      summary: Link a request to a change
+      description: 'Adds a Request to a Change. Users must have a Read Change Summary and Edit Change Requests rule for the Change. Additionally users must have a Read Request Summary rule for the request being added.
+
+        The Change must have a lifecycle status of OPEN_AND_UNLOCKED. The Request being added must have a lifecycle status of PROMOTED.'
+      operationId: createChangeRequest
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeRequestCreateVo'
+            example:
+              request:
+                guid: FXH0EBFHS9SRATP9S37I
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeRequestAssociationVo'
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/tickets:
+    get:
+      tags:
+      - Change Reference
+      summary: List all tickets linked to a change
+      description: Returns the Ticket References of a Change object.
+      operationId: getChangeVerifies
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeTicketAssociationVoResultRep'
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/tickets/{changeVerifiesAssociationGuid}:
+    get:
+      tags:
+      - Change Reference
+      summary: Get details of a specific ticket linked to a change
+      operationId: getChangeVerify
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: changeVerifiesAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeTicketAssociationVo'
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/requests/{changeRequestGuid}:
+    get:
+      tags:
+      - Change Reference
+      summary: Get details of a specific request linked to a change
+      description: Returns a specific request associated with a specific change. Users must have a Read Change Summary and Edit Change Requests rule for the Change. Additionally, users must have a Read Request Summary rule for the request being added.
+      operationId: getChangeRequest
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: changeRequestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeRequestAssociationVo'
+    delete:
+      tags:
+      - Change Reference
+      summary: Remove a request from a change
+      description: Removes an request with a given GUID from a change with a given GUID.
+      operationId: deleteChangeRequest
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: changeRequestGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Delete Change Request Result
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/quality:
+    get:
+      tags:
+      - Change Reference
+      summary: List all quality processes linked to a change
+      description: Returns a collection of Quality Process objects for a Change with a given GUID (all Quality Processes in which the Change is an affected object)
+      operationId: getChangeQualityProcesses
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeQualityAssociationVoResultRep'
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/quality/{changeQualityAssociationGuid}:
+    get:
+      tags:
+      - Change Reference
+      summary: Get details of a specific quality process linked to a change
+      operationId: getChangeQualityProcess
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: changeQualityAssociationGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QualityAssociationVo'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    ChangeRequestAssociationVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangeRequestAssociationVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    QualityProcessReferenceVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        number:
+          type: string
+        step:
+          $ref: '#/components/schemas/QualityStepReferenceVo'
+        type:
+          type: string
+    QualityStepReferenceVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    ChangeRequestCreateVo:
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/SingleGuidVo'
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    TicketMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    RequestMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+    ChangeQualityAssociationVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/QualityAssociationVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    QualityAssociationVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        notes:
+          type: string
+        qualityProcess:
+          $ref: '#/components/schemas/QualityProcessReferenceVo'
+    ChangeTicketAssociationVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        ticket:
+          $ref: '#/components/schemas/TicketMinimalVo'
+    ChangeTicketAssociationVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangeTicketAssociationVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ChangeRequestAssociationVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        request:
+          $ref: '#/components/schemas/RequestMinimalVo'
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml

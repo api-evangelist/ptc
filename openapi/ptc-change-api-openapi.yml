@@ -1,0 +1,1028 @@
+openapi: 3.2.0
+info:
+  title: Ptc Change API
+  version: '1.0'
+  contact:
+    email: arena-support@ptc.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://www.arenasolutions.com/terms/
+  x-refined-note:
+  - x-source differs across the merged source definitions and was not carried
+  description: 'Operations tagged Change across 2 of this provider''s published API definitions: ptc-arena-openapi.json, ptc-arena-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: /v1
+- url: https://api.arenasolutions.com/v1
+  description: Relative /v1 server resolved against api.arenasolutions.com, the host serving this spec
+security:
+- apiKeyAuth: []
+- bearerAuth: []
+- oauth2Auth: []
+tags:
+- name: Change
+  description: 'Core change operations: search, create, update, delete, summary, workflow status, quality processes, requests, files, markups, implementation tasks/files/notes, affected items.'
+paths:
+  /changes/{changeGuid}:
+    get:
+      tags:
+      - Change
+      summary: Get detailed information about a specific change
+      description: Returns a Change object with a given GUID. The attributes returned in the response differ according to the effectivityType. For example, a Change with a future effectivity (effectivityType=PERMANENT_ON_DATE) includes the attribute effectivityPlannedDateTime.
+      operationId: getChange
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: includeEmptyAdditionalAttributes
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeFullVo'
+    put:
+      tags:
+      - Change
+      summary: Update the details of an existing change
+      description: 'Updates attribute information for a change with a given GUID.
+
+
+        For an overview of the Change Lifecycle in Arena, including a summary of Lifecycle Rules, see About the Change Lifecycle.
+
+
+        Changes cannot be edited after they are submitted, with the following exceptions:
+
+        1. Approval Deadline and Expiration Date can be edited on Submitted and Effective Changes by Change Administrator users.
+
+        2. Implementation Status can be edited in any lifecycle phase.'
+      operationId: updateChange
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeUpdateVo'
+            example:
+              additionalAttributes:
+              - guid: 5N7Q4157IZGYH0HMVRLM
+                value: High
+              category:
+                guid: L3N6KHLNYFY8RAQ8SWYT
+              title: EveryRoad Model 300 Case Melting
+              description: The Model 300 overheats when the unit is left on in an excessively hot environment. The typical environment would be a vehicle with closed doors on a hot day. In these cases, the unit fails due to chip failure and in rare cases, can cause fire. The resolution to this issue includes increasing the diameter of the cooling holes on the back of the unit, and the addition of a thermal overload circuit to shutdown the EveryRoad before ignition can occur.
+              approvalDeadlineDateTime: '2020-09-15T00:00:00Z'
+              enforceApprovalDeadline: true
+              implementationStatus: IN_PROGRESS
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeFullVo'
+    delete:
+      tags:
+      - Change
+      summary: Delete a specific change
+      description: Deletes a change with a given GUID. Changes can only be deleted in the Open and Unlocked, Canceled, and Rejected lifecycle phases.
+      operationId: deleteChange
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '204':
+          description: Deleted Change
+          content:
+            '*/*':
+              schema:
+                type: string
+    servers:
+    - url: /v1
+  /changes:
+    get:
+      tags:
+      - Change
+      summary: Search for changes using filters like number, title, or status
+      description: 'Returns a collection of Change objects matching the given search criteria. The Changes returned here are a compact version. For a full Change object, use the GET Change endpoint GET/changes/{guid}.
+
+
+        Changes include different attributes depending on the effectivityType (PERMANENT_ON_APPROVAL, PERMANENT_ON_DATE, or TEMPORARY) and lifecyclePhase (OPEN_AND_UNLOCKED, OPEN_AND_LOCKED, SUBMITTED_FOR_ROUTING, SUBMITTED_FOR_APPROVAL, REJECTED, CANCELED, APPROVED, EFFECTIVE, COMPLETED, or EXPIRED).'
+      operationId: getChanges
+      parameters:
+      - name: number
+        in: query
+        description: change number
+        schema:
+          type: string
+      - name: title
+        in: query
+        description: change title
+        schema:
+          type: string
+      - name: effectiveDateTime
+        in: query
+        description: change effective date
+        schema:
+          type: string
+      - name: submissionDateTime
+        in: query
+        description: change submission date
+        schema:
+          type: string
+      - name: lifecycleStatus.type
+        in: query
+        description: lifecycle status type
+        schema:
+          type: string
+      - name: implementationStatus
+        in: query
+        description: implementation status
+        schema:
+          type: string
+      - name: includeChildCategories
+        in: query
+        schema:
+          type: boolean
+      - name: category.guid
+        in: query
+        description: category guid
+        schema:
+          type: string
+      - name: creator.guid
+        in: query
+        description: creator guid
+        schema:
+          type: string
+      - name: any
+        in: query
+        description: change any search
+        schema:
+          type: string
+      - name: offset
+        in: query
+        description: query result offset (default 0)
+        schema:
+          type: integer
+      - name: limit
+        in: query
+        description: query result limit (default 20, max 400)
+        schema:
+          type: integer
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangCompactVoResultRep'
+    post:
+      tags:
+      - Change
+      summary: Create a new change
+      description: 'Creates a new Change object. You can create changes with three different types of effectivity:
+
+
+        1. Permanent on Approval: The Change becomes effective immediately upon the last necessary vote being entered.
+
+        2. Permanent on Date: The Change enters the Approved state upon the last necessary vote being entered, but does not become effective until the specified date. Requires the attribute plannedEffectivityDateTime.
+
+        3. Temporary: Changes with temporary effectivity (often called Deviations) become effective immediately upon the last necessary vote being entered, and expire on a specified date. Requires the attribute expirationDate.
+
+
+        In all cases, numberSequencePrefix is required. If a default numberSequencePrefix is associated with the specified change category, not specifying a numberSequencePrefix will result in automatically selecting the default.
+
+
+        Below are examples of each type of Change, including all fields that can be created for each effectivity type.'
+      operationId: createChange
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeCreateVo'
+            examples:
+              Permanent on Approval:
+                description: Permanent on Approval
+                value:
+                  approvalDeadlineDateTime: '2022-09-15T00:00:00Z'
+                  enforceApprovalDeadline: true
+                  effectivityType: PERMANENT_ON_APPROVAL
+                  additionalAttributes:
+                  - guid: 5N7Q4157IZGYH0HMVRLM
+                    value: Medium
+                  category:
+                    guid: L3N6KHLNYFY8RAQ8SWYT
+                  numberSequencePrefix:
+                    value: ECO-
+                  title: EveryRoad Model 300 Case Melting
+                  description: The Model 300 overheats when the unit is left on in an excessively hot environment. The typical environment would be a vehicle with closed doors on a hot day. In these cases, the unit fails due to chip failure and in rare cases, can cause fire. The resolution to this issue includes increasing the diameter of the cooling holes on the back of the unit, and the addition of a thermal overload circuit to shutdown the EveryRoad before ignition can occur.
+                  routings:
+                  - guid: 7P9S6379K1IL4N6P4QFB
+              Permanent on Date:
+                description: Permanent on Date
+                value:
+                  additionalAttributes:
+                  - guid: 5N7Q4157IZGYH0HMVRLM
+                    value: Medium
+                  category:
+                    guid: L3N6KHLNYFY8RAQ8SWYT
+                  numberSequencePrefix:
+                    value: ECO-
+                  title: EveryRoad Model 300 Case Melting
+                  description: The Model 300 overheats when the unit is left on in an excessively hot environment. The typical environment would be a vehicle with closed doors on a hot day. In these cases, the unit fails due to chip failure and in rare cases, can cause fire. The resolution to this issue includes increasing the diameter of the cooling holes on the back of the unit, and the addition of a thermal overload circuit to shutdown the EveryRoad before ignition can occur.
+                  routings:
+                  - guid: 7P9S6379K1IL4N6P4QFB
+                  approvalDeadlineDateTime: '2020-09-15T00:00:00Z'
+                  enforceApprovalDeadline: true
+                  effectivityType: PERMANENT_ON_DATE
+                  effectivityPlannedDateTime: '2020-09-30T00:00:00Z'
+              Temporary:
+                description: Temporary
+                value:
+                  additionalAttributes:
+                  - guid: 5N7Q4157IZGYH0HMVRLM
+                    value: Medium
+                  category:
+                    guid: L3N6KHLNYFY8RAQ8SWYT
+                  numberSequencePrefix:
+                    value: DEV-
+                  title: Temporarily use gray enclosure while black enclosure is unavailable.
+                  description: Supplier unable to deliver gray enclosure for 3 weeks. Substitute with black until delivery resumes.
+                  routings:
+                  - guid: 7P9S6379K1IL4N6P4QFB
+                  effectivityType: TEMPORARY
+                  expirationDateTime: '2020-10-15T00:00:00Z'
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeFullVo'
+    servers:
+    - url: /v1
+  /changes/statuschanges:
+    post:
+      tags:
+      - Change
+      summary: Move a change to a new lifecycle phase
+      operationId: changeChangeLifecycle
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeLifecycleTransitionCreateVo'
+            examples:
+              Submit(Auto Routing):
+                description: Submit(Auto Routing)
+                value:
+                  change:
+                    guid: XFZIWTXZARADWEUGNY46
+                  comment: Submit for automatic routing.
+                  status: SUBMITTED
+              Submit(Manual Routing):
+                description: Submit(Manual Routing)
+                value:
+                  change:
+                    guid: GYI1FCGITATWFXDZ6H73
+                  comment: Submit for manual routing.
+                  administrators:
+                  - guid: J1L4IFJLWDUDWFYHPRYT
+                  - guid: 4M6P3046HYFYH0J258QJ
+                  status: SUBMITTED
+              Withdraw:
+                description: Withdraw
+                value:
+                  change:
+                    guid: GYI1FCGITATWFXDZ6H73
+                  comment: Withdraw.
+                  status: OPEN_AND_UNLOCKED
+              Lock:
+                description: Lock
+                value:
+                  change:
+                    guid: XFZIWTXZARADWEUGNY46
+                  comment: Lock.
+                  status: OPEN_AND_LOCKED
+              Unlock:
+                description: Unlock
+                value:
+                  change:
+                    guid: XFZIWTXZARADWEUGNY46
+                  comment: Unlock.
+                  status: OPEN_AND_UNLOCKED
+              Force Approve:
+                description: Force Approve
+                value:
+                  change:
+                    guid: XFZIWTXZARADWEUGNY46
+                  comment: Force Approve by Admin.
+                  status: EFFECTIVE
+              Force Reject:
+                description: Force Reject
+                value:
+                  change:
+                    guid: XFZIWTXZARADWEUGNY46
+                  comment: Force Reject by Admin.
+                  status: REJECTED
+              Cancel:
+                description: Cancel
+                value:
+                  change:
+                    guid: 2K4N1Y24FWFI1JZLS3VP
+                  comment: Cancel.
+                  status: CANCELED
+              Complete:
+                description: Complete
+                value:
+                  change:
+                    guid: XFZIWTXZARADWEUGNY46
+                  comment: Complete.
+                  implementationStatus:
+                    value: NEEDS_ATTN
+                  status: COMPLETED
+              Uncompleted:
+                description: Uncompleted
+                value:
+                  change:
+                    guid: XFZIWTXZARADWEUGNY46
+                  comment: Uncompleted.
+                  status: EFFECTIVE
+              reopen:
+                description: reopen
+                value:
+                  change:
+                    guid: XFZIWTXZARADWEUGNY46
+                  comment: ReOpen Temporary Change.
+                  status: OPEN_AND_UNLOCKED
+              Force Expire:
+                description: Force Expire
+                value:
+                  change:
+                    guid: XFZIWTXZARADWEUGNY46
+                  comment: Force Expire Temporary Change.
+                  status: EXPIRED
+        required: true
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeLifecycleTransitionFullVo'
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/history:
+    get:
+      tags:
+      - Change
+      summary: View the history of changes made to a change record
+      description: Returns an array of change history records for the specified change. This endpoint is functionally equivalent to viewing the Change > History > General subview.
+      operationId: getChangeHistory
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeHistoryVoResultRep'
+    servers:
+    - url: /v1
+  /changes/{changeGuid}/alerts:
+    get:
+      tags:
+      - Change
+      summary: View alerts related to the lifecycle of a change
+      operationId: getChangeLifecycleAlerts
+      parameters:
+      - name: changeGuid
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '417':
+          description: Expectation Failed
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeAlertVoResultRep'
+    servers:
+    - url: /v1
+components:
+  schemas:
+    SingleGuidVo:
+      type: object
+      properties:
+        guid:
+          type: string
+    ChangeUpdateVo:
+      type: object
+      properties:
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCreateVo'
+        category:
+          $ref: '#/components/schemas/SingleGuidVo'
+        title:
+          type: string
+        description:
+          type: string
+        approvalDeadlineDateTime:
+          type: string
+        enforceApprovalDeadline:
+          type: string
+        effectivityType:
+          type: string
+          enum:
+          - PERMANENT_ON_APPROVAL
+          - PERMANENT_ON_DATE
+          - TEMPORARY
+        expirationDateTime:
+          type: string
+        effectivityPlannedDateTime:
+          type: string
+        implementationStatus:
+          type: string
+          enum:
+          - NOT_STARTED
+          - IN_PROGRESS
+          - DONE
+          - CANCELED
+        supplierVisibility:
+          type: boolean
+    AdditionalAttributeCompactVo:
+      type: object
+      properties:
+        apiName:
+          type: string
+        fieldType:
+          type: string
+          enum:
+          - SINGLE_LINE_TEXT
+          - MULTI_LINE_TEXT
+          - DROP_DOWN
+          - FIXED_DROP_DOWN
+          - DATE
+          - NUMBER
+          - BOOLEAN
+          - INTEGER
+          - OBJECT
+          - POSITIVE_DOUBLE
+          - POSITIVE_INTEGER
+          - RICH_TEXT
+          - GUID
+          - DATETIME
+          - COST
+          - LIST
+          - ENUM
+        guid:
+          type: string
+        multiSelect:
+          type: boolean
+        name:
+          type: string
+        value: {}
+    ChangeCreateVo:
+      type: object
+      properties:
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCreateVo'
+        category:
+          $ref: '#/components/schemas/SingleGuidVo'
+        numberSequencePrefix:
+          $ref: '#/components/schemas/SingleValueVo'
+        title:
+          type: string
+        description:
+          type: string
+        routings:
+          type: array
+          items:
+            $ref: '#/components/schemas/SingleGuidVo'
+        approvalDeadlineDateTime:
+          type: string
+        enforceApprovalDeadline:
+          type: string
+        effectivityType:
+          type: string
+          enum:
+          - PERMANENT_ON_APPROVAL
+          - PERMANENT_ON_DATE
+          - TEMPORARY
+        expirationDateTime:
+          type: string
+        effectivityPlannedDateTime:
+          type: string
+        supplierVisibility:
+          type: boolean
+    ChangeFullVo:
+      type: object
+      properties:
+        additionalAttributes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdditionalAttributeCompactVo'
+        category:
+          $ref: '#/components/schemas/CategoryCompactVo'
+        creationDateTime:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        description:
+          type: string
+        effectiveDateTime:
+          type: string
+          format: date-time
+        effectivityType:
+          type: string
+          enum:
+          - PERMANENT_ON_APPROVAL
+          - PERMANENT_ON_DATE
+          - TEMPORARY
+          - PERMANENT
+          - IMMEDIATE
+        enforceApprovalDeadline:
+          type: boolean
+        guid:
+          type: string
+        lifecycleDateTime:
+          type: string
+          format: date-time
+        lifecycleStatus:
+          $ref: '#/components/schemas/ChangeLifecycleStatus'
+        number:
+          type: string
+        routingAdmins:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCompactVo'
+        routings:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangeRoutingMinimalVo'
+        approvalDeadlineDateTime:
+          type: string
+          format: date-time
+        canceledDateTime:
+          type: string
+          format: date-time
+        effectivityPlannedDateTime:
+          type: string
+          format: date-time
+        expirationDateTime:
+          type: string
+          format: date-time
+        implementationStatus:
+          type: string
+          enum:
+          - NOT_STARTED
+          - IN_PROGRESS
+          - NEEDS_ATTENTION
+          - DONE
+          - BLANK
+          - CANCELED
+        implementationStatusDateTime:
+          type: string
+          format: date-time
+        implementationStatusEditor:
+          $ref: '#/components/schemas/UserCompactVo'
+        submitter:
+          $ref: '#/components/schemas/UserCompactVo'
+        withdrawnDateTime:
+          type: string
+          format: date-time
+        submissionDateTime:
+          type: string
+          format: date-time
+        deviated:
+          type: boolean
+        title:
+          type: string
+        url:
+          $ref: '#/components/schemas/UrlVo'
+    CategoryCompactVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        path:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          format: int32
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorObject'
+      xml:
+        name: errors
+    ChangeRoutingMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    ChangeHistoryVo:
+      type: object
+      properties:
+        rowNum:
+          type: integer
+          format: int64
+        action:
+          type: string
+        property:
+          type: string
+        user:
+          type: string
+        originalValue:
+          type: string
+        newValue:
+          type: string
+        date:
+          type: string
+        guid:
+          type: string
+    ChangCompactVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangeCompactVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ChangeHistoryVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangeHistoryVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    ChangeAlertVoResultRep:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChangeAlertVo'
+        count:
+          type: integer
+          format: int32
+      xml:
+        name: results
+    SingleValueVo:
+      type: object
+      properties:
+        value:
+          type: string
+    CategoryMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        name:
+          type: string
+    ChangeAlertVo:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: integer
+          format: int32
+    AdditionalAttributeCreateVo:
+      type: object
+      properties:
+        name:
+          type: string
+        guid:
+          type: string
+        value: {}
+    ChangeLifecycleTransitionCreateVo:
+      type: object
+      properties:
+        change:
+          $ref: '#/components/schemas/SingleGuidVo'
+        comment:
+          type: string
+        administrators:
+          type: array
+          items:
+            $ref: '#/components/schemas/SingleGuidVo'
+        adminNeedConfig:
+          type: boolean
+        fromStatus:
+          type: string
+          enum:
+          - OPEN
+          - SUBMITTED_FOR_APPROVAL
+          - SUBMITTED
+          - APPROVED
+          - EFFECTIVE
+          - EXPIRED
+          - REJECTED
+          - OPEN_AND_UNLOCKED
+          - OPEN_AND_LOCKED
+          - SUBMITTED_FOR_ROUTING
+          - CANCELED
+          - COMPLETED
+        status:
+          type: string
+          enum:
+          - OPEN
+          - SUBMITTED_FOR_APPROVAL
+          - SUBMITTED
+          - APPROVED
+          - EFFECTIVE
+          - EXPIRED
+          - REJECTED
+          - OPEN_AND_UNLOCKED
+          - OPEN_AND_LOCKED
+          - SUBMITTED_FOR_ROUTING
+          - CANCELED
+          - COMPLETED
+        implementationStatus:
+          $ref: '#/components/schemas/SingleValueVo'
+    ErrorObject:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    ChangeCompactVo:
+      type: object
+      properties:
+        category:
+          $ref: '#/components/schemas/CategoryMinimalVo'
+        creationDateTime:
+          type: string
+        creator:
+          $ref: '#/components/schemas/UserCompactVo'
+        effectiveDateTime:
+          type: string
+          format: date-time
+        expirationDateTime:
+          type: string
+          format: date-time
+        guid:
+          type: string
+        implementationStatus:
+          type: string
+          enum:
+          - NOT_STARTED
+          - IN_PROGRESS
+          - NEEDS_ATTENTION
+          - DONE
+          - BLANK
+          - CANCELED
+        lifecycleDateTime:
+          type: string
+          format: date-time
+        lifecycleStatus:
+          $ref: '#/components/schemas/ChangeLifecycleStatus'
+        number:
+          type: string
+        submissionDateTime:
+          type: string
+          format: date-time
+        title:
+          type: string
+        url:
+          $ref: '#/components/schemas/UrlVo'
+    UserCompactVo:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        guid:
+          type: string
+    ChangeLifecycleTransitionFullVo:
+      type: object
+      properties:
+        change:
+          $ref: '#/components/schemas/ChangeMinimalVo'
+        implStatus:
+          $ref: '#/components/schemas/ChangeImplementationStatusVo'
+        status:
+          type: string
+          enum:
+          - OPEN
+          - SUBMITTED_FOR_APPROVAL
+          - SUBMITTED
+          - APPROVED
+          - EFFECTIVE
+          - EXPIRED
+          - REJECTED
+          - OPEN_AND_UNLOCKED
+          - OPEN_AND_LOCKED
+          - SUBMITTED_FOR_ROUTING
+          - CANCELED
+          - COMPLETED
+        comment:
+          type: string
+        administrators:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCompactVo'
+    ChangeMinimalVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        number:
+          type: string
+        url:
+          $ref: '#/components/schemas/UrlVo'
+    UrlVo:
+      type: object
+      properties:
+        api:
+          type: string
+        app:
+          type: string
+    ChangeImplementationStatusVo:
+      type: object
+      properties:
+        guid:
+          type: string
+        value:
+          type: string
+    ChangeLifecycleStatus:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - OPEN
+          - SUBMITTED_FOR_APPROVAL
+          - SUBMITTED
+          - APPROVED
+          - EFFECTIVE
+          - EXPIRED
+          - REJECTED
+          - OPEN_AND_UNLOCKED
+          - OPEN_AND_LOCKED
+          - SUBMITTED_FOR_ROUTING
+          - CANCELED
+          - COMPLETED
+  securitySchemes:
+    oauth2Auth:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://openauth.web.prod.bom.com:4431
+          scopes: {}
+    apiKeyAuth:
+      type: apiKey
+      name: arena_session_id
+      in: header
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+x-refined-from:
+- ptc-arena-openapi.json
+- ptc-arena-openapi.yml
