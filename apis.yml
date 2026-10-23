@@ -71,6 +71,9 @@ maintainers:
   email: kin@apievangelist.com
 
 common:
+- type: CapabilityMap
+  url: capabilities/ptc-capability-edges.yml
+  name: PTC Business Capability Map
 - type: AgentSkill
   url: skills/_index.yml
 - type: Overlay
