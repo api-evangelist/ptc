@@ -1,4 +1,4 @@
-# PTC (ptc)
+# PTC
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,176 +66,214 @@
 
 PTC is an industrial technology company providing software platforms and APIs for Industrial IoT (ThingWorx), Product Lifecycle Management (Windchill, Arena), Augmented Reality (Vuforia), Field Service Management (ServiceMax), and industrial connectivity (Kepware) in manufacturing environments.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/ptc/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/ptc/refs/heads/main/apis.yml)
+**Areas:** Industrial IoT · PLM · Augmented Reality · Field Service · Manufacturing · CAD · Digital Transformation · Industrial
 
-## Tags
+## PTC on APIs.io
 
-- Industrial IoT
-- PLM
-- Augmented Reality
-- Field Service Management
-- Manufacturing
-- IIoT
-- CAD
-- Digital Transformation
+Everything profiled for PTC is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/ptc/](https://apis.io/providers/ptc/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (56)
 
-- **Created:** 2026-06-13
-- **Modified:** 2026-06-13
+- [ThingWorx REST API](https://apis.io/apis/ptc/thingworx-rest-api/) — The ThingWorx Industrial IoT platform REST API enables developers to interact with Things, Properties, Services, Events, and Subscriptions via HTTP.…
+- [Windchill REST Services](https://apis.io/apis/ptc/windchill-rest-services/) — Windchill PLM REST Services provide OData-compliant REST API access to product lifecycle management data including product structures, change management,…
+- [Vuforia Engine Web API](https://apis.io/apis/ptc/vuforia-engine-web-api/) — The Vuforia Engine Web API provides HTTPS REST access to cloud-based augmented reality capabilities including Cloud Image Recognition, Cloud Area Targets,…
+- [ServiceMax Max REST API](https://apis.io/apis/ptc/servicemax-max-rest-api/) — ServiceMax REST API (Max REST API) enables integration with ServiceMax field service management capabilities including work orders, scheduling, service…
+- [Kepware Configuration REST API](https://apis.io/apis/ptc/kepware-configuration-rest-api/) — The Kepware KEPServerEX Configuration API is a local REST API that enables programmatic configuration of the industrial connectivity server including…
+- [PTC Access API](https://apis.io/apis/ptc/ptc-access-api/) — Login and logout API activities.
+- [PTC Attribute Settings API](https://apis.io/apis/ptc/ptc-attribute-settings-api/) — Manage settings for attributes across various objects (Item, BOM, File, Request, Change, Quality, Ticket, Supplier, Export).
+- [PTC Category Settings API](https://apis.io/apis/ptc/ptc-category-settings-api/) — Manage settings for categories across various objects (Item, File, Request, Change).
+- [PTC Change API](https://apis.io/apis/ptc/ptc-change-api/) — Core change operations: search, create, update, delete, summary, workflow status, quality processes, requests, files, markups, implementation…
+- [PTC Change Files API](https://apis.io/apis/ptc/ptc-change-files-api/) — Manage file associations for changes (including implementation files and task files).
+- [PTC Change Implementation Task API](https://apis.io/apis/ptc/ptc-change-implementation-task-api/) — Manage implementation tasks for a change: create, update, delete, get (including notes and files).
+- [PTC Change Item API](https://apis.io/apis/ptc/ptc-change-item-api/) — Manage affected items associated with a change: add, edit, delete, get.
+- [PTC Change Reference API](https://apis.io/apis/ptc/ptc-change-reference-api/) — Manage references between Changes and Requests, Tickets, or Quality Processes.
+- [PTC Change Settings API](https://apis.io/apis/ptc/ptc-change-settings-api/) — Manage settings for changes (Categories, Attributes, Routings, Administrators, Number Prefixes).
+- [PTC Export API](https://apis.io/apis/ptc/ptc-export-api/) — Manage export definitions and runs, including file content and metadata.
+- [PTC Extract API](https://apis.io/apis/ptc/ptc-extract-api/) — Manage extract definitions and runs, including files and content.
+- [PTC File API](https://apis.io/apis/ptc/ptc-file-api/) — Core file operations: search, create, update, delete, get summary, content, check in/out, markups, training, corrections, editions, and associations.
+- [PTC File Association API](https://apis.io/apis/ptc/ptc-file-association-api/) — Manage file associations with other objects (Items, Suppliers, Supplier Items, Changes, Requests, Quality Processes, Change Implementations).
+- [PTC Import API](https://apis.io/apis/ptc/ptc-import-api/) — Manage import definitions and runs, including submitting content, getting results/errors, and committing.
+- [PTC Item API](https://apis.io/apis/ptc/ptc-item-api/) — Core item operations: search, create, update, delete, get specs, revisions, lifecycle, sourcing, thumbnail, references, training, quality, files, tickets,…
+- [PTC Item Bom API](https://apis.io/apis/ptc/ptc-item-bom-api/) — Manage Bill of Materials (BOM) for items, including lines, settings, and substitutes.
+- [PTC Item File API](https://apis.io/apis/ptc/ptc-item-file-api/) — Manage file associations and content for items.
+- [PTC Item Reference API](https://apis.io/apis/ptc/ptc-item-reference-api/) — Item-to-item references, future changes, and compliance.
+- [PTC Item Settings API](https://apis.io/apis/ptc/ptc-item-settings-api/) — Manage settings for items (Lifecycle Phases, Attributes, Categories, Number Formats).
+- [PTC Outbound Event API](https://apis.io/apis/ptc/ptc-outbound-event-api/) — Access and manage outbound events and event items, including reconciliation.
+- [PTC Outbound Integration API](https://apis.io/apis/ptc/ptc-outbound-integration-api/) — Access and manage outbound integration definitions and administrators.
+- [PTC OutboundEvent Settings API](https://apis.io/apis/ptc/ptc-outboundevent-settings-api/) — Manage settings/definitions for outbound events (Integrations, Triggers).
+- [PTC Policy Settings API](https://apis.io/apis/ptc/ptc-policy-settings-api/) — Manage users access.
+- [PTC Quality Process API](https://apis.io/apis/ptc/ptc-qualityprocess-api/) — Core quality process operations: search, create, update, delete, summary, status, steps, and affected objects.
+- [PTC QualityProcess Detail API](https://apis.io/apis/ptc/ptc-qualityprocess-detail-api/) — Manage details of quality process steps: get, update, complete, reopen, decisions.
+- [PTC QualityProcess Settings API](https://apis.io/apis/ptc/ptc-qualityprocess-settings-api/) — Manage settings for quality processes (Owners, Number Formats, Templates, Attributes, Step Attributes).
+- [PTC Recent Activities API](https://apis.io/apis/ptc/ptc-recent-activities-api/) — Retrieve recent activity logs (User Access, Exports, File Access, Report Runs).
+- [PTC Request API](https://apis.io/apis/ptc/ptc-request-api/) — Core request operations: search, create, update, delete, summary, workflow status, items, tickets, changes, files, markups.
+- [PTC Request File API](https://apis.io/apis/ptc/ptc-request-file-api/) — Manage file associations and file markups for requests.
+- [PTC Request Reference API](https://apis.io/apis/ptc/ptc-request-reference-api/) — Manage references between Requests and Items, Changes, or Quality Processes.
+- [PTC Request Settings API](https://apis.io/apis/ptc/ptc-request-settings-api/) — Manage settings for requests (Number Prefixes/Sequences, Administrators, Categories, Evaluator Groups, Attributes).
+- [PTC Requirement API](https://apis.io/apis/ptc/ptc-requirement-api/) — Manage requirements: search, create, update, delete, and get details.
+- [PTC Requirement Settings API](https://apis.io/apis/ptc/ptc-requirement-settings-api/) — Manage settings for requirements (Templates, Attributes).
+- [PTC Supplier API](https://apis.io/apis/ptc/ptc-supplier-api/) — Core supplier operations: search, create, update, delete, get profile, addresses, phone numbers, quality processes, and files.
+- [PTC Supplier File API](https://apis.io/apis/ptc/ptc-supplier-file-api/) — Manage file associations for suppliers.
+- [PTC Supplier Item API](https://apis.io/apis/ptc/ptc-supplier-item-api/) — Manage supplier items: search, create, update, delete, specs, source relationships, files, thumbnail, compliance, quality processes.
+- [PTC Supplier Item File API](https://apis.io/apis/ptc/ptc-supplier-item-file-api/) — Manage file associations and content for supplier items.
+- [PTC Supplier Item Reference API](https://apis.io/apis/ptc/ptc-supplier-item-reference-api/) — Manage supplier item references (e.g., via Item Sourcing source relationships, compliance).
+- [PTC Supplier Reference API](https://apis.io/apis/ptc/ptc-supplier-reference-api/) — Access supplier and supplier quality information.
+- [PTC Supplier Settings API](https://apis.io/apis/ptc/ptc-supplier-settings-api/) — Manage settings for suppliers and supplier items (Attributes, Compliance Requirements).
+- [PTC SupplierItem Settings API](https://apis.io/apis/ptc/ptc-supplieritem-settings-api/) — Manage settings for supplier items (Attributes, Compliance Requirements).
+- [PTC Ticket API](https://apis.io/apis/ptc/ptc-ticket-api/) — Core ticket operations: search, create, update, delete, summary, workflow status, and references (Changes, Tickets, Quality Processes, Items, Files).
+- [PTC Ticket File API](https://apis.io/apis/ptc/ptc-ticket-file-api/) — Manage file associations for tickets.
+- [PTC Ticket Reference API](https://apis.io/apis/ptc/ptc-ticket-reference-api/) — Manage references between Tickets and Changes, Tickets, Quality Processes, or Items.
+- [PTC Ticket Settings API](https://apis.io/apis/ptc/ptc-ticket-settings-api/) — Manage settings for tickets (Templates, Attributes, Number Sequences).
+- [PTC Training Plan API](https://apis.io/apis/ptc/ptc-training-plan-api/) — Core training plan operations: search, create, update, delete, status, and associated files, quality processes, users, records, and items.
+- [PTC Training Plan File API](https://apis.io/apis/ptc/ptc-training-plan-file-api/) — Manage file associations for training plans.
+- [PTC TrainingPlan Settings API](https://apis.io/apis/ptc/ptc-trainingplan-settings-api/) — Manage settings for training plans (Number Sequences, Managers).
+- [PTC User Settings API](https://apis.io/apis/ptc/ptc-user-settings-api/) — Manage users (via GET Users).
+- [PTC UserGroup Settings API](https://apis.io/apis/ptc/ptc-usergroup-settings-api/) — Manage settings for user groups (Groups, Users, Employees, Partners).
+- [PTC Workspace Settings API](https://apis.io/apis/ptc/ptc-workspace-settings-api/) — The Workspace Settings API from PTC — 1 operation(s) for workspace settings.
 
-## APIs
+### Published properties
 
-### ThingWorx REST API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-The ThingWorx Industrial IoT platform REST API enables developers to interact with Things, Properties, Services, Events, and Subscriptions via HTTP. Authentication uses an AppKey passed as an HTTP header. Supports building, connecting, and deploying IIoT applications.
+#### GraphQL (1)
 
-- **Human URL:** [https://www.ptc.com/en/products/thingworx](https://www.ptc.com/en/products/thingworx)
-- **Base URL:** `https://{your-thingworx-host}/Thingworx`
+GraphQL schemas.
 
-#### Tags
+- [Moved to /providers/ptc/](https://apis.io/graphqls/ptc/ptc-graphql/)
 
-- Industrial IoT
-- IIoT
-- REST
-- Manufacturing
+#### Agentic access (1)
 
-#### Properties
+Which operations an agent can call, which act, and which need a human in the loop.
 
-- [Documentation](https://support.ptc.com/help/thingworx/platform/r9/en/ThingWorx/api_documentation.html)
-- [Getting Started](https://community.ptc.com/t5/IoT-Tips/Use-REST-API-to-Access-ThingWorx-Part-1/ta-p/825305)
-- [Community](https://community.ptc.com/thingworx-developers-185)
-- [Authentication](https://www.ptc.com/en/support/article/CS279189)
-- [Graph Q L](graphql/ptc-graphql.md)
+- [Ptc Agentic Access](https://apis.io/agentic-access/ptc/ptc-agentic-access/)
 
-### Windchill REST Services
+#### JSON Schema (6)
 
-Windchill PLM REST Services provide OData-compliant REST API access to product lifecycle management data including product structures, change management, documents, and configuration management. The API Catalog (Swagger UI) is accessible from a running Windchill instance.
+The data models the API reads and writes.
 
-- **Human URL:** [https://www.ptc.com/en/products/windchill](https://www.ptc.com/en/products/windchill)
-- **Base URL:** `https://{windchill-host}/WindchillRESTServices`
+- [AttributeDefinitionVo](https://apis.io/schemas/ptc/ptc-attribute-definition-vo/)
+- [CategoryAttributeDefinitionVo](https://apis.io/schemas/ptc/ptc-category-attribute-definition-vo/)
+- [ChangeFullVo](https://apis.io/schemas/ptc/ptc-change-full-vo/)
+- [ItemBasedEventDetail](https://apis.io/schemas/ptc/ptc-item-based-event-detail/)
+- [ReferenceVerifyEntity](https://apis.io/schemas/ptc/ptc-reference-verify-entity/)
+- [ReferenceVerifyRep](https://apis.io/schemas/ptc/ptc-reference-verify-rep/)
 
-#### Tags
+#### JSON-LD (1)
 
-- PLM
-- Product Lifecycle Management
-- OData
-- REST
-- Manufacturing
+Linked-data contexts for the provider's vocabulary.
 
-#### Properties
+- [Ptc Context](https://apis.io/jsonld/ptc/ptc-context/)
 
-- [Documentation](https://support.ptc.com/help/windchill_rest_services/r2.0/en/windchill_rest_services/WCCG_RESTAPIsWRS.html)
-- [OpenAPI](https://support.ptc.com/help/windchill_rest_services/r1.6/en/windchill_rest_services/API_catalog.html) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Knowledge Hub](https://www.ptc.com/en/support/article/CS335170)
+#### Overlays (1)
 
-### Arena PLM REST API
+OpenAPI overlays, including conversational phrasing for each operation.
 
-Arena PLM REST API v1 provides full programmatic access to Arena's cloud-based PLM capabilities including Bill of Materials management, change management, quality, and compliance. Full OpenAPI/Swagger documentation available per region with interactive testing.
+- [Ptc Arena Overlay](https://apis.io/overlays/ptc/ptc-arena-overlay/)
 
-- **Human URL:** [https://www.ptc.com/en/products/arena](https://www.ptc.com/en/products/arena)
-- **Base URL:** `https://api.arenasolutions.com/v1`
+#### Governance rules (1)
 
-#### Tags
+Spectral rulesets for the provider's contracts.
 
-- PLM
-- Product Lifecycle Management
-- BOM
-- Change Management
-- SaaS
+- [PTC API Rules](https://apis.io/rules/ptc/ptc-rules/)
 
-#### Properties
+#### Security (3)
 
-- [Documentation](https://ptc-arena.github.io/arena-dev-help/)
-- [OpenAPI](https://api.arenasolutions.com/v1/swagger-ui/index.html) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [GitHub Repository](https://github.com/ptc-arena/arena-restapi-doc)
-- [Postman Collection](https://github.com/ptc-arena/arena-api-samples/tree/main/postmanSample) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+Authentication, trust centre, and vulnerability disclosure.
 
-### Vuforia Engine Web API
+- [Ptc Authentication](https://apis.io/security/ptc/ptc-authentication/)
+- [Ptc Domain Security](https://apis.io/security/ptc/ptc-domain-security/)
+- [Ptc Trust Center](https://apis.io/security/ptc/ptc-trust-center/)
 
-The Vuforia Engine Web API provides HTTPS REST access to cloud-based augmented reality capabilities including Cloud Image Recognition, Cloud Area Targets, and license management for building AR applications across mobile and wearable devices.
+#### OAuth scopes (1)
 
-- **Human URL:** [https://www.ptc.com/en/products/vuforia](https://www.ptc.com/en/products/vuforia)
-- **Base URL:** `https://cloudreco.vuforia.com`
+The permissions the API asks for.
 
-#### Tags
+- [Ptc Scopes](https://apis.io/scopes/ptc/ptc-scopes/)
 
-- Augmented Reality
-- AR
-- Computer Vision
-- Cloud Recognition
-- Manufacturing
+#### Plans and pricing (1)
 
-#### Properties
+Published plans, tiers and prices.
 
-- [Documentation](https://developer.vuforia.com/library/)
-- [Developer Portal](https://developer.vuforia.com/home)
-- [Web A P I](https://developer.vuforia.com/library/vuforia-engine/web-api/cloud-area-targets-web-api/)
-- [Pricing](https://www.ptc.com/en/products/vuforia/vuforia-engine/pricing)
-- [SDK](https://developer.vuforia.com/downloads/sdk)
+- [Ptc Plans Pricing](https://apis.io/plans/ptc/ptc-plans-pricing/)
 
-### ServiceMax Max REST API
+#### Rate limits (1)
 
-ServiceMax REST API (Max REST API) enables integration with ServiceMax field service management capabilities including work orders, scheduling, service boards, and field metadata management. Built on the Salesforce platform.
+Published request limits.
 
-- **Human URL:** [https://www.ptc.com/en/products/servicemax](https://www.ptc.com/en/products/servicemax)
-- **Base URL:** `https://{instance}.salesforce.com/services/apexrest/SVMXC`
+- [Ptc Rate Limits](https://apis.io/rate-limits/ptc/ptc-rate-limits/)
 
-#### Tags
+#### FinOps (1)
 
-- Field Service Management
-- FSM
-- Salesforce
-- REST
-- Manufacturing
+What the API costs to run, by operation.
 
-#### Properties
+- [Ptc Finops](https://apis.io/finops/ptc/ptc-finops/)
 
-- [Documentation](https://support.ptc.com/help/servicemaxcore/en/articles/service_board/appendix-b-max-rest-api.html)
-- [Field Metadata A P I](https://support.ptc.com/help/servicemaxcore/en/articles/service_board/field-metadata-rest-api.html)
+## Where to find this API
 
-### Kepware Configuration REST API
-
-The Kepware KEPServerEX Configuration API is a local REST API that enables programmatic configuration of the industrial connectivity server including channels, devices, tags, and IoT Gateway agents. Accepts and returns JSON-formatted data.
-
-- **Human URL:** [https://www.ptc.com/en/products/kepware](https://www.ptc.com/en/products/kepware)
-- **Base URL:** `https://localhost:57412/config/v1`
-
-#### Tags
-
-- Industrial Connectivity
-- OPC-UA
-- SCADA
-- IIoT
-- Manufacturing
-- Configuration
-
-#### Properties
-
-- [Documentation](https://support.ptc.com/help/kepware/features/en/kepware/features/profilelibrary/ConfigurationAPI.html)
-- [Io T Gateway R E S T Docs](https://support.ptc.com/help/kepware/features/en/kepware/features/IOTGATEWAY/working_rest_server.html)
-- [Git Hub Org](https://github.com/PTCInc)
-
-## Common Properties
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.ptc.com)
 - [Documentation](https://www.ptc.com/en/support/help/thingworx_doc_resources)
-- [Git Hub Org](https://github.com/PTCInc)
-- [Git Hub Org](https://github.com/ptc-arena)
-- [Git Hub Org](https://github.com/PTC-Education)
-- [LinkedIn](https://www.linkedin.com/company/ptc)
-- [Blog](https://www.ptc.com/en/blogs/)
-- [Community Blog](https://community.ptc.com/t5/Blog/bg-p/BWBlog)
+- [Getting started](https://www.ptc.com/en/blogs/ar/onboarding-with-augmented-reality)
 - [Pricing](https://www.ptc.com/en/products/vuforia/vuforia-engine/pricing)
-- [Status Page](https://status.ptc.com/)
-- [Status Page](https://status.ptc.io/)
-- [X (Twitter)](https://x.com/ptc)
-- [Social Media](https://www.ptc.com/en/about/social-media)
-- [Plans](plans/ptc-plans-pricing.yml)
-- [Rate Limits](rate-limits/ptc-rate-limits.yml)
-- [Fin Ops](finops/ptc-finops.yml)
+- [Support](https://help.ptc.com/)
+- [Changelog](https://www.ptc.com/en/products/creo/whats-new)
+- [Blog](https://www.ptc.com/en/blogs/)
+- [Security](https://www.ptc.com/en/documents/security/coordinated-vulnerability-disclosure)
+- [Compliance](https://www.ptc.com/en/about/trust-center/)
+- [Terms of service](https://community.ptc.com/site/terms)
+- [Privacy policy](https://www.ptc.com/en/documents/policies/privacy)
+- [Status](https://status.ptc.com/)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 68.1** — exemplar · rubric 0.24.0 · scored 2026-10-20
+
+| Facet | Score |
+|---|---|
+| Discoverability | 67.9 |
+| Contract quality | 59.9 |
+| Contract governance | 79.1 |
+| Operational transparency | 52.6 |
+| Developer ergonomics | 63.6 |
+| Access clarity | 68.4 |
+
+**Agent readiness 44.8** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | unknown |
+| Reversibility Documented | — |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | negotiable (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | unknown |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 39.2** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/ptc/](https://apis.io/providers/ptc/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for PTC: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/ptc/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
